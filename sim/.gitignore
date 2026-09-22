@@ -1,0 +1,18 @@
+# 环境
+.venv/
+__pycache__/
+*.pyc
+
+# 数据：trace 本体是 GB 级，不进版本库
+data/raw/*
+!data/raw/.gitkeep
+data/processed/
+
+# 结果：可重新生成，不进版本库；但 manifest 和汇总要人工归档留存
+results/raw/*.csv
+figures/*.png
+
+# 编辑器
+.vscode/
+.idea/
+.ipynb_checkpoints/

@@ -1,0 +1,45 @@
+# 主实验基线配置
+#
+# 凡是标注 "工程估算" 的值，都必须在论文的 Threats to Validity 里声明来源。
+# 本文件在主实验开始前冻结；任何改动都要记录原因并单独成一次运行。
+
+# --- 异构节点 ---
+# 3 个节点，算力比约 4:2:1，slots 相同。
+# compute_rate 单位: token-units / 秒 / 槽位。数值是相对量，不是真实 GPU 吞吐。
+nodes:
+  - {node_id: 0, compute_rate: 16000, slots: 4}   # 快节点
+  - {node_id: 1, compute_rate: 8000,  slots: 4}   # 中节点
+  - {node_id: 2, compute_rate: 4000,  slots: 4}   # 慢节点
+
+simulator:
+  # 服务时间 = prefill_coef * ContextTokens + decode_coef * GeneratedTokens
+  # decode 每 token 的代价高于 prefill（逐 token 自回归），故系数更大。
+  # 【工程估算】正式实验前应尽量用小规模实测或公开数据标定。
+  prefill_coef: 1.0
+  decode_coef: 4.0
+  # 前 10% 请求不计入统计，避免冷启动污染
+  warmup_fraction: 0.1
+  max_requests: null
+
+workload:
+  # --- 真实 trace 模式 ---
+  # 先用一天的第一小时建立基线，再按需放大。
+  # duration_s: 先只跑 1 小时，测速之后再决定是否扩到 1 天。
+  duration_s: 3600
+  rate_scale: 1.0      # >1 压缩时间轴，提高负载压力；实验杠杆，须声明
+  max_requests: 20000  # 先限流以便快速迭代；正式实验前再放开
+
+  # --- 合成负载模式（仅在真实 trace 未就绪时使用）---
+  # base_qps 必须按"负载强度 rho"标定，不能随便填：
+  #   rho = 平均工作量 × 到达率 / 系统总容量
+  # 当前节点配置总容量 = 16000×4 + 8000×4 + 4000×4 = 112000 token-units/s，
+  # 合成负载平均工作量约 3800 token-units，故 rho=1 对应约 29 QPS。
+  # base_qps=15 落在 rho≈0.5 的有压力区间；5 以下系统基本空闲，结论无效。
+  synthetic:
+    n_requests: 30000
+    base_qps: 15.0
+    burstiness: 2.0
+    seed: 12345
+
+# 同一场景下四种策略共用同一份负载；这里只控制策略内部随机性和重复次数。
+seeds: [1, 2, 3, 4, 5]

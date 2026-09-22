@@ -1,0 +1,28 @@
+# 在「论文」目录下 git init 时使用本文件。
+#
+# 文献 PDF（约 90 MB）和 文献.zip 不进版本库：
+#   - git 不适合存放大二进制文件；
+#   - MANIFEST.md 和 07-数据集与trace/README.md 已记录来源/许可/URL，
+#     需要原文时按 URL 重新下载即可。
+# 如果确实要版本化文献，请改用 git-lfs，而不是直接把 PDF 塞进对象库。
+文献/
+文献.zip
+
+# 仿真代码有自己的 .gitignore，这里只兜底
+sim/.venv/
+sim/data/raw/*
+!sim/data/raw/.gitkeep
+sim/results/raw/*.csv
+__pycache__/
+*.pyc
+
+# --- 2026-09-23 补充：实验产物与图不进版本库 -------------------------------
+# 理由：它们体量大（results 约 150 MB、图约 27 MB）、且**可由脚本重新生成**
+# （analyze.py 会整体覆盖 tables/report，figures 也能重画）。
+# 物理层面的保留靠 D:/论文实验数据备份_*/（换盘备份 + 逐个 sha256 校验）。
+# 版本库里只放"证据清单"，它记录了每个产物文件的路径/大小/时间/哈希，
+# 这样"某次提交的代码 → 哪一批产物"是可追的，而不必把 CSV 塞进对象库。
+sim/figures*/**/*.png
+sim/figures/*.png
+sim/results/**
+!sim/results/ARTIFACTS.csv
