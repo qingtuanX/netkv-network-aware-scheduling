@@ -1,0 +1,96 @@
+# 3 个"算力节点"Pod —— 异构的方向与仿真一致：
+#   worker-a：快算力 + 慢链路（仿真里的 node 0，也是网络感知要避开的那个）
+#   worker-b：中等
+#   worker-c：慢算力 + 快链路（仿真里的 node 2）
+#
+# 【为什么算力异构是应用层的】worker 的"算力"是 `--compute` 系数（同一段忙等循环除以它），
+# 三个 Pod 的 cgroup CPU 配额故意给成一样（2 核），这样"异构"这一个因子的来源是**唯一**的、
+# 可归因的；若同时改 cpu limit，就分不清效果来自哪。代价是：这不是真实的异构硬件，
+# 只能验证**方向**，不能报绝对值（写正文时必须照抄这句）。
+#
+# 【为什么 imagePullPolicy: Never】本机 Docker Hub 不通（见 setup_wsl_k3s.sh 顶部注释），
+# 镜像是就地 debootstrap 构建并导入 k3s containerd 的，只能 Never。
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-a
+  labels: {app: simtest, role: worker, node_class: a}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: simtest, node_class: a}
+  template:
+    metadata:
+      labels: {app: simtest, role: worker, node_class: a}
+    spec:
+      # 单节点 k3s：3 个 worker 会落在同一个节点上，靠 cgroup 隔离。
+      containers:
+        - name: worker
+          image: docker.io/simtest/base:1
+          imagePullPolicy: Never
+          command: ["/usr/bin/python3", "/opt/measure_system.py", "worker"]
+          args: ["--port", "9101", "--compute", "4.0", "--bandwidth-mbps", "100"]
+          ports: [{containerPort: 9101}]
+          readinessProbe:
+            httpGet: {path: /health, port: 9101}
+            initialDelaySeconds: 2
+            periodSeconds: 3
+          resources:
+            requests: {cpu: 200m, memory: 64Mi}
+            limits: {cpu: "2", memory: 512Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-b
+  labels: {app: simtest, role: worker, node_class: b}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: simtest, node_class: b}
+  template:
+    metadata:
+      labels: {app: simtest, role: worker, node_class: b}
+    spec:
+      containers:
+        - name: worker
+          image: docker.io/simtest/base:1
+          imagePullPolicy: Never
+          command: ["/usr/bin/python3", "/opt/measure_system.py", "worker"]
+          args: ["--port", "9101", "--compute", "2.0", "--bandwidth-mbps", "500"]
+          ports: [{containerPort: 9101}]
+          readinessProbe:
+            httpGet: {path: /health, port: 9101}
+            initialDelaySeconds: 2
+            periodSeconds: 3
+          resources:
+            requests: {cpu: 200m, memory: 64Mi}
+            limits: {cpu: "2", memory: 512Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-c
+  labels: {app: simtest, role: worker, node_class: c}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: simtest, node_class: c}
+  template:
+    metadata:
+      labels: {app: simtest, role: worker, node_class: c}
+    spec:
+      containers:
+        - name: worker
+          image: docker.io/simtest/base:1
+          imagePullPolicy: Never
+          command: ["/usr/bin/python3", "/opt/measure_system.py", "worker"]
+          args: ["--port", "9101", "--compute", "1.0", "--bandwidth-mbps", "1000"]
+          ports: [{containerPort: 9101}]
+          readinessProbe:
+            httpGet: {path: /health, port: 9101}
+            initialDelaySeconds: 2
+            periodSeconds: 3
+          resources:
+            requests: {cpu: 200m, memory: 64Mi}
+            limits: {cpu: "2", memory: 512Mi}

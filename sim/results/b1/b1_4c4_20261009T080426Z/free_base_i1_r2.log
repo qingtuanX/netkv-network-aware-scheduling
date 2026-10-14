@@ -1,0 +1,7 @@
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  q01_rep6: http=200 prompt_tokens=651 completion_tokens=64 finish=length tok_ids=yes 1.6279s
+  q02_rep10: http=200 prompt_tokens=1071 completion_tokens=64 finish=length tok_ids=yes 1.6784s
+  q03_rep14: http=200 prompt_tokens=1491 completion_tokens=64 finish=length tok_ids=yes 1.7203s
+  q04_rep18: http=200 prompt_tokens=1911 completion_tokens=64 finish=length tok_ids=yes 1.7625s
+  q05_rep22: http=200 prompt_tokens=2331 completion_tokens=64 finish=length tok_ids=yes 1.8254s
+wrote /root/b1/prereg4_out/free_base_i1_r2.json  (5 requests)

@@ -1,0 +1,34 @@
+run_id,attempt,host,step,utc_start,utc_end,exit_code,status,note
+b1_20261007T163708Z,6,B,stop_baseline,2026-10-07T17:21:13Z,2026-10-07T17:21:14Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop baseline"
+b1_20261007T163708Z,6,A,start_prefill,2026-10-07T17:21:24Z,2026-10-07T17:21:26Z,0,OK,"cmd=B1_BIND_IP=172.29.31.52 bash /tmp/b1_remote_serve.sh start-prefill 8100 5600 /root/b1/venv/bin/vllm /root/b1/models/Qwen2.5-1.5B-Instruct Qwen/Qwen2.5-1.5B-Instruct 172.29.31.52"
+b1_20261007T163708Z,6,B,start_decode,2026-10-07T17:21:26Z,2026-10-07T17:21:28Z,0,OK,"cmd=B1_BIND_IP=172.29.31.51 bash /tmp/b1_remote_serve.sh start-decode  8200  5600 /root/b1/venv/bin/vllm /root/b1/models/Qwen2.5-1.5B-Instruct Qwen/Qwen2.5-1.5B-Instruct 172.29.31.51"
+b1_20261007T163708Z,6,A,waitready_prefill,2026-10-07T17:21:28Z,2026-10-07T17:21:49Z,0,OK,"port=8100 path=/v1/models"
+b1_20261007T163708Z,6,B,waitready_decode,2026-10-07T17:21:49Z,2026-10-07T17:21:53Z,0,OK,"port=8200 path=/v1/models"
+b1_20261007T163708Z,6,A,metrics_precheck_prefill_t0,2026-10-07T17:21:53Z,2026-10-07T17:21:54Z,0,OK,"port=8100 bytes=66218"
+b1_20261007T163708Z,6,B,metrics_precheck_decode_t0,2026-10-07T17:21:54Z,2026-10-07T17:21:55Z,0,OK,"port=8200 bytes=66228"
+b1_20261007T163708Z,6,A,start_proxy,2026-10-07T17:21:55Z,2026-10-07T17:21:57Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh start-proxy 8192 172.29.31.52:8100 172.29.31.51:8200 /root/b1/venv/bin/python /root/b1/official/toy_proxy_server.py"
+b1_20261007T163708Z,6,A,waitready_proxy,2026-10-07T17:21:57Z,2026-10-07T17:21:58Z,0,OK,"port=8192 path=/healthcheck"
+b1_20261007T163708Z,6,A,smoke_probe,2026-10-07T17:22:01Z,2026-10-07T17:22:05Z,0,OK,"冒烟单请求（拆分式，1 条）"
+b1_20261007T163708Z,6,A,metrics_precheck_prefill_t1,2026-10-07T17:22:05Z,2026-10-07T17:22:06Z,0,OK,"port=8100 bytes=67543"
+b1_20261007T163708Z,6,B,metrics_precheck_decode_t1,2026-10-07T17:22:06Z,2026-10-07T17:22:07Z,0,OK,"port=8200 bytes=67656"
+b1_20261007T163708Z,6,B,netcap_start,2026-10-07T17:22:18Z,2026-10-07T17:22:22Z,0,OK,"cmd=rm -f /root/b1/logs/b1_kv_capture.pcap /root/b1/logs/b1_kv_capture.pcap.pid
+which tcpdump
+setsid nohup tcpdump -i eth0 -nn -s 96 -U -w /root/b1/logs/b1_kv_capture.pcap -c 200000 'tcp and not port 22'     > /root/b1/logs/netcap_tcpdump.log 2>&1 </dev/null &
+echo $! > /root/b1/logs/b1_kv_capture.pcap."
+b1_20261007T163708Z,6,A,netcap_request,2026-10-07T17:22:23Z,2026-10-07T17:22:25Z,0,OK,"cmd=/root/b1/venv/bin/python /tmp/b1_client.py --url http://127.0.0.1:8192 --model 'Qwen/Qwen2.5-1.5B-Instruct' --prompts-file /root/b1/official/b1_prompts.json --max-tokens 64 --only-ids p04_rep20 --out /root/b1/out/netcap_probe.json"
+b1_20261007T163708Z,6,B,netcap_stop,2026-10-07T17:22:29Z,2026-10-07T17:22:33Z,0,OK,"cmd=pid=$(cat /root/b1/logs/b1_kv_capture.pcap.pid 2>/dev/null)
+if [[ -n ""$pid"" ]] && kill -0 ""$pid"" 2>/dev/null; then kill -INT ""$pid""; sleep 3; fi
+kill -0 ""$pid"" 2>/dev/null && { echo ""还在 → SIGTERM""; kill -TERM ""$pid"" 2>/dev/null; sleep 2; }
+echo ""--- tcpdump 自己报的收包统计""
+cat /root/"
+b1_20261007T163708Z,6,A,stop_all_A,2026-10-07T17:22:47Z,2026-10-07T17:22:50Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop-all"
+b1_20261007T163708Z,6,B,stop_all_B,2026-10-07T17:22:50Z,2026-10-07T17:22:52Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop-all"
+b1_20261007T163708Z,6,A,stop_model_download_A,2026-10-07T17:22:52Z,2026-10-07T17:22:53Z,0,OK,"cmd=self=$$
+pids=$(ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}' | grep -v ""^$self$"")
+if [[ -z ""$pids"" ]]; then echo ""  A: 没有模型下载进程（无需停）""; else
+  for p in $pids; do echo ""  A: SIGTERM pid=$p $(ps -o args= -p $p 2>/dev/null | head -c 60)""; kill -TERM ""$p"
+b1_20261007T163708Z,6,B,stop_model_download_B,2026-10-07T17:22:53Z,2026-10-07T17:22:54Z,0,OK,"cmd=self=$$
+pids=$(ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}' | grep -v ""^$self$"")
+if [[ -z ""$pids"" ]]; then echo ""  B: 没有模型下载进程（无需停）""; else
+  for p in $pids; do echo ""  B: SIGTERM pid=$p $(ps -o args= -p $p 2>/dev/null | head -c 60)""; kill -TERM ""$p"
+b1_20261007T163708Z,6,-,cleanup_check,2026-10-07T17:22:58Z,2026-10-07T17:23:24Z,0,DONE,"见 cleanup_check.txt"

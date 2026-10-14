@@ -1,0 +1,91 @@
+=== 本地产物 ===
+total 15104
+-rwxrwxrwx 1 HWG HWG    573 Oct  8 23:43 analyze.log
+-rwxrwxrwx 1 HWG HWG 207637 Oct  8 23:42 arm_baseline_r1.json
+-rwxrwxrwx 1 HWG HWG    596 Oct  8 22:47 arm_baseline_r1.log
+-rwxrwxrwx 1 HWG HWG 207637 Oct  8 23:42 arm_baseline_r2.json
+-rwxrwxrwx 1 HWG HWG    596 Oct  8 22:47 arm_baseline_r2.log
+-rwxrwxrwx 1 HWG HWG 207637 Oct  8 23:42 arm_baseline_r3.json
+-rwxrwxrwx 1 HWG HWG    596 Oct  8 22:47 arm_baseline_r3.log
+-rwxrwxrwx 1 HWG HWG 202834 Oct  8 23:42 arm_disagg_r1.json
+-rwxrwxrwx 1 HWG HWG    625 Oct  8 23:42 arm_disagg_r1.log
+-rwxrwxrwx 1 HWG HWG 202834 Oct  8 23:42 arm_disagg_r2.json
+-rwxrwxrwx 1 HWG HWG    625 Oct  8 23:42 arm_disagg_r2.log
+-rwxrwxrwx 1 HWG HWG 202834 Oct  8 23:42 arm_disagg_r3.json
+-rwxrwxrwx 1 HWG HWG    625 Oct  8 23:42 arm_disagg_r3.log
+-rwxrwxrwx 1 HWG HWG     74 Oct  8 21:56 check_A.txt
+-rwxrwxrwx 1 HWG HWG     74 Oct  8 21:56 check_B.txt
+-rwxrwxrwx 1 HWG HWG   1901 Oct  8 23:43 e4_table.json
+-rwxrwxrwx 1 HWG HWG     30 Oct  8 23:43 metrics_baseline_proof.txt
+-rwxrwxrwx 1 HWG HWG  56817 Oct  8 23:43 metrics_baseline_t1.txt
+-rwxrwxrwx 1 HWG HWG  66855 Oct  8 23:43 metrics_decode_t1.txt
+-rwxrwxrwx 1 HWG HWG  66640 Oct  8 23:43 metrics_prefill_t1.txt
+-rwxrwxrwx 1 HWG HWG     96 Oct  8 21:58 prompts_v2.sha256
+-rwxrwxrwx 1 HWG HWG   1872 Oct  8 23:43 record.csv
+-rwxrwxrwx 1 HWG HWG   3221 Oct  8 23:43 run.log
+-rwxrwxrwx 1 HWG HWG    195 Oct  8 21:58 sha_A.txt
+-rwxrwxrwx 1 HWG HWG    195 Oct  8 21:58 sha_B.txt
+-rwxrwxrwx 1 HWG HWG    195 Oct  8 21:58 sha_local.txt
+-rwxrwxrwx 1 HWG HWG 148520 Oct  8 23:43 smoke_baseline.json
+-rwxrwxrwx 1 HWG HWG    474 Oct  8 22:46 smoke_baseline.log
+-rwxrwxrwx 1 HWG HWG     41 Oct  8 22:46 smoke_baseline.verdict
+-rwxrwxrwx 1 HWG HWG 148509 Oct  8 23:43 smoke_disagg.json
+-rwxrwxrwx 1 HWG HWG    503 Oct  8 23:41 smoke_disagg.log
+-rwxrwxrwx 1 HWG HWG     41 Oct  8 23:41 smoke_disagg.verdict
+-rwxrwxrwx 1 HWG HWG    606 Oct  8 22:46 start_baseline.log
+-rwxrwxrwx 1 HWG HWG    788 Oct  8 23:36 start_decode.log
+-rwxrwxrwx 1 HWG HWG    791 Oct  8 23:36 start_prefill.log
+-rwxrwxrwx 1 HWG HWG    423 Oct  8 23:38 start_proxy.log
+-rwxrwxrwx 1 HWG HWG     26 Oct  8 22:48 stop_baseline.log
+-rwxrwxrwx 1 HWG HWG    441 Oct  8 23:42 stop_disagg_A.log
+-rwxrwxrwx 1 HWG HWG    398 Oct  8 23:42 stop_disagg_B.log
+-rwxrwxrwx 1 HWG HWG    397 Oct  8 23:02 stop_disagg_failA.log
+-rwxrwxrwx 1 HWG HWG    398 Oct  8 23:02 stop_disagg_failB.log
+-rwxrwxrwx 1 HWG HWG    397 Oct  8 23:33 stop_manual_A.log
+-rwxrwxrwx 1 HWG HWG    442 Oct  8 23:34 stop_manual_B.log
+-rwxrwxrwx 1 HWG HWG    357 Oct  8 23:43 stop_pull_A.log
+-rwxrwxrwx 1 HWG HWG    358 Oct  8 23:43 stop_pull_B.log
+-rwxrwxrwx 1 HWG HWG   1158 Oct  8 23:43 summary.json
+-rwxrwxrwx 1 HWG HWG   2658 Oct  8 23:43 summary.txt
+-rwxrwxrwx 1 HWG HWG 207637 Oct  8 23:42 warmup_baseline_r1.json
+-rwxrwxrwx 1 HWG HWG    599 Oct  8 22:46 warmup_baseline_r1.log
+-rwxrwxrwx 1 HWG HWG 207633 Oct  8 23:42 warmup_baseline_r2.json
+-rwxrwxrwx 1 HWG HWG    595 Oct  8 22:47 warmup_baseline_r2.log
+-rwxrwxrwx 1 HWG HWG 207637 Oct  8 23:42 warmup_baseline_r3.json
+-rwxrwxrwx 1 HWG HWG    599 Oct  8 22:47 warmup_baseline_r3.log
+-rwxrwxrwx 1 HWG HWG 202834 Oct  8 23:42 warmup_disagg_r1.json
+-rwxrwxrwx 1 HWG HWG    628 Oct  8 23:41 warmup_disagg_r1.log
+-rwxrwxrwx 1 HWG HWG 202834 Oct  8 23:43 warmup_disagg_r2.json
+-rwxrwxrwx 1 HWG HWG    628 Oct  8 23:41 warmup_disagg_r2.log
+-rwxrwxrwx 1 HWG HWG 202832 Oct  8 23:43 warmup_disagg_r3.json
+-rwxrwxrwx 1 HWG HWG    626 Oct  8 23:42 warmup_disagg_r3.log
+
+=== record.csv 尾部 20 行 ===
+2026-10-08T14:47:44Z,baseline-formal-r2,0,
+2026-10-08T14:47:52Z,baseline-formal-r3,0,
+2026-10-08T14:48:06Z,metrics-baseline,0,
+2026-10-08T14:48:13Z,stop-baseline,0,
+2026-10-08T14:48:40Z,start-PD,0,
+2026-10-08T15:11:08Z,start-PD,0,
+2026-10-08T15:34:34Z,manual-note,1,拆分臂第1轮 decode 末位参数笔误 A_IN 应为 B_IN 导致 ZMQ 绑定失败装死；wait_ready 空转过久 人工终止并手动 stop-all 后重跑
+2026-10-08T15:36:48Z,start-PD,0,
+2026-10-08T15:38:20Z,start-proxy,0,
+2026-10-08T15:41:44Z,disagg-smoke,0,[C1 冒烟] 步数=156 不合=0 → PASS
+2026-10-08T15:41:49Z,disagg-warmup-r1,0,
+2026-10-08T15:41:55Z,disagg-warmup-r2,0,
+2026-10-08T15:42:01Z,disagg-warmup-r3,0,
+2026-10-08T15:42:07Z,disagg-formal-r1,0,
+2026-10-08T15:42:12Z,disagg-formal-r2,0,
+2026-10-08T15:42:18Z,disagg-formal-r3,0,
+2026-10-08T15:42:26Z,metrics-disagg,0,
+2026-10-08T15:42:32Z,stop-disagg,0,
+2026-10-08T15:43:17Z,pull,0,
+2026-10-08T15:43:20Z,analyze,0,
+
+=== 两台机器服务残留检查 ===
+--- 8.155.133.216 ---
+无vllm进程
+0 MiB
+--- 8.155.131.183 ---
+无vllm进程
+0 MiB

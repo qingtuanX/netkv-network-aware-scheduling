@@ -1,0 +1,5 @@
+# ---- netcap_start @ B (8.155.131.183)  start=2026-10-07T17:22:18Z ----
+/usr/bin/tcpdump
+tcpdump pid=16611 alive=yes
+LISTEN 0      2048    172.29.31.51:8200       0.0.0.0:*          
+# ---- exit=0 end=2026-10-07T17:22:22Z ----

@@ -182,3 +182,258 @@ done
 - 可重复：`sim/.venv/Scripts/python.exe backup_artifacts.py`（`--verify-only` 只校验）。
 - **为什么连代码一起备份**：仓库零提交、`code_version` 一直是 `uncommitted`，
   只存 CSV 等于存了数字丢了程序。
+
+---
+
+## 8.【2026-09-23 04:40 更新】门 1 判据两处修正 + 三批 v2 状态
+
+### 8.1 门 1 判据与 §0b 对齐（此前 analyze 说"全部有效"、gates 说"越界"，自相矛盾）
+
+`load_ratio = 实际到达率 / R`，`R = Σ_i min(算力_i×槽位/E[work], 带宽_i/E[bytes])`。
+本次修了两个**独立的**错误，两处都必须逐行算、再取组内极值：
+
+1. **带宽档位格用错了链路**。`bandwidth` 模式的链路是**每 cell 的档位**（`net_profile`），
+   而 manifest 的 `network_conditions` 只存三个基础档。拿基础档去复算 `slow_200g`，
+   `load_ratio` 会算成 **1.167**（按它自己的档位是 **0.600**）——正常格子被误报成"不可持续"。
+   现在 `analyze.profile_links_table()` 与 `verify_gates` 都按档位表解析；
+   **解析不到就留 NaN，绝不用错的链路顶上**。
+2. **可行性不能在"分组均值"上算**。`R` 对 E[work]/E[字节数] 是非线性的（每节点取 min 再求和），
+   而一个分组可能跨 3 个 trace 时间片（BurstGPT data_heavy：各片 R = 33.7 / 72.9 / 155.8，差 4 倍）。
+   按组均值算出来的 `load_ratio` 是 target 的 **1.4535 倍**（两个网络下都精确等于这个数），
+   于是 BurstGPT 批有 **6 个完全正常的格子被误报**成"队列无限增长、p95 不可采信"。
+   逐行算之后：**0/92 组合 >1，范围 [0.30, 0.90]** 正好落在扫描网格上。
+
+另外 `rho_slow_link` 的口径写清楚了：它是**最坏放置上界**（把全部流量压到一条最慢链路），
+不是任何策略的实际链路负载；n 节点机群上它比实际值松 n/链路档数倍。此前按"热点链路已被打满"
+报告，是把上界当事实。
+
+### 8.2 `code_version` 一直是 `uncommitted` 的真正原因（第二次修）
+
+`_git()` 里 `safe.directory` 写的是 `ROOT`，而 **`ROOT` 是 `sim/`，仓库根是它的上一级**——
+git 依旧判定"该仓库不在安全清单里"而拒绝，`code_version()` 静默回落成 `"uncommitted"`。
+现在 `_safe_dirs()` 从 `ROOT` 向上走到 `.git` 所在目录，两级都放行（重复 `-c` 对多值键是追加，
+已手工验证）。修后实测 `code_version = a9acad1`、`code_dirty_files` 能列出改动。
+
+**因此本批的 `code_version` 是不齐的**：04:12 之前启动的 mode 记 `uncommitted`，
+之后启动的记 `a9acad1`（且列出未提交文件）。这是**真实记录**，不是 bug。
+可以证明"仿真数学没混版本"：`git status` 里 `sim/src/` **零改动**，
+改动只在 `analysis/analyze.py`、`analysis/verify_gates.py`、`experiments/run_matrix.py`
+（后者只有 manifest 的版本记录函数）——即分析与记账层，不是仿真层。
+`analyze.py` §0 现在把 `code_version` / 是否脏一起打进 `data_availability.csv`。
+
+### 8.3 三批 v2 状态（截至 04:40）
+
+| 批次 | 状态 |
+|---|---|
+| `results/matrix_v2`（合成） | ✅ 9 个 mode 全完整；`verify_gates --batch synthetic_v2` = **11/11 ✓**；analyze 已重跑 |
+| `results/matrix_burstgpt_v2` | ✅ 9 个 mode 全完整（04:21 收尾）；**11/11 ✓**；analyze 已重跑 |
+| `results/matrix_trace_v2`（Azure） | ✅ 9 个 mode 全完整（05:32 收尾，2856 次仿真）；**11/11 ✓**；analyze 已重跑 |
+
+三批齐了之后做的事（已全部完成）：
+
+```bash
+.venv/Scripts/python.exe analysis/analyze.py --matrix-dir results/matrix_trace_v2 \
+    --table-dir results/analysis_trace_v2 --fig-dir figures_trace_v2
+.venv/Scripts/python.exe analysis/verify_gates.py --batch azure_v2
+.venv/Scripts/python.exe backup_artifacts.py          # 684 文件 / 827 MB，逐个哈希"全部一致 ✓"
+```
+
+**三批 v2 的门记录**：`synthetic_v2_gates.csv`、`azure_v2_gates.csv`、`burstgpt_v2_gates.csv`，均为 **11/11**。
+
+**机制结果（三批一致的主结论）** —— Δp95 为负表示前者更优：
+
+| 对比 | 合成 | Azure | BurstGPT |
+|---|---|---|---|
+| NA2 vs LeastLoad（normal） | −0.1% | −0.8% | +4.0% |
+| NA2 vs LeastLoad（**degraded**） | **−59.6%** | **−54.2%** | **−40.7%** |
+| NA2 vs LeastLoad（unstable） | −9.0% | −19.9% | **+18.7%** |
+| NA(v1) vs NA2（normal） | +0.1% | +1.1% | −0.6% |
+| NA(v1) vs NA2（**degraded**） | **+154.6%** | **+120.5%** | **+103.9%** |
+| NA(v1) vs NA2（unstable） | +17.4% | +32.0% | −0.3% |
+
+读法：**只有在慢链路真的被压住（degraded）时，把链路队列放进决策才有大收益；
+"只看链路快慢不看排队"（v1 的 NetworkAware）在争用下反而是有害的（+104%~+155%）**；
+时变网络（unstable）三个批次方向不一致——这是必须原样报告的**失效区间**，不是噪声。
+
+**关于 `code_version` 不齐**：`staleness` 与 `main` 两个 mode 记录为 `a9acad1`，
+其余 7 个 mode 记录为 `uncommitted`（原因见 §8.2）。`sim/src/` 无改动 → 仿真数学同一版。
+
+## 9.【2026-09-23 04:40】真实系统实测（容器模式）：万事俱备，只差一次重启
+
+**当前状态：容器模式一次都没跑过；原因只有 `VirtualMachinePlatform` 处于"启用待定"，
+必须重启 Windows 才生效**（`wsl --status` 明确报"未启用虚拟化"）。
+
+已探明的网络事实（决定了技术路线）：`registry-1.docker.io` 与 `auth.docker.io` **不通** →
+任何"从 Docker Hub 拉镜像"的路线都不成立；`download.docker.com` 不通 → Docker Desktop 装不上；
+`rancher-mirror.rancher.cn/k3s/...` 通 → k3s 从中国镜像装；
+`archive.ubuntu.com` / `mirrors.aliyun.com` 通 → 用 apt + debootstrap 就地造镜像。
+
+据此写好的三份产物（**都还没执行过**）：
+
+| 文件 | 作用 |
+|---|---|
+| `k8s_test/setup_wsl_k3s.sh` | 在 WSL Ubuntu 里装 k3s + 用 debootstrap/podman **就地构建** `simtest/base:1` + 导进 containerd + 写 config.yaml（禁用 traefik/servicelb/metrics-server/local-storage/coredns，`pause-image` 指向自建镜像）+ 起服务 + 出环境能力报告 |
+| `k8s_test/k8s/workers.yaml` | 3 个 worker Pod：算力 4/2/1、带宽 100/500/1000 Mbps（与仿真的"快算力+慢链路 ↔ 慢算力+快链路"同构）；`imagePullPolicy: Never` |
+| `k8s_test/run_k3s_grid.sh` | 取 Pod IP → 到达率阶梯（门 1 的实测版）→ 主网格 `{least_load, contention} × {新鲜, 陈旧 3s} × {0.5MB, 8MB}` → 汇总 |
+| `k8s_test/summarize_real.py` | 每请求 CSV → `summary.csv` / `comparison.csv`（p50/p95/p99、net_share、各 worker 利用率与请求占比），**只用标准库**（要在 WSL 系统 python3 上跑） |
+
+**已跑通的部分（本机多进程，不启容器）**：复现了仿真的边界——小传输（net_share≈0.01）
+`least_load` p95 0.28 s 优于 `contention` 0.84 s（网络项误导）；大传输（net_share≈0.88）
+`contention` 0.74 s vs `least_load` 2.07 s（**−64%**）。
+
+**重启后的一次性动作**（详见 `k8s_test/README.md` §3）：
+
+```bash
+wsl --install -d Ubuntu --no-launch && wsl --shutdown     # Windows 侧
+wsl -d Ubuntu -u root -- bash /mnt/e/代码项目文件/论文/sim/k8s_test/setup_wsl_k3s.sh
+wsl -d Ubuntu -u root -- bash /mnt/e/代码项目文件/论文/sim/k8s_test/run_k3s_grid.sh
+```
+
+**重启前必须先做完的事**：Azure 批的 `rho/staleness/main` 三个 mode
+（重启会杀掉后台链，中断的 mode 无 manifest、`p_holm` 缺失，只能重跑）。
+
+## 9b.【2026-09-23 13:35】真实系统实测：k3s 装成 + 首轮网格跑完
+
+WSL2（Ubuntu 26.04，内核 6.18.33.2-microsoft-standard-WSL2，cgroup v2，systemd 已启用，
+16 逻辑 CPU / 7.4 GiB）里装了单节点 **k3s v1.31.5+k3s1**（containerd 1.7.23-k3s2）。
+镜像 `docker.io/simtest/base:1` 是**就地**造的（debootstrap + podman import，本机 Docker Hub 不通）；
+3 个 worker Pod 参数各异（算力 4/2/1、带宽 100/500/1000 Mbps），客户端在 WSL 里用 Pod IP 直连。
+
+**装这一步失败 5 次**（URL 编码、静默退出、archive 覆盖、镜像名全限定、ENV PATH、
+systemd 单元、导入时机、`-x` 判据），逐条记在 `k8s_test/README.md` §6。
+**测量工具本身又踩了 2 个坑**（同步 client 压不出排队、`_aged_snapshot` 不刷新历史
+导致 lag>0 时 240/240 请求全打一个节点），逐条记在同一个 README 的 §7。
+
+**门 1（实测版）**：用 `rho_cpu = 实测到达率 × 实测 CPU 服务时间 / 机群 CPU 配额`；
+qps 4/6/8 → rho_cpu 0.37/0.50/0.68（有效区间内），qps 12 → 1.03（越界，只作阶梯边界）。
+
+**首轮主网格结果**（`contention` = 算力+链路积压，`least_load` = 只看算力队列）：
+
+| 数据量（net_share） | qps=6 lag0 | qps=6 lag3 | qps=8 lag0 | qps=8 lag3 |
+|---|---|---|---|---|
+| 38.9 MB（**0.65**） | **−45.2%** | −21.4% | **−37.5%** | −27.9% |
+| 9.7 MB（0.32–0.40） | −11.0% | +47.5% | +5.5% | +10.2% |
+| 0.6 MB（0.01–0.05） | −1.6% | +68.7% | +23.1% | −16.3% |
+
+→ 与仿真的收益边界**同向**：网络占比大时 4/4 全胜（−21%～−45%），占比小时无效甚至反向；
+状态陈旧 3 s 让收益收窄（−45%→−21%）。**每格只有 1 次运行、无置信区间**，
+所以只能支持方向与量级，写正文必须连这句一起写（README §5 有完整三句声明）。
+
+## 10. 重启前/后还要收尾的清单
+
+1. ⏳ 等 Azure 批跑完 → `analyze.py`（`results/analysis_trace_v2`）+ `verify_gates --batch azure_v2`
+2. ⏳ 干净备份：`backup_artifacts.py`（此时矩阵全部收尾，应"全部一致 ✓"）
+3. ⏳ 第二次 git 提交（`_safe_dirs` 修复 + 门 1 判据修正 + §0 的 code_version 列 + `k8s_test/` 全套）
+4. ⏳ 重启 → 按 §9 装 WSL/k3s → 跑真实集群网格
+5. ⏳ `论文规划.md` §6.6 的剩余项：**V2-3** 观测噪声通道、**V2-5** 机架共享上行、
+   **V2-6** P2C / Sia 风格强基线（建议独立 mode `baselines`）、**V2-8** 回退改"年龄 × 抖动"触发
+
+
+---
+
+## 11.【2026-10-06 12:00 更新】真实跨云阶段 A（两真机、跨公网）——关机交接
+
+> **这次是新方向的第一站**：研究目标已从"仿真里的任务派发"改为"真实跨云 LLM 服务"
+> （见 `真实跨云LLM服务研究计划书.md`）。阶段 A 是它规定的**付费租 GPU 之前的硬门槛**。
+
+### 11.1 已经做完的
+
+| 事 | 状态 | 产物 |
+|---|---|---|
+| 本机隔离网络阶段 A（单机造两台主机） | ✅ 四条件全过 | `sim/k8s_test/STAGE_A.md`（已定稿，勿改） |
+| **公网两台真机阶段 A** | ⚠️ 部分通过（见下） | `sim/results/stage_a_cloud/`、`sim/k8s_test/STAGE_A_CLOUD.md`（用户已定稿，勿改） |
+| 上传 / 下传各重复 ≥5 次 | ✅ 已跑满（**上传 10 轮、下传 9 轮**） | `sim/results/stage_a_cloud_repeat/`（142 个文件，**每轮带同会话的 `iperf3` 交叉验证**） |
+| 修 A4（并发检查）只测上传方向的问题 | ✅ 已修，下传方向现在也能测 | `sim/k8s_test/measure_system.py` |
+
+**已知的数值结论（来自 `stage_a_cloud_repeat/`）**
+
+- **上传方向（限 6 Mbit）**：10 轮里 **9 轮 PASS**，落在 **5.571–5.729 Mbit/s**；第 5 轮异常（19.947，＝**不限速时的速度**，说明那一轮限速没生效）。
+- **下传方向（限 1.5 Mbit）**：9 轮里 **8 轮 PASS**，落在 **1.438–1.441 Mbit/s**（离散度 < 0.3%）；第 5 轮异常（2.909，同样是**不限速时的速度**）。
+- **两个方向的异常都是"限速没应用上"，不是链路或工具问题**，且两批都出现在第 5 轮 → **像是跑实验的流程里固定的一个漏步**。
+- 一个已推翻的旧判断：早前说"自研工具比 `iperf3` 低 12 个百分点"是**错的**——那是拿不同轮次的两个数在比。
+  **同一会话、同一载荷**下，两者只差 2–4 个百分点（实测：工具 5.721 / iperf3 发送端 5.909 / iperf3 接收端 5.578）。
+
+### 11.2 没做完的（开机后从这里继续）
+
+1. **定位 up05 / do05 两轮"限速没生效"的原因**——这是当前最该查清的一条。
+2. **写 `sim/k8s_test/STAGE_A_CLOUD_REPEAT.md`**（逐轮数字 + 三项判据逐轮判定 + 未达标项）。
+   **数据已经全在盘上，不用重跑**：`sim/results/stage_a_cloud_repeat/` 里每一轮都有
+   `*_battery_stdout.txt`、`*_iperf3.json`、`*_tc_before/after*.txt`、`*_qdisc_poll.txt`。
+3. 下传方向可以再补 1 轮凑齐 10 轮（可选）。
+4. 判据口径按用户认可的三条走（见 §11.3）。
+
+**恢复被停掉的子代理**：`Agent(resume="agent-2", prompt="继续")`（它的对话历史跨会话保留）。
+
+### 11.3 用户认可的判据（**已从"±10% 对标称值"改掉**）
+
+原判据"限速后实测吞吐在 ±10% 内"有口径歧义：同一台限速器，**乐观口径 +2.5%、保守口径 −10.0%**，
+跨度正好压在 ±10% 线上。改成三条：
+
+| # | 判据 | 当时状态 |
+|---|---|---|
+| 1 | 限速器有效性：`overlimits` 增量 > 0 且 `dropped` 可忽略 | ✅ |
+| 2 | 速率正确性：与**同会话的** `iperf3` 相差 ≤ 2% | ✅（同会话实测差 2–4 个百分点，落在边界附近） |
+| 3 | 方向可分性：单路 vs 多路 ≥ 1.5× | ✅ |
+
+### 11.4 环境事实（重开后直接用，省得重新摸）
+
+- **云主机**：`49.235.115.164`，腾讯云轻量，Ubuntu 26.04，用户 `ubuntu`，sudo 免密。
+  **SSH 用公钥免密**：`ssh -i /d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new ubuntu@49.235.115.164`
+  （密码已不需要，用户可自行更换）
+- **云防火墙只放行** 22（仅本机公网 IP）、80、443、**8000**、5173。
+  **5201 / 9101-9103 / 8080 全被丢包** → 实验只能用 8000 与 5173。
+- **链路能力**：上传 ≈ 21.6–24.7 Mbit/s（家庭宽带上行）；**下传 ≈ 2.9 Mbit/s（该实例出口带宽包上限）**。
+  → 计划书原写的 25/50/100 Mbit 档位在下传方向**不成立**；实际用 1.5（下传）/ 6（上传）Mbit。
+  → **200 MB 载荷档在公网链路不可用**（下传单程约 9 分钟）。
+- **限速配方**：HTB + **按端口过滤**（下传在云上匹配源端口 8000；上传在 WSL 匹配目标端口）。
+  **绝不能整块网卡一刀切**，否则会把 SSH 一起限掉、把自己关在门外。
+  ⚠️ **坑**：`pkill -f "iperf3 -s"` 会匹配到自己的命令行从而杀掉自己的 shell（ssh 退 255）；
+  要用 `pkill -f "[i]perf3"` 这种加方括号的写法。
+- **本次关机时云端已清理**：限速规则已拆（回到 `mq`）、无实验进程、8000/5173 已释放。
+
+### 11.5 一条成本提醒
+
+那台云主机是**按量计费**的。如果短期内不再用它，**去控制台把它关机/释放**，
+否则你关机期间它仍在计费（停机通常仍收云盘费，要"释放"才停）。
+
+---
+
+## 12.【2026-10-09 更新】线②：B1 / 4c / 概率校准 / PREREG_3 交接（两台 A10 已停机）
+
+> 状态摘要在 `AGENTS.md` §7b；云端实操的坑在 `AGENTS.md` §10e；本轮记录在
+> `sim/k8s_test/B1_4C3_REPORT.md`。文档链（`sim/k8s_test/`）：
+> `B1_PLAN.md` → `B1_REPORT{,_2}.md` → `B1_4C_PREREG.md` → `B1_4C_REPORT.md`（4c，**6/15 未通过**）
+> → `B1_4C_PREREG_2.md`（作废未执行）→ `LOGPROBS_CHECK_PREREG.md`（作废）→
+> `LOGPROBS_CALIB_PREREG.md`（校准）→ `B1_4C_PREREG_3.md`（冻结）→ `B1_4C3_RUNBOOK.md`（已执行）
+> → **`B1_4C3_REPORT.md`（本轮记录）**。
+
+### 12.1 一句话状态
+
+**PREREG_3 解释性诊断已完成（10-08 采数、10-09 记录），结果只描述不改判；
+4c 的 6/15 未通过结论不变；「近并列翻转」仍是待验证解释；B2/C/D 不放行。
+两台 A10 已按「节省停机模式」停机（10-09 逐台核对）。**
+
+### 12.2 本轮数据（run `b1_4c3_20261008T134807Z`）
+
+- **门**：C1 冒烟两臂全过（各 156 步，「吐词 = processed 分第一名」逐词校验 0 不合）；
+  E3 两臂 r2 vs r3 逐位相同；两臂前缀缓存均关闭（`enable_prefix_caching="False"`）。
+- **E4**：15 对请求 12 对逐字相同；**q04 三遍都在第 5 个词分岔**（" a" vs " an"）——
+  对照臂给两词 33.3% / 32.2%、拆分臂 31.3% / 33.9% → **近并列**（m=0.9235，A 档）。
+- **E2**：分岔处决策余量 0.011–0.026；同臂噪声地板（普通概率差）中位 1e-5、p90 8e-4。
+- **概率口径校准**（`logprob_calib_20261008T122156Z`）：raw 111/498 矛盾（22.29%）、
+  processed 498/498 自洽、两臂重复逐位相同、非退化 one-hot（0/498）。
+  **校正后的派生分析**在 `results/logprob_calib/logprob_calib_20261008T122156Z_analysis_corrected/`
+  （one-hot 口径修正，不覆盖原件；C1/C2/C3 判定不受影响）。
+
+### 12.3 开机续跑时要知道的
+
+1. 两台实例：阿里云 cn-heyuan，`i-f8z4ggqwhyqz0r6lp1mj`（A，私网 172.29.31.52）/
+   `i-f8z4ggqwhyqz0r6lp1mi`（B，私网 172.29.31.51）。**节省停机后固定公网 IP 已释放，
+   重启后先去控制台记新公网 IP**；私网不变。库存不足可能让"启动"失败，换时段重试。
+2. SSH 参数与 key 路径在 `k8s_test/run_b1.sh` 顶部（`SSH_KEY` 等，别手抄中文路径）。
+3. 工具：启停 `b1_remote_serve.sh`（注意停止子命令是 `stop <name>` / `stop-all`）、
+   客户端 `b1_client.py`（v2 题组：`gen-prompts --preset v2`）、分析 `b1_4c3_analyze.py`；
+   一键编排 `run_prereg3_cloud.sh`（**复用前先读文件头的传输重试规则**）。
+4. 预算纪律沿用 B1：单次连续 ≤4 h/台、累计 ≤16 卡时；跑完立即**节省停机**，
+   并以控制台状态验收（不要用端口探测）。
+5. 下一步由作者决定：**B2/C/D 未放行**；若复跑任何诊断，先写新预注册，不重用旧执行单。

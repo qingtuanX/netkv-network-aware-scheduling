@@ -1,0 +1,115 @@
+########## 0) 原 run.log（失败现场的日志） ##########
+[2026-10-08T13:48:07Z] === check ===
+[2026-10-08T13:48:19Z] [A] 8.155.133.216 连不通 ⇒ 若公网 IP 已变，用 A_PUB=… B_PUB=… 重跑
+[2026-10-08T13:51:00Z] === check ===
+[2026-10-08T13:51:06Z] [A] 8.155.133.216 连通
+[2026-10-08T13:51:18Z] [B] 8.155.131.183 连不通 ⇒ 若公网 IP 已变，用 A_PUB=… B_PUB=… 重跑
+[2026-10-08T13:56:10Z] === check ===
+[2026-10-08T13:56:15Z] [A] 8.155.133.216 连通
+[2026-10-08T13:56:20Z] [B] 8.155.131.183 连通
+[2026-10-08T13:56:22Z] [A] toy_proxy 就位 ✓
+[2026-10-08T13:56:22Z] === sync ===
+[2026-10-08T13:56:35Z] [A] 脚本哈希一致 ✓
+[2026-10-08T13:56:36Z] [B] 脚本哈希不一致 ⇒ 停
+[2026-10-08T13:58:03Z] === sync ===
+[2026-10-08T13:58:18Z] [A] 脚本哈希一致 ✓
+[2026-10-08T13:58:20Z] [B] 脚本哈希一致 ✓
+[2026-10-08T13:58:23Z] === 对照臂 baseline（B:8300）===
+[2026-10-08T14:03:51Z] baseline 180s 未就绪
+[2026-10-08T14:23:32Z] === 对照臂 baseline（B:8300）===
+[2026-10-08T14:24:24Z] baseline 就绪（第 5 次探测）
+[2026-10-08T14:24:33Z] [baseline] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数
+
+########## 1) A 的 auth.log：22:22–22:25 全部行（去掉 session opened/closed） ##########
+Warning: Permanently added '8.155.133.216' (ED25519) to the list of known hosts.
+2026-10-08T22:22:56.343810+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[3361]: Accepted publickey for root from 172.104.66.161 port 45516 ssh2: RSA SHA256:KJWZTMd6JRvBYP2xCvWdXityukYHElwbrmdY43SPJ+E
+2026-10-08T22:22:56.348304+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: New session 27 of user root.
+2026-10-08T22:22:57.930506+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[3361]: Received disconnect from 172.104.66.161 port 45516:11: disconnected by user
+2026-10-08T22:22:57.930622+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[3361]: Disconnected from user root 172.104.66.161 port 45516
+2026-10-08T22:22:57.932393+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Session 27 logged out. Waiting for processes to exit.
+2026-10-08T22:22:57.932714+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Removed session 27.
+2026-10-08T22:24:32.554886+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[3461]: Accepted publickey for root from 172.104.83.30 port 36780 ssh2: RSA SHA256:KJWZTMd6JRvBYP2xCvWdXityukYHElwbrmdY43SPJ+E
+2026-10-08T22:24:32.569776+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: New session 29 of user root.
+2026-10-08T22:24:34.391776+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[3461]: Received disconnect from 172.104.83.30 port 36780:11: disconnected by user
+2026-10-08T22:24:34.391855+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[3461]: Disconnected from user root 172.104.83.30 port 36780
+2026-10-08T22:24:34.393553+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Session 29 logged out. Waiting for processes to exit.
+2026-10-08T22:24:34.393889+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Removed session 29.
+
+########## 2) B 的 auth.log：同窗口（对照） ##########
+Connection closed by 8.155.131.183 port 22
+
+########## 3) 摘出驱动函数（去掉尾部执行段）后 source ##########
+  194 /tmp/prereg3_driver_stripped.sh
+  205 /mnt/e/代码项目文件/论文/sim/k8s_test/run_prereg3_cloud.sh
+  399 total
+source 完成（未执行任何阶段）
+
+########## 4) bash -x 重放 smoke_and_gate（服务已停；本地产物进 _debug 子目录） ##########
++ smoke_and_gate http://172.29.31.51:8300 baseline_replay
++ local url=http://172.29.31.51:8300 arm=baseline_replay
++ rsh 8.155.133.216 'mkdir -p /root/b1/prereg3_out && cd /root/b1 && ./venv/bin/python b1_client.py --url '\''http://172.29.31.51:8300'\'' --model '\''Qwen/Qwen2.5-1.5B-Instruct'\''     --prompts-file /root/b1/prereg3_prompts.json --logprobs 20 --only-ids q01_rep6 q02_rep10 q03_rep14     --out /root/b1/prereg3_out/smoke_baseline_replay.json'
++ rsh 8.155.133.216 'cd /root/b1 && ./venv/bin/python b1_4c3_analyze.py smoke --file /root/b1/prereg3_out/smoke_baseline_replay.json'
++ tee /mnt/e/代码项目文件/论文/sim/results/b1/b1_4c3_20261008T134807Z/_debug/smoke_baseline_replay.verdict
++ local h=8.155.133.216
++ shift
++ ssh -i '/mnt/d/Documents/API/_网络感应 (1).pem' -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_net -o BatchMode=yes -o ConnectTimeout=20 -o LogLevel=ERROR root@8.155.133.216 'cd /root/b1 && ./venv/bin/python b1_4c3_analyze.py smoke --file /root/b1/prereg3_out/smoke_baseline_replay.json'
+Traceback (most recent call last):
+  File "/root/b1/b1_4c3_analyze.py", line 194, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/root/b1/b1_4c3_analyze.py", line 190, in main
+    return args.fn(args)
+           ^^^^^^^^^^^^^
+  File "/root/b1/b1_4c3_analyze.py", line 40, in cmd_smoke
+    recs = load_records(Path(args.file))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/b1_4c3_analyze.py", line 22, in load_records
+    d = json.loads(Path(path).read_text(encoding="utf-8"))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/root/b1/prereg3_out/smoke_baseline_replay.json'
++ local rc=1
+++ tail -1 /mnt/e/代码项目文件/论文/sim/results/b1/b1_4c3_20261008T134807Z/_debug/smoke_baseline_replay.verdict
++ rec baseline_replay-smoke 1 ''
+++ ts
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ echo 2026-10-08T14:38:02Z,baseline_replay-smoke,1,
++ '[' 1 -eq 0 ']'
++ log '[baseline_replay] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数'
+++ ts
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ printf '[%s] %s\n' 2026-10-08T14:38:02Z '[baseline_replay] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数'
+[2026-10-08T14:38:02Z] [baseline_replay] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数
+++ ts
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ printf '[%s] %s\n' 2026-10-08T14:38:02Z '[baseline_replay] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数'
++ return 1
++ echo 'smoke rc=1'
+smoke rc=1
++ set +x
+
+########## 5) 重放的本地产物 ##########
+total 768
+drwxrwxrwx 1 HWG HWG 512 Oct  8 22:37 .
+drwxrwxrwx 1 HWG HWG 512 Oct  8 21:48 ..
+-rwxrwxrwx 1 HWG HWG  46 Oct  8  2026 record.csv
+-rwxrwxrwx 1 HWG HWG  87 Oct  8  2026 run.log
+-rwxrwxrwx 1 HWG HWG 569 Oct  8 22:37 smoke_baseline_replay.log
+-rwxrwxrwx 1 HWG HWG   0 Oct  8 22:37 smoke_baseline_replay.verdict
+--- 客户端日志（前25行） ---
++ local h=8.155.133.216
++ shift
++ ssh -i '/mnt/d/Documents/API/_网络感应 (1).pem' -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_net -o BatchMode=yes -o ConnectTimeout=20 -o LogLevel=ERROR root@8.155.133.216 'mkdir -p /root/b1/prereg3_out && cd /root/b1 && ./venv/bin/python b1_client.py --url '\''http://172.29.31.51:8300'\'' --model '\''Qwen/Qwen2.5-1.5B-Instruct'\''     --prompts-file /root/b1/prereg3_prompts.json --logprobs 20 --only-ids q01_rep6 q02_rep10 q03_rep14     --out /root/b1/prereg3_out/smoke_baseline_replay.json'
+--- verdict（前15行） ---
+
+########## 6) 远端 prereg3_out ##########
+total 16
+drwxr-xr-x 2 root root 4096 Oct  8 22:30 .
+drwxr-xr-x 8 root root 4096 Oct  8 22:30 ..
+-rw-r--r-- 1 root root 1436 Oct  8 22:30 smoke_baseline.json
+-rw-r--r-- 1 root root  683 Oct  8 22:30 smoke_baseline_raw.jsonl

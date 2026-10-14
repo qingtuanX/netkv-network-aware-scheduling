@@ -82,10 +82,16 @@ from src.model import NodeSpec, compute_work, request_bytes  # noqa: E402
 from src.network import LinkState, StaticNetwork, UnstableNetwork  # noqa: E402
 from src.simulator import SimConfig, run               # noqa: E402
 from src.strategies import (                           # noqa: E402
+    BottleneckStrategy,
+    CongestionOnlyStrategy,
     LeastLoadStrategy,
     LeastQueueStrategy,
+    NetworkAwareAdaptiveStrategy,
     NetworkAwareContentionStrategy,
+    NetworkAwareHardSwitchStrategy,
     NetworkAwareStrategy,
+    P2CNetStrategy,
+    P2CStrategy,
     RandomStrategy,
 )
 from src.trace_loader import load_azure_trace, load_burstgpt  # noqa: E402
@@ -173,6 +179,10 @@ MAIN_STALENESS_LEVELS = ["fresh", "stale"]
 #   fresh（0 s）：全部不触发 → 天然负对照（回退应是空操作）
 #   mild （3 s）：0.5、1.5 触发；5、45 不触发
 #   stale（30 s）：0.5、1.5、5 触发；45 不触发
+# 【细变量②】观测聚合窗口的扫描网格（秒）。0 = 瞬时值（现状）。
+# 0.5/2 对应"秒级监控"，10/30 对应"分钟级监控"的等效平滑。
+WINDOW_GRID = [0.0, 0.5, 2.0, 10.0, 30.0]
+
 FALLBACK_THRESHOLDS = [0.5, 1.5, 5.0, 45.0]
 FALLBACK_STALENESS_LEVELS = ["fresh", "mild", "stale"]
 
@@ -227,6 +237,108 @@ CELL_META_KEYS = {"strategies", "pair_candidates", "pair_baselines"}
 
 # 陈旧度扫描的水平（秒），用于给出 RQ2 的完整曲线而不是两个点
 STALENESS_SWEEP = [0.0, 0.25, 1.0, 2.0, 5.0, 15.0, 30.0, 60.0]
+
+# --- 【细变量①】两条通道年龄的二维网格 --------------------------------------
+# 为什么要二维：现有两条 1D 扫描回答不了"搭配"问题——
+#   「排队消息很新、网线消息很旧」和「排队消息很旧、网线消息很新」是不是一回事？
+# 已发表文献里没有人把"两种被观测对象各自的年龄"作为一个二维因子做（见
+# `文献/08-竞争定位（2025-2026）.md` §6.4：最接近的只是无线网络里的"测量频率"）。
+# 只扫 **unstable** 网络：静态网络的链路状态不随时间变，"链路 lag" 精确无效（实测 Δ=0），
+# 扫它只会得到一整排零——那是设计性质，不是发现。
+# 网格大小是成本换来的：**陈旧度越大、单次仿真越慢**（策略看到旧状态 → 请求堆积 →
+# 事件数暴增）。实测 25×2×3=150 cells 的满网格要 ~41 分钟，而 3×4 的第一遍只要 ~10 分钟。
+# 所以先跑收窄版看结构（对角线 vs 非对角线是否有差别），结构成立再铺开。
+# 收窄版保留了三个关键对比：都新鲜 / 只有队列旧 / 只有链路旧 / 两者都旧。
+# 对齐度实验的种子数：**种子的作用是"独立的负载实现"**（确定性策略本身无随机性）。
+# 3 个种子只能看方向，给不出跨实现的置信区间；要谈统计就得把"实现的个数"提上来。
+# 取 10：trace 模式下一个种子=一个时间片，10 片时每片仍有 ~140k 请求（data_heavy 类约 16%，
+# 即 ~22k，够 12000 请求/次的切片），再往上分片就有切不出足够请求的风险。
+ALIGN_SEEDS = 10
+
+STALENESS2D_QUEUE = [0.0, 1.0, 5.0]
+STALENESS2D_NETWORK = [0.0, 1.0, 15.0, 60.0]
+
+# --- V3 方法（降权规则）对照 -------------------------------------------------
+# 新鲜度水平 = 四种真实运维配置 + 全新鲜对照。选它们而不是均匀网格的理由：
+#   (0,0)   全新鲜：控制组，降权规则在这里不该有损失；
+#   (1,0)   队列监控 1 s：接近"理想监控"；
+#   (5,0)   队列监控 5 s：§16 实测优势在这里只剩四分之一，是降权最该起作用的地方；
+#   (0,15)  链路监控 15 s：最常见的监控周期（Prometheus 默认就是 15 s）；
+#   (5,60)  两条通道都慢：真机实测的悲观组合（采集 15 s + 上报延迟）。
+METHOD_FRESHNESS = [(0.0, 0.0), (1.0, 0.0), (5.0, 0.0), (0.0, 15.0), (0.0, 60.0),
+                    (5.0, 60.0)]
+
+# 五条臂：两条基线 + 三种降权规则。顺序即结果表里的顺序。
+METHOD_STRATEGIES = [
+    "LeastLoad",
+    "NetworkAware2",
+    {"name": "NetworkAware2Adapt", "label": "AdaptSplit"},                     # 主方法
+    {"name": "NetworkAware2Adapt", "label": "AdaptLinear", "decay": "linear"},
+    {"name": "NetworkAware2AdaptHard", "label": "AdaptHard"},                  # 硬开关
+]
+
+# 【修订版】按**通道**降权的规则（`decay="channel"`），2026-10-01 在看到第一批结果后加。
+# 它不是为了"再凑一个更好的结果"，而是因为原设计的**层级错了**：
+#   原设计按"链路信息内部的两块内容（忙闲 / 粗细）"分别降权，实测（BurstGPT 批）证明这样更差——
+#   把"拥塞惩罚"单独压低，会让"粗网线 + 慢算力"那台机器重新堆满活。
+#   修订版改为按**通道**降权（队列快、链路慢且带下限），两个分量同权。
+# **旧的 split 臂继续留在表里一起报**，这样"设计选择值多少钱"是可查的。
+# 见 `src/strategies.py` 的类 docstring 修订记录与 `文献/08` 的写作口径。
+METHOD_CH_STRATEGIES = [
+    "LeastLoad",
+    "NetworkAware2",
+    {"name": "NetworkAware2Adapt", "label": "AdaptChannel", "decay": "channel"},
+]
+
+# --- 第二版规则的参数消融（同样的 OFAT 口径）--------------------------------
+# 三个参数各扫两档：队列时间常数 4→2/8 s、网线时间常数 60→20/120 s、权重下限 0.7→0.5/0.9。
+# 问的不是"哪档最好"，而是"把参数挪开，结论动多少"——如果挪一两倍结果几乎不动，
+# 说明这个数不是精调出来的；一动就翻，就必须承认结论依赖它。
+METHOD_CH_ABLATE_ARMS = [    {"name": "NetworkAware2Adapt", "label": "primary", "decay": "channel"},
+    {"name": "NetworkAware2Adapt", "label": "Tq2", "decay": "channel", "tau_q": 2.0},
+    {"name": "NetworkAware2Adapt", "label": "Tq8", "decay": "channel", "tau_q": 8.0},
+    {"name": "NetworkAware2Adapt", "label": "Tn20", "decay": "channel", "tau_n": 20.0},
+    {"name": "NetworkAware2Adapt", "label": "Tn120", "decay": "channel", "tau_n": 120.0},
+    {"name": "NetworkAware2Adapt", "label": "floor0.5", "decay": "channel", "link_floor": 0.5},
+    {"name": "NetworkAware2Adapt", "label": "floor0.9", "decay": "channel", "link_floor": 0.9},
+    "LeastLoad",
+    "NetworkAware2",
+]
+
+# --- 阈值消融：**独立实验**，不是"调好再报" ---------------------------------# 主方法的四个参数各扫几档，一次只动一个（OFAT）。放在同一个 cell 里跑，
+# 于是"改阈值"与"不改阈值"是**逐请求配对**比较（回退机制那一节同样的口径）。
+# 为什么要在意的不是"哪个档最好"，而是"结论对参数有多敏感"：
+# 如果 TAU_Q 从 2 s 到 8 s 结果几乎不动，说明这个数不是精调出来的；如果一动就翻，
+# 就必须承认结论依赖这个选择。
+# 消融只用三个新鲜度档（控制 / 队列旧 / 链路旧），省算力且不损失信息——
+# "两条通道都旧"那一档的机制是前两档的叠加，已在主对照里测过。
+METHOD_ABLATE_FRESHNESS = [(0.0, 0.0), (5.0, 0.0), (0.0, 15.0)]
+
+# --- 补强基线：回答"是不是只赢了弱基线" -------------------------------------
+# 之前只有 Random / LeastQueue / LeastLoad 三条对照，审稿人第一个问题就是
+# "为什么不跟 P2C 和已发表的网络感知方法比"。这 8 条臂一次跑齐：
+#   Random / LeastQueue / LeastLoad —— 原有下界与朴素基线
+#   P2C                             —— 经典"二选一"强基线（只需要局部视野）
+#   P2CNet                          —— 二选一 + 网络项（把"视野大小"与"看不看网络"解耦）
+#   CongestionOnly                  —— Aegis(SIGCOMM'26) 式"拥塞压力"项（不含静态带宽）
+#   Bottleneck                      —— Helix(ASPLOS'25) 式瓶颈最小化（取大而非求和）
+#   NetworkAware2                   —— 本文的完全信任网络参照臂
+BASELINE_STRATEGIES = ["Random", "LeastQueue", "LeastLoad", "P2C", "P2CNet",
+                       "CongestionOnly", "Bottleneck", "NetworkAware2"]
+
+METHOD_ABLATE_ARMS = [
+    {"name": "NetworkAware2Adapt", "label": "primary"},                       # TAU_Q=4, TAU_N_DYN=15
+    {"name": "NetworkAware2Adapt", "label": "Tq1", "tau_q": 1.0},
+    {"name": "NetworkAware2Adapt", "label": "Tq2", "tau_q": 2.0},
+    {"name": "NetworkAware2Adapt", "label": "Tq8", "tau_q": 8.0},
+    {"name": "NetworkAware2Adapt", "label": "Tn5", "tau_n_dyn": 5.0},
+    {"name": "NetworkAware2Adapt", "label": "Tn30", "tau_n_dyn": 30.0},
+    {"name": "NetworkAware2Adapt", "label": "floor0.05", "net_share_floor": 0.05},
+    {"name": "NetworkAware2Adapt", "label": "floor0.20", "net_share_floor": 0.20},
+    {"name": "NetworkAware2Adapt", "label": "drift_gate", "drift_gate": True},
+    "LeastLoad",
+    "NetworkAware2",
+]
 
 # --- 数据量：决定网络感知值不值的量级开关 ----------------------------------
 # 论文必须报告两条曲线：共置架构（只传 prompt）与分离式架构（传 KV cache）。
@@ -285,6 +397,152 @@ def make_nodes(n_nodes: int, links: list[tuple[float, float]]) -> list[NodeSpec]
         nodes.append(NodeSpec(node_id=i, compute_rate=rates[i], slots=4,
                               latency=lat, bandwidth=bw))
     return nodes
+
+
+def apply_alignment(cond: dict, align: str | None) -> dict:
+    """【细变量③】按"对齐模式"重排链路列表——只改**哪台机器配哪条链路**，不改链路本身。
+
+    为什么它是关键变量（也是"网络信息为什么可能有价值"的机制解释）：
+      调度要同时权衡两件事——"哪台机器算得快"和"哪台机器网线粗"。
+      · **两者一致**（算得快的机器网线也最粗）→ 按"谁闲"挑和按"网线好"挑，
+        挑出来往往是同一台，**网络信息不提供任何额外区分度**，收益应当≈0；
+      · **两者相反**（算得最快的机器网线最细）→ 两个标准吵架，网络信息才有用武之地。
+    现有全部实验其实都落在"相反"这一档（`make_nodes` 把 `links[0]`（最慢链路）
+    配给 node 0（算力最强）），也就是说**从没测过一致的情形**——所以"收益有多大"
+    一直缺少一个机制侧的解释变量。
+
+    实现：只是把链路列表重新排序。`anti`（默认）＝保持现状；
+    `aligned` ＝反转（快算力配快链路）；`rot1`/`rot2` ＝错位一/两格（部分对齐）。
+    """
+    if not align:
+        return cond
+    out = dict(cond)
+    # 长度=节点数的平滑斜坡（见 alignment_links：固定 3 条链路的反转在多节点下会失效）
+    out["links"] = alignment_links(int(cond.get("_n_nodes", 3)), align, cond)
+    return out
+
+
+def alignment_links(n_nodes: int, align: str, base_cond: dict) -> list[tuple[float, float]]:
+    """为 n 个节点生成**长度等于节点数**的链路表，并按"对齐档"排序。
+
+    【为什么不能沿用"反转固定 3 条链路"】算力按 2 的幂循环（周期 4）、链路按 3 条循环（周期 3），
+    节点一多两者就互相错位：实测 8 节点时 anti 与 aligned 的**全局一致比例都只有 0.518 / 0.482**，
+    操纵本身失效——那样跑出来的"没差别"是假的（不是机制不存在，是没操纵成）。
+    （这条是先在 `alignscale` 的构造检查里发现的，避免了白跑 225 次仿真。）
+
+    做法：把基础档位里的**最慢**与**最快**两端之间按几何插值铺成 n 档
+    （带宽递增、时延递减，与原档位的方向一致），然后按档排序：
+      · `aligned` → 算力第 1 的节点拿最宽链路（一致比例 1.0）
+      · `anti`    → 算力第 1 的节点拿最窄链路（一致比例 0.0）
+      · `rot1`    → 整条斜坡错开 1/3（部分一致）
+    带宽的取值范围与总和都不变（只是**重新配对**），所以变的是"配对"，不是"网络有多贵"。
+    3 节点时几何插值的中点恰好等于原档位的中间档（√(3.125×50)=12.5 Gbps），
+    因此它与已有 `--mode align`（3 节点）的配对方式是**同一套定义**。
+    """
+    links = list(base_cond.get("links", []))
+    if len(links) < 2 or n_nodes < 2:
+        return links
+    bw_lo, bw_hi = min(b for _, b in links), max(b for _, b in links)
+    # 时延与带宽反向：最慢链路时延最大
+    lat_slow = max(l for l, b in links if b == bw_lo)
+    lat_fast = min(l for l, b in links if b == bw_hi)
+    ramp = []
+    for i in range(n_nodes):
+        f = i / (n_nodes - 1)
+        ramp.append((lat_slow * (lat_fast / lat_slow) ** f,
+                     bw_lo * (bw_hi / bw_lo) ** f))
+    # 注意命名方向（这里写反过一次，靠构造检查才发现）：
+    #   ramp[0] 是最**窄**的链路；节点 0 是算力**最强**的。
+    #   所以 `anti`（两排名相反）= 节点 0 拿 ramp[0] → order 递增；
+    #   `aligned`（两排名一致）= 节点 0 拿 ramp[-1] → order 递减。
+    if align == "aligned":
+        order = list(range(n_nodes - 1, -1, -1))     # 算力第 1 ↔ 带宽最宽（一致比例 1.0）
+    elif align in (None, "", "anti"):
+        order = list(range(n_nodes))                 # 算力第 1 ↔ 带宽最窄（一致比例 0.0）
+    elif align == "rot1":
+        k = n_nodes // 3
+        order = list(range(k, n_nodes)) + list(range(k))
+    else:
+        raise ValueError(f"未知对齐模式: {align}")
+    return [ramp[j] for j in order]
+
+
+def rank_corr(nodes: list) -> float:
+    """算力排名与带宽排名的 **Spearman 相关系数**：+1 = 完全一致，−1 = 完全相反。
+
+    【为什么换掉原来的"两两一致比例"】原指标在节点数 >3 时失效：算力阶梯周期是 4 台、
+    链路是斜坡，节点一多就出现"算力并列"的对，这些对被记 0.5 分，把信号稀释掉——
+    实测 8 台时 anti 与 rot1 的原指标**完全相同**（0.518），而两者实际收益差 3.4 个百分点；
+    于是"按指标排序"的趋势检验在 8 台上符号都反了（ρ=−0.75）。
+    Spearman 用**平均秩**处理并列值，并且衡量的是整体单调关系，不会把
+    "每台机器上两条排名是否同向"这件事抹平。两个指标都保留在产物里，便于对照。
+    """
+    n = len(nodes)
+    if n < 2:
+        return float("nan")
+    comp = [x.compute_rate for x in nodes]
+    bw = [x.bandwidth for x in nodes]
+    try:
+        from scipy import stats as st      # noqa: PLC0415
+        return float(st.spearmanr(comp, bw).statistic)
+    except Exception:                       # noqa: BLE001
+        # 兜底：手算 Spearman（平均秩 + Pearson）
+        def _ranks(v):
+            order = sorted(range(len(v)), key=lambda i: v[i])
+            r = [0.0] * len(v)
+            i = 0
+            while i < len(order):
+                j = i
+                while j + 1 < len(order) and v[order[j + 1]] == v[order[i]]:
+                    j += 1
+                avg = (i + j) / 2.0 + 1.0
+                for k in range(i, j + 1):
+                    r[order[k]] = avg
+                i = j + 1
+            return r
+        rc, rb = _ranks(comp), _ranks(bw)
+        mc, mb = sum(rc) / n, sum(rb) / n
+        num = sum((a - mc) * (b - mb) for a, b in zip(rc, rb))
+        den = (sum((a - mc) ** 2 for a in rc) * sum((b - mb) ** 2 for b in rb)) ** 0.5
+        return num / den if den else float("nan")
+
+
+def cell_nodes(cell: dict) -> list:
+    """按 cell 构造节点（含"对齐档"的重排）——**cell 构造与仿真必须都走这一个入口**。
+
+    【为什么要有它】踩过一次：`build_matrix()` 里算"对齐度指标"时没有把节点数传进
+    `apply_alignment()`（该函数靠 `cond["_n_nodes"]` 决定斜坡长度），于是
+    **记录下来的指标是按"3 条链路循环"算的，而 run_cell 里真正跑的是"按节点数铺的斜坡"**——
+    两者不是同一个配置，趋势检验的横轴因此全错（n=8 的符号都反了）。
+    现在两处都调这一个函数，不可能再不一致。
+    """
+    cond = cell_network_condition(cell)
+    cond["_n_nodes"] = cell["n_nodes"]
+    cond = apply_alignment(cond, cell.get("align"))
+    return make_nodes(cell["n_nodes"], cond["links"])
+
+
+def alignment_index(nodes: list) -> float:
+    """两个排名的"一致比例"：0.5 = 无关，1.0 = 完全一致，0.0 = 完全相反。
+
+    对每一对节点，比较"算力谁大"与"链路谁粗"；方向相同的对占比就是它。
+    这个数只由节点配置决定（与负载、策略无关），用来把"对齐度"这个机制变量**量化**，
+    这样论文里可以说"收益随一致比例如何变化"，而不是只说"配置不同"。
+    """
+    n = len(nodes)
+    if n < 2:
+        return float("nan")
+    agree = total = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            dc = nodes[i].compute_rate - nodes[j].compute_rate
+            db = nodes[i].bandwidth - nodes[j].bandwidth
+            total += 1
+            if dc * db > 0:
+                agree += 1
+            elif dc * db == 0:
+                agree += 0.5
+    return agree / total if total else float("nan")
 
 
 def make_trajectory(cond: dict, n_nodes: int, seed: int):
@@ -444,6 +702,21 @@ def strategy_factory(name: str, w_net: float = 1.0):
     if name == "NetworkAware2":
         # V2 机制贡献：算力队列 + 链路队列两条积压一起看
         return lambda seed: NetworkAwareContentionStrategy(seed=seed, w_net=w_net)
+    if name == "NetworkAware2Adapt":
+        # V3 方法贡献：双通道【连续降权】+ 漂移门控 + 按请求网络占比的自适应权重
+        return lambda seed: NetworkAwareAdaptiveStrategy(seed=seed, w_net=w_net)
+    if name == "NetworkAware2AdaptHard":
+        # 方法消融的对照臂：同一套因子但阈值是硬开关（过度回退那一版）
+        return lambda seed: NetworkAwareHardSwitchStrategy(seed=seed, w_net=w_net)
+    # ——— 补强基线（对应已发表工作的机制，见各策略类的 docstring）———
+    if name == "P2C":
+        return lambda seed: P2CStrategy(seed=seed)
+    if name == "P2CNet":
+        return lambda seed: P2CNetStrategy(seed=seed, w_net=w_net)
+    if name == "CongestionOnly":
+        return lambda seed: CongestionOnlyStrategy(seed=seed, w_net=w_net)
+    if name == "Bottleneck":
+        return lambda seed: BottleneckStrategy(seed=seed)
     raise ValueError(f"未知策略: {name}")
 
 
@@ -529,16 +802,82 @@ def make_strategy(spec, seed: int, w_net: float = 1.0):
         return cls(seed=seed, w_net=w,
                    fallback_staleness=spec.get("fallback_staleness"),
                    fallback_w_net=float(spec.get("fallback_w_net", 0.0)))
+    if name in ("NetworkAware2Adapt", "NetworkAware2AdaptHard"):
+        # 阈值消融用：每个变体可以在同一个 cell 里各带一套阈值/门控参数，
+        # 于是"改阈值"是逐请求配对比较，而不是跨 cell 的聚合对比。
+        # 【坑】键名必须与 NetworkAwareAdaptiveStrategy.__init__ 认的名字**逐字一致**：
+        # 认不出的键会被透传给父类并抛 TypeError（不会静默），但写错**名字**（例如
+        # 用旧的 tau_q_soft）会一路走默认值——参数网格静默失效，这类错不报错。
+        cls = (NetworkAwareHardSwitchStrategy if name == "NetworkAware2AdaptHard"
+               else NetworkAwareAdaptiveStrategy)
+        kw: dict = {}
+        for key in ("decay", "tau_q", "tau_n", "tau_n_dyn", "tau_q_hard",
+                    "tau_n_hard", "tau_q_lin", "tau_n_lin", "link_floor",
+                    "vol_drift", "net_share_floor",
+                    "drift_gate"):
+            if key in spec:
+                kw[key] = spec[key]
+        # 【静默失效防护】白名单之外的键一律报错，而不是默默丢掉。
+        # 踩过：给 `AdaptChannel` 的消融写了 `tau_n` / `link_floor` 两个键，但白名单里没有它们，
+        # 于是四档变体**跑出来和主方法逐位相同**、消融表里整整四行是"0.0±0.0"——
+        # 看上去像"参数不敏感"这个科学结论，其实是参数没生效。**不报错的错最贵。**
+        allowed = set(kw) | {"name", "label", "w_net", "fallback_staleness",
+                             "fallback_w_net"}
+        unknown = set(spec) - allowed
+        if unknown:
+            raise ValueError(
+                f"策略规格里有无法传递的键 {sorted(unknown)}（策略={name}）。"
+                f"要么它是白名单里的参数（{sorted(kw)}），要么是元数据 "
+                f"（name/label/w_net/fallback_*）。这是为了防止参数网格静默失效。")
+        return cls(seed=seed, w_net=w, **kw)
     return strategy_factory(name, w)(seed)
 
 
-def code_version() -> str:
+def _safe_dirs() -> list[str]:
+    """从 ROOT 向上走到仓库根，返回这一串目录，用作 `safe.directory`。
+
+    为什么不是只放行 ROOT：**ROOT 是 `sim/`，仓库根是它的上一级**。只写
+    `safe.directory=<sim>` 时 git 依旧判定"这个仓库不在安全清单里"而拒绝，
+    于是 `code_version()` 静默回落成 "uncommitted"——第一次提交做完后发现字段
+    没变，就是这个原因（第二次修复）。手工验证过：重复 `-c` 对多值键是追加，
+    两级同时放行即可读到 HEAD。
+    """
+    dirs, p = [], ROOT
+    for _ in range(8):
+        dirs.append(p.as_posix())
+        if (p / ".git").exists() or p.parent == p:
+            break
+        p = p.parent
+    return dirs
+
+
+def _git(args: list[str]) -> str | None:
+    """调用 git，并显式放行本仓库为安全目录。
+
+    本机 git 会因 "dubious ownership"（仓库所在文件系统不记录属主）拒绝读 HEAD，
+    裸调用 `git rev-parse` 直接 fatal，manifest 里的 code_version 会白写成
+    "uncommitted"。
+    """
+    cmd = ["git"]
+    for d in _safe_dirs():
+        cmd += ["-c", f"safe.directory={d}"]
     try:
         return subprocess.check_output(
-            ["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
-            text=True, stderr=subprocess.DEVNULL).strip()
+            [*cmd, *args], cwd=ROOT, text=True,
+            stderr=subprocess.DEVNULL).strip()
     except Exception:
-        return "uncommitted"
+        return None
+
+
+def code_version() -> str:
+    """当前代码版本（短哈希）。没有提交或读不到时回落为 "uncommitted"。"""
+    return _git(["rev-parse", "--short", "HEAD"]) or "uncommitted"
+
+
+def code_dirty_files() -> str:
+    """工作树里未提交的文件清单（换行分隔）。用于判断"这批结果对应的是干净版本还是改了一半"。"""
+    out = _git(["status", "--porcelain"])
+    return out if out else ""
 
 
 def paired_test(a: np.ndarray, b: np.ndarray) -> dict:
@@ -588,8 +927,12 @@ def run_cell(cell: dict, strategies: list, n_requests: int,
     strategies 的元素既可以是策略名，也可以是 `make_strategy` 认的 dict 规格
     （回退机制那一节需要在一个 cell 内同时跑参考臂与多个阈值变体）。
     """
+    # 【细变量③】链路与节点的配对本可以按"对齐模式"重排（默认 anti = 保持现状）。
+    # 必须在建节点与建轨迹之前重排，两者用的链路列表才会一致。
+    nodes = cell_nodes(cell)          # 唯一入口：构造方式与记录指标时用的完全一致
     cond = cell_network_condition(cell)
-    nodes = make_nodes(cell["n_nodes"], cond["links"])
+    cond["_n_nodes"] = cell["n_nodes"]
+    cond = apply_alignment(cond, cell.get("align"))
     bpc = DATA_VOLUME[cell["data_volume"]]
     cfg = SimConfig(
         prefill_coef=1.0, decode_coef=4.0, warmup_fraction=0.1,
@@ -600,6 +943,9 @@ def run_cell(cell: dict, strategies: list, n_requests: int,
         stale_queue=cell.get("stale_queue", True),
         stale_network=cell.get("stale_network", True),
         slo_mode="relative", slo_multiplier=3.0,
+        # 【细变量②】观测的聚合窗口：真实监控报的是"过去 W 秒的平均"而不是瞬时值
+        window_queue_s=float(cell.get("window_queue_s", 0.0)),
+        window_network_s=float(cell.get("window_network_s", 0.0)),
     )
 
     spec = WORKLOAD_CLASSES[cell["workload"]]
@@ -645,8 +991,8 @@ def run_cell(cell: dict, strategies: list, n_requests: int,
         fb_s = s.get("fallback_staleness") if isinstance(s, dict) else None
         row_w_net = float(s.get("w_net", w_net)) if isinstance(s, dict) else w_net
         t0 = time.perf_counter()
-        result = run(workload, nodes, make_strategy(s, cell["seed"], w_net),
-                     cfg, cell["seed"], trajectory)
+        strat = make_strategy(s, cell["seed"], w_net)
+        result = run(workload, nodes, strat, cfg, cell["seed"], trajectory)
         elapsed = time.perf_counter() - t0
         measured = result.measured(cfg.warmup_fraction)
         row = summarize(measured, result.makespan, cell["n_nodes"],
@@ -666,6 +1012,8 @@ def run_cell(cell: dict, strategies: list, n_requests: int,
                     "rho_net": (len(workload) / max(workload[-1][0], 1e-9))
                                * mean_bytes / net_capacity if net_capacity > 0 else float("nan"),
                     "qps_realized": len(workload) / max(workload[-1][0], 1e-9)})
+        # 自适应策略会额外报告"实际施加了多大权重"（见 Strategy.stats_columns）
+        row.update(strat.stats_columns())
         rows.append(row)
 
         rec = pd.DataFrame([{"req_id": r.req_id, "sojourn": r.sojourn,
@@ -811,6 +1159,157 @@ def build_matrix(mode: str, extra: dict) -> list[dict]:
             c = cell(wl, "degraded", "fresh", seed, dv=dv)
             c["net_profile"] = prof
             cells.append(c)
+    elif mode == "align":
+        # 【细变量③】"谁算得快"与"谁网线粗"的对齐度：网络信息有没有价值的机制解释。
+        # 预测（跑之前定好）：aligned（两者一致）时收益≈0 甚至有害——因为按"谁闲"挑
+        # 与按"网线好"挑挑到同一台；anti（现状，两者相反）时收益最大；rot1 居中。
+        # 这个预测如果成立，就把"收益从哪来"说清楚了；不成立也要照实报。
+        # 种子数由 ALIGN_SEEDS 控制（见常量注释：种子的作用是"独立的负载实现"）
+        for align, wl, net, seed in itertools.product(
+                ["anti", "rot1", "aligned"], ["mixed", "data_heavy"],
+                ["degraded", "unstable"], SEEDS[:ALIGN_SEEDS]):
+            c = cell(wl, net, "fresh", seed)
+            c["align"] = align
+            # 把"对齐度"量化后随 cell 落盘：这样分析侧不必硬编码 0/0.67/1.0，
+            # 换节点数（4/8/16）时这个数会自己变，趋势检验仍然成立。
+            _nodes = cell_nodes(c)
+            c["align_index"] = alignment_index(_nodes)      # 旧指标（保留对照）
+            c["align_rank_corr"] = rank_corr(_nodes)        # 新指标：Spearman 秩相关
+            cells.append(c)
+    elif mode == "alignscale":
+        # 【细变量③ × 规模】对齐度在 4/8/16 节点上是否仍然成立。
+        # 为什么这一组特别自然：**节点数一变，"谁算得快"与"谁网线粗"的配对结构自己就变了**——
+        # 算力按 2 的幂循环（周期 4）、链路按 3 条循环（周期 3），两者的相位差随节点数变化，
+        # 于是 `alignment_index()` 在各档上取到不同的值（不再只是 0 / 0.67 / 1 三档）。
+        # 这一组回答的是："对齐度效应是 3 节点的小样本巧合，还是在规模上仍在？"
+        for n_nodes, align, seed in itertools.product(
+                [4, 8, 16], ["anti", "rot1", "aligned"], SEEDS[:ALIGN_SEEDS]):
+            c = cell("mixed", "degraded", "fresh", seed, n_nodes=n_nodes)
+            c["align"] = align
+            _nodes = cell_nodes(c)
+            c["align_index"] = alignment_index(_nodes)      # 旧指标（保留对照）
+            c["align_rank_corr"] = rank_corr(_nodes)        # 新指标：Spearman 秩相关
+            cells.append(c)
+    elif mode == "staleness2d":
+        # 【细变量①】两条通道年龄的二维联合扫描。
+        # 现有两条 1D 扫描（`staleness` 模式的 queue 扫描 / net 扫描）无法回答"搭配"问题，
+        # 而且 net 扫描把队列 lag 钉在 1 秒，导致那条曲线其实主要在测队列（已实测确认）。
+        # 这里两个 lag 都显式设定，网络固定 unstable（静态网络的链路 lag 精确无效）。
+        # 负载：mixed + data_heavy。种子数同样升到 10（统计单位是"独立负载实现"，
+        # 3 个种子给不出跨实现的置信区间——与 align 实验同一口径）。
+        for lag_q, lag_n, wl, seed in itertools.product(
+                STALENESS2D_QUEUE, STALENESS2D_NETWORK,
+                ["mixed", "data_heavy"], SEEDS[:ALIGN_SEEDS]):
+            c = cell(wl, "unstable", "fresh", seed)
+            c["staleness"] = f"q{lag_q:g}_n{lag_n:g}"   # 档位标签，便于分组
+            c["staleness_queue_s"] = lag_q
+            c["staleness_network_s"] = lag_n
+            cells.append(c)
+    elif mode == "avewindow":
+        # 【细变量②】观测的**聚合窗口**：真实监控报的是"过去 W 秒的平均"而不是瞬时值。
+        # 与 staleness 的区别是本质性的，这是本 mode 存在的全部理由：
+        #   lag  = 看到的是**旧**值，但那个值是当时真实的（延迟失真，越旧越钝）；
+        #   window = 看到的是**被平均过**的值，尖峰被抹平（信息失真，**方向相反**：
+        #            忙的节点看起来不忙，于是活继续往它身上派）。
+        # 设计：lag 固定为 0（隔离变量，不让两种失真混在一起）；窗口分两条通道各自扫。
+        #   ① 队列通道窗口（最可能有效，因为队列是秒级变化的）
+        #   ② 链路通道窗口（只在时变网络上有意义——静态网络平均=原值）
+        # 注意：两条窗口列**每个 cell 都写全**（另一条显式写 0.0），
+        # 否则缺的那一列在 CSV 里是 NaN，分组统计时要额外兜底（踩过一次）。
+        for w_q, wl, net, seed in itertools.product(
+                WINDOW_GRID, ["mixed", "data_heavy"], ["degraded", "unstable"], SEEDS[:3]):
+            c = cell(wl, net, "fresh", seed)
+            c["window_queue_s"] = w_q
+            c["window_network_s"] = 0.0
+            cells.append(c)
+        for w_n, wl, seed in itertools.product(WINDOW_GRID, ["mixed", "data_heavy"], SEEDS[:3]):
+            c = cell(wl, "unstable", "fresh", seed)      # 时变网络才有链路窗口可谈
+            c["window_queue_s"] = 0.0
+            c["window_network_s"] = w_n
+            cells.append(c)
+    elif mode == "method":
+        # 【V3 方法贡献】降权规则对照：同一个 cell 里跑满五条臂，比较是**逐请求配对**的。
+        #   ① LeastLoad   —— 完全不信网络（下界）
+        #   ② NetworkAware2 —— 完全信（不管多旧）
+        #   ③ AdaptHard   —— 硬开关：年龄超阈值就整块关掉
+        #   ④ AdaptLinear —— 线性降权：到尺度就归零
+        #   ⑤ AdaptSplit  —— 主方法：指数降权，且把链路信息拆成"忙闲"与"粗细"两块
+        # 为什么必须放同一个 cell：这五条臂的差别在"状态有多旧"时才显现，而陈旧场景下
+        # 单次仿真的**轨迹是混沌的**（实测：只改前 2.5% 请求的决策就能让 4000 请求的
+        # p95 差 17%）。跨 cell 比会把这种噪声当成效应，所以配对比较 + 10 个种子。
+        # 新鲜度水平覆盖四种真实运维配置：全新鲜 / 队列监控 1 s / 队列监控 5 s /
+        # 链路监控 15 s / 两条通道都慢（队列 5 s + 链路 60 s）。
+        for (lag_q, lag_n), wl, net, seed in itertools.product(
+                METHOD_FRESHNESS, ["mixed", "data_heavy"],
+                ["degraded", "unstable"], SEEDS[:ALIGN_SEEDS]):
+            c = cell(wl, net, "fresh", seed)
+            c["staleness"] = f"q{lag_q:g}_n{lag_n:g}"
+            c["staleness_queue_s"] = lag_q
+            c["staleness_network_s"] = lag_n
+            c["strategies"] = METHOD_STRATEGIES
+            c["pair_candidates"] = ["AdaptSplit", "AdaptLinear", "AdaptHard",
+                                    "NetworkAware2"]
+            c["pair_baselines"] = ["LeastLoad", "NetworkAware2"]
+            cells.append(c)
+    elif mode == "method_ch":
+        # 【修订版规则】按通道降权（`decay="channel"`）的独立一批。
+        # 格子与 `method` 模式**逐字段相同**（同负载/网络/两条 lag/种子/请求数），
+        # 而负载与轨迹都只由 (工作负载类, 种子, 请求数) 决定，所以两批的请求流是**逐位相同**的，
+        # 跨批按 (cell 条件, 种子, req_id) 配对是合法的——这正是"同一 cell 内配对"的等价形式。
+        # 之所以不直接改 `method` 模式重跑：那批产物已经落盘成证据了，append-only 不覆盖它。
+        for (lag_q, lag_n), wl, net, seed in itertools.product(
+                METHOD_FRESHNESS, ["mixed", "data_heavy"],
+                ["degraded", "unstable"], SEEDS[:ALIGN_SEEDS]):
+            c = cell(wl, net, "fresh", seed)
+            c["staleness"] = f"q{lag_q:g}_n{lag_n:g}"
+            c["staleness_queue_s"] = lag_q
+            c["staleness_network_s"] = lag_n
+            c["strategies"] = METHOD_CH_STRATEGIES
+            c["pair_candidates"] = ["AdaptChannel"]
+            c["pair_baselines"] = ["LeastLoad", "NetworkAware2"]
+            cells.append(c)
+    elif mode == "method_ch_ablate":
+        # 第二版规则的参数消融：格子与 `method_ablate` 同构（3 档新鲜度，省算力且不丢信息）。
+        for (lag_q, lag_n), wl, net, seed in itertools.product(
+                METHOD_ABLATE_FRESHNESS, ["mixed", "data_heavy"],
+                ["degraded", "unstable"], SEEDS[:ALIGN_SEEDS]):
+            c = cell(wl, net, "fresh", seed)
+            c["staleness"] = f"q{lag_q:g}_n{lag_n:g}"
+            c["staleness_queue_s"] = lag_q
+            c["staleness_network_s"] = lag_n
+            c["strategies"] = METHOD_CH_ABLATE_ARMS
+            c["pair_candidates"] = [a["label"] for a in METHOD_CH_ABLATE_ARMS
+                                    if isinstance(a, dict)]
+            c["pair_baselines"] = ["LeastLoad", "NetworkAware2"]
+            cells.append(c)
+    elif mode == "baselines":
+        # 补强基线对照：8 条臂放在**同一个 cell 内**跑，因此两两比较是逐请求配对的。
+        # 新鲜度只取 fresh / stale 两档（P2C 类基线的意义在于"看得少能不能同样好"，
+        # 不需要再扫一遍完整陈旧度网格；陈旧度的影响在 §16 已单独刻画）。
+        for fresh, wl, net, seed in itertools.product(
+                MAIN_STALENESS_LEVELS, ["mixed", "data_heavy"],
+                ["degraded", "unstable"], SEEDS[:ALIGN_SEEDS]):
+            c = cell(wl, net, fresh, seed)
+            c["strategies"] = BASELINE_STRATEGIES
+            # 配对关系：每个新基线 × 两条参照臂（不看网络的 、看网络的）
+            c["pair_candidates"] = ["P2C", "P2CNet", "CongestionOnly", "Bottleneck",
+                                    "NetworkAware2"]
+            c["pair_baselines"] = ["LeastLoad", "NetworkAware2"]
+            cells.append(c)
+    elif mode == "method_ablate":
+        # 阈值消融：见 METHOD_ABLATE_ARMS 的注释（一次只动一个参数）。
+        for (lag_q, lag_n), wl, net, seed in itertools.product(
+                METHOD_ABLATE_FRESHNESS, ["mixed", "data_heavy"],
+                ["degraded", "unstable"], SEEDS[:ALIGN_SEEDS]):
+            c = cell(wl, net, "fresh", seed)
+            c["staleness"] = f"q{lag_q:g}_n{lag_n:g}"
+            c["staleness_queue_s"] = lag_q
+            c["staleness_network_s"] = lag_n
+            c["strategies"] = METHOD_ABLATE_ARMS
+            c["pair_candidates"] = [a["label"] for a in METHOD_ABLATE_ARMS
+                                    if isinstance(a, dict)]
+            c["pair_baselines"] = ["LeastLoad", "NetworkAware2"]
+            cells.append(c)
     else:
         raise ValueError(f"未知模式: {mode}")
 
@@ -826,9 +1325,16 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", default="main",
                     choices=["main", "staleness", "datavolume", "convergence",
-                             "ablation", "scale", "rho", "fallback", "bandwidth"])
+                             "ablation", "scale", "rho", "fallback", "bandwidth",
+                             "avewindow", "staleness2d", "align", "alignscale",
+                             "method", "method_ablate", "method_ch",
+                             "method_ch_ablate", "baselines"])
     ap.add_argument("--out", default=str(ROOT / "results/matrix"))
     ap.add_argument("--requests", type=int, default=N_REQUESTS)
+    # 保守模型：并发降速倍率（CONS_MODEL_PREREG 冻结，2026-10-12）。
+    # none（默认）= 理想服务时间（与旧产物一致）；linear/pressure = 冻结的 L/P 两版。
+    ap.add_argument("--service-slowdown", choices=["none", "linear", "pressure"],
+                    default="none")
     ap.add_argument("--seeds", type=int, nargs="*", default=None,
                     help="覆盖随机种子列表（调试用）")
     ap.add_argument("--source", choices=["synthetic", "trace"], default="synthetic",
@@ -856,6 +1362,9 @@ def main() -> int:
     run_id = f"{args.mode}_{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}"
 
     cells = build_matrix(args.mode, {})
+    # 服务时间倍率是 run 级旋钮：写进每个 cell（runs.csv 自动带列，作为产物溯源）
+    for _c in cells:
+        _c["service_slowdown"] = args.service_slowdown
     if args.limit:
         cells = cells[: args.limit]
 
@@ -959,6 +1468,8 @@ def main() -> int:
         # 否则会把两个模型的结果混着引用。
         "link_queue_model": True,
         "net_set": NET_SET,
+        # 保守模型倍率（none = 理想服务时间 = 与旧产物同一模型）
+        "service_slowdown": args.service_slowdown,
         "trace_file": str(Path(args.trace).resolve()) if SOURCE == "trace" else None,
         "target_rho": TARGET_RHO,
         "rho_grid": RHO_GRID if args.mode == "rho" else None,

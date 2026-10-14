@@ -1,0 +1,58 @@
+{
+  "target_url": "http://127.0.0.1:8192",
+  "target_version_endpoint": {
+    "unavailable": "HTTPError: HTTP Error 404: Not Found"
+  },
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "max_tokens": 64,
+  "temperature": 0,
+  "seed": 0,
+  "return_token_ids_requested": true,
+  "utc_written": "2026-10-07T17:22:25.171825Z",
+  "requests": [
+    {
+      "id": "p04_rep20",
+      "reps": 20,
+      "prompt_chars": 8682,
+      "http_status": 200,
+      "elapsed_s": 0.5644,
+      "error_class": null,
+      "error_text": null,
+      "raw_body_bytes": 8197,
+      "prompt_tokens": 1560,
+      "completion_tokens": 28,
+      "finish_reason": "stop",
+      "output_text": " The scheduler in a distributed inference cluster decides which worker executes an incoming request based on the worker's compute backlog and the network path status.",
+      "token_ids": [
+        576,
+        28809,
+        304,
+        264,
+        4237,
+        44378,
+        10652,
+        27627,
+        892,
+        11864,
+        51435,
+        458,
+        19393,
+        1681,
+        3118,
+        389,
+        279,
+        11864,
+        594,
+        12564,
+        70722,
+        323,
+        279,
+        3922,
+        1815,
+        2639,
+        13,
+        151643
+      ]
+    }
+  ]
+}

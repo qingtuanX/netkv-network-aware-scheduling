@@ -1,0 +1,209 @@
+=========== 0) 后台输出全文件尾部 80 行 ===========
+[2026-10-08T14:45:54Z] === 对照臂 baseline（B:8300）===
+[2026-10-08T14:46:27Z] baseline 就绪（第 3 次探测）
+[C1 冒烟] 步数=156 不合=0 → PASS
+[2026-10-08T14:46:40Z] [baseline] 预热 r1
+[2026-10-08T14:46:51Z] [baseline] 预热 r2
+[2026-10-08T14:47:09Z] [baseline] 预热 r3
+[2026-10-08T14:47:18Z] [baseline] 正式 r1
+[2026-10-08T14:47:34Z] [baseline] 正式 r2
+[2026-10-08T14:47:44Z] [baseline] 正式 r3
+enable_prefix_caching="False"
+[2026-10-08T14:48:13Z] === 拆分臂 P=A:8100 D=B:8200 代理=A:8192 ===
+[2026-10-08T14:49:27Z] prefill 就绪（第 6 次探测）
+[2026-10-08T15:02:17Z] decode 180s 未就绪
+[2026-10-08T15:02:22Z] [传输] stop（stop-all @ 8.155.133.216）无输出（第 1 次），重试
+[2026-10-08T15:02:29Z] [传输] stop（stop-all @ 8.155.133.216）无输出（第 2 次），重试
+
+=========== 1) 本地 record.csv 尾部 ===========
+2026-10-08T13:48:19Z,check-A,1,8.155.133.216
+2026-10-08T13:51:06Z,check-A,0,8.155.133.216
+2026-10-08T13:51:18Z,check-B,1,8.155.131.183
+2026-10-08T13:56:15Z,check-A,0,8.155.133.216
+2026-10-08T13:56:20Z,check-B,0,8.155.131.183
+2026-10-08T13:56:22Z,check-proxy,0,
+2026-10-08T13:56:26Z,sync-A,0,
+2026-10-08T13:56:30Z,sync-B,0,
+2026-10-08T13:56:33Z,sync-A2,0,
+2026-10-08T13:56:36Z,sha-B,1,
+2026-10-08T13:58:07Z,sync-A,0,
+2026-10-08T13:58:12Z,sync-B,0,
+2026-10-08T13:58:17Z,sync-A2,0,
+2026-10-08T13:58:23Z,genprompts,0,
+2026-10-08T13:58:25Z,start-baseline,0,
+2026-10-08T14:23:40Z,start-baseline,0,
+2026-10-08T14:24:33Z,baseline-smoke,1,
+2026-10-08T14:46:03Z,start-baseline,0,
+2026-10-08T14:46:40Z,baseline-smoke,0,[C1 冒烟] 步数=156 不合=0 → PASS
+2026-10-08T14:46:51Z,baseline-warmup-r1,0,
+2026-10-08T14:47:09Z,baseline-warmup-r2,0,
+2026-10-08T14:47:18Z,baseline-warmup-r3,0,
+2026-10-08T14:47:34Z,baseline-formal-r1,0,
+2026-10-08T14:47:44Z,baseline-formal-r2,0,
+2026-10-08T14:47:52Z,baseline-formal-r3,0,
+2026-10-08T14:48:06Z,metrics-baseline,0,
+2026-10-08T14:48:13Z,stop-baseline,0,
+2026-10-08T14:48:40Z,start-PD,0,
+
+=========== 2) 本地 stop 日志 ===========
+--- stop_baseline.log (26 字节) ---
+未知子命令: baseline
+--- stop_disagg_failA.log (397 字节) ---
+########## 停掉本机全部 B1 服务 ##########
+== 停 proxy
+  pid=4623 已经不在
+== 停 prefill
+  SIGTERM 进程组 -5864
+  已退出
+--- 显存现状：
+0 MiB
+== 停 decode
+  没有 PID 文件（该服务这次没起过）
+== 停 baseline
+  没有 PID 文件（该服务这次没起过）
+
+########## 残留检查 ##########
+无 vllm/代理进程
+B1 端口全部未监听
+0 MiB, 23028 MiB
+--- stop_disagg_failB.log (398 字节) ---
+########## 停掉本机全部 B1 服务 ##########
+== 停 proxy
+  没有 PID 文件（该服务这次没起过）
+== 停 prefill
+  没有 PID 文件（该服务这次没起过）
+== 停 decode
+  pid=10534 已经不在
+== 停 baseline
+  SIGTERM 进程组 -9882
+  已退出
+--- 显存现状：
+0 MiB
+
+########## 残留检查 ##########
+无 vllm/代理进程
+B1 端口全部未监听
+0 MiB, 24564 MiB
+
+=========== 3) A 机：进程 / GPU / 产物 ===========
+Warning: Permanently added '8.155.133.216' (ED25519) to the list of known hosts.
+--- vllm 进程 ---
+none
+--- toy_proxy ---
+none
+--- GPU 显存 ---
+0 MiB
+--- prereg3_out ---
+total 2096
+drwxr-xr-x 3 root root   4096 Oct  8 22:47 .
+drwxr-xr-x 8 root root   4096 Oct  8 22:30 ..
+-rw-r--r-- 1 root root 207637 Oct  8 22:47 arm_baseline_r1.json
+-rw-r--r-- 1 root root 108287 Oct  8 22:47 arm_baseline_r1_raw.jsonl
+-rw-r--r-- 1 root root 207637 Oct  8 22:47 arm_baseline_r2.json
+-rw-r--r-- 1 root root 108288 Oct  8 22:47 arm_baseline_r2_raw.jsonl
+-rw-r--r-- 1 root root 207637 Oct  8 22:47 arm_baseline_r3.json
+-rw-r--r-- 1 root root 108288 Oct  8 22:47 arm_baseline_r3_raw.jsonl
+drwxr-xr-x 2 root root   4096 Oct  8 22:45 _debug
+-rw-r--r-- 1 root root 148520 Oct  8 22:46 smoke_baseline.json
+-rw-r--r-- 1 root root  65319 Oct  8 22:46 smoke_baseline_raw.jsonl
+-rw-r--r-- 1 root root 207637 Oct  8 22:46 warmup_baseline_r1.json
+-rw-r--r-- 1 root root 108289 Oct  8 22:46 warmup_baseline_r1_raw.jsonl
+-rw-r--r-- 1 root root 207633 Oct  8 22:47 warmup_baseline_r2.json
+-rw-r--r-- 1 root root 108289 Oct  8 22:47 warmup_baseline_r2_raw.jsonl
+-rw-r--r-- 1 root root 207637 Oct  8 22:47 warmup_baseline_r3.json
+-rw-r--r-- 1 root root 108289 Oct  8 22:47 warmup_baseline_r3_raw.jsonl
+
+=========== 4) B 机：进程 / GPU / decode.log 死因 ===========
+Warning: Permanently added '8.155.131.183' (ED25519) to the list of known hosts.
+--- vllm 进程 ---
+none
+--- GPU 显存 ---
+0 MiB
+--- decode.log 尾部 50 行 ---
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1515, in uvloop.loop.Loop.run_until_complete
+  File "/root/b1/venv/lib/python3.12/site-packages/uvloop/__init__.py", line 48, in wrapper
+    return await main
+           ^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/entrypoints/launchers/api_server/entry.py", line 172, in run_server
+    await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/entrypoints/launchers/api_server/entry.py", line 185, in run_server_worker
+    async with build_async_engine_client(
+  File "/usr/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/entrypoints/launchers/api_server/entry.py", line 58, in build_async_engine_client
+    async with build_async_engine_client_from_engine_args(
+  File "/usr/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/entrypoints/launchers/api_server/entry.py", line 92, in build_async_engine_client_from_engine_args
+    async_llm = AsyncLLM.from_vllm_config(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py", line 248, in from_vllm_config
+    return cls(
+           ^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py", line 180, in __init__
+    self.engine_core = EngineCoreClient.make_async_mp_client(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 167, in make_async_mp_client
+    return AsyncMPClient(
+           ^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 1100, in __init__
+    super().__init__(
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 674, in __init__
+    with launch_core_engines(
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/engine/utils.py", line 1268, in launch_core_engines
+    wait_for_engine_startup(
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/engine/utils.py", line 1348, in wait_for_engine_startup
+    raise RuntimeError(
+RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+--- decode.log 报错关键词 ---
+39:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]   File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/executor/uniproc_executor.py", line 69, in _init_executor
+40:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]     self.driver_worker.init_device()
+41:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]   File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/worker/worker_base.py", line 343, in init_device
+42:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]     self.worker.init_device()  # type: ignore
+43:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+44:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]   File "/root/b1/venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+45:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]     return func(*args, **kwargs)
+46:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]            ^^^^^^^^^^^^^^^^^^^^^
+47:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]   File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 490, in init_device
+48:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+49:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+50:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]   File "/root/b1/venv/lib/python3.12/site-packages/vllm/v1/worker/utils.py", line 548, in request_memory
+51:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433]     raise ValueError(
+52:(EngineCore pid=10566) ERROR 10-08 22:48:57 [core.py:1433] ValueError: Free memory on device cuda:0 (2.95/23.55 GiB) on startup is less than desired GPU memory utilization (0.85, 20.02 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+54:Traceback (most recent call last):
+89:    raise ValueError(
+90:ValueError: Free memory on device cuda:0 (2.95/23.55 GiB) on startup is less than desired GPU memory utilization (0.85, 20.02 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+93:Traceback (most recent call last):
+153:    raise RuntimeError(
+154:RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+=========== 5) 对照臂数据抽检（文件大小） ===========
+-rw-r--r-- 1 root root 207637 Oct  8 22:47 arm_baseline_r1.json
+-rw-r--r-- 1 root root 108287 Oct  8 22:47 arm_baseline_r1_raw.jsonl
+-rw-r--r-- 1 root root 207637 Oct  8 22:47 arm_baseline_r2.json
+-rw-r--r-- 1 root root 108288 Oct  8 22:47 arm_baseline_r2_raw.jsonl
+-rw-r--r-- 1 root root 207637 Oct  8 22:47 arm_baseline_r3.json
+-rw-r--r-- 1 root root 108288 Oct  8 22:47 arm_baseline_r3_raw.jsonl
+-rw-r--r-- 1 root root 148520 Oct  8 22:46 smoke_baseline.json
+-rw-r--r-- 1 root root  65319 Oct  8 22:46 smoke_baseline_raw.jsonl
+-rw-r--r-- 1 root root 207637 Oct  8 22:46 warmup_baseline_r1.json
+-rw-r--r-- 1 root root 108289 Oct  8 22:46 warmup_baseline_r1_raw.jsonl
+-rw-r--r-- 1 root root 207633 Oct  8 22:47 warmup_baseline_r2.json
+-rw-r--r-- 1 root root 108289 Oct  8 22:47 warmup_baseline_r2_raw.jsonl
+-rw-r--r-- 1 root root 207637 Oct  8 22:47 warmup_baseline_r3.json
+-rw-r--r-- 1 root root 108289 Oct  8 22:47 warmup_baseline_r3_raw.jsonl

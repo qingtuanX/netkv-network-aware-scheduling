@@ -1,0 +1,34 @@
+== 前置条件：前缀缓存必须真的关掉（B1_4C_PREREG.md §3） ==
+判据：/metrics 里 vllm:cache_config_info{...} 的 enable_prefix_caching 标签**必须是 False**。
+  * **只看命令行不算** —— B1 的教训正是「要求了，但没执行」。
+  * 命令行原文另行落盘，**只作辅助证据**。
+
+---------- [baseline（B:8300，单机完整）] B   来源：metrics_diag4c_baseline_t0_raw.txt ----------
+  enable_prefix_caching="False"
+  ✅ 前缀缓存已关（判据满足）
+---------- [prefill（A:8100，前处理）] A   来源：metrics_diag4c_prefill_t0_raw.txt ----------
+  enable_prefix_caching="False"
+  ✅ 前缀缓存已关（判据满足）
+---------- [decode（B:8200，生成）] B   来源：metrics_diag4c_decode_t0_raw.txt ----------
+  enable_prefix_caching="False"
+  ✅ 前缀缓存已关（判据满足）
+
+== 本轮前置条件总判定 ==
+  ✅ 三条臂的 enable_prefix_caching 均为 False → 本轮 4c 的前置条件**成立**
+
+== 启动命令行原文（辅助证据） ==
+（注意：命令行只是辅助。判据是上面 /metrics 里的 enable_prefix_caching 值。）
+--- start_baseline_4c.log ---
+--port
+--host
+--no-enable-prefix-caching
+--- start_prefill_4c.log ---
+--port
+--kv-transfer-config
+--host
+--no-enable-prefix-caching
+--- start_decode_4c.log ---
+--port
+--kv-transfer-config
+--host
+--no-enable-prefix-caching

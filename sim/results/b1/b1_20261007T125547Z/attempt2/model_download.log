@@ -1,0 +1,135 @@
+# ---- model_download @ A (8.130.72.109) start=2026-10-07T13:09:08Z script=/e/代码项目文件/论文/sim/k8s_test/b1_remote_setup.sh args=model-download ----
+
+==================== 下载模型 Qwen/Qwen2.5-7B-Instruct（走 hf-mirror，因为 huggingface.co 在国内不通） ====================
+HF_ENDPOINT=https://hf-mirror.com
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 10.0 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 20.0 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 30.1 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 40.1 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 50.1 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 60.1 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 70.1 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 80.2 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 90.2 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 100.2 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 110.2 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 120.3 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 130.3 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 140.3 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 150.3 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 160.3 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 170.4 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 180.4 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 190.4 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 200.4 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 210.4 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 220.5 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 230.5 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 240.5 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 250.5 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 260.5 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 270.6 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 280.6 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 290.6 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 300.6 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 310.6 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 320.7 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 330.7 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 340.7 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 350.7 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 360.7 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 370.8 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 380.8 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 390.8 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 400.8 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 410.8 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 420.9 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 430.9 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 440.9 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 450.9 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 460.9 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 471.0 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 481.0 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 491.0 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 501.0 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 511.0 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 521.1 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 531.1 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 541.1 seconds)
+Still waiting to acquire lock on /root/b1/models/Qwen2.5-7B-Instruct/.cache/huggingface/download/model-00002-of-00004.safetensors.lock (elapsed: 551.1 seconds)
+Fetching 14 files:  71%|███████▏  | 10/14 [09:16<03:42, 55.69s/it]
+Traceback (most recent call last):
+  File "/root/b1/venv/bin/hf", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/cli/hf.py", line 173, in main
+    app()
+  File "/root/b1/venv/lib/python3.12/site-packages/click/core.py", line 1631, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/click/core.py", line 1552, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/cli/_cli_utils.py", line 132, in invoke
+    return super().invoke(ctx)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/click/core.py", line 2032, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/click/core.py", line 1415, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/click/core.py", line 910, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/cli/_framework.py", line 365, in handler
+    return func(**call_kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/cli/download.py", line 228, in download
+    _print_result(run_download())
+                  ^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/cli/download.py", line 187, in run_download
+    return snapshot_download(
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/utils/_http.py", line 266, in _inner
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 532, in snapshot_download
+    hf_thread_map(
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/utils/tqdm.py", line 441, in hf_thread_map
+    results[future_to_index[future]] = future.result()
+                                       ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 512, in _inner_hf_hub_download
+    hf_hub_download(  # type: ignore
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/utils/_http.py", line 266, in _inner
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1026, in hf_hub_download
+    return _hf_hub_download_to_local_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1505, in _hf_hub_download_to_local_dir
+    _download_to_tmp_and_move(
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 2016, in _download_to_tmp_and_move
+    xet_get(
+  File "/root/b1/venv/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 589, in xet_get
+    with session.new_file_download_group(
+RuntimeError: Task error: File reconstruction error: CAS Client Error: Request error: HTTP status client error (401 Unauthorized), domain: https://cas-server.xethub.hf.co/v2/reconstructions/ddfa1ff25e39c57076e10f1a8b02cc96888ce69b0717f0d296c57b842695c965
+download rc=1
+632M	/root/b1/models/Qwen2.5-7B-Instruct
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda3        99G   41G   54G  44% /
+# ---- exit=1 end=2026-10-07T13:18:27Z ----

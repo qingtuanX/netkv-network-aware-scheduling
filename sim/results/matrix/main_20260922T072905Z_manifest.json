@@ -1,0 +1,125 @@
+{
+  "run_id": "main_20260922T072905Z",
+  "created_utc": "2026-09-22T07:35:26.711681+00:00",
+  "mode": "main",
+  "n_cells": 120,
+  "n_runs": 480,
+  "n_requests_per_run": 20000,
+  "strategies": [
+    "Random",
+    "LeastQueue",
+    "LeastLoad",
+    "NetworkAware"
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "network_conditions": {
+    "normal": {
+      "kind": "static",
+      "links": [
+        [
+          0.0005,
+          1250000000.0
+        ],
+        [
+          0.0005,
+          1250000000.0
+        ],
+        [
+          0.0005,
+          1250000000.0
+        ]
+      ]
+    },
+    "degraded": {
+      "kind": "static",
+      "links": [
+        [
+          0.005,
+          12500000.0
+        ],
+        [
+          0.002,
+          125000000.0
+        ],
+        [
+          0.0005,
+          1250000000.0
+        ]
+      ]
+    },
+    "unstable": {
+      "kind": "unstable",
+      "links": [
+        [
+          0.002,
+          125000000.0
+        ],
+        [
+          0.002,
+          125000000.0
+        ],
+        [
+          0.0005,
+          1250000000.0
+        ]
+      ],
+      "params": {
+        "theta": 0.5,
+        "sigma_b": 0.8,
+        "sigma_l": 0.4,
+        "dt": 0.2
+      }
+    }
+  },
+  "staleness_levels": {
+    "fresh": {
+      "queue": 0.0,
+      "network": 0.0
+    },
+    "stale": {
+      "queue": 2.0,
+      "network": 30.0
+    },
+    "mild": {
+      "queue": 1.0,
+      "network": 3.0
+    }
+  },
+  "staleness_sweep_s": [
+    0.0,
+    0.25,
+    1.0,
+    2.0,
+    5.0,
+    15.0,
+    30.0,
+    60.0
+  ],
+  "data_volume_bytes_per_ctx_token": {
+    "prompt_only": 4.0,
+    "kv_cache": 330000.0
+  },
+  "data_source": "synthetic",
+  "trace_file": null,
+  "target_rho": 0.6,
+  "rho_grid": null,
+  "fallback_thresholds_s": null,
+  "n_trace_segments": null,
+  "trace_stats": null,
+  "n_nodes_by_mode": [
+    3
+  ],
+  "wall_clock_total_s": 380.99,
+  "wall_clock_per_run_s": 0.7937,
+  "code_version": "uncommitted",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "slo_note": "SLO 为实验假设（slo_base=1.0s + 0.35s/千token），trace 不提供 deadline",
+  "workload_note": "合成负载占位（SYNTHETIC，不是 trace 结果）；四类负载共用 target_qps=30，data_heavy/low_latency 的 rho 会越界"
+}

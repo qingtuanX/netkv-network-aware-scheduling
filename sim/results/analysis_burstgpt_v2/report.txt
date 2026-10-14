@@ -1,0 +1,1482 @@
+==============================================================================
+矩阵实验结果汇总分析  (analysis/analyze.py)
+矩阵目录: E:\代码项目文件\论文\sim\results\matrix_burstgpt_v2
+字体: Microsoft YaHei   dpi=170   输出: E:\代码项目文件\论文\sim\results\analysis_burstgpt_v2 , E:\代码项目文件\论文\sim\figures
+==============================================================================
+
+==============================================================================
+§0 数据可用性检查
+==============================================================================
+  main         完整    run_id=20260922T195947Z       code=uncommitted  rows=  600 cells= 120 seeds= 5  缺: 无
+  staleness    完整    run_id=20260922T194002Z       code=uncommitted  rows=  480 cells=  96 seeds= 3  缺: 无
+  datavolume   完整    run_id=20260922T190636Z       code=uncommitted  rows=  240 cells=  48 seeds= 3  缺: 无
+  convergence  完整    run_id=20260922T185339Z       code=uncommitted  rows=  100 cells=  20 seeds=20  缺: 无
+  ablation     完整    run_id=20260922T190129Z       code=uncommitted  rows=  180 cells=  60 seeds= 3  缺: 无
+  scale        完整    run_id=20260922T185838Z       code=uncommitted  rows=   90 cells=  18 seeds= 3  缺: 无
+  rho          完整    run_id=20260922T192653Z       code=uncommitted  rows=  450 cells=  90 seeds= 3  缺: 无
+  fallback     完整    run_id=20260922T191242Z       code=uncommitted  rows=  216 cells=  36 seeds= 3  缺: 无
+  bandwidth    完整    run_id=20260922T192125Z       code=uncommitted  rows=  240 cells=  48 seeds= 3  缺: 无
+  avewindow    不完整   run_id=-                      code=-            rows=    0 cells=   0 seeds= 0  缺: runs,paired,manifest
+  staleness2d  完整    run_id=20260929T152246Z       code=a9acad1      rows=  360 cells=  72 seeds= 3  缺: 无
+  align        完整    run_id=20260929T162759Z       code=a9acad1      rows=  600 cells= 120 seeds=10  缺: 无
+  alignscale   不完整   run_id=-                      code=-            rows=    0 cells=   0 seeds= 0  缺: runs,paired,manifest
+  method       完整    run_id=20261001T140204Z       code=a9acad1      rows= 1200 cells= 240 seeds=10  缺: 无
+  method_ablate 不完整   run_id=-                      code=-            rows=    0 cells=   0 seeds= 0  缺: runs,paired,manifest
+  method_ch    完整    run_id=20261001T142339Z       code=a9acad1      rows=  720 cells= 240 seeds=10  缺: 无
+  method_ch_ablate 完整    run_id=20261001T154802Z       code=a9acad1      rows= 1080 cells= 120 seeds=10  缺: 无
+  baselines    完整    run_id=20261005T114526Z       code=a9acad1      rows=  640 cells=  80 seeds=10  缺: 无
+  [表] results\analysis_burstgpt_v2\data_availability.csv  (18 行)
+
+==============================================================================
+§0b 负载强度门（门 1）rho = 平均工作量 × 实际到达率 / (Σ compute_rate × 槽位)
+==============================================================================
+  多资源可行性 load_ratio = 实际到达率 / 可持续到达率：范围 [0.30, 1.10]，2/114 个组合 >1
+     ⚠ 这些格子**不可持续**（队列会无限增长），其 p95 只是有限时长的假象，报告时必须连带说明：
+       align       data_heavy    degraded n_nodes=3 load_ratio=1.10
+       align       mixed         degraded n_nodes=3 load_ratio=1.08
+  [表] results\analysis_burstgpt_v2\load_intensity_rho.csv  (114 行)
+  覆盖 114 个 (mode×workload×network×档位) 组合，rho_compute 范围 [0.157, 0.900]
+  v2 链路争用：rho_network 范围 [0.000, 0.321]；判据用 max(rho_compute, rho_network)。绑定资源分布：{'compute': 114}
+    —— 网络绑定（binding=network）的格子说明链路比算力先饱和，那是最能体现『算力+网络联合调度』的场景
+  慢链路最坏放置上界 rho_slow_link = λ×E[字节]/最慢链路带宽（**上界**，非实际值）：范围 [0.00, 15.87]，其中 69/114 个组合的上界 >0.9：这些格子里「把流量错放到慢链路」确实会把它打满，正是网络感知要避免的情形
+     上界最松的几个组合（说明单条最慢链路一旦被选中就会成为瓶颈，不是由聚合 rho_net 决定）：
+       scale       mixed         degraded rho_slow_link=15.87
+       scale       mixed         degraded rho_slow_link=8.03
+       align       data_heavy    degraded rho_slow_link=6.48
+       align       mixed         degraded rho_slow_link=5.35
+  ⚠ 2 个组合落在有效区间之外（这些格子上的策略对比不可直接采信）：
+     align        data_heavy     degraded  rho_compute=0.454 rho_network=0.220 n_nodes=3
+     align        mixed          degraded  rho_compute=0.496 rho_network=0.169 n_nodes=3
+   main         rho∈[0.314,0.600]
+   staleness    rho∈[0.353,0.600]
+   datavolume   rho∈[0.314,0.600]
+   convergence  rho∈[0.573,0.573]
+   ablation     rho∈[0.314,0.600]
+   scale        rho∈[0.370,0.600]
+   rho          rho∈[0.157,0.900]
+   fallback     rho∈[0.314,0.579]
+   bandwidth    rho∈[0.314,0.600]
+   staleness2d  rho∈[0.484,0.579]
+   align        rho∈[0.454,0.574]
+   method       rho∈[0.317,0.561]
+   method_ch    rho∈[0.317,0.561]
+   method_ch_ablate rho∈[0.317,0.561]
+   baselines    rho∈[0.317,0.561]
+
+==============================================================================
+§1 RQ1 收益边界（主矩阵：workload × network × staleness，NA vs 三个基线）
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq1_effect_workload_network_staleness.csv  (72 行)
+  主矩阵已覆盖 24 / 24 个 (workload×network×staleness) 组合
+  每组合种子数: [5]
+
+  --- 逐条效应（Δp95<0 = NetworkAware 更优）---
+  workload      network   stalenessbaseline        Δp95%    ±se     ΔSLO net_share  cliffs    效力   p_holm    rho  判定 / 尾-中位关系
+  compute_heavy degraded  fresh   LeastLoad      -14.19  10.66  -0.0085    0.7666  -0.416     中   0.0000  0.493  NA更优(p95,全部 cell 显著) / 方向一致
+  compute_heavy degraded  fresh   LeastQueue      +4.91  22.86  -0.0005    0.7666  -0.057   可忽略   0.0000  0.493  NA劣化(p95,全部 cell 显著) / 尾部变差/中位数改善
+  compute_heavy degraded  fresh   Random         -26.72  23.95  +0.0325    0.7666   0.028   可忽略   0.0000  0.493  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  compute_heavy degraded  stale   LeastLoad      +28.76  17.43  +0.0122    0.6197   0.197     小   0.0000  0.493  NA劣化(p95,全部 cell 显著) / 方向一致
+  compute_heavy degraded  stale   LeastQueue     +22.82  19.99  +0.0129    0.6197   0.143   可忽略   0.0000  0.493  NA劣化(p95,全部 cell 显著) / 方向一致
+  compute_heavy degraded  stale   Random         -10.67  23.47  +0.0830    0.6197   0.217     小   0.0000  0.493  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  compute_heavy normal    fresh   LeastLoad       +0.00   0.00  +0.0000    0.0160   0.000   可忽略   1.0000  0.600  逐位相同(该组合无信号) / 无方向差异
+  compute_heavy normal    fresh   LeastQueue     -41.96   4.11  +0.0059    0.0160  -0.036   可忽略   0.0000  0.600  NA更优(p95,部分 cell 显著) / 方向一致
+  compute_heavy normal    fresh   Random         -70.26   8.30  +0.0231    0.0160  -0.327     小   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  compute_heavy normal    stale   LeastLoad       +0.00   0.00  +0.0000    0.0324   0.000   可忽略   1.0000  0.600  逐位相同(该组合无信号) / 无方向差异
+  compute_heavy normal    stale   LeastQueue     -23.24  11.06  +0.0007    0.0324  -0.042   可忽略   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  compute_heavy normal    stale   Random         -60.85   9.04  +0.0681    0.0324  -0.110   可忽略   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  compute_heavy unstable  fresh   LeastLoad       -0.02   0.03  -0.0014    0.1746  -0.168     小   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  compute_heavy unstable  fresh   LeastQueue     -42.02   3.90  +0.0066    0.1746   0.033   可忽略   0.0000  0.600  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  compute_heavy unstable  fresh   Random         -69.34   8.44  +0.0331    0.1746  -0.296     小   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  compute_heavy unstable  stale   LeastLoad      +48.31  35.40  +0.0122    0.1533   0.067   可忽略   0.0000  0.600  NA劣化(p95,部分 cell 显著) / 方向一致
+  compute_heavy unstable  stale   LeastQueue      -0.68  24.99  +0.0120    0.1533   0.265     小   0.0000  0.600  NA更优(p95,部分 cell 显著) / 尾部改善/中位数变差
+  compute_heavy unstable  stale   Random         -40.34  20.13  +0.0748    0.1533  -0.059   可忽略   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  data_heavy    degraded  fresh   LeastLoad       -1.01   0.69  -0.0014    0.9434  -0.159     小   0.0000  0.314  NA更优(p95,全部 cell 显著) / 方向一致
+  data_heavy    degraded  fresh   LeastQueue     +85.21  11.89  -0.0001    0.9434  -0.000   可忽略   0.0000  0.314  NA劣化(p95,全部 cell 显著) / 尾部变差/中位数改善
+  data_heavy    degraded  fresh   Random         +31.08  11.26  -0.0050    0.9434   0.150     小   0.0000  0.314  NA劣化(p95,全部 cell 显著) / 方向一致
+  data_heavy    degraded  stale   LeastLoad       +0.21   3.94  -0.0021    0.9063  -0.049   可忽略   0.0000  0.314  统计显著但效应可忽略(无实质差异) / 尾部变差/中位数改善
+  data_heavy    degraded  stale   LeastQueue     +63.34  14.88  -0.0038    0.9063   0.030   可忽略   0.0000  0.314  NA劣化(p95,全部 cell 显著) / 方向一致
+  data_heavy    degraded  stale   Random         +25.40  13.65  +0.0077    0.9063   0.162     小   0.0000  0.314  NA劣化(p95,全部 cell 显著) / 方向一致
+  data_heavy    normal    fresh   LeastLoad       +0.00   0.00  +0.0000    0.1549   0.000   可忽略   1.0000  0.600  逐位相同(该组合无信号) / 无方向差异
+  data_heavy    normal    fresh   LeastQueue     -46.61   4.73  +0.0054    0.1549  -0.061   可忽略   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  data_heavy    normal    fresh   Random         -67.48   4.06  -0.0006    0.1549  -0.309     小   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  data_heavy    normal    stale   LeastLoad       +0.00   0.00  +0.0000    0.1642   0.000   可忽略   1.0000  0.600  逐位相同(该组合无信号) / 无方向差异
+  data_heavy    normal    stale   LeastQueue     +17.20  56.65  +0.0033    0.1642   0.071   可忽略   0.0000  0.600  NA劣化(p95,全部 cell 显著) / 方向一致
+  data_heavy    normal    stale   Random         -39.03  20.37  +0.0043    0.1642  -0.118   可忽略   0.0000  0.600  NA更优(p95,部分 cell 显著) / 方向一致
+  data_heavy    unstable  fresh   LeastLoad       -0.07   0.06  +0.0023    0.6829  -0.136   可忽略   0.0000  0.484  统计显著但效应可忽略(无实质差异) / 方向一致
+  data_heavy    unstable  fresh   LeastQueue     -31.30  10.57  +0.0073    0.6829   0.027   可忽略   0.0000  0.484  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  data_heavy    unstable  fresh   Random         -56.35   2.82  -0.0040    0.6829  -0.048   可忽略   0.0000  0.484  NA更优(p95,全部 cell 显著) / 方向一致
+  data_heavy    unstable  stale   LeastLoad       +9.14  13.48  +0.0052    0.5722   0.103   可忽略   0.0000  0.484  NA劣化(p95,全部 cell 显著) / 方向一致
+  data_heavy    unstable  stale   LeastQueue     -29.17  11.65  +0.0091    0.5722   0.102   可忽略   0.0000  0.484  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  data_heavy    unstable  stale   Random         -42.76   8.42  +0.0086    0.5722   0.155     小   0.0000  0.484  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  low_latency   degraded  fresh   LeastLoad       -2.13   1.80  -0.0005    0.9449  -0.183     小   0.0000  0.322  NA更优(p95,全部 cell 显著) / 方向一致
+  low_latency   degraded  fresh   LeastQueue     +72.04   5.26  +0.0002    0.9449   0.137   可忽略   0.0000  0.322  NA劣化(p95,全部 cell 显著) / 方向一致
+  low_latency   degraded  fresh   Random         +54.93   7.45  -0.0042    0.9449   0.178     小   0.0000  0.322  NA劣化(p95,全部 cell 显著) / 方向一致
+  low_latency   degraded  stale   LeastLoad       +0.41  11.16  +0.0025    0.6233   0.071   可忽略   0.0000  0.322  统计显著但效应可忽略(无实质差异) / 方向一致
+  low_latency   degraded  stale   LeastQueue      +5.24  15.50  +0.0023    0.6233   0.068   可忽略   0.0000  0.322  NA劣化(p95,部分 cell 显著) / 方向一致
+  low_latency   degraded  stale   Random         +28.61  24.03  +0.0034    0.6233   0.339     中   0.0000  0.322  NA劣化(p95,全部 cell 显著) / 方向一致
+  low_latency   normal    fresh   LeastLoad       +0.00   0.00  +0.0000    0.1833   0.000   可忽略   1.0000  0.600  逐位相同(该组合无信号) / 无方向差异
+  low_latency   normal    fresh   LeastQueue     -47.67   2.60  +0.0033    0.1833  -0.138   可忽略   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  low_latency   normal    fresh   Random         -57.42   2.60  -0.0018    0.1833  -0.277     小   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  low_latency   normal    stale   LeastLoad       +0.00   0.00  +0.0000    0.2063   0.000   可忽略   1.0000  0.600  逐位相同(该组合无信号) / 无方向差异
+  low_latency   normal    stale   LeastQueue     -10.69  10.69  +0.0000    0.2063   0.000   可忽略   0.0000  0.600  NA更优(p95,部分 cell 显著) / 无方向差异
+  low_latency   normal    stale   Random         +17.69  23.73  -0.0004    0.2063   0.431     中   0.0000  0.600  NA劣化(p95,全部 cell 显著) / 方向一致
+  low_latency   unstable  fresh   LeastLoad       -0.02   0.04  +0.0026    0.6455  -0.118   可忽略   0.0000  0.517  统计显著但效应可忽略(无实质差异) / 方向一致
+  low_latency   unstable  fresh   LeastQueue     -32.77  13.45  +0.0040    0.6455  -0.031   可忽略   0.0000  0.517  NA更优(p95,部分 cell 显著) / 方向一致
+  low_latency   unstable  fresh   Random         -47.14   5.95  -0.0012    0.6455  -0.157     小   0.0000  0.517  NA更优(p95,全部 cell 显著) / 方向一致
+  low_latency   unstable  stale   LeastLoad      +52.03  62.92  +0.0078    0.4751   0.104   可忽略   0.0000  0.517  NA劣化(p95,部分 cell 显著) / 方向一致
+  low_latency   unstable  stale   LeastQueue     +43.38  65.00  +0.0080    0.4751   0.336     中   0.0000  0.517  NA劣化(p95,部分 cell 显著) / 方向一致
+  low_latency   unstable  stale   Random         +57.33  47.79  +0.0092    0.4751   0.534     大   0.0000  0.517  NA劣化(p95,全部 cell 显著) / 方向一致
+  mixed         degraded  fresh   LeastLoad       -6.30   8.02  +0.0029    0.8726   0.017   可忽略   0.0000  0.355  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  mixed         degraded  fresh   LeastQueue     +59.88  19.21  +0.0416    0.8726   0.097   可忽略   0.0000  0.355  NA劣化(p95,全部 cell 显著) / 方向一致
+  mixed         degraded  fresh   Random          -5.96  30.32  -0.0169    0.8726  -0.039   可忽略   0.0000  0.355  NA更优(p95,部分 cell 显著) / 方向一致
+  mixed         degraded  stale   LeastLoad       +1.38   8.04  +0.0068    0.7867   0.066   可忽略   0.0000  0.355  NA劣化(p95,全部 cell 显著) / 方向一致
+  mixed         degraded  stale   LeastQueue     +29.46   9.71  +0.0040    0.7867   0.053   可忽略   0.0000  0.355  NA劣化(p95,全部 cell 显著) / 方向一致
+  mixed         degraded  stale   Random          +4.78  25.80  +0.1044    0.7867   0.093   可忽略   0.0004  0.355  NA劣化(p95,部分 cell 显著) / 方向一致
+  mixed         normal    fresh   LeastLoad       +0.00   0.00  +0.0000    0.0550   0.000   可忽略   1.0000  0.600  逐位相同(该组合无信号) / 无方向差异
+  mixed         normal    fresh   LeastQueue     -25.90   7.36  +0.0256    0.0550   0.013   可忽略   0.0000  0.600  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  mixed         normal    fresh   Random         -75.53   9.74  -0.0207    0.0550  -0.298     小   0.0000  0.600  NA更优(p95,全部 cell 显著) / 方向一致
+  mixed         normal    stale   LeastLoad       +0.00   0.00  +0.0000    0.0374   0.000   可忽略   1.0000  0.600  逐位相同(该组合无信号) / 无方向差异
+  mixed         normal    stale   LeastQueue     -17.62  16.16  +0.0049    0.0374  -0.008   可忽略   0.0000  0.600  NA更优(p95,部分 cell 显著) / 方向一致
+  mixed         normal    stale   Random         -45.03  30.74  +0.1023    0.0374   0.005   可忽略   0.0000  0.600  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+  mixed         unstable  fresh   LeastLoad       -0.63   1.03  +0.0017    0.4744  -0.064   可忽略   0.0000  0.590  统计显著但效应可忽略(无实质差异) / 方向一致
+  mixed         unstable  fresh   LeastQueue     -26.97   5.15  +0.0228    0.4744   0.143   可忽略   0.0000  0.590  NA更优(p95,部分 cell 显著) / 尾部改善/中位数变差
+  mixed         unstable  fresh   Random         -72.72  10.11  -0.0038    0.4744  -0.230     小   0.0000  0.590  NA更优(p95,全部 cell 显著) / 方向一致
+  mixed         unstable  stale   LeastLoad       +8.39   7.51  +0.0012    0.3508   0.023   可忽略   0.0000  0.590  NA劣化(p95,部分 cell 显著) / 方向一致
+  mixed         unstable  stale   LeastQueue      -8.41  12.64  +0.0146    0.3508  -0.023   可忽略   0.0000  0.590  NA更优(p95,部分 cell 显著) / 方向一致
+  mixed         unstable  stale   Random         -45.78  20.26  +0.1041    0.3508   0.081   可忽略   0.0000  0.590  NA更优(p95,全部 cell 显著) / 尾部改善/中位数变差
+
+  --- 分类汇总（按 p95 方向）---
+   [NA劣化(p95,全部 cell 显著)] 17 条
+      compute_heavy/degraded/fresh vs LeastQueue  Δp95=+4.91% cliffs=-0.057 p_holm=2.098e-59  [尾部变差/中位数改善]
+      compute_heavy/degraded/stale vs LeastLoad   Δp95=+28.76% cliffs=+0.197 p_holm=9.375e-87  [方向一致]
+      compute_heavy/degraded/stale vs LeastQueue  Δp95=+22.82% cliffs=+0.143 p_holm=4.784e-39  [方向一致]
+      data_heavy/degraded/fresh vs LeastQueue  Δp95=+85.21% cliffs=-0.000 p_holm=2.257e-278  [尾部变差/中位数改善]
+      data_heavy/degraded/fresh vs Random      Δp95=+31.08% cliffs=+0.150 p_holm=2.127e-44  [方向一致]
+      data_heavy/degraded/stale vs LeastQueue  Δp95=+63.34% cliffs=+0.030 p_holm=1.741e-107  [方向一致]
+      data_heavy/degraded/stale vs Random      Δp95=+25.40% cliffs=+0.162 p_holm=9.937e-84  [方向一致]
+      data_heavy/normal/stale vs LeastQueue  Δp95=+17.20% cliffs=+0.071 p_holm=0  [方向一致]
+      data_heavy/unstable/stale vs LeastLoad   Δp95=+9.14% cliffs=+0.103 p_holm=2.203e-163  [方向一致]
+      low_latency/degraded/fresh vs LeastQueue  Δp95=+72.04% cliffs=+0.137 p_holm=0  [方向一致]
+      low_latency/degraded/fresh vs Random      Δp95=+54.93% cliffs=+0.178 p_holm=3.549e-265  [方向一致]
+      low_latency/degraded/stale vs Random      Δp95=+28.61% cliffs=+0.339 p_holm=0  [方向一致]
+      low_latency/normal/stale vs Random      Δp95=+17.69% cliffs=+0.431 p_holm=0  [方向一致]
+      low_latency/unstable/stale vs Random      Δp95=+57.33% cliffs=+0.534 p_holm=0  [方向一致]
+      mixed/degraded/fresh vs LeastQueue  Δp95=+59.88% cliffs=+0.097 p_holm=1.942e-174  [方向一致]
+      mixed/degraded/stale vs LeastLoad   Δp95=+1.38% cliffs=+0.066 p_holm=2.489e-37  [方向一致]
+      mixed/degraded/stale vs LeastQueue  Δp95=+29.46% cliffs=+0.053 p_holm=3.268e-45  [方向一致]
+   [NA劣化(p95,部分 cell 显著)] 6 条
+      compute_heavy/unstable/stale vs LeastLoad   Δp95=+48.31% cliffs=+0.067 p_holm=2.164e-29  [方向一致]
+      low_latency/degraded/stale vs LeastQueue  Δp95=+5.24% cliffs=+0.068 p_holm=1.689e-153  [方向一致]
+      low_latency/unstable/stale vs LeastLoad   Δp95=+52.03% cliffs=+0.104 p_holm=0  [方向一致]
+      low_latency/unstable/stale vs LeastQueue  Δp95=+43.38% cliffs=+0.336 p_holm=0  [方向一致]
+      mixed/degraded/stale vs Random      Δp95=+4.78% cliffs=+0.093 p_holm=0.0003799  [方向一致]
+      mixed/unstable/stale vs LeastLoad   Δp95=+8.39% cliffs=+0.023 p_holm=1.152e-20  [方向一致]
+   [NA更优(p95,全部 cell 显著)] 27 条
+      compute_heavy/degraded/fresh vs LeastLoad   Δp95=-14.19% cliffs=-0.416 p_holm=2.007e-193  [方向一致]
+      compute_heavy/degraded/fresh vs Random      Δp95=-26.72% cliffs=+0.028 p_holm=1.964e-72  [尾部改善/中位数变差]
+      compute_heavy/degraded/stale vs Random      Δp95=-10.67% cliffs=+0.217 p_holm=2.683e-104  [尾部改善/中位数变差]
+      compute_heavy/normal/fresh vs Random      Δp95=-70.26% cliffs=-0.327 p_holm=0  [方向一致]
+      compute_heavy/normal/stale vs LeastQueue  Δp95=-23.24% cliffs=-0.042 p_holm=4.721e-73  [方向一致]
+      compute_heavy/normal/stale vs Random      Δp95=-60.85% cliffs=-0.110 p_holm=5.197e-212  [方向一致]
+      compute_heavy/unstable/fresh vs LeastLoad   Δp95=-0.02% cliffs=-0.168 p_holm=1.015e-106  [方向一致]
+      compute_heavy/unstable/fresh vs LeastQueue  Δp95=-42.02% cliffs=+0.033 p_holm=1.98e-135  [尾部改善/中位数变差]
+      compute_heavy/unstable/fresh vs Random      Δp95=-69.34% cliffs=-0.296 p_holm=0  [方向一致]
+      compute_heavy/unstable/stale vs Random      Δp95=-40.34% cliffs=-0.059 p_holm=4.152e-189  [方向一致]
+      data_heavy/degraded/fresh vs LeastLoad   Δp95=-1.01% cliffs=-0.159 p_holm=3.845e-28  [方向一致]
+      data_heavy/normal/fresh vs LeastQueue  Δp95=-46.61% cliffs=-0.061 p_holm=5.902e-85  [方向一致]
+      data_heavy/normal/fresh vs Random      Δp95=-67.48% cliffs=-0.309 p_holm=0  [方向一致]
+      data_heavy/unstable/fresh vs LeastQueue  Δp95=-31.30% cliffs=+0.027 p_holm=2.807e-33  [尾部改善/中位数变差]
+      data_heavy/unstable/fresh vs Random      Δp95=-56.35% cliffs=-0.048 p_holm=1.221e-12  [方向一致]
+      data_heavy/unstable/stale vs LeastQueue  Δp95=-29.17% cliffs=+0.102 p_holm=3.555e-61  [尾部改善/中位数变差]
+      data_heavy/unstable/stale vs Random      Δp95=-42.76% cliffs=+0.155 p_holm=7.649e-30  [尾部改善/中位数变差]
+      low_latency/degraded/fresh vs LeastLoad   Δp95=-2.13% cliffs=-0.183 p_holm=4.664e-109  [方向一致]
+      low_latency/normal/fresh vs LeastQueue  Δp95=-47.67% cliffs=-0.138 p_holm=4.445e-94  [方向一致]
+      low_latency/normal/fresh vs Random      Δp95=-57.42% cliffs=-0.277 p_holm=0  [方向一致]
+      low_latency/unstable/fresh vs Random      Δp95=-47.14% cliffs=-0.157 p_holm=1.529e-87  [方向一致]
+      mixed/degraded/fresh vs LeastLoad   Δp95=-6.30% cliffs=+0.017 p_holm=1.742e-75  [尾部改善/中位数变差]
+      mixed/normal/fresh vs LeastQueue  Δp95=-25.90% cliffs=+0.013 p_holm=9.422e-82  [尾部改善/中位数变差]
+      mixed/normal/fresh vs Random      Δp95=-75.53% cliffs=-0.298 p_holm=0  [方向一致]
+      mixed/normal/stale vs Random      Δp95=-45.03% cliffs=+0.005 p_holm=0  [尾部改善/中位数变差]
+      mixed/unstable/fresh vs Random      Δp95=-72.72% cliffs=-0.230 p_holm=0  [方向一致]
+      mixed/unstable/stale vs Random      Δp95=-45.78% cliffs=+0.081 p_holm=1.109e-188  [尾部改善/中位数变差]
+   [NA更优(p95,部分 cell 显著)] 9 条
+      compute_heavy/normal/fresh vs LeastQueue  Δp95=-41.96% cliffs=-0.036 p_holm=9.098e-155  [方向一致]
+      compute_heavy/unstable/stale vs LeastQueue  Δp95=-0.68% cliffs=+0.265 p_holm=1.592e-131  [尾部改善/中位数变差]
+      data_heavy/normal/stale vs Random      Δp95=-39.03% cliffs=-0.118 p_holm=4.454e-293  [方向一致]
+      low_latency/normal/stale vs LeastQueue  Δp95=-10.69% cliffs=+0.000 p_holm=3.326e-21  [无方向差异]
+      low_latency/unstable/fresh vs LeastQueue  Δp95=-32.77% cliffs=-0.031 p_holm=1.754e-57  [方向一致]
+      mixed/degraded/fresh vs Random      Δp95=-5.96% cliffs=-0.039 p_holm=0  [方向一致]
+      mixed/normal/stale vs LeastQueue  Δp95=-17.62% cliffs=-0.008 p_holm=3.513e-15  [方向一致]
+      mixed/unstable/fresh vs LeastQueue  Δp95=-26.97% cliffs=+0.143 p_holm=2.585e-25  [尾部改善/中位数变差]
+      mixed/unstable/stale vs LeastQueue  Δp95=-8.41% cliffs=-0.023 p_holm=1.642e-75  [方向一致]
+   [统计显著但效应可忽略(无实质差异)] 5 条
+      data_heavy/degraded/stale vs LeastLoad   Δp95=+0.21% cliffs=-0.049 p_holm=3.768e-102  [尾部变差/中位数改善]
+      data_heavy/unstable/fresh vs LeastLoad   Δp95=-0.07% cliffs=-0.136 p_holm=1.392e-49  [方向一致]
+      low_latency/degraded/stale vs LeastLoad   Δp95=+0.41% cliffs=+0.071 p_holm=2.006e-152  [方向一致]
+      low_latency/unstable/fresh vs LeastLoad   Δp95=-0.02% cliffs=-0.118 p_holm=5.724e-39  [方向一致]
+      mixed/unstable/fresh vs LeastLoad   Δp95=-0.63% cliffs=-0.064 p_holm=8.777e-47  [方向一致]
+   [逐位相同(该组合无信号)] 8 条
+      compute_heavy/normal/fresh vs LeastLoad   Δp95=+0.00% cliffs=+0.000 p_holm=1  [无方向差异]
+      compute_heavy/normal/stale vs LeastLoad   Δp95=+0.00% cliffs=+0.000 p_holm=1  [无方向差异]
+      data_heavy/normal/fresh vs LeastLoad   Δp95=+0.00% cliffs=+0.000 p_holm=1  [无方向差异]
+      data_heavy/normal/stale vs LeastLoad   Δp95=+0.00% cliffs=+0.000 p_holm=1  [无方向差异]
+      low_latency/normal/fresh vs LeastLoad   Δp95=+0.00% cliffs=+0.000 p_holm=1  [无方向差异]
+      low_latency/normal/stale vs LeastLoad   Δp95=+0.00% cliffs=+0.000 p_holm=1  [无方向差异]
+      mixed/normal/fresh vs LeastLoad   Δp95=+0.00% cliffs=+0.000 p_holm=1  [无方向差异]
+      mixed/normal/stale vs LeastLoad   Δp95=+0.00% cliffs=+0.000 p_holm=1  [无方向差异]
+
+  ⚠ 尾部与中位数方向不一致的条目：15
+     compute_heavy/degraded/fresh vs LeastQueue: Δp95=+4.91% 但 cliffs=-0.057 （中位数差=-0.03175）→ 尾部变差/中位数改善
+     compute_heavy/degraded/fresh vs Random: Δp95=-26.72% 但 cliffs=+0.028 （中位数差=+0.07281）→ 尾部改善/中位数变差
+     compute_heavy/degraded/stale vs Random: Δp95=-10.67% 但 cliffs=+0.217 （中位数差=+3.617）→ 尾部改善/中位数变差
+     compute_heavy/unstable/fresh vs LeastQueue: Δp95=-42.02% 但 cliffs=+0.033 （中位数差=+0.005939）→ 尾部改善/中位数变差
+     compute_heavy/unstable/stale vs LeastQueue: Δp95=-0.68% 但 cliffs=+0.265 （中位数差=+0.6418）→ 尾部改善/中位数变差
+     data_heavy/degraded/fresh vs LeastQueue: Δp95=+85.21% 但 cliffs=-0.000 （中位数差=-0.03327）→ 尾部变差/中位数改善
+     data_heavy/degraded/stale vs LeastLoad: Δp95=+0.21% 但 cliffs=-0.049 （中位数差=-0.1845）→ 尾部变差/中位数改善
+     data_heavy/unstable/fresh vs LeastQueue: Δp95=-31.30% 但 cliffs=+0.027 （中位数差=+0.08283）→ 尾部改善/中位数变差
+     data_heavy/unstable/stale vs LeastQueue: Δp95=-29.17% 但 cliffs=+0.102 （中位数差=+0.02802）→ 尾部改善/中位数变差
+     data_heavy/unstable/stale vs Random: Δp95=-42.76% 但 cliffs=+0.155 （中位数差=+0.6245）→ 尾部改善/中位数变差
+     mixed/degraded/fresh vs LeastLoad: Δp95=-6.30% 但 cliffs=+0.017 （中位数差=+0）→ 尾部改善/中位数变差
+     mixed/normal/fresh vs LeastQueue: Δp95=-25.90% 但 cliffs=+0.013 （中位数差=+0）→ 尾部改善/中位数变差
+     mixed/normal/stale vs Random: Δp95=-45.03% 但 cliffs=+0.005 （中位数差=+0）→ 尾部改善/中位数变差
+     mixed/unstable/fresh vs LeastQueue: Δp95=-26.97% 但 cliffs=+0.143 （中位数差=+0.01912）→ 尾部改善/中位数变差
+     mixed/unstable/stale vs Random: Δp95=-45.78% 但 cliffs=+0.081 （中位数差=+0.03488）→ 尾部改善/中位数变差
+     含义：NetworkAware 用较多请求的轻微退化换取尾部分位的大幅改善（或反之）；两个方向都要写进论文，不能只报一个。
+
+  ⚠ NetworkAware 劣化格子数：23
+     compute_heavy/degraded/fresh vs LeastQueue: Δp95=+4.91% (cliffs=-0.057, p_holm=2.1e-59)
+     compute_heavy/degraded/stale vs LeastLoad: Δp95=+28.76% (cliffs=+0.197, p_holm=9.37e-87)
+     compute_heavy/degraded/stale vs LeastQueue: Δp95=+22.82% (cliffs=+0.143, p_holm=4.78e-39)
+     compute_heavy/unstable/stale vs LeastLoad: Δp95=+48.31% (cliffs=+0.067, p_holm=2.16e-29)
+     data_heavy/degraded/fresh vs LeastQueue: Δp95=+85.21% (cliffs=-0.000, p_holm=2.26e-278)
+     data_heavy/degraded/fresh vs Random: Δp95=+31.08% (cliffs=+0.150, p_holm=2.13e-44)
+     data_heavy/degraded/stale vs LeastQueue: Δp95=+63.34% (cliffs=+0.030, p_holm=1.74e-107)
+     data_heavy/degraded/stale vs Random: Δp95=+25.40% (cliffs=+0.162, p_holm=9.94e-84)
+     data_heavy/normal/stale vs LeastQueue: Δp95=+17.20% (cliffs=+0.071, p_holm=0)
+     data_heavy/unstable/stale vs LeastLoad: Δp95=+9.14% (cliffs=+0.103, p_holm=2.2e-163)
+     low_latency/degraded/fresh vs LeastQueue: Δp95=+72.04% (cliffs=+0.137, p_holm=0)
+     low_latency/degraded/fresh vs Random: Δp95=+54.93% (cliffs=+0.178, p_holm=3.55e-265)
+     low_latency/degraded/stale vs LeastQueue: Δp95=+5.24% (cliffs=+0.068, p_holm=1.69e-153)
+     low_latency/degraded/stale vs Random: Δp95=+28.61% (cliffs=+0.339, p_holm=0)
+     low_latency/normal/stale vs Random: Δp95=+17.69% (cliffs=+0.431, p_holm=0)
+     low_latency/unstable/stale vs LeastLoad: Δp95=+52.03% (cliffs=+0.104, p_holm=0)
+     low_latency/unstable/stale vs LeastQueue: Δp95=+43.38% (cliffs=+0.336, p_holm=0)
+     low_latency/unstable/stale vs Random: Δp95=+57.33% (cliffs=+0.534, p_holm=0)
+     mixed/degraded/fresh vs LeastQueue: Δp95=+59.88% (cliffs=+0.097, p_holm=1.94e-174)
+     mixed/degraded/stale vs LeastLoad: Δp95=+1.38% (cliffs=+0.066, p_holm=2.49e-37)
+     mixed/degraded/stale vs LeastQueue: Δp95=+29.46% (cliffs=+0.053, p_holm=3.27e-45)
+     mixed/degraded/stale vs Random: Δp95=+4.78% (cliffs=+0.093, p_holm=0.00038)
+     mixed/unstable/stale vs LeastLoad: Δp95=+8.39% (cliffs=+0.023, p_holm=1.15e-20)
+  ⚠ 无区分度格子数：8（其中逐位相同 8）
+  [图] figures\fig_rq1_dp95_heatmap.png
+  [图] figures\fig_rq1_dp95_heatmap_zoom.png
+  [图] figures\fig_rq1_dp95_bars.png
+
+==============================================================================
+§2 RQ2 陈旧度曲线（链路陈旧 vs 队列陈旧，两条通道可分离）
+==============================================================================
+  staleness 标签: ['net0', 'net0.25', 'net1', 'net15', 'net2', 'net30', 'net5', 'net60', 'queue0', 'queue0.25', 'queue1', 'queue15', 'queue2', 'queue30', 'queue5', 'queue60']
+  链路陈旧秒数: 0, 0.25, 1, 2, 5, 15, 30, 60
+  队列陈旧秒数: 0, 0.25, 1, 2, 5, 15, 30, 60
+  [表] results\analysis_burstgpt_v2\rq2_staleness_curve.csv  (160 行)
+
+  --- 两条通道可分离性（逐位比较，门 3 的确定性证据）---
+  [表] results\analysis_burstgpt_v2\rq2_channel_separation.csv  (8 行)
+    queue 扫描(lag_q 变)，期望 Random 逐位不变                Random         8 lags  逐位不变 ✓
+    queue 扫描(lag_q 变)，期望 Random 逐位不变                LeastQueue     8 lags  变化(rel=16.5)
+    queue 扫描(lag_q 变)，期望 Random 逐位不变                LeastLoad      8 lags  变化(rel=19.7)
+    queue 扫描(lag_q 变)，期望 Random 逐位不变                NetworkAware   8 lags  变化(rel=23.7)
+    net 扫描(lag_q 已饱和在 1s)，期望 leastqueue/leastload   LeastQueue     6 lags  逐位不变 ✓
+    net 扫描(lag_q 已饱和在 1s)，期望 leastqueue/leastload   LeastLoad      6 lags  逐位不变 ✓
+    net 扫描(lag_q 已饱和在 1s)，期望 leastqueue/leastload   NetworkAware   6 lags  变化(rel=0.11)
+    net 扫描(lag_q 已饱和在 1s)，Random 对照                 Random         6 lags  逐位不变 ✓
+  [表] results\analysis_burstgpt_v2\rq2_critical_staleness.csv  (3 行)
+
+  --- 链路陈临界点（NetworkAware 相对最强网络盲基线的 Δp95 过零点）---
+    degraded   lag=0 时 Δp95=+72.20%  lag 上限时=+86.39%  过零点: 在扫描区间内未过零
+    normal     lag=0 时 Δp95=+0.00%  lag 上限时=+0.00%  过零点: 0.250 s
+    unstable   lag=0 时 Δp95=-1.12%  lag 上限时=+0.97%  过零点: 在扫描区间内未过零
+  [图] figures\fig_rq2_p95_vs_network_staleness.png
+  [图] figures\fig_rq2_p95_vs_queue_staleness.png
+  [图] figures\fig_rq2_slo_vs_staleness.png
+
+==============================================================================
+§3 数据量边界（datavolume 模式：prompt_only vs kv_cache）
+==============================================================================
+  数据量档位: ['kv_cache', 'prompt_only']
+  网络条件: ['degraded', 'normal']（注意：该模式不含 unstable）
+  [表] results\analysis_burstgpt_v2\rq3_datavolume_effect.csv  (48 行)
+
+  --- net_share(NetworkAware) → Δp95 ---
+  network   workload      data_volume   net_share    Δp95%  cliffs   p_holm  判定
+  degraded  compute_heavy kv_cache        0.80143    -2.79  -0.089   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  compute_heavy kv_cache        0.80143    -6.02   0.040   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  compute_heavy kv_cache        0.80143   -14.21   0.029   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  data_heavy    kv_cache        0.93845    -1.66  -0.137   0.0000  NA更优(p95,部分 cell 显著)
+  degraded  data_heavy    kv_cache        0.93845   +66.13  -0.118   0.0000  NA劣化(p95,全部 cell 显著)
+  degraded  data_heavy    kv_cache        0.93845   +15.12  -0.037   0.0000  NA劣化(p95,全部 cell 显著)
+  degraded  low_latency   kv_cache        0.92885    -0.20  -0.169   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  low_latency   kv_cache        0.92885   +68.42   0.087   0.0000  NA劣化(p95,全部 cell 显著)
+  degraded  low_latency   kv_cache        0.92885   +34.50   0.175   0.0000  NA劣化(p95,全部 cell 显著)
+  degraded  mixed         kv_cache        0.81226   -12.04  -0.174   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  mixed         kv_cache        0.81226   +54.39  -0.098   0.0000  NA劣化(p95,全部 cell 显著)
+  degraded  mixed         kv_cache        0.81226   -25.45  -0.149   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  compute_heavy prompt_only     0.00000    +0.03   0.110   0.0000  统计显著但效应可忽略(无实质差异)
+  degraded  compute_heavy prompt_only     0.00000   -51.13  -0.258   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  compute_heavy prompt_only     0.00000   -56.92  -0.335   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  data_heavy    prompt_only     0.00000    -0.00  -0.066   0.0000  统计显著但效应可忽略(无实质差异)
+  degraded  data_heavy    prompt_only     0.00000   -47.13  -0.037   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  data_heavy    prompt_only     0.00000   -66.43  -0.332   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  low_latency   prompt_only     0.00000    -0.02  -0.041   0.0030  统计显著但效应可忽略(无实质差异)
+  degraded  low_latency   prompt_only     0.00000   -43.76  -0.179   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  low_latency   prompt_only     0.00000   -64.29  -0.332   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  mixed         prompt_only     0.00000    -0.03  -0.014   0.0000  统计显著但效应可忽略(无实质差异)
+  degraded  mixed         prompt_only     0.00000   -22.38   0.082   0.0000  NA更优(p95,全部 cell 显著)
+  degraded  mixed         prompt_only     0.00000   -88.10  -0.330   0.0000  NA更优(p95,全部 cell 显著)
+  normal    compute_heavy kv_cache        0.01314    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  normal    compute_heavy kv_cache        0.01314   -50.92  -0.258   0.0000  NA更优(p95,全部 cell 显著)
+  normal    compute_heavy kv_cache        0.01314   -56.91  -0.335   0.0000  NA更优(p95,全部 cell 显著)
+  normal    data_heavy    kv_cache        0.10766    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  normal    data_heavy    kv_cache        0.10766   -46.68  -0.039   0.0000  NA更优(p95,全部 cell 显著)
+  normal    data_heavy    kv_cache        0.10766   -66.31  -0.288   0.0000  NA更优(p95,全部 cell 显著)
+  normal    low_latency   kv_cache        0.15639    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  normal    low_latency   kv_cache        0.15639   -43.59  -0.108   0.0000  NA更优(p95,全部 cell 显著)
+  normal    low_latency   kv_cache        0.15639   -64.29  -0.257   0.0000  NA更优(p95,全部 cell 显著)
+  normal    mixed         kv_cache        0.00990    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  normal    mixed         kv_cache        0.00990   -21.87   0.081   0.0000  NA更优(p95,全部 cell 显著)
+  normal    mixed         kv_cache        0.00990   -88.10  -0.335   0.0000  NA更优(p95,全部 cell 显著)
+  normal    compute_heavy prompt_only     0.00000    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  normal    compute_heavy prompt_only     0.00000   -50.97  -0.258   0.0000  NA更优(p95,全部 cell 显著)
+  normal    compute_heavy prompt_only     0.00000   -56.93  -0.335   0.0000  NA更优(p95,全部 cell 显著)
+  normal    data_heavy    prompt_only     0.00000    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  normal    data_heavy    prompt_only     0.00000   -47.14  -0.038   0.0000  NA更优(p95,全部 cell 显著)
+  normal    data_heavy    prompt_only     0.00000   -66.43  -0.342   0.0000  NA更优(p95,全部 cell 显著)
+  normal    low_latency   prompt_only     0.00000    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  normal    low_latency   prompt_only     0.00000   -43.49  -0.185   0.0000  NA更优(p95,全部 cell 显著)
+  normal    low_latency   prompt_only     0.00000   -64.29  -0.335   0.0000  NA更优(p95,全部 cell 显著)
+  normal    mixed         prompt_only     0.00000    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  normal    mixed         prompt_only     0.00000   -22.35   0.068   0.0000  NA更优(p95,全部 cell 显著)
+  normal    mixed         prompt_only     0.00000   -88.10  -0.336   0.0000  NA更优(p95,全部 cell 显著)
+
+  --- 收益过零点（在 net_share 对数轴上插值）---
+    degraded   vs Random      过零 net_share=0.85986
+    degraded   vs LeastQueue  过零 net_share=0.80250
+    degraded   vs LeastLoad   过零 net_share=0.00000
+    normal     vs Random      过零 net_share=区间内未过零
+    normal     vs LeastQueue  过零 net_share=区间内未过零
+    normal     vs LeastLoad   过零 net_share=0.00000
+  [表] results\analysis_burstgpt_v2\rq3_zero_crossings.csv  (6 行)
+  [图] figures\fig_rq3_net_share_vs_dp95.png
+
+==============================================================================
+§4 权重消融 w_net ∈ {0, 0.5, 1, 1.5, 2}（门 2：w_net=0 必须与 LeastLoad 逐位相同）
+==============================================================================
+  w_net 取值: [0.0, 0.5, 1.0, 1.5, 2.0]
+  [表] results\analysis_burstgpt_v2\ablation_w0_vs_leastload.csv  (13 行)
+  门 2 验证：12 个 cell 上比较 13 个指标
+   逐位相同指标数 13/13 → 通过 ✓ 网络项权重为 0 时退化为纯负载感知
+     n_requests         逐位相同=True  max|Δ|=0
+     sojourn_mean       逐位相同=True  max|Δ|=0
+     sojourn_p50        逐位相同=True  max|Δ|=0
+     sojourn_p95        逐位相同=True  max|Δ|=0
+     sojourn_p99        逐位相同=True  max|Δ|=0
+     sojourn_max        逐位相同=True  max|Δ|=0
+     wait_mean          逐位相同=True  max|Δ|=0
+     wait_p95           逐位相同=True  max|Δ|=0
+     net_mean           逐位相同=True  max|Δ|=0
+     net_share          逐位相同=True  max|Δ|=0
+     slo_miss_rate      逐位相同=True  max|Δ|=0
+     throughput_qps     逐位相同=True  max|Δ|=0
+     node_utilization   逐位相同=True  max|Δ|=0
+  [表] results\analysis_burstgpt_v2\ablation_effect_by_w_net.csv  (20 行)
+
+  --- 各 w_net 下 NetworkAware vs 基线 ---
+   w_net workload      network   baseline        p95_NA    Δp95%  cliffs   p_holm  判定
+     0.0 data_heavy    degraded  LeastLoad      532.468    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     0.0 data_heavy    normal    LeastLoad       72.065    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     0.0 mixed         degraded  LeastLoad      154.018    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     0.0 mixed         normal    LeastLoad       29.219    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     0.5 data_heavy    degraded  LeastLoad      523.661    -1.41  -0.149   0.0000  NA更优(p95,全部 cell 显著)
+     0.5 data_heavy    normal    LeastLoad       72.065    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     0.5 mixed         degraded  LeastLoad      157.075    -5.99  -0.179   0.0000  NA更优(p95,全部 cell 显著)
+     0.5 mixed         normal    LeastLoad       29.219    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     1.0 data_heavy    degraded  LeastLoad      522.249    -1.66  -0.137   0.0000  NA更优(p95,部分 cell 显著)
+     1.0 data_heavy    normal    LeastLoad       72.065    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     1.0 mixed         degraded  LeastLoad      152.047   -12.04  -0.174   0.0000  NA更优(p95,全部 cell 显著)
+     1.0 mixed         normal    LeastLoad       29.219    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     1.5 data_heavy    degraded  LeastLoad      521.078    -1.84  -0.116   0.0000  NA更优(p95,部分 cell 显著)
+     1.5 data_heavy    normal    LeastLoad       72.065    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     1.5 mixed         degraded  LeastLoad      147.224   -15.61  -0.185   0.0000  NA更优(p95,全部 cell 显著)
+     1.5 mixed         normal    LeastLoad       29.219    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     2.0 data_heavy    degraded  LeastLoad      520.553    -1.93  -0.082   0.0001  NA更优(p95,部分 cell 显著)
+     2.0 data_heavy    normal    LeastLoad       72.065    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+     2.0 mixed         degraded  LeastLoad      145.896   -17.68  -0.182   0.0000  NA更优(p95,全部 cell 显著)
+     2.0 mixed         normal    LeastLoad       29.219    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+  [图] figures\fig_ablation_w_net.png
+
+==============================================================================
+§5 节点规模敏感性（4/8/16 节点）
+==============================================================================
+  节点数: [4, 8, 16]
+  ⚠ 注意：到达率固定、节点数增加会同时抬高系统容量，rho 随之下降，
+     因此 n_nodes 的效应与负载强度耦合，必须连着 rho 一起读。
+  [表] results\analysis_burstgpt_v2\rq5_scale_effect.csv  (18 行)
+
+  n_nodes network   baseline        rho    Δp95%  cliffs   p_holm  判定
+        4 degraded  LeastLoad     0.370    -9.58  -0.249   0.0000  NA更优(p95,全部 cell 显著)
+        4 degraded  LeastQueue    0.370   +65.63  -0.037   0.0000  NA劣化(p95,全部 cell 显著)
+        4 degraded  Random        0.370   -54.80  -0.072   0.0000  NA更优(p95,全部 cell 显著)
+        4 normal    LeastLoad     0.600    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+        4 normal    LeastQueue    0.600   -28.46   0.218   0.0000  NA更优(p95,部分 cell 显著)
+        4 normal    Random        0.600   -94.84  -0.213   0.0000  NA更优(p95,全部 cell 显著)
+        8 degraded  LeastLoad     0.472   -11.54  -0.164   0.0000  NA更优(p95,全部 cell 显著)
+        8 degraded  LeastQueue    0.472   +21.30  -0.002   0.0000  NA劣化(p95,全部 cell 显著)
+        8 degraded  Random        0.472   -72.84  -0.321   0.0000  NA更优(p95,全部 cell 显著)
+        8 normal    LeastLoad     0.600    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+        8 normal    LeastQueue    0.600   -30.51   0.210   0.0000  NA更优(p95,部分 cell 显著)
+        8 normal    Random        0.600   -94.85  -0.226   0.0000  NA更优(p95,全部 cell 显著)
+       16 degraded  LeastLoad     0.461   -15.63  -0.211   0.0000  NA更优(p95,部分 cell 显著)
+       16 degraded  LeastQueue    0.461   +20.80   0.024   0.0000  NA劣化(p95,全部 cell 显著)
+       16 degraded  Random        0.461   -72.23  -0.373   0.0000  NA更优(p95,全部 cell 显著)
+       16 normal    LeastLoad     0.600    +0.00   0.000   1.0000  逐位相同(该组合无信号)
+       16 normal    LeastQueue    0.600   -30.53   0.193   0.0000  NA更优(p95,全部 cell 显著)
+       16 normal    Random        0.600   -94.70  -0.275   0.0000  NA更优(p95,全部 cell 显著)
+  [图] figures\fig_rq5_scale_nodes.png
+
+==============================================================================
+§6 种子收敛性（convergence 模式，20 个种子）
+==============================================================================
+  已有种子数: 20  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+  --- 方差来源检查 ---
+  说明：convergence cell 的负载 seed=1000+seed、unstable 链路 seed=seed，
+        因此每个种子的负载实现与链路轨迹都不同。策略本身是确定性的：
+        给定 (负载, 轨迹)，LeastQueue/LeastLoad/NetworkAware 的结果唯一。
+    Random         n=20  唯一值=20  p95∈[20.455, 599.054]  CV=97.22%
+    LeastQueue     n=20  唯一值=20  p95∈[4.480, 244.835]  CV=114.32%
+    LeastLoad      n=20  唯一值=20  p95∈[4.159, 139.739]  CV=111.99%
+    NetworkAware   n=20  唯一值=20  p95∈[4.738, 142.634]  CV=110.02%
+  [表] results\analysis_burstgpt_v2\convergence_variance.csv  (4 行)
+    → 4/4 个策略在 20 个种子下 p95 取值全部互异。
+      跨种子方差来自负载/轨迹实现，不是策略内部随机数；
+      即：策略确定性 ≠ 实验无方差，但继续加种子只增加负载样本，不检验策略随机性。
+      Random 另有一个自身 RNG（seed=cell seed），其差异同时含策略随机性。
+  [表] results\analysis_burstgpt_v2\convergence_curve.csv  (60 行)
+
+  --- 前 k 个种子的 Δp95（判据：与 k=20 的偏离是否小于跨种子 se）---
+    k baseline        Δp95%     ±se      相对k=20偏离
+    3 Random        -93.686   0.744       -23.480  超出 2se
+    5 Random        -77.226  16.141        -7.019  在 2se 内 ✓
+   10 Random        -78.309   8.550        -8.103  在 2se 内 ✓
+   20 Random        -70.206   5.025        +0.000  在 2se 内 ✓
+    3 LeastQueue     -6.276   9.601       +12.809  在 2se 内 ✓
+    5 LeastQueue     -6.442   5.263       +12.642  超出 2se
+   10 LeastQueue     -9.105   4.999        +9.979  在 2se 内 ✓
+   20 LeastQueue    -19.084   5.491        +0.000  在 2se 内 ✓
+    3 LeastLoad      +5.174   4.940        +1.476  在 2se 内 ✓
+    5 LeastLoad      +6.420   2.976        +2.723  在 2se 内 ✓
+   10 LeastLoad      +6.843   2.407        +3.146  在 2se 内 ✓
+   20 LeastLoad      +3.698   3.472        +0.000  在 2se 内 ✓
+  [表] results\analysis_burstgpt_v2\convergence_k_summary.csv  (12 行)
+
+  判据小结：k=3 时 2/3 个基线在 2se 内；k=5 时 2/3 个基线在 2se 内。
+  （若符号与 k=20 一致且在 2se 内，则 5 个种子足以给出方向性结论；但效应量的小数位不可用 5 个种子报。）
+  [图] figures\fig_rq6_convergence_seeds.png
+
+==============================================================================
+§7 可行性汇总：哪些 (场景) 组合是退化的（四策略无区分度）
+==============================================================================
+  退化判据：① 四策略所有指标逐位相同；② p95 跨策略相对极差 < 0.5%
+  [表] results\analysis_burstgpt_v2\feasibility_degeneracy.csv  (309 行)
+  [表] results\analysis_burstgpt_v2\feasibility_pairwise_identity.csv  (1022 行)
+
+  --- 策略对逐位相同的情况（该场景组内所有指标逐位一致）---
+    ablation     LeastLoad vs NetworkAware        12 个场景组逐位相同
+    datavolume   LeastLoad vs NetworkAware        8 个场景组逐位相同
+    main         LeastLoad vs NetworkAware        8 个场景组逐位相同 | compute_heavy/normal/fresh, compute_heavy/normal/stale, data_heavy/normal/fresh, data_heavy/normal/stale, l
+    rho          LeastLoad vs NetworkAware        10 个场景组逐位相同
+    scale        LeastLoad vs NetworkAware        3 个场景组逐位相同
+    staleness    LeastLoad vs NetworkAware        8 个场景组逐位相同
+
+  --- 按判定分类 ---
+   [弱区分度(极差<5%)] 组合数 5  (mode 分布: {'ablation': 3, 'fallback': 2})
+   [有信号] 组合数 212  (mode 分布: {'staleness': 24, 'staleness2d': 24, 'method': 24, 'method_ch': 24, 'rho': 20, 'main': 16, 'bandwidth': 16, 'align': 12, 'method_ch_ablate': 12, 'fallback': 9, 'datavolume': 8, 'ablation': 8, 'baselines': 8, 'scale': 6, 'convergence': 1})
+   [策略不全(数据未跑完)] 组合数 48  (mode 分布: {'fallback': 48})
+   [退化：p95 极差<0.5%] 组合数 4  (mode 分布: {'ablation': 3, 'fallback': 1})
+   [退化：四策略逐位相同] 组合数 4  (mode 分布: {'ablation': 4})
+   [部分退化：NA 与 LeastLoad 逐位相同(网络项无信号)] 组合数 36  (mode 分布: {'rho': 10, 'main': 8, 'staleness': 8, 'datavolume': 8, 'ablation': 2})
+
+  --- 主矩阵逐格（最关心）---
+   workload      network   staleness seeds  p95_min  p95_max     极差%    rho  判定 / 逐位相同的策略对
+   compute_heavy degraded  fresh        5    2.323  208.365 5201.54  0.493  有信号
+   data_heavy    degraded  fresh        5   98.621  847.411  302.96  0.314  有信号
+   low_latency   degraded  fresh        5   28.857  121.997  218.96  0.322  有信号
+   mixed         degraded  fresh        5    0.913  161.139 6406.94  0.355  有信号
+   compute_heavy normal    fresh        5    5.934  199.282 2469.67  0.600  部分退化：NA 与 LeastLoad 逐位相同(网络项无信号) [LeastLoad vs NetworkAware]
+   data_heavy    normal    fresh        5   31.749  253.001  343.44  0.600  部分退化：NA 与 LeastLoad 逐位相同(网络项无信号) [LeastLoad vs NetworkAware]
+   low_latency   normal    fresh        5   12.421   50.150  191.47  0.600  部分退化：NA 与 LeastLoad 逐位相同(网络项无信号) [LeastLoad vs NetworkAware]
+   mixed         normal    fresh        5    0.484  181.94819859.94  0.600  部分退化：NA 与 LeastLoad 逐位相同(网络项无信号) [LeastLoad vs NetworkAware]
+   compute_heavy unstable  fresh        5    5.941  199.283 2466.72  0.600  有信号
+   data_heavy    unstable  fresh        5   38.892  223.047  176.12  0.484  有信号
+   low_latency   unstable  fresh        5   12.455   47.566  125.18  0.517  有信号
+   mixed         unstable  fresh        5    2.034  181.946 3982.43  0.590  有信号
+   compute_heavy degraded  stale        5    9.783  260.271 1158.84  0.493  有信号
+   data_heavy    degraded  stale        5  127.202  678.436  210.81  0.314  有信号
+   low_latency   degraded  stale        5   43.503  141.705  202.00  0.322  有信号
+   mixed         degraded  stale        5    6.741  157.176  781.12  0.355  有信号
+   compute_heavy normal    stale        5   11.870  218.246 1184.68  0.600  部分退化：NA 与 LeastLoad 逐位相同(网络项无信号) [LeastLoad vs NetworkAware]
+   data_heavy    normal    stale        5   44.316  316.698  240.82  0.600  部分退化：NA 与 LeastLoad 逐位相同(网络项无信号) [LeastLoad vs NetworkAware]
+   low_latency   normal    stale        5   22.107   97.902  164.19  0.600  部分退化：NA 与 LeastLoad 逐位相同(网络项无信号) [LeastLoad vs NetworkAware]
+   mixed         normal    stale        5    4.084  181.948 2264.86  0.600  部分退化：NA 与 LeastLoad 逐位相同(网络项无信号) [LeastLoad vs NetworkAware]
+   compute_heavy unstable  stale        5   11.392  217.164 1238.56  0.600  有信号
+   data_heavy    unstable  stale        5   49.201  223.047  158.42  0.484  有信号
+   low_latency   unstable  stale        5   22.315   89.452  300.87  0.517  有信号
+   mixed         unstable  stale        5    5.348  181.946 1452.26  0.590  有信号
+
+   主矩阵已判定 24/24 组合；
+     有信号: 16
+     部分退化：NA 与 LeastLoad 逐位相同(网络项无信号): 8
+
+   ⚠ 有 8/24 个组合里 NetworkAware 与 LeastLoad **逐位相同**（网络项在该场景下没有任何可用信号）：
+     compute_heavy/normal/fresh  [LeastLoad vs NetworkAware]
+     data_heavy/normal/fresh  [LeastLoad vs NetworkAware]
+     low_latency/normal/fresh  [LeastLoad vs NetworkAware]
+     mixed/normal/fresh  [LeastLoad vs NetworkAware]
+     compute_heavy/normal/stale  [LeastLoad vs NetworkAware]
+     data_heavy/normal/stale  [LeastLoad vs NetworkAware]
+     low_latency/normal/stale  [LeastLoad vs NetworkAware]
+     mixed/normal/stale  [LeastLoad vs NetworkAware]
+  [图] figures\fig_rq7_degeneracy_heatmap.png
+
+==============================================================================
+§8 到达压力扫描（rho 模式：同一负载/网络，只改到达率的缩放）
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq8_rho_sweep_effect.csv  (90 行)
+  档位 target_rho=[0.3, 0.45, 0.6, 0.75, 0.9]   组合数 2×3×5
+  负载            网络           rho 基线              Δp95%    ±se     ΔSLO  cliffs    效力   p_holm  判定
+  data_heavy    degraded    0.30 LeastLoad       -0.93   2.19  -0.0042  -0.074   可忽略 9.06e-15  统计显著但效应可忽略(无实质差异)
+  data_heavy    degraded    0.30 LeastQueue    +119.04  31.00  -0.0148   0.089   可忽略1.16e-233  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded    0.30 Random          -3.37  40.24  -0.0151   0.151     小        0  NA更优(p95,全部 cell 显著)
+  data_heavy    degraded    0.45 LeastLoad       -1.79   1.28  -0.0011  -0.073   可忽略 7.41e-15  NA更优(p95,全部 cell 显著)
+  data_heavy    degraded    0.45 LeastQueue     +74.62   9.99  -0.0006  -0.018   可忽略1.37e-132  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded    0.45 Random          -0.32  26.12  +0.0562   0.026   可忽略        0  统计显著但效应可忽略(无实质差异)
+  data_heavy    degraded    0.60 LeastLoad       -1.66   1.37  -0.0016  -0.137   可忽略 5.43e-12  NA更优(p95,部分 cell 显著)
+  data_heavy    degraded    0.60 LeastQueue     +66.13   3.43  +0.0001  -0.118   可忽略 1.35e-32  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded    0.60 Random         +15.12  17.51  -0.0022  -0.037   可忽略 3.23e-30  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded    0.75 LeastLoad       -1.83   1.30  -0.0016  -0.115   可忽略 1.39e-15  NA更优(p95,全部 cell 显著)
+  data_heavy    degraded    0.75 LeastQueue     +67.29   3.55  +0.0012  -0.151     小 1.37e-84  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded    0.75 Random         +24.82  13.91  -0.0061   0.140   可忽略 4.81e-75  NA劣化(p95,部分 cell 显著)
+  data_heavy    degraded    0.90 LeastLoad       -1.74   1.22  -0.0008  -0.139   可忽略 5.21e-13  NA更优(p95,全部 cell 显著)
+  data_heavy    degraded    0.90 LeastQueue     +64.61   2.72  +0.0018  -0.119   可忽略5.27e-186  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded    0.90 Random         +29.05  13.21  -0.0077   0.158     小6.59e-206  NA劣化(p95,部分 cell 显著)
+  data_heavy    normal      0.30 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    normal      0.30 LeastQueue     -40.56  13.02  +0.0239  -0.042   可忽略 3.96e-70  NA更优(p95,全部 cell 显著)
+  data_heavy    normal      0.30 Random         -77.31  10.43  -0.0003  -0.324     小        0  NA更优(p95,全部 cell 显著)
+  data_heavy    normal      0.45 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    normal      0.45 LeastQueue     -49.97   1.47  +0.0048   0.004   可忽略  9.3e-54  NA更优(p95,全部 cell 显著)
+  data_heavy    normal      0.45 Random         -72.53   9.64  +0.0629  -0.300     小        0  NA更优(p95,全部 cell 显著)
+  data_heavy    normal      0.60 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    normal      0.60 LeastQueue     -46.68   2.57  +0.0016  -0.039   可忽略 2.55e-15  NA更优(p95,全部 cell 显著)
+  data_heavy    normal      0.60 Random         -66.31   6.79  +0.0080  -0.288     小        0  NA更优(p95,全部 cell 显著)
+  data_heavy    normal      0.75 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    normal      0.75 LeastQueue     -47.72   2.20  +0.0033  -0.024   可忽略 1.27e-31  NA更优(p95,部分 cell 显著)
+  data_heavy    normal      0.75 Random         -63.27   5.59  -0.0062  -0.287     小        0  NA更优(p95,全部 cell 显著)
+  data_heavy    normal      0.90 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    normal      0.90 LeastQueue     -48.47   2.20  +0.0036  -0.066   可忽略 4.61e-13  NA更优(p95,全部 cell 显著)
+  data_heavy    normal      0.90 Random         -61.50   5.06  -0.0071  -0.289     小        0  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.30 LeastLoad       -0.30   0.26  +0.0032  -0.191     小 2.16e-36  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.30 LeastQueue      -5.71  30.82  +0.0130  -0.005   可忽略 4.65e-09  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.30 Random         -61.50   5.38  -0.0219  -0.077   可忽略 1.51e-82  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.45 LeastLoad       -0.61   0.88  +0.0034   0.028   可忽略 6.09e-07  统计显著但效应可忽略(无实质差异)
+  data_heavy    unstable    0.45 LeastQueue      -9.26  17.00  +0.0097  -0.033   可忽略   0.0417  NA更优(p95,部分 cell 显著)
+  data_heavy    unstable    0.45 Random         -54.61  12.37  +0.0388  -0.102   可忽略 4.49e-23  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.60 LeastLoad       -0.08   0.06  +0.0013  -0.234     小2.31e-104  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.60 LeastQueue     -20.84  15.66  +0.0048   0.037   可忽略    5e-47  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.60 Random         -51.00   2.29  -0.0070  -0.035   可忽略  4.4e-52  NA更优(p95,部分 cell 显著)
+  data_heavy    unstable    0.75 LeastLoad       -0.64   0.60  +0.0009  -0.121   可忽略    0.243  统计显著但效应可忽略(无实质差异)
+  data_heavy    unstable    0.75 LeastQueue     -17.29  13.47  +0.0033   0.063   可忽略 1.24e-72  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.75 Random         -42.37   1.79  -0.0044   0.091   可忽略 4.19e-37  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.90 LeastLoad       +0.47   0.41  -0.0001   0.077   可忽略   0.0532  统计显著但效应可忽略(无实质差异)
+  data_heavy    unstable    0.90 LeastQueue     -11.69  17.83  +0.0039   0.105   可忽略1.22e-198  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable    0.90 Random         -37.86   5.05  -0.0053  -0.012   可忽略 5.01e-33  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.30 LeastLoad      -22.74  13.30  -0.0296  -0.121   可忽略 5.18e-19  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.30 LeastQueue     +36.52  31.55  +0.0360   0.124   可忽略   2e-100  NA劣化(p95,全部 cell 显著)
+  mixed         degraded    0.30 Random         -42.95  27.32  -0.0500  -0.149     小2.01e-177  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.45 LeastLoad      -27.32  13.32  -0.0229  -0.166     小1.56e-209  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.45 LeastQueue     +22.54  30.30  +0.0058  -0.004   可忽略 4.16e-80  NA劣化(p95,全部 cell 显著)
+  mixed         degraded    0.45 Random         -56.90  22.96  -0.0209  -0.187     小        0  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.60 LeastLoad      -12.04  14.35  -0.0273  -0.174     小4.34e-155  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.60 LeastQueue     +54.39  22.93  +0.0034  -0.098   可忽略 7.77e-70  NA劣化(p95,全部 cell 显著)
+  mixed         degraded    0.60 Random         -25.45  20.00  +0.0055  -0.149     小9.28e-212  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.75 LeastLoad      -12.69   7.98  -0.0177  -0.239     小1.08e-224  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.75 LeastQueue     +62.82  34.44  +0.0029  -0.078   可忽略 7.86e-55  NA劣化(p95,全部 cell 显著)
+  mixed         degraded    0.75 Random         -16.45  21.85  -0.0631  -0.177     小        0  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.90 LeastLoad      -15.30  11.18  -0.0132  -0.355     中3.98e-282  NA更优(p95,全部 cell 显著)
+  mixed         degraded    0.90 LeastQueue     +63.76  39.68  +0.0051  -0.055   可忽略1.44e-116  NA劣化(p95,部分 cell 显著)
+  mixed         degraded    0.90 Random         -18.29  26.25  -0.0392  -0.163     小        0  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.30 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         normal      0.30 LeastQueue     -18.70   9.27  -0.0046   0.055   可忽略   0.0744  NA更优(p95,部分 cell 显著)
+  mixed         normal      0.30 Random         -91.77   6.12  -0.1545  -0.339     中        0  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.45 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         normal      0.45 LeastQueue     -13.79  16.11  +0.0277   0.106   可忽略 3.14e-58  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.45 Random         -92.38   3.69  -0.0463  -0.339     中        0  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.60 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         normal      0.60 LeastQueue     -21.87   7.16  +0.0202   0.081   可忽略 5.04e-47  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.60 Random         -88.10   4.48  +0.0365  -0.335     中        0  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.75 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         normal      0.75 LeastQueue     -26.27   5.10  +0.0107   0.086   可忽略 1.02e-31  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.75 Random         -84.95   5.50  +0.0289  -0.330     中        0  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.90 LeastLoad       +0.00   0.00  +0.0000   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         normal      0.90 LeastQueue     -33.54   6.74  +0.0431   0.054   可忽略 2.58e-63  NA更优(p95,全部 cell 显著)
+  mixed         normal      0.90 Random         -82.89   5.97  +0.0185  -0.348     中        0  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.30 LeastLoad       -0.53   1.31  +0.0053  -0.026   可忽略 3.83e-11  统计显著但效应可忽略(无实质差异)
+  mixed         unstable    0.30 LeastQueue      -5.42   9.69  +0.0232   0.097   可忽略  2.3e-27  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.30 Random         -86.68   9.44  -0.1159  -0.233     小        0  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.45 LeastLoad       -1.56   1.54  -0.0000  -0.162     小7.85e-164  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.45 LeastQueue     -17.35   1.47  +0.0188   0.093   可忽略 1.02e-28  NA更优(p95,部分 cell 显著)
+  mixed         unstable    0.45 Random         -87.56   7.28  -0.0488  -0.279     小        0  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.60 LeastLoad       -2.13   1.62  -0.0007  -0.291     小        0  NA更优(p95,部分 cell 显著)
+  mixed         unstable    0.60 LeastQueue     -28.06   8.39  +0.0239   0.153     小 7.73e-07  NA更优(p95,部分 cell 显著)
+  mixed         unstable    0.60 Random         -88.08   4.15  +0.0077  -0.291     小        0  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.75 LeastLoad       -0.41   0.41  -0.0013  -0.035   可忽略3.27e-100  统计显著但效应可忽略(无实质差异)
+  mixed         unstable    0.75 LeastQueue     -26.07   5.81  +0.0175   0.046   可忽略 8.12e-08  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.75 Random         -84.36   5.72  +0.0021  -0.282     小        0  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.90 LeastLoad       -0.60   0.79  -0.0008  -0.237     小2.51e-218  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.90 LeastQueue     -32.23   8.31  +0.0278  -0.045   可忽略 5.91e-72  NA更优(p95,全部 cell 显著)
+  mixed         unstable    0.90 Random         -81.39   6.83  -0.0001  -0.298     小        0  NA更优(p95,全部 cell 显著)
+  [表] results\analysis_burstgpt_v2\rq8_zero_crossings.csv  (18 行)
+
+  收益随负载强度的形态（Δp95 由负转正的 rho；无交点=整条轴同向）：
+    data_heavy    degraded  vs LeastLoad   交点=无交点      最低档 Δp95=-0.93%  最高档 Δp95=-1.74%
+    data_heavy    degraded  vs LeastQueue  交点=无交点      最低档 Δp95=+119.04%  最高档 Δp95=+64.61%
+    data_heavy    degraded  vs Random      交点=0.453    最低档 Δp95=-3.37%  最高档 Δp95=+29.05%
+    data_heavy    normal    vs LeastLoad   交点=无交点      最低档 Δp95=+0.00%  最高档 Δp95=+0.00%
+    data_heavy    normal    vs LeastQueue  交点=无交点      最低档 Δp95=-40.56%  最高档 Δp95=-48.47%
+    data_heavy    normal    vs Random      交点=无交点      最低档 Δp95=-77.31%  最高档 Δp95=-61.50%
+    data_heavy    unstable  vs LeastLoad   交点=0.836    最低档 Δp95=-0.30%  最高档 Δp95=+0.47%
+    data_heavy    unstable  vs LeastQueue  交点=无交点      最低档 Δp95=-5.71%  最高档 Δp95=-11.69%
+    data_heavy    unstable  vs Random      交点=无交点      最低档 Δp95=-61.50%  最高档 Δp95=-37.86%
+    mixed         degraded  vs LeastLoad   交点=无交点      最低档 Δp95=-22.74%  最高档 Δp95=-15.30%
+    mixed         degraded  vs LeastQueue  交点=无交点      最低档 Δp95=+36.52%  最高档 Δp95=+63.76%
+    mixed         degraded  vs Random      交点=无交点      最低档 Δp95=-42.95%  最高档 Δp95=-18.29%
+    mixed         normal    vs LeastLoad   交点=无交点      最低档 Δp95=+0.00%  最高档 Δp95=+0.00%
+    mixed         normal    vs LeastQueue  交点=无交点      最低档 Δp95=-18.70%  最高档 Δp95=-33.54%
+    mixed         normal    vs Random      交点=无交点      最低档 Δp95=-91.77%  最高档 Δp95=-82.89%
+    mixed         unstable  vs LeastLoad   交点=无交点      最低档 Δp95=-0.53%  最高档 Δp95=-0.60%
+    mixed         unstable  vs LeastQueue  交点=无交点      最低档 Δp95=-5.42%  最高档 Δp95=-32.23%
+    mixed         unstable  vs Random      交点=无交点      最低档 Δp95=-86.68%  最高档 Δp95=-81.39%
+  [图] figures\fig_rq8_rho_sweep.png
+
+==============================================================================
+§9 回退机制（观测过期时把网络项权重降到 fallback_w_net）
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq9_fallback_effect.csv  (96 行)
+  回退阈值（s）: [0.5, 1.5, 5.0, 45.0]   参考臂=不回退的 NetworkAware（同一 cell 内）；对比 LeastLoad 的那半边是上下文
+  负载            网络        新鲜度        阈值    触发基线              Δp95%    ±se  cliffs    效力   p_holm  判定
+  data_heavy    degraded  fresh     0.5     否LeastLoad       -1.66   1.37  -0.137   可忽略 1.09e-11  NA更优(p95,部分 cell 显著)
+  data_heavy    degraded  fresh     0.5     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         degraded  fresh     0.5     否LeastLoad      -12.04  14.35  -0.174     小 2.9e-155  NA更优(p95,全部 cell 显著)
+  mixed         degraded  fresh     0.5     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  fresh     1.5     否LeastLoad       -1.66   1.37  -0.137   可忽略 1.09e-11  NA更优(p95,部分 cell 显著)
+  data_heavy    degraded  fresh     1.5     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         degraded  fresh     1.5     否LeastLoad      -12.04  14.35  -0.174     小 2.9e-155  NA更优(p95,全部 cell 显著)
+  mixed         degraded  fresh     1.5     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  fresh     5.0     否LeastLoad       -1.66   1.37  -0.137   可忽略 1.09e-11  NA更优(p95,部分 cell 显著)
+  data_heavy    degraded  fresh     5.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         degraded  fresh     5.0     否LeastLoad      -12.04  14.35  -0.174     小 2.9e-155  NA更优(p95,全部 cell 显著)
+  mixed         degraded  fresh     5.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  fresh    45.0     否LeastLoad       -1.66   1.37  -0.137   可忽略 1.09e-11  NA更优(p95,部分 cell 显著)
+  data_heavy    degraded  fresh    45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         degraded  fresh    45.0     否LeastLoad      -12.04  14.35  -0.174     小 2.9e-155  NA更优(p95,全部 cell 显著)
+  mixed         degraded  fresh    45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  mild      0.5     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  mild      0.5     是NetworkAware   -11.45  14.26  -0.021   可忽略 2.49e-51  NA更优(p95,全部 cell 显著)
+  mixed         degraded  mild      0.5     是LeastLoad       -1.10   1.10   0.000   可忽略        1  NA更优(p95,部分 cell 显著)
+  mixed         degraded  mild      0.5     是NetworkAware    -3.52   4.87  -0.029   可忽略 2.49e-70  NA更优(p95,部分 cell 显著)
+  data_heavy    degraded  mild      1.5     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  mild      1.5     是NetworkAware   -11.45  14.26  -0.021   可忽略 2.49e-51  NA更优(p95,全部 cell 显著)
+  mixed         degraded  mild      1.5     是LeastLoad       -0.19   0.19   0.000   可忽略        1  统计显著但效应可忽略(无实质差异)
+  mixed         degraded  mild      1.5     是NetworkAware    -2.56   5.52  -0.029   可忽略 6.35e-92  NA更优(p95,部分 cell 显著)
+  data_heavy    degraded  mild      5.0     否LeastLoad      +20.30  22.90   0.021   可忽略 2.49e-51  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded  mild      5.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         degraded  mild      5.0     否LeastLoad       +3.13   6.22   0.029   可忽略 6.35e-92  NA劣化(p95,部分 cell 显著)
+  mixed         degraded  mild      5.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  mild     45.0     否LeastLoad      +20.30  22.90   0.021   可忽略 2.49e-51  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded  mild     45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         degraded  mild     45.0     否LeastLoad       +3.13   6.22   0.029   可忽略 6.35e-92  NA劣化(p95,部分 cell 显著)
+  mixed         degraded  mild     45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  stale     0.5     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  stale     0.5     是NetworkAware    -6.50  12.21   0.073   可忽略8.69e-126  NA更优(p95,全部 cell 显著)
+  mixed         degraded  stale     0.5     是LeastLoad      +10.16   7.53   0.008   可忽略 1.92e-14  NA劣化(p95,部分 cell 显著)
+  mixed         degraded  stale     0.5     是NetworkAware    +5.72   8.49   0.121   可忽略 1.46e-71  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded  stale     1.5     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  stale     1.5     是NetworkAware    -6.50  12.21   0.073   可忽略8.69e-126  NA更优(p95,全部 cell 显著)
+  mixed         degraded  stale     1.5     是LeastLoad       +0.89   0.76   0.000   可忽略  0.00367  统计显著但效应可忽略(无实质差异)
+  mixed         degraded  stale     1.5     是NetworkAware    -3.27   3.36  -0.040   可忽略 3.43e-21  NA更优(p95,全部 cell 显著)
+  data_heavy    degraded  stale     5.0     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    degraded  stale     5.0     是NetworkAware    -6.50  12.21   0.073   可忽略8.69e-126  NA更优(p95,全部 cell 显著)
+  mixed         degraded  stale     5.0     是LeastLoad       +1.13   1.13   0.000   可忽略        1  NA劣化(p95,部分 cell 显著)
+  mixed         degraded  stale     5.0     是NetworkAware    -2.97   4.25  -0.028   可忽略 3.44e-31  NA更优(p95,全部 cell 显著)
+  data_heavy    degraded  stale    45.0     否LeastLoad      +10.94  15.37  -0.073   可忽略8.69e-126  NA劣化(p95,全部 cell 显著)
+  data_heavy    degraded  stale    45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         degraded  stale    45.0     否LeastLoad       +4.53   3.51   0.028   可忽略 2.07e-25  NA劣化(p95,全部 cell 显著)
+  mixed         degraded  stale    45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  fresh     0.5     否LeastLoad       -0.08   0.06  -0.234     小1.54e-104  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable  fresh     0.5     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         unstable  fresh     0.5     否LeastLoad       -2.13   1.62  -0.291     小        0  NA更优(p95,部分 cell 显著)
+  mixed         unstable  fresh     0.5     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  fresh     1.5     否LeastLoad       -0.08   0.06  -0.234     小1.54e-104  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable  fresh     1.5     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         unstable  fresh     1.5     否LeastLoad       -2.13   1.62  -0.291     小        0  NA更优(p95,部分 cell 显著)
+  mixed         unstable  fresh     1.5     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  fresh     5.0     否LeastLoad       -0.08   0.06  -0.234     小1.54e-104  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable  fresh     5.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         unstable  fresh     5.0     否LeastLoad       -2.13   1.62  -0.291     小        0  NA更优(p95,部分 cell 显著)
+  mixed         unstable  fresh     5.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  fresh    45.0     否LeastLoad       -0.08   0.06  -0.234     小1.54e-104  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable  fresh    45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         unstable  fresh    45.0     否LeastLoad       -2.13   1.62  -0.291     小        0  NA更优(p95,部分 cell 显著)
+  mixed         unstable  fresh    45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  mild      0.5     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  mild      0.5     是NetworkAware   +25.51  20.58   0.035   可忽略 1.23e-35  NA劣化(p95,全部 cell 显著)
+  mixed         unstable  mild      0.5     是LeastLoad       -0.18   0.18   0.000   可忽略        1  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  mild      0.5     是NetworkAware    -0.51   0.92  -0.004   可忽略 3.22e-27  统计显著但效应可忽略(无实质差异)
+  data_heavy    unstable  mild      1.5     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  mild      1.5     是NetworkAware   +25.51  20.58   0.035   可忽略 1.23e-35  NA劣化(p95,全部 cell 显著)
+  mixed         unstable  mild      1.5     是LeastLoad       +0.83   0.49   0.075   可忽略 5.57e-38  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  mild      1.5     是NetworkAware    +0.51   1.44   0.014   可忽略 5.03e-05  统计显著但效应可忽略(无实质差异)
+  data_heavy    unstable  mild      5.0     否LeastLoad      -16.34  12.21  -0.035   可忽略 1.23e-35  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable  mild      5.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         unstable  mild      5.0     否LeastLoad       +0.35   1.09  -0.014   可忽略 1.47e-32  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  mild      5.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  mild     45.0     否LeastLoad      -16.34  12.21  -0.035   可忽略 1.23e-35  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable  mild     45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         unstable  mild     45.0     否LeastLoad       +0.35   1.09  -0.014   可忽略 1.47e-32  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  mild     45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  stale     0.5     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  stale     0.5     是NetworkAware    -0.44   3.94  -0.133   可忽略 1.22e-35  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  stale     0.5     是LeastLoad       +0.04   0.04   0.000   可忽略        1  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  stale     0.5     是NetworkAware    -8.79   7.15  -0.118   可忽略4.48e-102  NA更优(p95,部分 cell 显著)
+  data_heavy    unstable  stale     1.5     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  stale     1.5     是NetworkAware    -0.44   3.94  -0.133   可忽略 1.22e-35  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  stale     1.5     是LeastLoad       +0.04   0.04   0.000   可忽略        1  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  stale     1.5     是NetworkAware    -8.79   7.15  -0.118   可忽略4.48e-102  NA更优(p95,部分 cell 显著)
+  data_heavy    unstable  stale     5.0     是LeastLoad       +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  data_heavy    unstable  stale     5.0     是NetworkAware    -0.44   3.94  -0.133   可忽略 1.22e-35  统计显著但效应可忽略(无实质差异)
+  mixed         unstable  stale     5.0     是LeastLoad       +3.69   3.00   0.000   可忽略 3.49e-25  NA劣化(p95,部分 cell 显著)
+  mixed         unstable  stale     5.0     是NetworkAware    -5.79   5.69  -0.197     小4.48e-102  NA更优(p95,全部 cell 显著)
+  data_heavy    unstable  stale    45.0     否LeastLoad       +0.75   3.85   0.133   可忽略 1.22e-35  统计显著但效应可忽略(无实质差异)
+  data_heavy    unstable  stale    45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  mixed         unstable  stale    45.0     否LeastLoad      +11.05   8.74   0.112   可忽略 2.18e-45  NA劣化(p95,部分 cell 显著)
+  mixed         unstable  stale    45.0     否NetworkAware    +0.00   0.00   0.000   可忽略        1  逐位相同(该组合无信号)
+  [表] results\analysis_burstgpt_v2\rq9_fallback_summary.csv  (24 行)
+
+  汇总（回退 vs 不回退；两个负载取平均；判定按 p_holm<0.05 且 Δp95 方向）：
+    fresh degraded  阈值= 0.5s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    fresh degraded  阈值= 1.5s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    fresh degraded  阈值= 5.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    fresh degraded  阈值=45.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    fresh unstable  阈值= 0.5s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    fresh unstable  阈值= 1.5s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    fresh unstable  阈值= 5.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    fresh unstable  阈值=45.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    mild  degraded  阈值= 0.5s  Δp95=  -7.48%  cliffs=-0.025  p_holm=2.49e-51  → 回退降低劣化（有效）
+    mild  degraded  阈值= 1.5s  Δp95=  -7.00%  cliffs=-0.025  p_holm=2.49e-51  → 回退降低劣化（有效）
+    mild  degraded  阈值= 5.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    mild  degraded  阈值=45.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    mild  unstable  阈值= 0.5s  Δp95= +12.50%  cliffs=+0.016  p_holm=3.22e-27  → 回退过头（损失收益）
+    mild  unstable  阈值= 1.5s  Δp95= +13.01%  cliffs=+0.025  p_holm=5.03e-05  → 回退过头（损失收益）
+    mild  unstable  阈值= 5.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    mild  unstable  阈值=45.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    stale degraded  阈值= 0.5s  Δp95=  -0.39%  cliffs=+0.097  p_holm=1.46e-71  → 回退降低劣化（有效）
+    stale degraded  阈值= 1.5s  Δp95=  -4.89%  cliffs=+0.017  p_holm=3.43e-21  → 回退降低劣化（有效）
+    stale degraded  阈值= 5.0s  Δp95=  -4.74%  cliffs=+0.022  p_holm=3.44e-31  → 回退降低劣化（有效）
+    stale degraded  阈值=45.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+    stale unstable  阈值= 0.5s  Δp95=  -4.62%  cliffs=-0.126  p_holm=1.22e-35  → 回退降低劣化（有效）
+    stale unstable  阈值= 1.5s  Δp95=  -4.62%  cliffs=-0.126  p_holm=1.22e-35  → 回退降低劣化（有效）
+    stale unstable  阈值= 5.0s  Δp95=  -3.12%  cliffs=-0.165  p_holm=1.22e-35  → 回退降低劣化（有效）
+    stale unstable  阈值=45.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
+
+  三类结果计数：有效 8 / 过度保守 2 / 无效 14（三类都必须进正文）
+  [图] figures\fig_rq9_fallback.png
+
+==============================================================================
+§10 墙钟耗时与每 cell 仿真耗时
+==============================================================================
+  main         cells= 120 runs=  600 每 cell   9.26 s  每 run 1.853 s  累计   18.5 min
+  staleness    cells=  96 runs=  480 每 cell   9.61 s  每 run 1.923 s  累计   15.4 min
+  datavolume   cells=  48 runs=  240 每 cell   6.06 s  每 run 1.212 s  累计    4.8 min
+  convergence  cells=  20 runs=  100 每 cell  12.25 s  每 run 2.450 s  累计    4.1 min
+  ablation     cells=  60 runs=  180 每 cell   3.69 s  每 run 1.230 s  累计    3.7 min
+  scale        cells=  18 runs=   90 每 cell   7.09 s  每 run 1.418 s  累计    2.1 min
+  rho          cells=  90 runs=  450 每 cell   6.95 s  每 run 1.390 s  累计   10.4 min
+  fallback     cells=  36 runs=  216 每 cell  11.88 s  每 run 1.980 s  累计    7.1 min
+  bandwidth    cells=  48 runs=  240 每 cell   5.22 s  每 run 1.044 s  累计    4.2 min
+  staleness2d  cells=  72 runs=  360 每 cell   6.85 s  每 run 1.370 s  累计    8.2 min
+  align        cells= 120 runs=  600 每 cell   1.53 s  每 run 0.305 s  累计    3.1 min
+  method       cells= 240 runs= 1200 每 cell   3.34 s  每 run 0.667 s  累计   13.3 min
+  method_ch    cells= 240 runs=  720 每 cell   2.00 s  每 run 0.666 s  累计    8.0 min
+  method_ch_ablate cells= 120 runs= 1080 每 cell   4.25 s  每 run 0.472 s  累计    8.5 min
+  baselines    cells=  80 runs=  640 每 cell   2.18 s  每 run 0.273 s  累计    2.9 min
+  [表] results\analysis_burstgpt_v2\timing_summary.csv  (15 行)
+
+  合计已观测墙钟 114.4 min，1408 cells / 7196 次仿真
+
+==============================================================================
+§11 关键发现汇总（全部来自上面的 CSV，未做任何人工挑选）
+==============================================================================
+
+[RQ1 收益边界]
+  组合×基线条目：共 72；NA 更优 36；NA 劣化 23；无显著差异/相同 8
+  其中尾部与中位数方向不一致 15 条（必须两个方向都报）
+    compute_heavy/degraded/fresh vs LeastQueue: Δp95=+4.91% cliffs=-0.057 [尾部变差/中位数改善]
+    compute_heavy/degraded/fresh vs Random: Δp95=-26.72% cliffs=+0.028 [尾部改善/中位数变差]
+    compute_heavy/degraded/stale vs Random: Δp95=-10.67% cliffs=+0.217 [尾部改善/中位数变差]
+    compute_heavy/unstable/fresh vs LeastQueue: Δp95=-42.02% cliffs=+0.033 [尾部改善/中位数变差]
+    compute_heavy/unstable/stale vs LeastQueue: Δp95=-0.68% cliffs=+0.265 [尾部改善/中位数变差]
+    data_heavy/degraded/fresh vs LeastQueue: Δp95=+85.21% cliffs=-0.000 [尾部变差/中位数改善]
+    data_heavy/degraded/stale vs LeastLoad: Δp95=+0.21% cliffs=-0.049 [尾部变差/中位数改善]
+    data_heavy/unstable/fresh vs LeastQueue: Δp95=-31.30% cliffs=+0.027 [尾部改善/中位数变差]
+    data_heavy/unstable/stale vs LeastQueue: Δp95=-29.17% cliffs=+0.102 [尾部改善/中位数变差]
+    data_heavy/unstable/stale vs Random: Δp95=-42.76% cliffs=+0.155 [尾部改善/中位数变差]
+    mixed/degraded/fresh vs LeastLoad: Δp95=-6.30% cliffs=+0.017 [尾部改善/中位数变差]
+    mixed/normal/fresh vs LeastQueue: Δp95=-25.90% cliffs=+0.013 [尾部改善/中位数变差]
+    mixed/normal/stale vs Random: Δp95=-45.03% cliffs=+0.005 [尾部改善/中位数变差]
+    mixed/unstable/fresh vs LeastQueue: Δp95=-26.97% cliffs=+0.143 [尾部改善/中位数变差]
+    mixed/unstable/stale vs Random: Δp95=-45.78% cliffs=+0.081 [尾部改善/中位数变差]
+  收益最大的 5 条：
+    mixed/normal/fresh vs Random: Δp95=-75.53% (cliffs=-0.298, p_holm=0, net_share=0.0550)
+    mixed/unstable/fresh vs Random: Δp95=-72.72% (cliffs=-0.230, p_holm=0, net_share=0.4744)
+    compute_heavy/normal/fresh vs Random: Δp95=-70.26% (cliffs=-0.327, p_holm=0, net_share=0.0160)
+    compute_heavy/unstable/fresh vs Random: Δp95=-69.34% (cliffs=-0.296, p_holm=0, net_share=0.1746)
+    data_heavy/normal/fresh vs Random: Δp95=-67.48% (cliffs=-0.309, p_holm=0, net_share=0.1549)
+  按网络条件平均（Δp95<0 表示整体更优）：
+    degraded   vs LeastLoad    平均Δp95=+0.89%  更优 4/8
+    degraded   vs LeastQueue   平均Δp95=+42.86%  更优 0/8
+    degraded   vs Random       平均Δp95=+12.68%  更优 3/8
+    normal     vs LeastLoad    平均Δp95=+0.00%  更优 0/8
+    normal     vs LeastQueue   平均Δp95=-24.56%  更优 7/8
+    normal     vs Random       平均Δp95=-49.74%  更优 7/8
+    unstable   vs LeastLoad    平均Δp95=+14.64%  更优 1/8
+    unstable   vs LeastQueue   平均Δp95=-15.99%  更优 7/8
+    unstable   vs Random       平均Δp95=-39.64%  更优 7/8
+  按负载类型平均：
+    compute_heavy  vs LeastLoad    平均Δp95=+10.48%
+    compute_heavy  vs LeastQueue   平均Δp95=-13.36%
+    compute_heavy  vs Random       平均Δp95=-46.36%
+    data_heavy     vs LeastLoad    平均Δp95=+1.38%
+    data_heavy     vs LeastQueue   平均Δp95=+9.78%
+    data_heavy     vs Random       平均Δp95=-24.86%
+    low_latency    vs LeastLoad    平均Δp95=+8.38%
+    low_latency    vs LeastQueue   平均Δp95=+4.92%
+    low_latency    vs Random       平均Δp95=+9.00%
+    mixed          vs LeastLoad    平均Δp95=+0.47%
+    mixed          vs LeastQueue   平均Δp95=+1.74%
+    mixed          vs Random       平均Δp95=-40.04%
+
+[RQ2 陈旧度]
+  degraded   NetworkAware p95: lag0=152.047s → lag60=180.226s (+18.5%)
+  normal     NetworkAware p95: lag0=29.219s → lag60=30.494s (+4.4%)
+  unstable   NetworkAware p95: lag0=29.288s → lag60=31.367s (+7.1%)
+
+[RQ3 数据量边界]
+  vs Random       prompt_only 平均Δp95=-68.94%  kv_cache 平均Δp95=-33.21%
+  vs LeastQueue   prompt_only 平均Δp95=-41.04%  kv_cache 平均Δp95=+2.48%
+  vs LeastLoad    prompt_only 平均Δp95=-0.00%  kv_cache 平均Δp95=-2.08%
+
+[RQ4 权重消融]
+  w_net=0.0  vs LeastLoad 平均Δp95=+0.000%  判定=['逐位相同(该组合无信号)']
+  w_net=0.5  vs LeastLoad 平均Δp95=-1.852%  判定=['NA更优(p95,全部 cell 显著)', '逐位相同(该组合无信号)']
+  w_net=1.0  vs LeastLoad 平均Δp95=-3.423%  判定=['NA更优(p95,全部 cell 显著)', 'NA更优(p95,部分 cell 显著)', '逐位相同(该组合无信号)']
+  w_net=1.5  vs LeastLoad 平均Δp95=-4.363%  判定=['NA更优(p95,全部 cell 显著)', 'NA更优(p95,部分 cell 显著)', '逐位相同(该组合无信号)']
+  w_net=2.0  vs LeastLoad 平均Δp95=-4.901%  判定=['NA更优(p95,全部 cell 显著)', 'NA更优(p95,部分 cell 显著)', '逐位相同(该组合无信号)']
+
+[RQ5 节点规模]
+  n_nodes= 4 degraded   Δp95=-9.58% (rho=0.370, NA更优(p95,全部 cell 显著))
+  n_nodes= 4 normal     Δp95=+0.00% (rho=0.600, 逐位相同(该组合无信号))
+  n_nodes= 8 degraded   Δp95=-11.54% (rho=0.472, NA更优(p95,全部 cell 显著))
+  n_nodes= 8 normal     Δp95=+0.00% (rho=0.600, 逐位相同(该组合无信号))
+  n_nodes=16 degraded   Δp95=-15.63% (rho=0.461, NA更优(p95,部分 cell 显著))
+  n_nodes=16 normal     Δp95=+0.00% (rho=0.600, 逐位相同(该组合无信号))
+
+[RQ6 种子收敛]
+  vs Random       k=1→-92.80%  k=20→-70.21%
+  vs LeastQueue   k=1→-25.25%  k=20→-19.08%
+  vs LeastLoad    k=1→+4.79%  k=20→+3.70%
+
+[RQ7 退化组合]
+  退化/部分退化组合 44 / 309
+    main         compute_heavy normal fresh               p95极差=2469.6745%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    main         compute_heavy normal stale               p95极差=1184.6786%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    main         data_heavy normal fresh                  p95极差=343.4442%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    main         data_heavy normal stale                  p95极差=240.8183%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    main         low_latency normal fresh                 p95极差=191.4706%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    main         low_latency normal stale                 p95极差=164.1869%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    main         mixed normal fresh                       p95极差=19859.9400%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    main         mixed normal stale                       p95极差=2264.8633%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    staleness    normal net0                              p95极差=2838.6143%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    staleness    normal net0.25                           p95极差=2734.1367%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    staleness    normal net1                              p95极差=2320.1872%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    staleness    normal net15                             p95极差=2320.1872%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    staleness    normal net2                              p95极差=2320.1872%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    staleness    normal net30                             p95极差=2320.1872%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    staleness    normal net5                              p95极差=2320.1872%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    staleness    normal net60                             p95极差=2320.1872%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    datavolume   compute_heavy normal kv_cache            p95极差=167.6244%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    datavolume   compute_heavy normal prompt_only         p95极差=167.7380%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    datavolume   data_heavy normal kv_cache               p95极差=318.3417%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    datavolume   data_heavy normal prompt_only            p95极差=318.3895%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    datavolume   low_latency normal kv_cache              p95极差=366.3813%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    datavolume   low_latency normal prompt_only           p95极差=366.4560%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    datavolume   mixed normal kv_cache                    p95极差=2838.6143%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    datavolume   mixed normal prompt_only                 p95极差=2818.9417%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     data_heavy degraded 0.0                  p95极差=0.0000%  四策略全同=True  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     data_heavy normal 0.0                    p95极差=0.0000%  四策略全同=True  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     data_heavy normal 1.5                    p95极差=8.7359%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     data_heavy normal 2.0                    p95极差=11.3019%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     mixed degraded 0.0                       p95极差=0.0000%  四策略全同=True  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     mixed normal 0.0                         p95极差=0.0000%  四策略全同=True  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     mixed normal 0.5                         p95极差=0.1004%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     mixed normal 1.0                         p95极差=0.2345%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    ablation     mixed normal 1.5                         p95极差=0.3502%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          data_heavy normal 0.3                    p95极差=1770.2522%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          data_heavy normal 0.45                   p95极差=760.1878%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          data_heavy normal 0.6                    p95极差=318.3417%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          data_heavy normal 0.75                   p95极差=229.1835%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          data_heavy normal 0.9                    p95极差=208.2301%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          mixed normal 0.3                         p95极差=15668.7908%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          mixed normal 0.45                        p95极差=2636.3761%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          mixed normal 0.6                         p95极差=2838.6143%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          mixed normal 0.75                        p95极差=2275.9529%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    rho          mixed normal 0.9                         p95极差=1831.2282%  四策略全同=False  逐位相同对=[LeastLoad vs NetworkAware]
+    fallback     data_heavy unstable fresh nan            p95极差=0.1913%  四策略全同=False  逐位相同对=[]
+
+  其中 NetworkAware 与 LeastLoad 逐位相同的组合 46 个：
+    main         compute_heavy normal fresh
+    main         compute_heavy normal stale
+    main         data_heavy normal fresh
+    main         data_heavy normal stale
+    main         low_latency normal fresh
+    main         low_latency normal stale
+    main         mixed normal fresh
+    main         mixed normal stale
+    staleness    normal net0
+    staleness    normal net0.25
+    staleness    normal net1
+    staleness    normal net15
+    staleness    normal net2
+    staleness    normal net30
+    staleness    normal net5
+    staleness    normal net60
+    datavolume   compute_heavy normal kv_cache
+    datavolume   compute_heavy normal prompt_only
+    datavolume   data_heavy normal kv_cache
+    datavolume   data_heavy normal prompt_only
+    datavolume   low_latency normal kv_cache
+    datavolume   low_latency normal prompt_only
+    datavolume   mixed normal kv_cache
+    datavolume   mixed normal prompt_only
+    ablation     data_heavy degraded 0.0
+    ablation     data_heavy normal 0.0
+    ablation     data_heavy normal 0.5
+    ablation     data_heavy normal 1.0
+    ablation     data_heavy normal 1.5
+    ablation     data_heavy normal 2.0
+    ablation     mixed degraded 0.0
+    ablation     mixed normal 0.0
+    ablation     mixed normal 0.5
+    ablation     mixed normal 1.0
+    ablation     mixed normal 1.5
+    ablation     mixed normal 2.0
+    rho          data_heavy normal 0.3
+    rho          data_heavy normal 0.45
+    rho          data_heavy normal 0.6
+    rho          data_heavy normal 0.75
+    rho          data_heavy normal 0.9
+    rho          mixed normal 0.3
+    rho          mixed normal 0.45
+    rho          mixed normal 0.6
+    rho          mixed normal 0.75
+    rho          mixed normal 0.9
+
+[RQ8 到达压力：收益边界在负载强度上的形状]
+  data_heavy/degraded vs LeastLoad:  rho=0.30→-0.9%  rho=0.45→-1.8%  rho=0.60→-1.7%  rho=0.75→-1.8%  rho=0.90→-1.7%
+  data_heavy/normal vs LeastLoad:  rho=0.30→+0.0%  rho=0.45→+0.0%  rho=0.60→+0.0%  rho=0.75→+0.0%  rho=0.90→+0.0%
+  data_heavy/unstable vs LeastLoad:  rho=0.30→-0.3%  rho=0.45→-0.6%  rho=0.60→-0.1%  rho=0.75→-0.6%  rho=0.90→+0.5%
+  mixed/degraded vs LeastLoad:  rho=0.30→-22.7%  rho=0.45→-27.3%  rho=0.60→-12.0%  rho=0.75→-12.7%  rho=0.90→-15.3%
+  mixed/normal vs LeastLoad:  rho=0.30→+0.0%  rho=0.45→+0.0%  rho=0.60→+0.0%  rho=0.75→+0.0%  rho=0.90→+0.0%
+  mixed/unstable vs LeastLoad:  rho=0.30→-0.5%  rho=0.45→-1.6%  rho=0.60→-2.1%  rho=0.75→-0.4%  rho=0.90→-0.6%
+
+[RQ9 回退机制：相对不回退的 NetworkAware]
+  fresh  显著更优 16 / 显著更差（回退过头）0 / 无显著差异 16   共 32 个（负载×网络×阈值）
+  mild   显著更优 7 / 显著更差（回退过头）10 / 无显著差异 15   共 32 个（负载×网络×阈值）
+  stale  显著更优 11 / 显著更差（回退过头）8 / 无显著差异 13   共 32 个（负载×网络×阈值）
+
+[适用范围与限制]
+  * 负载为真实 Azure LLM Inference Trace（种子=不同时间片，到达率按目标 rho 标定）；结论不外推到其他 trace 或生产集群；
+  * 槽位之间不争抢算力、链路无排队 → 报告的收益偏保守；
+  * staleness 观测延迟为常数，未建模估计误差；
+  * 静态网络（normal/degraded）下链路陈旧精确无效，相关格子为预期退化。
+
+==============================================================================
+§13 带宽敏感性（同一异构形状，链路绝对尺度从机内换到广域）
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq13_bandwidth_effect.csv  (48 行)
+  档位（保持与 degraded 相同的 100:10:1 异构形状，只改绝对尺度）：
+  [表] results\analysis_burstgpt_v2\rq13_bandwidth_summary.csv  (4 行)
+
+  内部一致性自检：跳过（负载来源=trace）——trace 批的时间片划分取决于本轮种子数（主矩阵 5 片 vs 本模式 3 片），同一 seed 落在不同时间片上，负载本就不同，**不是管道错误**
+
+  档位         net_share    NA p95    Δp95%    ±se  cliffs   显著cell   p_holm中位  判定
+  slow_100g     0.3246     73.75    -0.34   0.35  -0.057    4/4      1.3e-12  NA更优
+  slow_200g     0.1461     52.04    +0.03   0.04  -0.035    4/4     2.16e-21  NA更差
+  slow_25g      0.4377    193.79    -3.43   3.95  -0.102    4/4     2.52e-16  NA更优
+  slow_50g      0.4217    116.63    -2.44   2.01  -0.070    4/4     4.28e-21  NA更优
+  [表] results\analysis_burstgpt_v2\rq13_zero_crossings.csv  (4 行)
+
+  Δp95 在 net_share 轴上的变号（无交点=整条轴同向）：
+    data_heavy    kv_cache    交点=无交点      net_share∈[0.4897,0.9384]  Δp95 -0.1% → -1.7%
+    data_heavy    prompt_only 交点=无交点      net_share∈[0.0000,0.0000]  Δp95 -0.0% → -0.0%
+    mixed         kv_cache    交点=无交点      net_share∈[0.0948,0.8123]  Δp95 +0.2% → -12.0%
+    mixed         prompt_only 交点=0.0000   net_share∈[0.0000,0.0000]  Δp95 -0.0% → +0.0%
+  [图] figures\fig_rq13_bandwidth.png
+
+==============================================================================
+§14 机制对比：算力队列 + 链路队列 vs 只看链路快慢
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq14_mechanism_effect.csv  (96 行)
+  对比                                负载            网络            Δp95%    ±se  cliffs   显著cell   p_holm中位  判定
+  NetworkAware(v1) vs NetworkAware2 compute_heavy degraded     +68.15  37.83   0.082    5/5    5.54e-203  NA劣化(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 compute_heavy degraded     +21.28   7.49   0.068    4/5     1.98e-45  NA劣化(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 data_heavy    degraded    +206.82  26.77  -0.007    5/5    3.45e-238  NA劣化(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 data_heavy    degraded    +136.42  36.43   0.027    4/5     1.1e-144  NA劣化(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 low_latency   degraded    +161.98  15.71   0.149    5/5            0  NA劣化(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 low_latency   degraded     +29.87  29.66   0.081    3/5    2.12e-150  NA劣化(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 mixed         degraded    +123.99  21.79   0.087    5/5    2.13e-216  NA劣化(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 mixed         degraded     +82.42  18.70   0.047    5/5     9.23e-76  NA劣化(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 compute_heavy normal        -0.01   0.00   0.051    4/5     0.000862  统计显著但效应可忽略(无实质差异)
+  NetworkAware(v1) vs NetworkAware2 compute_heavy normal        -2.08   3.64   0.000    3/5     5.85e-06  NA更优(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 data_heavy    normal        -2.83   1.12   0.136    4/5     5.13e-18  NA更优(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 data_heavy    normal        -8.11   7.78  -0.036    5/5    9.49e-250  NA更优(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 low_latency   normal        -1.12   1.04   0.118    3/5     8.54e-09  NA更优(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 low_latency   normal        +6.48  25.25   0.000    3/5     2.14e-15  NA劣化(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 mixed         normal        +0.64   0.97   0.080    4/5     3.59e-15  统计显著但效应可忽略(无实质差异)
+  NetworkAware(v1) vs NetworkAware2 mixed         normal        +2.47   3.63  -0.084    3/5     9.28e-28  NA劣化(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 compute_heavy unstable      -8.85   5.40   0.093    5/5      1.7e-35  NA更优(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 compute_heavy unstable     +10.26  11.21   0.048    4/5    2.48e-121  NA劣化(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 data_heavy    unstable      -3.56   7.60   0.223    5/5    1.33e-146  NA更优(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 data_heavy    unstable     +15.65  13.64   0.172    5/5     9.57e-89  NA劣化(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 low_latency   unstable      -6.28  10.22   0.085    4/5     5.41e-50  NA更优(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 low_latency   unstable      -8.63   8.63   0.000    3/5     1.33e-12  NA更优(p95,部分 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 mixed         unstable     -11.63   9.09   0.137    5/5    9.35e-138  NA更优(p95,全部 cell 显著)
+  NetworkAware(v1) vs NetworkAware2 mixed         unstable     +10.89  17.41   0.051    4/5     4.13e-08  NA劣化(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               compute_heavy degraded     -36.84  17.37  -0.073    5/5            0  NA更优(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               compute_heavy degraded     +10.19  21.53  -0.028    5/5     2.44e-72  NA劣化(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               data_heavy    degraded     -66.90   2.41   0.040    5/5     9.02e-80  NA更优(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               data_heavy    degraded     -52.23   8.78   0.076    5/5    1.69e-168  NA更优(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               low_latency   degraded     -62.23   1.79  -0.111    5/5    1.86e-301  NA更优(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               low_latency   degraded     -16.32   9.01   0.059    3/5     4.81e-76  NA更优(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               mixed         degraded     -57.57   3.49  -0.113    5/5       1e-214  NA更优(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               mixed         degraded     -43.72   1.92  -0.001    5/5     2.24e-58  NA更优(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               compute_heavy normal        +0.01   0.00  -0.051    4/5     0.000431  统计显著但效应可忽略(无实质差异)
+  NetworkAware2 vs 基线               compute_heavy normal        +2.75   4.20   0.000    3/5     2.92e-06  NA劣化(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               data_heavy    normal        +2.97   1.18  -0.136    4/5     2.56e-18  NA劣化(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               data_heavy    normal       +12.95  12.27   0.036    5/5    6.33e-250  NA劣化(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               low_latency   normal        +1.17   1.08  -0.118    3/5     4.27e-09  NA劣化(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               low_latency   normal       +14.72  24.89   0.000    3/5     2.14e-15  NA劣化(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               mixed         normal        -0.60   0.93  -0.080    4/5     1.79e-15  统计显著但效应可忽略(无实质差异)
+  NetworkAware2 vs 基线               mixed         normal        -1.97   3.16   0.084    4/5     6.18e-28  NA更优(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               compute_heavy unstable     +11.34   6.96  -0.092    5/5     7.09e-84  NA劣化(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               compute_heavy unstable     +30.11  22.07   0.075    5/5     2.28e-21  NA劣化(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               data_heavy    unstable      +6.18   8.25  -0.193    5/5    9.29e-119  NA劣化(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               data_heavy    unstable      -1.48  13.89   0.061    4/5     8.01e-42  NA更优(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               low_latency   unstable     +11.18  10.42  -0.082    4/5     3.29e-38  NA劣化(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               low_latency   unstable     +68.35  62.14   0.202    4/5            0  NA劣化(p95,部分 cell 显著)
+  NetworkAware2 vs 基线               mixed         unstable     +18.65  15.39  -0.146    5/5    1.14e-248  NA劣化(p95,全部 cell 显著)
+  NetworkAware2 vs 基线               mixed         unstable      +5.47  14.31  -0.015    4/5     8.36e-15  NA劣化(p95,部分 cell 显著)
+  [表] results\analysis_burstgpt_v2\rq14_mechanism_summary.csv  (12 行)
+
+  汇总（Δp95 对负载取平均；显著列 = 该组里 Holm 校正后 p<0.05 的 cell 数合计）：
+  对比                                基线            网络            Δp95%  cliffs    显著cell数
+  NetworkAware(v1) vs NetworkAware2 NetworkAware2 degraded    +103.86   0.074         36
+  NetworkAware(v1) vs NetworkAware2 NetworkAware2 normal        -0.57   0.025         29
+  NetworkAware(v1) vs NetworkAware2 NetworkAware2 unstable      -0.27   0.089         35
+  NetworkAware2 vs 基线               LeastLoad     degraded     -40.70  -0.014         38
+  NetworkAware2 vs 基线               LeastQueue    degraded     -25.25   0.022         37
+  NetworkAware2 vs 基线               Random        degraded     -38.65  -0.082         40
+  NetworkAware2 vs 基线               LeastLoad     normal        +4.00  -0.025         30
+  NetworkAware2 vs 基线               LeastQueue    normal       -22.35  -0.042         38
+  NetworkAware2 vs 基线               Random        normal       -47.22  -0.197         40
+  NetworkAware2 vs 基线               LeastLoad     unstable     +18.72  -0.048         36
+  NetworkAware2 vs 基线               LeastQueue    unstable     -14.70   0.067         35
+  NetworkAware2 vs 基线               Random        unstable     -38.65  -0.049         38
+  [图] figures\fig_rq14_mechanism.png
+
+==============================================================================
+§15 观测聚合窗口（avg_over_time）：平滑掉的不只是噪声，还有尖峰
+==============================================================================
+  （本批没有 avewindow 产物：先跑 --mode avewindow）
+
+==============================================================================
+§16 两条通道年龄的二维扫描：哪种'旧'更伤，它们会不会叠加
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq16_staleness2d_effect.csv  (24 行)
+
+  --- data_heavy：Δp95%（负=网络感知更优；行=排队消息新旧，列=网线消息新旧）---
+     队列\链路         0s         1s        15s        60s
+          0s          -10         19         15         12
+          1s          -23        -11         10         34
+          5s           24         27         13         43
+
+  --- mixed：Δp95%（负=网络感知更优；行=排队消息新旧，列=网线消息新旧）---
+     队列\链路         0s         1s        15s        60s
+          0s            3          1         10         -1
+          1s            8          6          8          2
+          5s           36         17         23         15
+
+  --- 不对称性检查（两种'只让一边旧'的情况）---
+  负载               队列 lag   链路 lag     Δp95%
+  data_heavy            5        0        24
+  data_heavy            0       60        12
+  data_heavy            5       60        43
+  mixed                 5        0        36
+  mixed                 0       60        -1
+  mixed                 5       60        15
+
+==============================================================================
+§17 对齐度：算力排名与链路排名一致时，网络信息还有价值吗
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq17_alignment_effect.csv  (12 行)
+  对齐档      负载           网络          p95_NA2   p95_LL    Δp95%  ±95%CI   种子 net_share  判定
+  anti     data_heavy   degraded      49.21   134.45    -65.3     4.0   10     0.613  NA更优(p95,全部 cell 显著)
+  anti     data_heavy   unstable      27.12    28.02     -3.7    15.6   10     0.522  NA更优(p95,全部 cell 显著)
+  anti     mixed        degraded      18.68    51.47    -60.1     9.9   10     0.473  NA更优(p95,全部 cell 显著)
+  anti     mixed        unstable      10.62    13.07    -20.9    11.2   10     0.411  NA更优(p95,全部 cell 显著)
+  rot1     data_heavy   degraded      29.55    37.64    -21.6     4.2   10     0.623  NA更优(p95,全部 cell 显著)
+  rot1     data_heavy   unstable      25.98    27.91     -3.2    18.0   10     0.385  NA更优(p95,全部 cell 显著)
+  rot1     mixed        degraded      12.20    15.36    -14.6     7.7   10     0.518  NA更优(p95,全部 cell 显著)
+  rot1     mixed        unstable      10.96    13.04    -22.2    14.2   10     0.351  NA更优(p95,全部 cell 显著)
+  aligned  data_heavy   degraded      21.26    32.04    -29.1     9.7   10     0.437  NA更优(p95,部分 cell 显著)
+  aligned  data_heavy   unstable      19.31    18.77     -0.1     6.5   10     0.341  统计显著但效应可忽略(无实质差异)
+  aligned  mixed        degraded       8.30     9.62    -10.9    11.1   10     0.207  NA更优(p95,全部 cell 显著)
+  aligned  mixed        unstable       7.95     7.78     -6.2    10.0   10     0.119  NA更优(p95,部分 cell 显著)
+
+  读法：Anti = 算力最强的机器配最慢链路（两个标准互相矛盾）；
+        Aligned = 算力最强配最快链路（两个标准一致，网络信息理论上无附加价值）。
+  ±95%CI 是**跨种子**（＝跨独立负载实现）的区间，不是把两万条请求当独立样本的区间。
+
+  --- 组间检验：anti（相反）vs aligned（一致），单位=每个种子的 Δp95% ---
+  负载           网络                 anti 均值±95%CI      aligned 均值±95%CI      差值  Mann-Whitney p   Cliffδ
+  data_heavy   degraded           -65.3±4.0            -29.1±9.7       36.3        0.000183     1.00
+  data_heavy   unstable            -3.7±15.6            -0.1±6.5        3.7            0.91     0.04
+  mixed        degraded           -60.1±9.9            -10.9±11.1      49.2        0.000246     0.98
+  mixed        unstable           -20.9±11.2            -6.2±10.0      14.7           0.121     0.42
+
+  --- 趋势检验（全样本）：Δp95 与对齐度的 Spearman ρ = +0.36，p = 7.21e-09，n = 240
+      ρ>0 表示「对齐度越高、收益越小」，即机制预测成立。
+
+==============================================================================
+§18 对齐度 × 节点规模（统计口径同 §17：单位=种子）
+==============================================================================
+  （本批没有 alignscale 产物：先跑 --mode alignscale）
+
+==============================================================================
+§19 方法：降权规则对照（该信陈旧状态多少）
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq19_decay_rule_effect.csv  (144 行)
+
+  --- p95 端到端耗时（秒，跨种子均值；越低越好）---
+  负载         网络            队列旧    链路旧 |       LeastLoad  NetworkAware2   AdaptChannel     AdaptSplit    AdaptLinear      AdaptHard
+  data_heavy degraded        0      0 |           134.5           49.2           49.2           49.2           49.2           49.2
+  data_heavy degraded        0     15 |           134.5           49.2           54.6           75.8           55.5          129.0
+  data_heavy degraded        0     60 |           134.5           49.2           57.2          119.3          117.0          129.0
+  data_heavy degraded        1      0 |           127.7           63.4           66.1           66.1           66.6           63.4
+  data_heavy degraded        5      0 |           152.1           88.6           95.5           95.5          154.3          144.9
+  data_heavy degraded        5     60 |           152.1           88.6           94.2          126.3          154.5          144.9
+  data_heavy unstable        0      0 |            28.0           27.1           27.1           27.1           27.1           27.1
+  data_heavy unstable        0     15 |            28.0           24.7           24.1           24.7           24.0           26.9
+  data_heavy unstable        0     60 |            28.0           29.5           26.6           26.5           25.8           26.9
+  data_heavy unstable        1      0 |            40.3           35.4           33.8           33.8           33.8           35.2
+  data_heavy unstable        5      0 |            49.7           54.8           52.1           52.1           41.6           41.7
+  data_heavy unstable        5     60 |            49.7           55.5           58.7           58.9           40.7           41.3
+  mixed      degraded        0      0 |            51.5           18.7           18.1           18.1           18.1           18.1
+  mixed      degraded        0     15 |            51.5           18.7           20.0           27.3           20.3           41.3
+  mixed      degraded        0     60 |            51.5           18.7           20.7           37.3           37.3           41.3
+  mixed      degraded        1      0 |            51.5           23.8           23.1           23.1           23.8           22.4
+  mixed      degraded        5      0 |            67.6           34.7           52.8           52.8           66.3           64.8
+  mixed      degraded        5     60 |            67.6           34.7           54.1           65.2           66.5           64.8
+  mixed      unstable        0      0 |            13.1           10.6           10.4           10.4           10.4           10.4
+  mixed      unstable        0     15 |            13.1           10.6           10.5           11.2           10.5           12.2
+  mixed      unstable        0     60 |            13.1           10.8           10.9           12.0           11.9           12.2
+  mixed      unstable        1      0 |            14.5           12.3           12.6           12.6           12.6           12.8
+  mixed      unstable        5      0 |            23.3           22.3           24.3           24.3           22.1           23.6
+  mixed      unstable        5     60 |            23.3           28.1           23.9           23.6           22.5           23.9
+
+  --- 相对 NetworkAware2（完全信） 的 Δp95%（负=更好；每格「均值/中位数」）---
+  负载         网络            队列旧    链路旧 |          LeastLoad      AdaptChannel        AdaptSplit       AdaptLinear         AdaptHard
+  data_heavy degraded        0      0 |      198.3/  174.2       0.0/    0.0       0.0/    0.0       0.0/    0.0       0.0/    0.0
+  data_heavy degraded        0     15 |      198.3/  174.2      10.3/   11.4      48.1/   51.5      11.7/   13.3     170.1/  170.7
+  data_heavy degraded        0     60 |      198.3/  174.2      15.6/   16.8     126.4/  144.5     131.9/  152.2     170.1/  170.7
+  data_heavy degraded        1      0 |       84.8/   71.3       5.7/    7.3       5.7/    7.3       3.2/    2.9       0.0/    0.0
+  data_heavy degraded        5      0 |       82.2/   61.2      12.3/    0.0      12.3/    0.0      91.3/   62.2      71.0/   58.5
+  data_heavy degraded        5     60 |       82.2/   61.2      12.8/    0.0      33.2/    1.6      91.6/   62.2      71.0/   58.5
+  data_heavy unstable        0      0 |        9.5/   -1.4      -0.5/    0.0      -0.5/    0.0      -0.5/    0.0      -0.5/    0.0
+  data_heavy unstable        0     15 |       13.7/    4.6      -2.1/   -2.1      -0.0/   -1.2      -2.3/   -1.9       9.8/    4.6
+  data_heavy unstable        0     60 |        8.9/    3.0      -4.4/   -2.2       1.8/   -0.7       1.2/   -2.1       5.5/    2.5
+  data_heavy unstable        1      0 |       26.8/   13.6      -2.7/   -0.8      -2.7/   -0.8      -3.1/   -0.8      -1.4/    0.0
+  data_heavy unstable        5      0 |        0.1/    0.6      -3.7/   -0.0      -3.7/   -0.0     -18.1/  -14.9     -17.3/  -15.2
+  data_heavy unstable        5     60 |       19.0/   20.2      35.6/    1.0      36.6/    1.0      -3.4/    0.2      -2.0/    6.0
+  mixed      degraded        0      0 |      173.2/  167.1      -7.9/   -2.9      -7.9/   -2.9      -7.9/   -2.9      -7.9/   -2.9
+  mixed      degraded        0     15 |      173.2/  167.1       0.2/    3.0      31.3/   31.5       1.6/    4.0     145.9/  166.9
+  mixed      degraded        0     60 |      173.2/  167.1       3.2/    4.3      88.7/   83.7     113.8/  111.7     145.9/  166.9
+  mixed      degraded        1      0 |       92.5/  109.4      -6.7/    1.9      -6.7/    1.9      -2.3/   -0.9      -8.9/   -5.0
+  mixed      degraded        5      0 |       72.0/   56.1      31.9/   17.4      31.9/   17.4      70.1/   56.1      75.2/   39.8
+  mixed      degraded        5     60 |       72.0/   56.1      33.8/   15.7      59.1/   37.8      70.0/   56.1      75.2/   39.8
+  mixed      unstable        0      0 |       30.6/   35.3      -2.5/   -2.1      -2.5/   -2.1      -2.5/   -2.1      -2.5/   -2.1
+  mixed      unstable        0     15 |       23.7/   24.3       0.5/   -1.0       6.5/    5.4       0.8/   -1.2      15.2/    8.7
+  mixed      unstable        0     60 |       21.1/   24.2      -0.1/   -1.0      11.4/    9.0      10.2/    5.0      12.6/    8.0
+  mixed      unstable        1      0 |       13.0/    5.7       4.7/   -2.5       4.7/   -2.5       5.0/   -3.1       7.0/   -2.6
+  mixed      unstable        5      0 |        2.1/    7.4       1.1/   -1.8       1.1/   -1.8      -2.6/   -2.4       3.8/    8.9
+  mixed      unstable        5     60 |      -17.5/  -18.8     -16.1/   -9.4     -17.4/  -10.7     -20.5/  -18.0     -15.6/   -9.2
+  说明：均值是配对设计的估计量（逐种子配对后求均值）；中位数是稳健性检查。
+        两者符号不一致的格子说明该结论被极端种子主导，正文必须写出来。
+
+  --- 相对 LeastLoad（完全不信） 的 Δp95%（负=更好；每格「均值/中位数」）---
+  负载         网络            队列旧    链路旧 |      NetworkAware2      AdaptChannel        AdaptSplit       AdaptLinear         AdaptHard
+  data_heavy degraded        0      0 |      -65.3/  -63.5     -65.3/  -63.5     -65.3/  -63.5     -65.3/  -63.5     -65.3/  -63.5
+  data_heavy degraded        0     15 |      -65.3/  -63.5     -61.7/  -59.2     -48.3/  -44.4     -61.2/  -58.5      -9.3/    0.0
+  data_heavy degraded        0     60 |      -65.3/  -63.5     -59.9/  -57.2     -21.4/  -12.0     -23.1/  -10.9      -9.3/    0.0
+  data_heavy degraded        1      0 |      -39.7/  -41.1     -35.9/  -39.7     -35.9/  -39.7     -38.1/  -39.9     -39.7/  -41.1
+  data_heavy degraded        5      0 |      -36.0/  -37.8     -31.9/  -35.4     -31.9/  -35.4       5.8/    0.0      -2.6/    0.0
+  data_heavy degraded        5     60 |      -36.0/  -37.8     -31.4/  -37.3     -18.4/  -19.7       6.1/    0.0      -2.6/    0.0
+  data_heavy unstable        0      0 |       -3.7/    1.4      -4.0/    1.3      -4.0/    1.3      -4.0/    1.3      -4.0/    1.3
+  data_heavy unstable        0     15 |       -8.0/   -4.3     -10.4/   -7.6      -9.0/   -8.7     -10.6/   -8.7      -2.4/    0.0
+  data_heavy unstable        0     60 |       -1.1/   -2.9      -7.3/   -5.0      -5.3/   -3.0      -5.6/   -1.7      -2.4/    0.0
+  data_heavy unstable        1      0 |      -16.3/  -11.9     -19.2/  -17.7     -19.2/  -17.7     -19.4/  -19.3     -17.4/  -20.7
+  data_heavy unstable        5      0 |       27.8/   -0.5      23.6/   -6.0      23.6/   -6.0     -11.8/    0.0     -11.1/    0.0
+  data_heavy unstable        5     60 |       28.6/  -16.6      47.5/   -6.4      48.2/   -6.2     -12.2/    0.0     -11.3/    0.0
+  mixed      degraded        0      0 |      -60.1/  -62.4     -62.5/  -63.3     -62.5/  -63.3     -62.5/  -63.3     -62.5/  -63.3
+  mixed      degraded        0     15 |      -60.1/  -62.4     -59.8/  -59.9     -49.5/  -48.3     -59.3/  -59.2     -10.6/    0.0
+  mixed      degraded        0     60 |      -60.1/  -62.4     -58.8/  -58.7     -28.7/  -33.6     -20.7/   -9.5     -10.6/    0.0
+  mixed      degraded        1      0 |      -30.1/  -52.3     -45.7/  -52.6     -45.7/  -52.6     -32.5/  -53.0     -37.7/  -55.3
+  mixed      degraded        5      0 |      -28.9/  -34.9     -15.7/  -12.6     -15.7/  -12.6       2.9/   -0.8       0.5/   -0.2
+  mixed      degraded        5     60 |      -28.9/  -34.9     -14.8/  -11.1      -1.2/   -2.7       2.3/   -1.1       0.5/   -0.2
+  mixed      unstable        0      0 |      -20.9/  -26.1     -22.8/  -27.6     -22.8/  -27.6     -22.8/  -27.6     -22.8/  -27.6
+  mixed      unstable        0     15 |      -17.4/  -19.5     -17.2/  -21.2     -12.8/  -11.3     -17.0/  -19.5      -6.1/   -0.1
+  mixed      unstable        0     60 |      -14.8/  -19.5     -15.1/  -18.4      -6.9/   -3.3      -8.0/   -4.4      -6.1/   -0.1
+  mixed      unstable        1      0 |       -9.6/   -5.4      -5.1/  -15.5      -5.1/  -15.5      -4.7/  -15.6      -2.9/  -13.3
+  mixed      unstable        5      0 |        2.9/   -6.8       0.2/   -5.4       0.2/   -5.4      -3.5/   -6.3       3.5/   -0.2
+  mixed      unstable        5     60 |       32.5/   23.4       3.0/   -0.1       1.7/   -0.1      -3.3/   -2.1       2.5/    0.0
+  说明：均值是配对设计的估计量（逐种子配对后求均值）；中位数是稳健性检查。
+        两者符号不一致的格子说明该结论被极端种子主导，正文必须写出来。
+
+  --- AdaptChannel 实际施加的权重（运行期自报，均值）---
+  负载         网络            队列旧    链路旧      动态项w      结构项w      网络占比      被门关掉
+  data_heavy degraded        0      0     1.000     1.000     0.313        0%
+  data_heavy degraded        0     15     0.807     0.807     0.313        0%
+  data_heavy degraded        0     60     0.744     0.744     0.313        0%
+  data_heavy degraded        1      0     0.785     0.785     0.313        0%
+  data_heavy degraded        5      0     0.326     0.326     0.313        0%
+  data_heavy degraded        5     60     0.252     0.252     0.313        0%
+  data_heavy unstable        0      0     0.931     0.931     0.281        7%
+  data_heavy unstable        0     15     0.748     0.748     0.261        8%
+  data_heavy unstable        0     60     0.728     0.728     0.295        4%
+  data_heavy unstable        1      0     0.732     0.732     0.281        7%
+  data_heavy unstable        5      0     0.319     0.319     0.281        7%
+  data_heavy unstable        5     60     0.260     0.260     0.295        4%
+  mixed      degraded        0      0     0.855     0.855     0.261       14%
+  mixed      degraded        0     15     0.684     0.684     0.261       14%
+  mixed      degraded        0     60     0.628     0.628     0.261       14%
+  mixed      degraded        1      0     0.668     0.668     0.261       14%
+  mixed      degraded        5      0     0.264     0.264     0.261       14%
+  mixed      degraded        5     60     0.199     0.199     0.261       14%
+  mixed      unstable        0      0     0.820     0.820     0.221       18%
+  mixed      unstable        0     15     0.658     0.658     0.227       19%
+  mixed      unstable        0     60     0.624     0.624     0.233       16%
+  mixed      unstable        1      0     0.641     0.641     0.221       18%
+  mixed      unstable        5      0     0.264     0.264     0.221       18%
+  mixed      unstable        5     60     0.208     0.208     0.233       16%
+
+  --- AdaptSplit 实际施加的权重（运行期自报，均值）---
+  负载         网络            队列旧    链路旧      动态项w      结构项w      网络占比      被门关掉
+  data_heavy degraded        0      0     1.000     1.000     0.313        0%
+  data_heavy degraded        0     15     0.442     1.000     0.313        0%
+  data_heavy degraded        0     60     0.187     1.000     0.313        0%
+  data_heavy degraded        1      0     0.785     0.785     0.313        0%
+  data_heavy degraded        5      0     0.326     0.326     0.313        0%
+  data_heavy degraded        5     60     0.091     0.326     0.313        0%
+  data_heavy unstable        0      0     0.931     0.931     0.281        7%
+  data_heavy unstable        0     15     0.428     0.917     0.261        8%
+  data_heavy unstable        0     60     0.243     0.960     0.295        4%
+  data_heavy unstable        1      0     0.732     0.732     0.281        7%
+  data_heavy unstable        5      0     0.319     0.319     0.281        7%
+  data_heavy unstable        5     60     0.119     0.327     0.295        4%
+  mixed      degraded        0      0     0.855     0.855     0.261       14%
+  mixed      degraded        0     15     0.360     0.855     0.261       14%
+  mixed      degraded        0     60     0.126     0.855     0.261       14%
+  mixed      degraded        1      0     0.668     0.668     0.261       14%
+  mixed      degraded        5      0     0.264     0.264     0.261       14%
+  mixed      degraded        5     60     0.053     0.264     0.261       14%
+  mixed      unstable        0      0     0.820     0.820     0.221       18%
+  mixed      unstable        0     15     0.361     0.815     0.227       19%
+  mixed      unstable        0     60     0.168     0.836     0.233       16%
+  mixed      unstable        1      0     0.641     0.641     0.221       18%
+  mixed      unstable        5      0     0.264     0.264     0.221       18%
+  mixed      unstable        5     60     0.075     0.269     0.233       16%
+  读法：动态项 w 是「此刻谁在挤链路」那一块的权重，结构项 w 是「哪条网线粗」那一块的权重；
+        AdaptChannel 两栏相等（按通道降权，两分量同权），AdaptSplit 两栏不等（按打分的项降权，已被实测否掉）。
+        被门关掉 = 网络占比不足 10%，整块网络项没用上。
+
+  --- 裁决：每条降权规则在多少个条件上「同时优于两个端点」---
+  臂                 条件数      胜过两端      输给两端     优于NA2     劣于NA2   优于LeastLoad
+  AdaptChannel       24         8         2        10        13            20
+  AdaptSplit         24         6         2         8        15            20
+  AdaptLinear        24        10         4        10        13            20
+  AdaptHard          24         7         3         8        14            20
+  [表] results\analysis_burstgpt_v2\rq19_decay_rule_verdict.csv  (4 行)
+
+  --- 参照：NA2（完全信）相对 LeastLoad 的收益，按陈旧档看 ---
+  data_heavy degraded   新鲜   -65.3%（±4.0）  陈旧   -48.5%（±6.4）   Mann-Whitney p=0.0269
+  data_heavy unstable   新鲜    -3.7%（±15.6）  陈旧    +6.2%（±18.3）   Mann-Whitney p=0.655
+  mixed      degraded   新鲜   -60.1%（±9.9）  陈旧   -41.6%（±10.2）   Mann-Whitney p=0.058
+  mixed      unstable   新鲜   -20.9%（±11.2）  陈旧    -1.3%（±8.8）   Mann-Whitney p=0.0314
+
+  --- 附加检验（假设在看数据前写定）：队列陈旧的代价是否随负载突发性增长 ---
+      队列旧      突发性(w)   Spearman ρ          p    n   读法
+        1         w=1        -0.19      0.251   40   
+        1        w=10        -0.21       0.19   40   
+        1        w=60         0.01      0.937   40   ρ>0 = 突发越强、陈旧吃得越多
+        5         w=1        -0.23      0.153   40   
+        5        w=10        -0.16       0.31   40   
+        5        w=60        -0.02      0.902   40   
+  各负载的到达突发性（窗口 10 s）：
+    data_heavy     CV(10s) = 1.13（n=10 个时间片）
+    mixed          CV(10s) = 0.80（n=10 个时间片）
+  [图] figures\fig_rq19_decay_rules_degraded.png
+  [图] figures\fig_rq19_decay_rules_unstable.png
+
+==============================================================================
+§20 阈值消融：结论对参数的敏感性（一次只动一个参数）
+==============================================================================
+  【要回答的问题】主方法的 `TAU_Q=4 s` / `TAU_N_DYN=15 s` 是从 §16 的实测曲线拟合来的，读者该问的是「换个拟合方式会不会翻盘」。所以这一节不比「哪档最好」，而是比**「把每个参数单独挪开，结论动多少」**。
+  （本批没有 method_ablate 产物：先跑 --mode method_ablate）
+
+==============================================================================
+§22 补强基线：P2C / Aegis 式拥塞项 / Helix 式瓶颈最小化
+==============================================================================
+  [表] results\analysis_burstgpt_v2\rq22_baseline_effect.csv  (56 行)
+
+  --- 各臂相对 LeastLoad 的 Δp95%（负=更好；每格「均值/中位数」）---
+  负载         网络        新鲜度                  Random         LeastQueue                P2C             P2CNet     CongestionOnly         Bottleneck      NetworkAware2
+  data_heavy degraded  fresh        55.2/   -23.9    -42.7/   -40.7      1.8/     0.1    -64.7/   -63.5    -64.8/   -64.0    -68.2/   -68.0    -65.3/   -63.5
+  data_heavy degraded  stale        11.8/    -1.5    -18.3/   -19.3      4.1/     5.8    -31.6/   -41.4    -29.7/   -28.9    -32.4/   -33.9    -32.0/   -25.6
+  data_heavy unstable  fresh        98.5/    73.1     29.9/    34.1      0.2/     0.0     -0.4/     5.1     -2.2/     1.9     -5.3/    -3.8     -3.7/     1.4
+  data_heavy unstable  stale        57.9/    18.0     16.1/     0.0    -12.1/    -7.7     30.2/     7.6     33.7/     4.4     55.2/     3.0     47.9/     3.5
+  mixed      degraded  fresh       219.8/    21.0    -43.4/   -42.5      4.7/     0.7    -57.9/   -61.7    -57.9/   -62.3    -59.0/   -62.5    -60.1/   -62.4
+  mixed      degraded  stale        36.9/    11.8    -23.1/   -29.9    -15.9/    -9.2    -50.1/   -52.2    -30.2/   -31.7    -34.2/   -41.1    -40.8/   -43.7
+  mixed      unstable  fresh       850.8/   565.7      7.0/   -17.9      0.7/     0.0    -14.2/   -21.4    -18.1/   -23.6    -15.6/   -19.4    -20.9/   -26.1
+  mixed      unstable  stale       286.7/   199.1     14.9/     3.8    -23.3/   -30.1    -20.1/   -25.7      2.1/     4.9      1.2/    -2.9      7.2/     1.6
+
+  --- 裁决（每个臂 × 6 个格子）---
+  臂                  优于LeastLoad     优于P2C     优于NA2     劣于NA2  说明
+  Random                  0/8            0         0         8  下界
+  LeastQueue              4/8            4         1         7  朴素基线
+  P2C                     3/8            0         2         6  经典强基线：只看两台
+  P2CNet                  7/8            6         3         5  二选一 + 网络项
+  CongestionOnly          6/8            6         2         6  Aegis 式：只要拥塞项
+  Bottleneck              6/8            6         4         4  Helix 式：瓶颈最小化
+  NetworkAware2           6/8            6         0         0  本文完全信任臂
+  [表] results\analysis_burstgpt_v2\rq22_baseline_verdict.csv  (7 行)
+
+  读法：`优于 LeastLoad` 一列若某个补强基线接近满分，说明「网络感知赢的只是朴素基线」；
+        若 `CongestionOnly` 与 `NetworkAware2` 差别很小，说明静态带宽项是多余的；
+        `P2CNet` 与 `NetworkAware2` 的差距 = 「全局视野」本身值多少。
+
+==============================================================================
+§21 阈值消融（第二版·按通道降权）：结论对三个参数有多敏感
+==============================================================================
+  【要回答的问题】第二版规则的三个参数（队列时间常数 4 s、网线时间常数 60 s、权重下限 0.7）都由 §16 的实测曲线定出。这里把每个参数单独挪开一倍，看结论会不会翻——如果挪开一两倍结果几乎不动，就说明它不是精调出来的。
+  [表] results\analysis_burstgpt_v2\rq21_channel_threshold_ablation.csv  (6 行)
+  变体               条件数          vs主方法 均值±95%CI      最大偏离   vs NA2 vs LeastLoad      结论翻符号
+  Tq8               12            -0.9±1.4         -7.5      1.9        -28.2       0/12
+  floor0.9          12            -0.9±1.2         -5.5      2.4        -27.6       2/12
+  Tn120             12            -0.8±1.1         -5.1      2.4        -27.6       2/12
+  floor0.5          12             0.0±0.0          0.0      3.3        -27.3       0/12
+  Tn20              12             1.0±1.5          6.5      4.4        -27.0       0/12
+  Tq2               12             1.9±3.4         13.8      5.4        -26.2       1/12
+  读法：第三列是「把参数挪开之后，p95 平均变了多少个百分点」——越小说明结论越不依赖这个数的精确取值；
+        最后一列是「降权相对完全信任网络的优劣方向发生翻转」的条件数，0 = 无论这个参数取哪档，结论方向都不变。
+
+==============================================================================
+§12 验证与保真度记录（门 / 白盒 / 黑盒 / 参数来源）
+==============================================================================
+
+  [burstgpt_v2_gates.json]  批次=burstgpt_v2  created_utc=20261001T161604Z  通过 11/11
+    ✓ 门1 max(rho_compute,rho_network) ≤ 0.9 且绑定资源 ≥ 0.3 且 load_ratio ≤ 1 共 2596 行 / 92 个组合，越界或不可持续 0 个（公差 0.0005）
+    ✓ 门2 产物层（NetworkAware w=0 == LeastLoad） 12 个 cell × 13 个指标：13/13 逐位相同
+    ✓ 门2 产物层（NetworkAware2 w=0 == LeastLoad） 12 个 cell × 13 个指标：13/13 逐位相同
+    ✓ 门2 请求层 mixed(NetworkAware w=0)   (node_id, finish) 逐位相同=True；对照：w_net=1 时 96.4% 请求不同
+    ✓ 门2 请求层 mixed(NetworkAware2 w=0)  (node_id, finish) 逐位相同=True；对照：w_net=1 时 96.0% 请求不同
+    ✓ 门2 请求层 data_heavy(NetworkAware w=0) (node_id, finish) 逐位相同=True；对照：w_net=1 时 95.5% 请求不同
+    ✓ 门2 请求层 data_heavy(NetworkAware2 w=0) (node_id, finish) 逐位相同=True；对照：w_net=1 时 95.4% 请求不同
+    ✓ 门3 同种子可复现                        同一配置同一负载跑两次，(node_id, finish) 逐位相同=True
+    ✓ 白盒 时间分解精确性                       静态网络下单请求：|finish − (arrival+net_in+service+net_out)| = 0.000e+00
+    ✓ 黑盒 p95 随 rho 单调不减                p95 = 9.78 → 21.75 → 59.93 → 96.81 → 128.70
+    ✓ 产物完整性 runs+paired+manifest       全部完整
+
+  [表] fidelity_anchors.csv —— 模型关键假设 vs 已核对的公开实测值（8 行）
+
+  ■ bytes_per_context_token（kv_cache 档）
+      代码取值：3.3e5 B/token
+      对照锚点（文献·已核对）：vLLM(SOSP'23)§2.1 的公式：2(K,V)×kv_dim×n_layers×2 B(fp16)。同公式下 OPT-13B(MHA)=800 KB/token、OPT-66B≈2.2 MB/token（DistServe 实测：OPT-66B 的 512-token 请求 KV ≈ 1.13 GB）
+      偏差与可外推性：本模型取 70B-GQA（Llama-3 级）配置：2×8头×128维×80层×2B = 327,680 B/token，与本值差 +0.7%。若换成 MHA 的大模型会低 3–7 倍——**必须在正文写明模型配置**
+      备注：KV 传输量是本课题的一等实验因子，不能当既定事实
+
+  ■ compute_rate
+      代码取值：16000 units/s（节点 0，按 2 的幂递减）
+      对照锚点（文献·已核对）：DistServe 的在线 SLO：OPT-13B TTFT 0.25 s / TPOT 0.1 s；OPT-66B 2.5 s / 0.15 s；OPT-175B 4.0 s / 0.2 s
+      偏差与可外推性：本模型的单输出 token 服务时间 = 4/16000 = 0.25 ms，比真实 TPOT 低约 **400×**。算力是抽象单元，**绝对时间不可与真实 GPU 相比**，只有节点间相对异构性有语义
+      备注：禁止把 units/s 写成 tokens/s；SLO 只做相对比较
+
+  ■ prefill_coef / decode_coef
+      代码取值：1.0 / 4.0
+      对照锚点（文献·已核对（数量级））：Splitwise 指出 token 相位比 prompt 相位更受显存带宽限制；DistServe 的 OPT-13B 数据（TTFT 0.25 s vs TPOT 0.1 s）含批处理与排队，只能给出每 token 代价比的数量级
+      偏差与可外推性：真实 decode 与 prefill 的每 token 墙钟代价比常在 1:10–1:50，本模型取 1:4 → **对 decode 的加权偏低约 3–12×**，属于对计算密集负载的偏保守处理
+      备注：进 Threats；若论文结论对 decode 占比敏感，必须做系数敏感性
+
+  ■ 链路带宽
+      代码取值：normal 10 Gbps / mid 1 Gbps / degraded 100 Mbps
+      对照锚点（文献·已核对）：DistServe：OPT-66B 在 10 rps 下需要 **90 Gbps** 才能让 KV 传输开销"不可见"，并指出现代 GPU 集群用 InfiniBand（**800 Gbps**）；MegaScale 的生产网络是**400 Gbps 端口**的三层 CLOS
+      偏差与可外推性：本模型比机内网络低 **80×–8000×**。**已用 `--mode bandwidth` 直接检验过后果**（保持异构形状，只换绝对尺度）：机内档 net_share ≈0.001–0.08 时 Δp95 变成 **+3.3%（合成）/ +4.8%（Azure）/ +0.0%（BurstGPT）**，即收益消失、甚至小幅劣化；净占比升到 0.15–0.30 才回到 −13%~−34%。机内 KV 传输占比据 DistServe 是 1–5% 量级 → **本课题的结论适用区间是带宽受限/跨域（算力网络），不是
+      备注：这是本课题最大的外部效度威胁，也是唯一一个已经用独立实验量化过的威胁（§13 + `rq13_bandwidth_summary.csv`）
+
+  ■ 单程时延
+      代码取值：0.5 ms / 2 ms / 5 ms
+      对照锚点（文献·已核对）：DCQCN(SIGCOMM'15) 实测：RDMA 单程 1.7 µs(Read/Write) / 2.8 µs(Send)，TCP 25.4 µs
+      偏差与可外推性：本模型高 **20×–3000×**；同样是跨域而非机内通信的建模选择
+      备注：与带宽那一行同源，声明一次即可
+
+  ■ staleness 量级
+      代码取值：队列 0/2 s、链路 0/30 s，回退档另加 3 s
+      对照锚点（文献·已核对（数量级））：Sparrow(SOSP'13)：集中式状态需要在 sub-second 内复制/恢复才具备可用性，其调度采样是毫秒级
+      偏差与可外推性：本模型的"陈旧"档（链路 30 s）远大于调度器状态的刷新尺度 → 刻画的是**慢监控**场景；快刷新场景下的结论不能外推
+      备注：已由 --mode staleness 扫成曲线，临界点实测 1.9–44.2 s 跨批次差一个数量级
+
+  ■ SLO 定义
+      代码取值：relative，slo_multiplier=3.0
+      对照锚点（文献·已核对（量级）+ 实验假设）：DistServe 的绝对 SLO 量级：TTFT 0.25–4.0 s、TPOT 0.1–0.2 s
+      偏差与可外推性：本模型的绝对 p95 是 27–148 s，**比真实在线推理 SLO 高 2–3 个数量级** → 不能声称"改善在线推理体验"，只能做策略间的相对比较；且高网络占比格子上 miss rate 会饱和（四策略全 >0.98），那里只有 p95 有信息量
+      备注：这点必须进 Threats，否则结论会被读成生产可用性主张
+
+  ■ 仿真器保真度的可比基准（新增）
+      代码取值：无端到端实测对照
+      对照锚点（文献·已核对（方法论基准））：Vidur(arXiv'24) 用真实 vLLM 对照：85% 容量下 <5% 误差、请求级 <9%、95% 容量下最高 12.65%
+      偏差与可外推性：我们只有**组件级**验证（时间分解误差 0、逐位可复现、容量口径一致），**没有** Vidur 那种端到端吞吐对照 → 这是当前与同类仿真论文最大的方法论差距
+      备注：补法：与公开实测吞吐做量级对照，或做一次小规模实测趋势验证
+
+  ⚠ 判读规则：`偏差与可外推性` 一列就是 Threats to Validity 的骨架——凡写"不可比/不能外推/低 N 倍"的地方，正文都必须逐条声明。
+
+==============================================================================
+完成。表格在 E:\代码项目文件\论文\sim\results\analysis_burstgpt_v2，图表在 E:\代码项目文件\论文\sim\figures。
+完整报告: E:\代码项目文件\论文\sim\results\analysis_burstgpt_v2\report.txt
+==============================================================================

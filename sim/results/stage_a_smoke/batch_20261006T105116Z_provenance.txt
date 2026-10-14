@@ -1,0 +1,18 @@
+批次 20261006T105116Z   UTC 2026-10-06T10:51:16Z
+运行位置：Git Bash (Windows 侧)；电池在 WSL(Ubuntu) 里；云主机 49.235.115.164 / [2402:4e00:c032:9200:2ea8:7f22:509c:0]
+参数：phase=up up_rounds=1 down_rounds=10 payload_mb=2
+      rate_up=6Mbit rate_down=1.5Mbit sizes_mb='0.2 2' concurrency=3
+      max_attempts=4 probe_bytes=524288
+上传限速（WSL eth0 出口，匹配目的端口）：tc qdisc add dev eth0 root handle 1: htb default 20 r2q 1000
+      tc class add dev eth0 parent 1:1 classid 1:10 htb rate 6mbit ceil 6mbit quantum 1514
+      tc filter add dev eth0 parent 1: protocol ip prio 1 u32 match ip dport 8000/5173 flowid 1:10
+下传限速（云 eth0 出口，匹配源端口）：同上，源端口 8000/5173，速率 1.5mbit
+读 overlimits 的命令（必须带 -s）：
+      上传：wsl -d Ubuntu -u root -- tc -s qdisc show dev eth0
+      下传：curl -s http://49.235.115.164/tc/qdisc   （云端仪表内部执行 tc -s qdisc show dev eth0）
+电池：python3 /opt/stage_a_sim/k8s_test/measure_system.py transfer --target http://49.235.115.164:8000
+      --iface eth0 --tc-rate-mbps <RATE> --shaped-direction <dir> --sizes-mb 0.2 2
+      --rate-test-mb 2 --rate-test-concurrency 3
+      （下传轮另加 --tc-cmd 'curl -s -m 10 http://49.235.115.164/tc/qdisc'）
+第三方：iperf3 -c 49.235.115.164 -p 5173 -n 2097152 [ -R ] -J
+本机 measure_system.py md5：fd691deb14e3e5cc1c61b4da788e9dd0

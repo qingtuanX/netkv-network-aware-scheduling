@@ -1,0 +1,83 @@
+{
+  "n_requests": 20,
+  "n_ok": 20,
+  "n_err": 0,
+  "error_counts": {},
+  "wall_clock_s": 2.903,
+  "throughput_qps": 6.89,
+  "inflight_peak": 5,
+  "latency": {
+    "ttft_s": {
+      "p50": 0.049523,
+      "p95": 0.051887,
+      "p99": 0.052658,
+      "max": 0.05285
+    },
+    "e2e_s": {
+      "p50": 0.537434,
+      "p95": 0.546271,
+      "p99": 0.549474,
+      "max": 0.550275
+    },
+    "chunk_interval_mean_s": {
+      "p50": 0.015882,
+      "p95": 0.016043
+    },
+    "chunk_interval_p95_s": {
+      "p50": 0.020363,
+      "p95": 0.02103
+    },
+    "tpot_p50_s": {
+      "p50": 0.015627,
+      "p95": 0.015788
+    },
+    "tpot_p95_s": {
+      "p50": 0.028254,
+      "p95": 0.029205
+    },
+    "tpot_mean_s": {
+      "p50": 0.017652,
+      "p95": 0.017827
+    }
+  },
+  "chunks": {
+    "n_output_chunks_median": 32.0,
+    "n_content_chunks_median": 27.0,
+    "n_empty_text_chunks_median": 5.0,
+    "n_empty_text_chunks_total": 100,
+    "n_requests_with_empty_text_chunks": 20
+  },
+  "server_tokens": {
+    "n_requests_with_usage": 20,
+    "n_requests_with_token_ids": 20,
+    "n_requests_without_token_count": 0,
+    "srv_completion_tokens_median": 32.0,
+    "srv_token_ids_total_median": 32.0,
+    "srv_token_count_source_counts": {
+      "usage": 20
+    },
+    "token_interval_mean_s_median": 0.015882
+  },
+  "coverage_verdicts": {
+    "PASS": 20
+  },
+  "srv_verdicts": {},
+  "coverage": {
+    "n_with_server_report": 0,
+    "cov_max_gap_s_max": 0.0,
+    "cov_gap_total_s_max": 0.0,
+    "cov_loo_min_gap_s_min": 7.033348083496094e-05,
+    "srv_gap_max_s_max": null,
+    "srv_overlap_s_median": null,
+    "sum_minus_e2e_s_median": null,
+    "sum_minus_e2e_s_max": null,
+    "sum_minus_srv_span_s_median": null,
+    "srv_outside_s_median": null,
+    "cov_tol_s": 0.005,
+    "loo_eps_s": 1e-06
+  },
+  "kv_bytes_per_request": null,
+  "run_id": "serving_20261007T091805363Z_24618-1",
+  "requests_csv": "results/b0_vllm/serving_20261007T091805363Z_24618-1_requests.csv",
+  "tokens_csv": "results/b0_vllm/serving_20261007T091805363Z_24618-1_tokens.csv"
+}

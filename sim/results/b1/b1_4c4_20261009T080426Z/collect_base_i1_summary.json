@@ -1,0 +1,76 @@
+{
+  "tool": "b1_prefix_4c.py collect",
+  "utc_started": "2026-10-09T08:24:16.692106Z",
+  "arm": "base_i1",
+  "target_url": "http://172.29.31.51:8300",
+  "target_version_endpoint": {
+    "version": "0.31.0"
+  },
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "prefix_mode": "tokenids",
+  "max_new": 64,
+  "reference_from": "(self-generated)",
+  "request_params_actual": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": -1,
+    "repetition_penalty": 1.0,
+    "seed": 0,
+    "stream": false,
+    "return_token_ids": true,
+    "logprobs": 20
+  },
+  "prompts": [
+    {
+      "id": "q01_rep6",
+      "n_prompt_ids": 651,
+      "ref_len": 64,
+      "e3_identical": true,
+      "prompt_tokens_match": "64/64",
+      "ref_consistent": "63/64",
+      "non_degenerate": "64/64",
+      "unusable_steps": 0
+    },
+    {
+      "id": "q02_rep10",
+      "n_prompt_ids": 1071,
+      "ref_len": 64,
+      "e3_identical": true,
+      "prompt_tokens_match": "64/64",
+      "ref_consistent": "63/64",
+      "non_degenerate": "64/64",
+      "unusable_steps": 0
+    },
+    {
+      "id": "q03_rep14",
+      "n_prompt_ids": 1491,
+      "ref_len": 64,
+      "e3_identical": true,
+      "prompt_tokens_match": "64/64",
+      "ref_consistent": "63/64",
+      "non_degenerate": "64/64",
+      "unusable_steps": 0
+    },
+    {
+      "id": "q04_rep18",
+      "n_prompt_ids": 1911,
+      "ref_len": 64,
+      "e3_identical": true,
+      "prompt_tokens_match": "64/64",
+      "ref_consistent": "63/64",
+      "non_degenerate": "64/64",
+      "unusable_steps": 0
+    },
+    {
+      "id": "q05_rep22",
+      "n_prompt_ids": 2331,
+      "ref_len": 64,
+      "e3_identical": true,
+      "prompt_tokens_match": "64/64",
+      "ref_consistent": "63/64",
+      "non_degenerate": "64/64",
+      "unusable_steps": 0
+    }
+  ],
+  "utc_written": "2026-10-09T08:24:57.680542Z"
+}

@@ -1,0 +1,10 @@
+﻿mode,run_id,runs,paired,manifest,n_rows,n_cells,strategies,n_seeds,p_holm 来源,多余 run_id
+main,20260922T051125Z,有,有,有,480,120,LeastLoad/LeastQueue/NetworkAware/Random,5,运行产物,20260922T050118Z
+staleness,20260922T061308Z,有,有,有,384,96,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,-
+datavolume,20260922T063040Z,有,有,有,192,48,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,-
+convergence,20260922T064026Z,有,有,有,80,20,LeastLoad/LeastQueue/NetworkAware/Random,20,运行产物,-
+ablation,20260922T060452Z,有,有,有,240,60,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,-
+scale,20260922T063633Z,有,有,有,72,18,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,-
+rho,20260922T065021Z,有,有,有,360,90,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,-
+fallback,20260922T070751Z,有,有,有,216,36,LeastLoad/NetworkAware/NetworkAware_fb0.5/NetworkAware_fb1.5/NetworkAware_fb45/NetworkAware_fb5,3,运行产物,-
+bandwidth,20260922T092608Z,有,有,有,240,60,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,20260922T090946Z

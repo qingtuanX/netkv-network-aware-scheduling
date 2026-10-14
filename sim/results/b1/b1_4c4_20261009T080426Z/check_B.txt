@@ -1,0 +1,4 @@
+iZf8z4ggqwhyqz0r6lp1miZ
+NVIDIA A10, 0 MiB, 23028 MiB
+0.31.0 True
+tools-ok

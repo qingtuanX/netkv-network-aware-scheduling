@@ -1,0 +1,57 @@
+==============================================================================
+4b 判据：KV 传输指标（直方图口径 —— 比样本数与字节总和的变化）
+==============================================================================
+对象    : decode_precheck
+t0 快照 : metrics_precheck_decode_t0_raw.txt  (1136 字节, 12 条样本)
+t1 快照 : metrics_precheck_decode_t1_raw.txt  (1141 字节, 12 条样本)
+匹配正则: nixl|kv_transfer|kv_connector|kv_cache|prompt_tokens_by_source
+
+读法：_count = 这段时间里发生了几次「KV 传输通知」（**不是请求数**）；
+      _sum   = 这段时间里一共搬了多少字节（**这才是「传没传到」的证据**）。
+      分桶 _bucket 的增量说明这次传输落在哪个大小档，属于辅助证据。
+
+命中 11 条样本序列，归并为 5 个指标族：
+
+族名                                                     kind标签                                                    t0              t1              增量
+--------------------------------------------------------------------------------------------------------------------------------------------
+vllm:nixl_bytes_transferred                          bucket{le="+Inf"}                                            0               2               2
+vllm:nixl_bytes_transferred                          bucket{le="1024"}                                            0               1               1
+vllm:nixl_bytes_transferred                          bucket{le="16384"}                                           0               2               2
+vllm:nixl_bytes_transferred                           count                                                       0               2               2
+vllm:nixl_bytes_transferred                             sum                                                       0          655360          655360
+vllm:nixl_num_descriptors                            bucket{le="16"}                                              7               7               0
+vllm:nixl_num_descriptors                             count                                                       7               7               0
+vllm:nixl_num_descriptors                               sum                                                       7               7               0
+vllm:nixl_num_failed_notifications_total              plain                                                       0               0               0
+vllm:nixl_num_failed_transfers_total                  plain                                                       0               0               0
+vllm:nixl_num_kv_expired_reqs_total                   plain                                                       0               0               0
+
+【完整标签原文，不截断】逐条原样列出（上面那张表为了对齐会截断标签，本段不截断）：
+    vllm:nixl_bytes_transferred_bucket{le="+Inf"}
+    vllm:nixl_bytes_transferred_bucket{le="1024"}
+    vllm:nixl_bytes_transferred_bucket{le="16384"}
+    vllm:nixl_bytes_transferred_count
+    vllm:nixl_bytes_transferred_sum
+    vllm:nixl_num_descriptors_bucket{le="16"}
+    vllm:nixl_num_descriptors_count
+    vllm:nixl_num_descriptors_sum
+    vllm:nixl_num_failed_notifications_total
+    vllm:nixl_num_failed_transfers_total
+    vllm:nixl_num_kv_expired_reqs_total
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+逐族判读（只看 sum 与 count；plain 族（无 _sum/_count 的普通计数器）单独看）：
+
+族名                                                      kind      _count增量          _sum增量                      判读
+--------------------------------------------------------------------------------------------------------------------------------------------
+vllm:nixl_bytes_transferred                             hist             2          655360                     有增量
+vllm:nixl_num_descriptors                               hist             0               0                   出现但未动
+vllm:nixl_num_failed_notifications_total               plain             —               0                   出现但未动
+vllm:nixl_num_failed_transfers_total                   plain             —               0                   出现但未动
+vllm:nixl_num_kv_expired_reqs_total                    plain             —               0                   出现但未动
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+总体判读：**有增量** —— 下列族的数值在 t0→t1 之间变大了，传输确实发生过：
+    · vllm:nixl_bytes_transferred
+
+备注：本文件只做「传输有没有发生」的判读，**不含任何性能结论**。

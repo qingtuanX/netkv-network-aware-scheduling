@@ -1,0 +1,282 @@
+{
+  "run_id": "transfer_20261006T030039Z",
+  "utc": "2026-10-06T03:00:39.450301+00:00",
+  "host": {
+    "python": "3.14.4",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "uname": "Linux localhost 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 ",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2"
+  },
+  "source": "外部 worker（http://10.250.0.1:9203），电池跑在客户端这一侧",
+  "target": "http://10.250.0.1:9203",
+  "iface": "vethB",
+  "tc_cmd": "tc -s qdisc show dev vethB",
+  "tc_rate_mbps": 25.0,
+  "shaped_direction": "both",
+  "sizes_mb": [
+    0.5,
+    8.0,
+    200.0
+  ],
+  "rate_test_mb": 8.0,
+  "concurrency": 3,
+  "transfers": [
+    {
+      "sub": "A2_upload",
+      "ok": true,
+      "t0": 1048.450334034,
+      "upload_bytes": 42,
+      "download_bytes": 149,
+      "latency_s": 2.563438832999964,
+      "mode": "fake",
+      "ph_upload_s": 1.2093999885109952e-05,
+      "ph_server_s": 2.561287646999972,
+      "ph_download_s": 2.278500005559181e-05,
+      "t_conn": 0.0020364120000522234,
+      "t_pre_send_s": 0.0021163070000511652,
+      "t_upload_start": 0.0021163070000511652,
+      "t_upload_end": 0.002128400999936275,
+      "t_resp_hdr": 2.563416047999908,
+      "t_download_end": 2.563438832999964,
+      "srv_recv_bytes": 42,
+      "srv_sent_bytes": 0,
+      "srv_service_s": 0.0,
+      "srv_mode": "fake",
+      "nic_before": {
+        "iface": "vethB",
+        "rx_bytes": 234247528,
+        "tx_bytes": 264405695
+      },
+      "nic_after": {
+        "iface": "vethB",
+        "rx_bytes": 234248400,
+        "tx_bytes": 264406324
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev vethB",
+        "overlimits": 316530,
+        "dropped": 46,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 17 rate 25Mbit burst 64Kb lat 50ms \n Sent 265455557 bytes 249294 pkt (dropped 46, overlimits 316530 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev vethB",
+        "overlimits": 316530,
+        "dropped": 46,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 17 rate 25Mbit burst 64Kb lat 50ms \n Sent 265456186 bytes 249301 pkt (dropped 46, overlimits 316530 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A2_download",
+      "ok": true,
+      "t0": 1051.020073545,
+      "upload_bytes": 42,
+      "download_bytes": 151,
+      "latency_s": 0.1613707929998327,
+      "mode": "fake",
+      "ph_upload_s": 1.9197000028725597e-05,
+      "ph_server_s": 0.16095496699995238,
+      "ph_download_s": 2.476800000295043e-05,
+      "t_conn": 0.00027925099993808544,
+      "t_pre_send_s": 0.00037186099984864995,
+      "t_upload_start": 0.00037186099984864995,
+      "t_upload_end": 0.00039105799987737555,
+      "t_resp_hdr": 0.16134602499982975,
+      "t_download_end": 0.1613707929998327,
+      "srv_recv_bytes": 42,
+      "srv_sent_bytes": 0,
+      "srv_service_s": 0.0,
+      "srv_mode": "fake",
+      "nic_before": {
+        "iface": "vethB",
+        "rx_bytes": 234248400,
+        "tx_bytes": 264406324
+      },
+      "nic_after": {
+        "iface": "vethB",
+        "rx_bytes": 234249274,
+        "tx_bytes": 264406953
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev vethB",
+        "overlimits": 316530,
+        "dropped": 46,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 17 rate 25Mbit burst 64Kb lat 50ms \n Sent 265456186 bytes 249301 pkt (dropped 46, overlimits 316530 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev vethB",
+        "overlimits": 316530,
+        "dropped": 46,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 17 rate 25Mbit burst 64Kb lat 50ms \n Sent 265456815 bytes 249308 pkt (dropped 46, overlimits 316530 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A4_single",
+      "ok": true,
+      "t0": 1051.187713224,
+      "upload_bytes": 42,
+      "download_bytes": 147,
+      "latency_s": 2.561359159000176,
+      "mode": "fake",
+      "ph_upload_s": 9.275000002162415e-05,
+      "ph_server_s": 2.56097617599994,
+      "ph_download_s": 1.7634000187172205e-05,
+      "t_conn": 0.00017213399996762746,
+      "t_pre_send_s": 0.00027259900002718496,
+      "t_upload_start": 0.00027259900002718496,
+      "t_upload_end": 0.0003653490000488091,
+      "t_resp_hdr": 2.561341524999989,
+      "t_download_end": 2.561359159000176,
+      "srv_recv_bytes": 42,
+      "srv_sent_bytes": 0,
+      "srv_service_s": 0.0,
+      "srv_mode": "fake",
+      "nic_before": {
+        "iface": "vethB",
+        "rx_bytes": 234249274,
+        "tx_bytes": 264406953
+      },
+      "nic_after": {
+        "iface": "vethB",
+        "rx_bytes": 234250144,
+        "tx_bytes": 264407582
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev vethB",
+        "overlimits": 316530,
+        "dropped": 46,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 17 rate 25Mbit burst 64Kb lat 50ms \n Sent 265456815 bytes 249308 pkt (dropped 46, overlimits 316530 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev vethB",
+        "overlimits": 316530,
+        "dropped": 46,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 17 rate 25Mbit burst 64Kb lat 50ms \n Sent 265457444 bytes 249315 pkt (dropped 46, overlimits 316530 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A4_multi",
+      "flows": [
+        {
+          "ok": true,
+          "t0": 1053.753310868,
+          "upload_bytes": 42,
+          "download_bytes": 147,
+          "latency_s": 2.5617286910000985,
+          "mode": "fake",
+          "ph_upload_s": 0.00010255500001221662,
+          "ph_server_s": 2.5610482249999222,
+          "ph_download_s": 7.304000064323191e-06,
+          "t_conn": 0.0004141930000969296,
+          "t_pre_send_s": 0.0005706070000996988,
+          "t_upload_start": 0.0005706070000996988,
+          "t_upload_end": 0.0006731620001119154,
+          "t_resp_hdr": 2.561721387000034,
+          "t_download_end": 2.5617286910000985,
+          "srv_recv_bytes": 42,
+          "srv_sent_bytes": 0,
+          "srv_service_s": 0.0,
+          "srv_mode": "fake"
+        },
+        {
+          "ok": true,
+          "t0": 1053.753529131,
+          "upload_bytes": 42,
+          "download_bytes": 147,
+          "latency_s": 2.5613645050000287,
+          "mode": "fake",
+          "ph_upload_s": 7.680900012019265e-05,
+          "ph_server_s": 2.5606198189998395,
+          "ph_download_s": 5.388500017033948e-05,
+          "t_conn": 0.00037007800005994795,
+          "t_pre_send_s": 0.0006139919998986443,
+          "t_upload_start": 0.0006139919998986443,
+          "t_upload_end": 0.0006908010000188369,
+          "t_resp_hdr": 2.5613106199998583,
+          "t_download_end": 2.5613645050000287,
+          "srv_recv_bytes": 42,
+          "srv_sent_bytes": 0,
+          "srv_service_s": 0.0,
+          "srv_mode": "fake"
+        },
+        {
+          "ok": true,
+          "t0": 1053.753211234,
+          "upload_bytes": 42,
+          "download_bytes": 149,
+          "latency_s": 2.5621239580000292,
+          "mode": "fake",
+          "ph_upload_s": 0.00010970300013468659,
+          "ph_server_s": 2.5612390919998234,
+          "ph_download_s": 7.063000111884321e-06,
+          "t_conn": 0.0006002949999128759,
+          "t_pre_send_s": 0.0007680999999593041,
+          "t_upload_start": 0.0007680999999593041,
+          "t_upload_end": 0.0008778030000939907,
+          "t_resp_hdr": 2.5621168949999173,
+          "t_download_end": 2.5621239580000292,
+          "srv_recv_bytes": 42,
+          "srv_sent_bytes": 0,
+          "srv_service_s": 0.0,
+          "srv_mode": "fake"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "check": "A1",
+      "item": "对照臂跳过",
+      "measured": "老协议无载荷字节",
+      "verdict": "INFO",
+      "note": "--fake-transfer：载荷不存在，字节一致性与网卡比值不适用"
+    },
+    {
+      "check": "A2",
+      "item": "上传吞吐",
+      "measured": "n/a（老协议无载荷字节）",
+      "verdict": "INFO",
+      "note": "--fake-transfer 下吞吐没有定义；这正是对照臂要说明的事"
+    },
+    {
+      "check": "A2",
+      "item": "下传吞吐",
+      "measured": "实测 48.773 Mbit/s / 设定 25.0 （偏差 95.09%）",
+      "verdict": "FAIL",
+      "note": "容差 ±10%"
+    },
+    {
+      "check": "A3",
+      "item": "overlimits 增量",
+      "measured": "overlimits +0，dropped +0",
+      "verdict": "FAIL",
+      "note": "只看 `tc qdisc show` 有输出不算生效，必须这个增量 > 0"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 单路吞吐",
+      "measured": "1 路 n/a → 3 路时每路 n/a（比值 n/a；3 路合计 0.000 Mbit/s）",
+      "verdict": "FAIL",
+      "note": "共享瓶颈下理想比值≈3；判据 ≥1.5"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 每请求端到端",
+      "measured": "1 路 2.561 s → 3 路时每路 2.562 s（比值 1.00×）",
+      "verdict": "INFO",
+      "note": "老协议下这个比值会≈1：它把'带宽'建模成一个与并发无关的睡眠时间，没有共享的物理瓶颈可瓜分"
+    },
+    {
+      "check": "A1-summary",
+      "item": "全部档位字节一致",
+      "measured": "见上",
+      "verdict": "PASS",
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+=== B0 验收电池 battery_20261007T091847106Z_37248-1 ===
+
+--- S0：先自检判据本身（含会 FAIL 的负对照）
+== selftest 1/4：区间并集 / 空档 / 重叠 / 分位数 ==
+  [PASS] 并集：重叠两段: got=3.0 want=3.0
+  [PASS] 并集：相接两段: got=2.0 want=2.0
+  [PASS] 并集：分离两段: got=2.0 want=2.0
+  [PASS] 空档：中间一段: got=1.0 want=1.0
+  [PASS] 空档：合计（[0,1]+[2,4] 在窗口 [0,4] 内）: got=1.0 want=1.0
+  [PASS] 空档：完全覆盖时无空档: got=0 want=0
+  [PASS] 重叠：两段重叠 1: got=1.0 want=1.0
+  [PASS] 重叠：按两两计: got=2.0 want=2.0
+  [PASS] 分位数：中位: got=2.5 want=2.5
+  [PASS] 分位数：单值: got=7.0 want=7.0
+  [PASS] 裁剪：越界部分被切掉: got=3.0 want=3.0
+== selftest 2/4：覆盖判据的正确路径 ==
+  [PASS] 铺满、无重叠 => PASS: got=PASS want=PASS
+  [PASS] 铺满、无重叠：空档 0: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：Σ≈窗口: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：重叠 0: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：LOO 最小空档 = 最小段长 0.1: got=0.1 want=0.1
+  [PASS] 铺满、无重叠：窗口外部分 0: got=0.0 want=0.0
+== selftest 3/4：负对照（判据必须抓得住错）==
+  [PASS] 漏记 wait_first_byte => FAIL: got=FAIL want=FAIL
+  [PASS] 漏记 wait_first_byte：露出空档 0.2: got=0.2 want=0.2
+  [PASS] 有重叠 => 仍 PASS: got=PASS want=PASS
+  [PASS] 有重叠：Σ − 窗口 = 0.15（>0）: got=0.15 want=0.15
+  [PASS] 有重叠：重叠量 = 0.15: got=0.15 want=0.15
+  [PASS] 有重叠：LOO 最小空档 > eps: got=True want=True
+  [PASS] 区间伸到窗口外 => outside > 0: got=True want=True
+  [PASS] 区间伸到窗口外 => FAIL: got=FAIL want=FAIL
+  [PASS] 空集 => 空档 = 全窗: got=1.0 want=1.0
+  [PASS] 空集 => FAIL: got=FAIL want=FAIL
+  [PASS] 无空档时 gap_total_s 仍是 float: got=True want=True
+  [PASS] 空集时 gap_total_s 仍是 float: got=True want=True
+  [PASS] sum_stage_s 是 float: got=True want=True
+== selftest 4/4：输出块口径（块 ≠ token）==
+  [PASS] 分类：普通内容块 => output: got=output want=output
+  [PASS] 分类：普通内容块的文本: got=tok  want=tok 
+  [PASS] 分类：有 choices 但文本为空 => 仍是 output: got=output want=output
+  [PASS] 分类：空文本块的 token_ids 个数: got=1 want=1
+  [PASS] 分类：只有 usage 的收尾块 => usage_only（**不算输出块**）: got=usage_only want=usage_only
+  [PASS] 分类：只有 usage 的收尾块带出 usage: got=32 want=32
+  [PASS] 分类：阶段报告片 => other: got=other want=other
+  [PASS] 分类：chat 形状的 delta 也能取到文本: got=hi want=hi
+  [PASS] 间隔：没有空文本块时，两种口径逐位相同: got=True want=True
+  [PASS] 间隔：5 个块 => 4 个间隔，均值 0.02: got=0.02 want=0.02
+  [PASS] 间隔：块口径仍数全部块（4 个间隔，均值 0.02）: got=0.02 want=0.02
+  [PASS] 间隔：历史口径跳过空文本块 => 把两个间隔并成一个（0.04 = 2×0.02）: got=0.04 want=0.04
+  [PASS] 间隔：只有一个块时不给数（返回 nan，不是 0.0）: got=True want=True
+  [PASS] 间隔：零个块时不给数: got=True want=True
+
+selftest 全部通过
+  [PASS] S0 / selftest（判据自身）: 返回码 0（0=全通过）  (只验通过路径等于没验，所以自检里必须含负对照)
+
+--- 臂 overlap0：假后端 :9500  配方={"token_count": 32, "token_interval_s": 0.02, "queue_s": 0.01, "prefill_s": 0.1, "kv_mb": 24.0, "kv_gbps": 3.2, "kv_overlap_frac": 0.0, "fail_rate": 0.0, "fail_mode": "http_500", "seed": 1, "empty_text_every": 0, "kv_bytes": 25165824, "kv_xfer_s": 0.062915}
+
+=== serving_20261007T091847122Z_37248-2 ===
+请求 120  成功 120  失败 0  墙钟 10.712 s  吞吐 11.203 req/s  在途峰值 10
+TTFT(s)   p50=0.174776  p95=0.194707  p99=0.198399  max=0.199317
+端到端(s) p50=0.794433  p95=0.813794  p99=0.818118  max=0.81854
+输出块    每请求中位 32.0 块（其中有文本 32.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.019985  p95=0.02001   p95 口径 p50=0.020366  p95=0.020468
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.019985  p95=0.02001   p95 口径 p50=0.020366  p95=0.020468
+服务端 token 数  有 usage 的请求 120 个，有 token_ids 的请求 120 个，一个都拿不到的请求 0 个  来源={"usage": 120}
+  srv_completion_tokens 中位 32.0，srv_token_ids_total 中位 32.0，逐 token 平均间隔中位 0.019985 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 120}
+覆盖判定（服务端阶段）{"PASS": 120}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005035400390625 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.001519 s，最大 -0.00011 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+产物 -> results\b0_vllm
+
+--- 臂 overlap50：假后端 :9501  配方={"token_count": 32, "token_interval_s": 0.02, "queue_s": 0.01, "prefill_s": 0.1, "kv_mb": 24.0, "kv_gbps": 3.2, "kv_overlap_frac": 0.5, "fail_rate": 0.0, "fail_mode": "http_500", "seed": 1, "empty_text_every": 0, "kv_bytes": 25165824, "kv_xfer_s": 0.062915}
+
+=== serving_20261007T091858577Z_37248-3 ===
+请求 120  成功 120  失败 0  墙钟 10.695 s  吞吐 11.22 req/s  在途峰值 10
+TTFT(s)   p50=0.143454  p95=0.164667  p99=0.167115  max=0.167771
+端到端(s) p50=0.763021  p95=0.784168  p99=0.786674  max=0.787359
+输出块    每请求中位 32.0 块（其中有文本 32.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.019985  p95=0.020005   p95 口径 p50=0.020363  p95=0.020451
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.019985  p95=0.020005   p95 口径 p50=0.020363  p95=0.020451
+服务端 token 数  有 usage 的请求 120 个，有 token_ids 的请求 120 个，一个都拿不到的请求 0 个  来源={"usage": 120}
+  srv_completion_tokens 中位 32.0，srv_token_ids_total 中位 32.0，逐 token 平均间隔中位 0.019985 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 120}
+覆盖判定（服务端阶段）{"PASS": 120}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.00038695335388183594 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.031457 s
+        (Σ语义阶段 − 端到端) 中位 0.029893 s，最大 0.031259 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+产物 -> results\b0_vllm
+
+=== 判定 ===
+  [PASS] B1 / overlap0 成功率: 120/120  (假后端不应丢请求；丢了说明心跳/连接复用有问题)
+  [PASS] B2 / overlap0 TTFT 可测: p50=0.174776 s  p95=0.194707 s  (TTFT = 请求开始 → 第一个内容片段)
+  [PASS] B3 / overlap0 TPOT 可测: 单请求p50口径：中位=0.01999 s  p95=0.020052 s  (逐片段间隔的全量分位在 tokens.csv（--save-tokens）)
+  [PASS] B4 / overlap0 覆盖：客户端分解最大空档: 0.0 s（容差 0.005 s）  (并集必须铺满 [请求开始, 请求结束])
+  [PASS] B5 / overlap0 leave-one-out 最小空档: 0.0005035400390625 s（下限 1e-06）  (每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）)
+  [PASS] B6 / overlap0 服务端语义阶段覆盖: 最大空档 0.0 s，判定 {"PASS": 120}  (queue→prefill→kv→decode 在服务端窗口内也要铺满)
+  [PASS] B7 / overlap0 KV 字节数可取: 25165824.0 B/请求（配方 25165824 B）  (假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）)
+  [PASS] B1 / overlap50 成功率: 120/120  (假后端不应丢请求；丢了说明心跳/连接复用有问题)
+  [PASS] B2 / overlap50 TTFT 可测: p50=0.143454 s  p95=0.164667 s  (TTFT = 请求开始 → 第一个内容片段)
+  [PASS] B3 / overlap50 TPOT 可测: 单请求p50口径：中位=0.01999 s  p95=0.020037 s  (逐片段间隔的全量分位在 tokens.csv（--save-tokens）)
+  [PASS] B4 / overlap50 覆盖：客户端分解最大空档: 0.0 s（容差 0.005 s）  (并集必须铺满 [请求开始, 请求结束])
+  [PASS] B5 / overlap50 leave-one-out 最小空档: 0.00038695335388183594 s（下限 1e-06）  (每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）)
+  [PASS] B6 / overlap50 服务端语义阶段覆盖: 最大空档 0.0 s，判定 {"PASS": 120}  (queue→prefill→kv→decode 在服务端窗口内也要铺满)
+  [PASS] B7 / overlap50 KV 字节数可取: 25165824.0 B/请求（配方 25165824 B）  (假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）)
+  [PASS] B8 / 对照①：无重叠臂 Σ语义阶段 − 服务端窗口: 0.0 s  (无重叠时它本来就该接近 0（这是对照臂，不是验收判据）)
+  [PASS] B9 / 对照②：50% 重叠臂 Σ语义阶段 − 服务端窗口: 实测中位 0.031457 s，配方预期 0.031457 s  (★ 关键对照：实测重叠量必须**对得上配方**（预期 0.031457 s）。重叠存在时'加总'必然大于窗口，所以阶段 A 的'加总等于端到端'在阶段 B 会**误判**——这正是本工具换判据的理由)
+  [PASS] B10 / 对照③：两臂的覆盖结论都通过（与重叠无关）: 臂A {'PASS': 120} / 臂B {'PASS': 120}  (重叠只改变'之和'，不破坏'覆盖'——两类判据成功分离)
+  [INFO] B11 / 对照④：Σ阶段 − 端到端（朴素口径，只报不判）: 臂A 中位 -0.001519 s / 臂B 中位 0.029893 s  (同一个量在两个臂上不同：说明它就是被重叠污染的，不能当判据)
+  [PASS] B12 / 服务端语义阶段重叠量（臂 B）: 中位 0.031457 s  (重叠确实发生了（否则 B9 的对照无意义）)
+
+--- 臂 emptychunks：假后端 :9510  每 3 个内容块掺 1 个空文本块（预期：输出块 32 个 = 内容块 21 + 空文本块 11）
+
+=== serving_20261007T091909517Z_37248-4 ===
+请求 120  成功 120  失败 0  墙钟 10.713 s  吞吐 11.202 req/s  在途峰值 10
+TTFT(s)   p50=0.19459  p95=0.2174  p99=0.217902  max=0.218462
+端到端(s) p50=0.794654  p95=0.817295  p99=0.818096  max=0.81874
+输出块    每请求中位 32.0 块（其中有文本 21.0 块、文本为空 11.0 块）；空文本块合计 1320 个，涉及 120 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.019986  p95=0.020005   p95 口径 p50=0.020351  p95=0.020431
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.030002  p95=0.030016   p95 口径 p50=0.040264  p95=0.040425
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 120 个，一个都拿不到的请求 0 个  来源={"token_ids": 120}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 32.0，逐 token 平均间隔中位 0.019356 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 120}
+覆盖判定（服务端阶段）{"PASS": 120}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005035400390625 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.00174 s，最大 -0.000126 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+产物 -> results\b0_vllm
+  [PASS] C1 / emptychunks 成功率与覆盖: 成功 120/120，覆盖 {"PASS": 120}  (空文本块必须被当成正常输出块：既不能丢，也不能破坏覆盖判据)
+  [PASS] C2 / ★ 块数 ≠ token 数（块口径数得全）: 输出块中位 32.0（预期 32）、内容块中位 21.0（预期 21）、空文本块中位 11.0（预期 11）  (输出块 = 内容块 + 空文本块；旧口径只数后者，所以连'块数'都会数小)
+  [PASS] C3 / 块序列落盘（tokens.csv 每块一行）: 行数 3840（预期 3840），其中 text_empty=1 的 1320 行（预期 1320）  (块序列必须与 chunk_interval_* 对得上；空文本块也要留痕，否则事后没法核)
+  [PASS] C4 / ★ 块间隔 vs 历史 tpot（两种口径必须不同）: 块间隔中位 0.019986 s（配方 0.02 s）；历史 tpot 中位 0.030002 s  (块口径数全部输出块 ⇒ 接近配方间隔；历史口径跳过空文本块 ⇒ 把两个间隔并成一个，偏大)
+  [PASS] C5 / ★ 服务端不给 token 数时必须留空（不拿块数冒充）: 有 usage 的请求 0/120，srv_completion_tokens 中位 None，srv_token_ids_total 中位 32.0，来源 {"token_ids": 120}  (这一臂故意不发 stream_options.include_usage：usage 路径必须为空，而逐块 token_ids（服务端真的给了）照常可用)
+  [PASS] C6 / 臂 A：请求了 usage 就必须取到，且收尾片不算输出块: 有 usage 的请求 120/120，srv_completion_tokens 中位 32.0（配方 token 数 32），空文本块合计 0  (只有 usage 的收尾片带 choices=[]，**不是**输出块；把它算成'空文本块'就会凭空多 1)
+
+--- 臂 failinject[http_500]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T091920471Z_37248-5 ===
+请求 6  成功 0  失败 6  墙钟 0.835 s  吞吐 7.183 req/s  在途峰值 1
+错误分类：{"http_5xx": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_vllm
+  [PASS] B13 / 错误分类（http_500 → 期望 http_5xx）: 失败 6/6，分类={"http_5xx": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[disconnect_mid_stream]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T091921831Z_37248-6 ===
+请求 6  成功 0  失败 6  墙钟 0.939 s  吞吐 6.387 req/s  在途峰值 1
+错误分类：{"stream_incomplete": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_vllm
+  [PASS] B13 / 错误分类（disconnect_mid_stream → 期望 stream_incomplete）: 失败 6/6，分类={"stream_incomplete": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[truncate_clean]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T091923190Z_37248-7 ===
+请求 6  成功 0  失败 6  墙钟 0.94 s  吞吐 6.386 req/s  在途峰值 1
+错误分类：{"stream_incomplete": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_vllm
+  [PASS] B13 / 错误分类（truncate_clean → 期望 stream_incomplete）: 失败 6/6，分类={"stream_incomplete": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[reset_mid_stream]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T091924550Z_37248-8 ===
+请求 6  成功 0  失败 6  墙钟 0.939 s  吞吐 6.392 req/s  在途峰值 1
+错误分类：{"stream_broken": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_vllm
+  [PASS] B13 / 错误分类（reset_mid_stream → 期望 stream_broken）: 失败 6/6，分类={"stream_broken": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[hang]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T091925904Z_37248-9 ===
+请求 6  成功 0  失败 6  墙钟 2.842 s  吞吐 2.111 req/s  在途峰值 6
+错误分类：{"timeout": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_vllm
+  [PASS] B13 / 错误分类（hang → 期望 timeout）: 失败 6/6，分类={"timeout": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+=== 电池结果：PASS 30 / FAIL 0 / INFO 1 ===
+产物 -> results\b0_vllm\battery_20261007T091847106Z_37248-1_checks.csv

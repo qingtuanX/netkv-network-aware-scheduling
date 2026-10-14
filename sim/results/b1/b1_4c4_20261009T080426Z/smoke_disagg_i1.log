@@ -1,0 +1,6 @@
+--only-ids=['q01_rep6', 'q02_rep10', 'q03_rep14'] → 保留 3 条
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  q01_rep6: http=200 prompt_tokens=651 completion_tokens=64 finish=length tok_ids=yes 2.7491s
+  q02_rep10: http=200 prompt_tokens=1071 completion_tokens=64 finish=length tok_ids=yes 1.7521s
+  q03_rep14: http=200 prompt_tokens=1491 completion_tokens=64 finish=length tok_ids=yes 1.796s
+wrote /root/b1/prereg4_out/smoke_disagg_i1.json  (3 requests)

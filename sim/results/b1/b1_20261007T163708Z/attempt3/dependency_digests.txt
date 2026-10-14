@@ -1,0 +1,97 @@
+== B1 依赖锁定：vLLM / NIXL 的精确版本与 wheel sha256 ==
+取法：pip download --no-deps 从内网镜像取原始 wheel，再算 sha256（下完即删，不留大文件）。
+为什么需要它：本任务**不用容器镜像**，所以'镜像 digest'的等价物是
+  （a）精确版本号 +（b）wheel 的 sha256 +（c）requirements_locked.txt 的 sha256。
+  官方 requirements/kv_connectors.txt 把 NIXL 版本钉死在 nixl == 1.4.1。
+
+---- 主机 A（8.155.133.216） ----
+    # ---- dep_digests_A @ A (8.155.133.216)  start=2026-10-07T17:09:43Z ----
+    + V=/root/b1/venv/bin
+    + W=/root/b1/_wheelcheck
+    + rm -rf /root/b1/_wheelcheck
+    + mkdir -p /root/b1/_wheelcheck
+    + /root/b1/venv/bin/pip download --no-deps -q -i http://mirrors.cloud.aliyuncs.com/pypi/simple/ --trusted-host mirrors.cloud.aliyuncs.com -d /root/b1/_wheelcheck vllm==0.31.0 nixl==1.4.1
+    pip download rc=0
+    + echo 'pip download rc=0'
+    + sha256sum /root/b1/_wheelcheck/nixl-1.4.1-py3-none-any.whl /root/b1/_wheelcheck/vllm-0.31.0-cp38-abi3-manylinux_2_28_x86_64.whl
+    40168c1fd9e6b77761d9e0f9225bd616cc3e48c75a9592fff488745ca33244df  /root/b1/_wheelcheck/nixl-1.4.1-py3-none-any.whl
+    39132b433967f0962d03d8a5f633b9bee6b32708f566c7d5637b79f8d0ef3433  /root/b1/_wheelcheck/vllm-0.31.0-cp38-abi3-manylinux_2_28_x86_64.whl
+    --- requirements_locked.txt sha256
+    + echo '--- requirements_locked.txt sha256'
+    e5fedd97089a156420b4434858b2c27b3e5a6177ca5d5e6221888e725b2b47f9  /root/b1/requirements_locked.txt
+    --- 关键包版本
+    fastapi==0.136.3
+    flashinfer-python==0.7.0.post1
+    httpx==0.28.1
+    nixl==1.4.1
+    nixl-cu12==1.4.1
+    nixl-cu13==1.4.1
+    torch==2.13.0
+    transformers==5.17.0
+    uvicorn==0.54.0
+    vllm==0.31.0
+    --- 官方 kv_connectors.txt 钉的版本（vLLM v0.31.0）
+    + sha256sum /root/b1/requirements_locked.txt
+    + echo '--- 关键包版本'
+    + grep -iE '^(vllm|torch|nixl|nixl-cu[0-9]+|transformers|flashinfer-python|ray|xformers|huggingface-hub|uvicorn|fastapi|httpx)==' /root/b1/requirements_locked.txt
+    + echo '--- 官方 kv_connectors.txt 钉的版本（vLLM v0.31.0）'
+    lmcache >= 0.3.9
+    # CuPy 14.1.0 imports pytest from cupy.testing._random, which breaks runtime
+    # images. 14.1.1 fixes the root cause, so only 14.1.0 is excluded.
+    cupy-cuda13x != 14.1.0
+    nixl == 1.4.1
+    # CUDA 12 build. On the CUDA 13 image install-kv-connectors.sh swaps this for
+    # the mooncake-transfer-engine-cuda13 variant of the same version.
+    mooncake-transfer-engine >= 0.3.12
+    + cat /root/b1/official/kv_connectors.txt
+    + rm -rf /root/b1/_wheelcheck
+    # ---- exit=0 end=2026-10-07T17:09:45Z ----
+
+---- 主机 B（8.155.131.183） ----
+    # ---- dep_digests_B @ B (8.155.131.183)  start=2026-10-07T17:09:46Z ----
+    + V=/root/b1/venv/bin
+    + W=/root/b1/_wheelcheck
+    + rm -rf /root/b1/_wheelcheck
+    + mkdir -p /root/b1/_wheelcheck
+    + /root/b1/venv/bin/pip download --no-deps -q -i http://mirrors.cloud.aliyuncs.com/pypi/simple/ --trusted-host mirrors.cloud.aliyuncs.com -d /root/b1/_wheelcheck vllm==0.31.0 nixl==1.4.1
+    pip download rc=0
+    + echo 'pip download rc=0'
+    + sha256sum /root/b1/_wheelcheck/nixl-1.4.1-py3-none-any.whl /root/b1/_wheelcheck/vllm-0.31.0-cp38-abi3-manylinux_2_28_x86_64.whl
+    40168c1fd9e6b77761d9e0f9225bd616cc3e48c75a9592fff488745ca33244df  /root/b1/_wheelcheck/nixl-1.4.1-py3-none-any.whl
+    39132b433967f0962d03d8a5f633b9bee6b32708f566c7d5637b79f8d0ef3433  /root/b1/_wheelcheck/vllm-0.31.0-cp38-abi3-manylinux_2_28_x86_64.whl
+    --- requirements_locked.txt sha256
+    + echo '--- requirements_locked.txt sha256'
+    e5fedd97089a156420b4434858b2c27b3e5a6177ca5d5e6221888e725b2b47f9  /root/b1/requirements_locked.txt
+    --- 关键包版本
+    + sha256sum /root/b1/requirements_locked.txt
+    + echo '--- 关键包版本'
+    + grep -iE '^(vllm|torch|nixl|nixl-cu[0-9]+|transformers|flashinfer-python|ray|xformers|huggingface-hub|uvicorn|fastapi|httpx)==' /root/b1/requirements_locked.txt
+    fastapi==0.136.3
+    flashinfer-python==0.7.0.post1
+    httpx==0.28.1
+    nixl==1.4.1
+    nixl-cu12==1.4.1
+    nixl-cu13==1.4.1
+    torch==2.13.0
+    transformers==5.17.0
+    uvicorn==0.54.0
+    vllm==0.31.0
+    --- 官方 kv_connectors.txt 钉的版本（vLLM v0.31.0）
+    + echo '--- 官方 kv_connectors.txt 钉的版本（vLLM v0.31.0）'
+    (没取到官方文件)
+    + cat /root/b1/official/kv_connectors.txt
+    + echo '(没取到官方文件)'
+    + rm -rf /root/b1/_wheelcheck
+    # ---- exit=0 end=2026-10-07T17:09:48Z ----
+
+== 判据（两端**必须**一致，否则握手直接失败或静默算错） ==
+  vllm wheel sha256：A=39132b433967f0962d03d8a5f633b9bee6b32708f566c7d5637b79f8d0ef3433  B=39132b433967f0962d03d8a5f633b9bee6b32708f566c7d5637b79f8d0ef3433
+  → **两端 vLLM wheel 逐字节相同** ✓
+  nixl wheel sha256：A=40168c1fd9e6b77761d9e0f9225bd616cc3e48c75a9592fff488745ca33244df  B=40168c1fd9e6b77761d9e0f9225bd616cc3e48c75a9592fff488745ca33244df
+  requirements_locked.txt sha256：A=e5fedd97089a156420b4434858b2c27b3e5a6177ca5d5e6221888e725b2b47f9  B=e5fedd97089a156420b4434858b2c27b3e5a6177ca5d5e6221888e725b2b47f9
+
+== 模型修订号（锁定字段，R7 要求） ==
+来源：Hub API  https://hf-mirror.com/api/models/Qwen/Qwen2.5-1.5B-Instruct
+期望值（本脚本写死）：MODEL_REV_EXPECT = 989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+接口返回原文（含 sha / lastModified）见 /e/代码项目文件/论文/sim/results/b1/b1_20261007T163708Z/attempt3/model_revision.log
+说明：这是**官方仓库的 revision**；两端实际下载到的目录哈希另见 model_identity.txt。

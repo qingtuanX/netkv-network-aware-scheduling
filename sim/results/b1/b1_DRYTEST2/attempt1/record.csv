@@ -1,0 +1,4 @@
+run_id,attempt,host,step,utc_start,utc_end,exit_code,status,note
+b1_DRYTEST2,1,-,init,2026-10-07T16:36:01Z,2026-10-07T16:36:01Z,0,OK,"建立 run/attempt 目录；run_id=b1_DRYTEST2 attempt=1"
+b1_DRYTEST2,1,A,consistency,2026-10-07T16:36:23Z,2026-10-07T16:36:23Z,1,FAIL,"缺输入文件"
+b1_DRYTEST2,1,-,cleanup_check,2026-10-07T16:36:32Z,2026-10-07T16:36:59Z,0,DONE,"见 cleanup_check.txt"

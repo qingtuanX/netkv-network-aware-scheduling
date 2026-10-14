@@ -1,0 +1,7 @@
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  q01_rep6: http=200 prompt_tokens=651 completion_tokens=64 finish=length tok_ids=yes 0.9362s
+  q02_rep10: http=200 prompt_tokens=1071 completion_tokens=46 finish=stop tok_ids=yes 0.6975s
+  q03_rep14: http=200 prompt_tokens=1491 completion_tokens=46 finish=stop tok_ids=yes 0.7141s
+  q04_rep18: http=200 prompt_tokens=1911 completion_tokens=33 finish=stop tok_ids=yes 0.5486s
+  q05_rep22: http=200 prompt_tokens=2331 completion_tokens=27 finish=stop tok_ids=yes 0.4902s
+wrote /root/b1/prereg3_out/arm_baseline_r2.json  (5 requests)

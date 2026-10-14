@@ -1,0 +1,19 @@
+﻿mode,run_id,runs,paired,manifest,code_version,code_dirty,n_rows,n_cells,strategies,n_seeds,p_holm 来源,多余 run_id
+main,20261012T072436Z,有,有,有,a9acad1,干净,480,120,LeastLoad/LeastQueue/NetworkAware/Random,5,运行产物,20261012T064510Z
+staleness,-,缺,缺,缺,-,-,0,0,-,0,-,-
+datavolume,20261012T071702Z,有,有,有,a9acad1,干净,192,48,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,-
+convergence,-,缺,缺,缺,-,-,0,0,-,0,-,-
+ablation,-,缺,缺,缺,-,-,0,0,-,0,-,-
+scale,-,缺,缺,缺,-,-,0,0,-,0,-,-
+rho,20261012T074548Z,有,有,有,a9acad1,干净,360,90,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,20261012T065713Z
+fallback,-,缺,缺,缺,-,-,0,0,-,0,-,-
+bandwidth,20261012T072024Z,有,有,有,a9acad1,干净,240,60,LeastLoad/LeastQueue/NetworkAware/Random,3,运行产物,-
+avewindow,-,缺,缺,缺,-,-,0,0,-,0,-,-
+staleness2d,-,缺,缺,缺,-,-,0,0,-,0,-,-
+align,20261012T080657Z,有,有,缺,-,-,4,1,LeastLoad/LeastQueue/NetworkAware/Random,1,本轮脚本按同族定义重算（原文件缺 p_holm 列，说明该模式尚未跑完）,20261012T070608Z
+alignscale,20261012T071302Z,有,有,有,a9acad1,干净,180,45,LeastLoad/LeastQueue/NetworkAware/Random,5,运行产物,-
+method,-,缺,缺,缺,-,-,0,0,-,0,-,-
+method_ablate,-,缺,缺,缺,-,-,0,0,-,0,-,-
+method_ch,-,缺,缺,缺,-,-,0,0,-,0,-,-
+method_ch_ablate,-,缺,缺,缺,-,-,0,0,-,0,-,-
+baselines,-,缺,缺,缺,-,-,0,0,-,0,-,-

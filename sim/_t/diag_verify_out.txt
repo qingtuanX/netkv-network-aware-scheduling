@@ -1,0 +1,21 @@
+=== 语法检查 ===
+SYNTAX_OK
+
+=== 上传检查脚本 ===
+scp-ok
+
+=== 请求计数与步数 ===
+arm_baseline_r1.json: n=5 http200=5 总步数=216 带logprobs=5
+arm_baseline_r2.json: n=5 http200=5 总步数=216 带logprobs=5
+arm_baseline_r3.json: n=5 http200=5 总步数=216 带logprobs=5
+warmup_baseline_r3.json: n=5 http200=5 总步数=216 带logprobs=5
+smoke_baseline.json: n=3 http200=3 总步数=156 带logprobs=3
+
+=== C1 逐词校验：正式 r1/r2/r3 ===
+[C1 冒烟] 步数=216 不合=0 → PASS
+[C1 冒烟] 步数=216 不合=0 → PASS
+
+=== r1..r3 哈希（看重复性） ===
+9f8051ed641269c2951572ec99fdb03070c0da062876132c066b1c6404ad2cb7  /root/b1/prereg3_out/arm_baseline_r1.json
+c02df5aa8fc1ad5be0a08e956efcea5f6dc21f008fcb9a565e6519c5570da2e2  /root/b1/prereg3_out/arm_baseline_r2.json
+3c25af110e3e88c40f683fc2114b9abdae0d4ba4415d6eb4955b071f9717a0fe  /root/b1/prereg3_out/arm_baseline_r3.json

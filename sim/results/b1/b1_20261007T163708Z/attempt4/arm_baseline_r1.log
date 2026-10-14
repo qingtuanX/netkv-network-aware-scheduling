@@ -1,0 +1,11 @@
+# arm=baseline_r1 url=http://172.29.31.51:8300 extra='' start=2026-10-07T17:14:02Z
+# 客户端跑在 A 上（chost=A），目标 172.29.31.51:8300
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 1.7811s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=24 finish=stop tok_ids=yes 0.3979s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=35 finish=stop tok_ids=yes 0.5498s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.4448s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=24 finish=stop tok_ids=yes 0.3809s
+wrote /root/b1/out/baseline_r1.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-07T17:14:09Z ----

@@ -1,0 +1,11 @@
+[10:51:16Z] 批次 20261006T105116Z 开始：phase=up up=1 down=10 payload=2MB
+[10:51:16Z] == 部署：tc 只读仪表 + iperf3 服务端 + worker + WSL 软链 ==
+cat: /tmp/stage_a_keepalive.pid: No such file or directory
+保活 PID=
+[10:51:38Z] 致命错误：云端 worker /health 不可用
+[10:51:39Z] == 清理：拆两边限速 + 停云上进程（显式拆除，不依赖任何定时器）==
+rm: cannot remove '/tmp/tc_stats_server.pid': Operation not permitted
+残余进程：iperf3=[] worker=[]
+云上根队列：qdisc mq 0: root 
+云上监听：
+[10:51:44Z] 本机 WSL 根队列：qdisc mq 0: root 

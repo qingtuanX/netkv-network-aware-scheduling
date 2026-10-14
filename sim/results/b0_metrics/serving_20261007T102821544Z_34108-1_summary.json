@@ -1,0 +1,198 @@
+{
+  "n_requests": 12,
+  "n_ok": 12,
+  "n_err": 0,
+  "error_counts": {},
+  "wall_clock_s": 1.909,
+  "throughput_qps": 6.286,
+  "inflight_peak": 5,
+  "latency": {
+    "ttft_s": {
+      "p50": 0.057817,
+      "p95": 0.076203,
+      "p99": 0.076627,
+      "max": 0.076733
+    },
+    "e2e_s": {
+      "p50": 0.565252,
+      "p95": 0.580325,
+      "p99": 0.581863,
+      "max": 0.582248
+    },
+    "chunk_interval_mean_s": {
+      "p50": 0.016198,
+      "p95": 0.016768
+    },
+    "chunk_interval_p95_s": {
+      "p50": 0.017431,
+      "p95": 0.018519
+    },
+    "tpot_p50_s": {
+      "p50": 0.016028,
+      "p95": 0.016818
+    },
+    "tpot_p95_s": {
+      "p50": 0.017431,
+      "p95": 0.018519
+    },
+    "tpot_mean_s": {
+      "p50": 0.016198,
+      "p95": 0.016768
+    }
+  },
+  "chunks": {
+    "n_output_chunks_median": 32.0,
+    "n_content_chunks_median": 32.0,
+    "n_empty_text_chunks_median": 0.0,
+    "n_empty_text_chunks_total": 0,
+    "n_requests_with_empty_text_chunks": 0
+  },
+  "server_tokens": {
+    "n_requests_with_usage": 12,
+    "n_requests_with_token_ids": 12,
+    "n_requests_without_token_count": 0,
+    "srv_completion_tokens_median": 32.0,
+    "srv_token_ids_total_median": 32.0,
+    "srv_token_count_source_counts": {
+      "usage": 12
+    },
+    "token_interval_mean_s_median": 0.016198
+  },
+  "coverage_verdicts": {
+    "PASS": 12
+  },
+  "srv_verdicts": {},
+  "coverage": {
+    "n_with_server_report": 0,
+    "cov_max_gap_s_max": 0.0,
+    "cov_gap_total_s_max": 0.0,
+    "cov_loo_min_gap_s_min": 0.0005128383636474609,
+    "srv_gap_max_s_max": null,
+    "srv_overlap_s_median": null,
+    "sum_minus_e2e_s_median": null,
+    "sum_minus_e2e_s_max": null,
+    "sum_minus_srv_span_s_median": null,
+    "srv_outside_s_median": null,
+    "cov_tol_s": 0.005,
+    "loo_eps_s": 1e-06
+  },
+  "kv_bytes_per_request": null,
+  "run_id": "serving_20261007T102821544Z_34108-1",
+  "requests_csv": "results\\b0_metrics\\serving_20261007T102821544Z_34108-1_requests.csv",
+  "tokens_csv": null,
+  "metrics_snapshot": {
+    "state": "nixl_absent",
+    "state_zh": "成功抓到指标但没有 NIXL 项（记作：未出现）",
+    "nixl_presence_zh": "未出现",
+    "nixl_matched_series_count": 0,
+    "nixl_series_values": null,
+    "nixl_note": "未出现：本次 /metrics 里没有任何 NIXL 相关序列。**这一项记作「未出现」，不是「0」**——没有序列时我们并不知道任何数值。",
+    "n_attempts": 3,
+    "n_ok": 3,
+    "n_failed": 0,
+    "url": "http://127.0.0.1:8090/metrics",
+    "version_url": "http://127.0.0.1:8090/version",
+    "interval_s": 1.0,
+    "timeout_s": 3.0,
+    "target_version": "0.31.0",
+    "version_source": "GET /version（JSON 字段 version）",
+    "version_error": "",
+    "first_snapshot": {
+      "seq": 0,
+      "phase": "start",
+      "t_rel_s": 0.000999,
+      "body_bytes": 92746,
+      "n_series": 517
+    },
+    "last_snapshot": {
+      "seq": 2,
+      "phase": "end",
+      "t_rel_s": 1.908997,
+      "body_bytes": 92749,
+      "n_series": 517
+    },
+    "scrapes_csv": "results\\b0_metrics\\serving_20261007T102821544Z_34108-1_metrics_scrapes.csv",
+    "snapshot_files": [
+      "results\\b0_metrics\\serving_20261007T102821544Z_34108-1_scrape_000_start.json",
+      "results\\b0_metrics\\serving_20261007T102821544Z_34108-1_scrape_001_periodic.json",
+      "results\\b0_metrics\\serving_20261007T102821544Z_34108-1_scrape_002_end.json"
+    ],
+    "diff_start_end": {
+      "n_series_start": 517,
+      "n_series_end": 517,
+      "n_common": 517,
+      "n_only_start": 0,
+      "n_only_end": 0,
+      "n_deltas": 517,
+      "n_skipped_non_numeric": 0,
+      "top_deltas": [
+        {
+          "series": "http_request_size_bytes_sum{handler=\"/v1/completions\"}",
+          "start": 510299.0,
+          "end": 514427.0,
+          "delta": 4128.0
+        },
+        {
+          "series": "vllm:prefix_cache_queries_total{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\"}",
+          "start": 16160.0,
+          "end": 16940.0,
+          "delta": 780.0
+        },
+        {
+          "series": "vllm:prompt_tokens_total{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\"}",
+          "start": 16159.0,
+          "end": 16939.0,
+          "delta": 780.0
+        },
+        {
+          "series": "vllm:request_prompt_tokens_sum{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\"}",
+          "start": 16159.0,
+          "end": 16939.0,
+          "delta": 780.0
+        },
+        {
+          "series": "vllm:prefix_cache_hits_total{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\"}",
+          "start": 14800.0,
+          "end": 15568.0,
+          "delta": 768.0
+        },
+        {
+          "series": "vllm:prompt_tokens_by_source_total{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\",source=\"local_cache_hit\"}",
+          "start": 14800.0,
+          "end": 15568.0,
+          "delta": 768.0
+        },
+        {
+          "series": "vllm:prompt_tokens_cached_total{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\"}",
+          "start": 14800.0,
+          "end": 15568.0,
+          "delta": 768.0
+        },
+        {
+          "series": "vllm:iteration_tokens_total_sum{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\"}",
+          "start": 38385.0,
+          "end": 38781.0,
+          "delta": 396.0
+        },
+        {
+          "series": "vllm:generation_tokens_total{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\"}",
+          "start": 37026.0,
+          "end": 37410.0,
+          "delta": 384.0
+        },
+        {
+          "series": "vllm:request_generation_tokens_sum{engine=\"0\",model_name=\"/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306\"}",
+          "start": 37026.0,
+          "end": 37410.0,
+          "delta": 384.0
+        }
+      ],
+      "only_start_examples": [],
+      "only_end_examples": [],
+      "only_in_one_snapshot_note": "只出现在一侧的序列**不计差、也不当 0**：两次抓取之间服务可能重启或新增/注销指标。",
+      "note": "这些差是**两个时间点之间的进程级累计量变化**，覆盖整段运行；**不能**拆给单个请求（见 scope_note）。"
+    },
+    "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。",
+    "error_examples": []
+  }
+}

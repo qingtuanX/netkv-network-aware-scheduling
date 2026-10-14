@@ -1,0 +1,49 @@
+# ---- setup_install_A @ A (8.155.133.216) start=2026-10-07T16:37:41Z script=/e/代码项目文件/论文/sim/k8s_test/b1_remote_setup.sh args=install ----
+
+==================== 0) 装之前先看空间（本题约需 6–7 G：venv + torch/cu130 的 wheel 约 3 G，模型 2.9 G） ====================
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda3       197G   28G  162G  15% /
+--- 已占用的：
+
+==================== 1) 建目录与 venv ====================
+The virtual environment was not created successfully because ensurepip is not
+available.  On Debian/Ubuntu systems, you need to install the python3-venv
+package using the following command.
+
+    apt install python3.12-venv
+
+You may need to use sudo with that command.  After installing the python3-venv
+package, recreate your virtual environment.
+
+Failing command: /root/b1/venv/bin/python3
+
+Python 3.12.3
+
+==================== 2) 升级 pip（走内网 aliyun 镜像：区域内流量免费且快） ====================
+main: line 50: /root/b1/venv/bin/pip: No such file or directory
+main: line 34: /root/b1/venv/bin/pip: No such file or directory
+
+==================== 3) 装 vLLM 0.31.0 ====================
+main: line 34: /root/b1/venv/bin/pip: No such file or directory
+
+==================== 4) 装 NIXL 1.4.1（KV 传输用的库；官方 kv_connectors.txt 就把版本钉在这里） ====================
+main: line 34: /root/b1/venv/bin/pip: No such file or directory
+
+==================== 5) 版本与依赖锁定 ====================
+main: line 62: /root/b1/venv/bin/vllm: No such file or directory
+--- 关键包：
+--- nixl 组件：
+main: line 63: /root/b1/venv/bin/pip: No such file or directory
+nixl 查询失败: PackageNotFoundError No package metadata was found for nixl
+
+==================== 6) torch 能不能看到卡 ====================
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'torch'
+
+==================== 7) 装之后的磁盘 ====================
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda3       197G   28G  162G  15% /
+32K	/root/b1/venv
+4.0K	/root/b1/models
+# ---- exit=0 end=2026-10-07T16:37:42Z ----

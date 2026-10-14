@@ -1,0 +1,3 @@
+D2 偏离：P/D --max-model-len 8192 → 2048（本机预演专用）
+D5 预演降级：拆分臂未能在本机跑通（见 deviations/）⇒ 分析只能覆盖对照臂链路
+D6 工具演练：假拆分臂 = --generation-config vllm（规则全关）；产物仅限 tooling_drill/，不是证据

@@ -1,0 +1,61 @@
+{
+  "run_id": "serving_20261007T101441418Z_32603-6",
+  "seq": 0,
+  "phase": "start",
+  "utc": "2026-10-07T10:14:41.422407+00:00",
+  "planned_t_rel_s": 0.0,
+  "t_rel_s": 0.000506,
+  "t_utc_epoch": 1791368081.419205,
+  "scrape_wall_s": 0.0023,
+  "url": "http://127.0.0.1:9531/metrics",
+  "ok": true,
+  "http_status": 200,
+  "error_class": "",
+  "error_text": "",
+  "body_bytes": 2505,
+  "body_sha256": "f32b1635b67e870df03cee4826670c27af68fcd9bb85bd1cf76cca167d466e71",
+  "state": "nixl_present",
+  "state_zh": "抓到 NIXL 项",
+  "nixl_presence_zh": "出现",
+  "nixl_note": "出现：本次 /metrics 里有 7 条 NIXL 相关序列（数值是按传输汇总的量，原文见快照 raw_body）",
+  "nixl_matched_series_count": 7,
+  "nixl_matched_series_count_meaning": "只表示**匹配到的序列条数**，不是任何指标的值；为 0 时含义是「未出现」，不是「传输量为 0」",
+  "nixl_series_values": {
+    "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"write\"}": 1250000000.0,
+    "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"read\"}": 250000000.0,
+    "vllm:nixl_xfer_time_seconds_total{model_name=\"fake-model\",transfer_type=\"write\"}": 12.5,
+    "vllm:nixl_post_time_seconds_total{model_name=\"fake-model\"}": 3.5,
+    "vllm:nixl_num_descriptors{model_name=\"fake-model\"}": 4096.0,
+    "vllm:nixl_num_failed_transfers{model_name=\"fake-model\"}": 0.0,
+    "vllm:nixl_num_failed_notifications{model_name=\"fake-model\"}": 0.0
+  },
+  "nixl_help_or_type_mentions": 3,
+  "n_series": 18,
+  "n_sample_lines": 18,
+  "kv_transfer_label_hits": 1,
+  "kv_connector_hits": 0,
+  "target_version": "fake-vllm-0.0.1-test",
+  "version_source": "GET /version（JSON 字段 version）",
+  "version_error": "",
+  "version_label_probe": {
+    "accepted": null,
+    "version": null,
+    "source": "",
+    "candidates": [
+      {
+        "metric": "python_info",
+        "labels": {
+          "implementation": "CPython",
+          "major": "3",
+          "minor": "12",
+          "patchlevel": "10",
+          "version": "3.12.10"
+        },
+        "version": "3.12.10"
+      }
+    ],
+    "why_other_candidates_rejected": "只有 build_info 这类**明确表示服务构建**的指标才被采用；其余 version 标签（例如 python_info 的 version 是**解释器版本**）只记录成候选。拿它们当服务版本就是编数。"
+  },
+  "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。",
+  "raw_body": "# HELP python_gc_objects_collected_total Objects collected during gc\n# TYPE python_gc_objects_collected_total counter\npython_gc_objects_collected_total{generation=\"0\"} 4766.0\npython_gc_objects_collected_total{generation=\"1\"} 42875.0\n# HELP python_info Python platform information\n# TYPE python_info gauge\npython_info{implementation=\"CPython\",major=\"3\",minor=\"12\",patchlevel=\"10\",version=\"3.12.10\"} 1.0\n# HELP process_resident_memory_bytes Resident memory size in bytes.\n# TYPE process_resident_memory_bytes gauge\nprocess_resident_memory_bytes 9.4814208e+08\n# HELP process_start_time_seconds Start time of the process since unix epoch.\n# TYPE process_start_time_seconds gauge\nprocess_start_time_seconds 1.79135360062e+09\n# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total counter\nprocess_cpu_seconds_total 43.59\n# HELP vllm:cache_config_info Information of the LLMEngine CacheConfig\n# TYPE vllm:cache_config_info gauge\nvllm:cache_config_info{block_size=\"16\",enable_prefix_caching=\"True\",num_gpu_blocks=\"4312\",kv_cache_size_tokens=\"68992\"} 1.0\n# HELP vllm:num_requests_running Number of requests currently running.\n# TYPE vllm:num_requests_running gauge\nvllm:num_requests_running{model_name=\"fake-model\"} 2.0\n# HELP vllm:kv_cache_usage_perc KV-cache usage.\n# TYPE vllm:kv_cache_usage_perc gauge\nvllm:kv_cache_usage_perc{model_name=\"fake-model\"} 0.13\n# HELP vllm:prompt_tokens_by_source_total prompt tokens by source\n# TYPE vllm:prompt_tokens_by_source_total counter\nvllm:prompt_tokens_by_source_total{source=\"external_kv_transfer\"} 0.0\n# HELP vllm:request_success_total Count of successfully processed requests.\n# TYPE vllm:request_success_total counter\nvllm:request_success_total{finished_reason=\"stop\",model_name=\"fake-model\"} 12.0\n# HELP vllm:nixl_bytes_transferred_total Number of bytes transferred by NIXL\n# TYPE vllm:nixl_bytes_transferred_total counter\nvllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"write\"} 1.25e+09\nvllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"read\"} 2.5e+08\n# HELP vllm:nixl_xfer_time_seconds_total Total time spent in NIXL transfers\nvllm:nixl_xfer_time_seconds_total{model_name=\"fake-model\",transfer_type=\"write\"} 12.5\nvllm:nixl_post_time_seconds_total{model_name=\"fake-model\"} 3.5\nvllm:nixl_num_descriptors{model_name=\"fake-model\"} 4096\nvllm:nixl_num_failed_transfers{model_name=\"fake-model\"} 0.0\nvllm:nixl_num_failed_notifications{model_name=\"fake-model\"} 0.0\n"
+}

@@ -1,0 +1,7 @@
+run_id,label,req_id,scheduled_arrival_s,start_s,inflight_at_submit,overloaded,ok,error_class,error_detail,http_status,e2e_s,n_content_chunks,n_stream_bytes,ttft_s,ttft_from_arrival_s,tpot_p50_s,tpot_p95_s,tpot_p99_s,tpot_mean_s,tpot_max_s,cov_gap_total_s,cov_max_gap_s,cov_loo_min_gap_s,cov_loo_stage,cov_overlap_s,cov_verdict,stage_report_seen,srv_span_s,srv_stage_sum_s,srv_gap_max_s,srv_overlap_s,srv_loo_min_gap_s,srv_outside_s,srv_verdict,sum_minus_e2e_s,sum_minus_srv_span_s,kv_bytes,kv_mbps
+serving_20261006T171811320Z_7632-4,failinject_http_500,r00000,0.0,0.0,1,0,0,http_5xx,HTTP 500,500,0.0020003318786621094,0,0,,,,,,,,,,,,,N-A,0,,,,,,,N-A,,,,
+serving_20261006T171811320Z_7632-4,failinject_http_500,r00001,0.16666674613952637,0.1678309440612793,1,0,0,http_5xx,HTTP 500,500,0.0012459754943847656,0,0,,,,,,,,,,,,,N-A,0,,,,,,,N-A,,,,
+serving_20261006T171811320Z_7632-4,failinject_http_500,r00002,0.33333325386047363,0.3341093063354492,1,0,0,http_5xx,HTTP 500,500,0.0011782646179199219,0,0,,,,,,,,,,,,,N-A,0,,,,,,,N-A,,,,
+serving_20261006T171811320Z_7632-4,failinject_http_500,r00003,0.5,0.5007851123809814,1,0,0,http_5xx,HTTP 500,500,0.0010437965393066406,0,0,,,,,,,,,,,,,N-A,0,,,,,,,N-A,,,,
+serving_20261006T171811320Z_7632-4,failinject_http_500,r00004,0.6666667461395264,0.6673212051391602,1,0,0,http_5xx,HTTP 500,500,0.0010075569152832031,0,0,,,,,,,,,,,,,N-A,0,,,,,,,N-A,,,,
+serving_20261006T171811320Z_7632-4,failinject_http_500,r00005,0.8333332538604736,0.834050178527832,1,0,0,http_5xx,HTTP 500,500,0.0011868476867675781,0,0,,,,,,,,,,,,,N-A,0,,,,,,,N-A,,,,

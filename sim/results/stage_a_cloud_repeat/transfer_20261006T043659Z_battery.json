@@ -1,0 +1,503 @@
+{
+  "run_id": "transfer_20261006T043659Z",
+  "utc": "2026-10-06T04:36:59.540268+00:00",
+  "host": {
+    "python": "3.14.4",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "system": "Linux",
+    "uname": "Linux localhost 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 ",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2",
+    "os_version": "#1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026"
+  },
+  "source": "外部 worker（http://49.235.115.164:8000），电池跑在客户端这一侧",
+  "target": "http://49.235.115.164:8000",
+  "iface": "eth0",
+  "tc_cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+  "tc_rate_mbps": 1.5,
+  "shaped_direction": "download",
+  "sizes_mb": [
+    0.2,
+    2.0
+  ],
+  "rate_test_mb": 8.0,
+  "concurrency": 3,
+  "rate_load_on": "download",
+  "transfers": [
+    {
+      "sub": "A1",
+      "size_mb": 0.2,
+      "ok": true,
+      "t0": 1758.81222531,
+      "upload_bytes": 200000,
+      "download_bytes": 200000,
+      "latency_s": 1.6020766340000137,
+      "mode": "real",
+      "ph_upload_s": 0.30006050399993,
+      "ph_server_s": 0.10333198600005744,
+      "ph_download_s": 1.1000355250000666,
+      "down_first_s": 5.601000111710164e-06,
+      "t_conn": 0.09821672099997159,
+      "t_pre_send_s": 0.09864861899995958,
+      "t_upload_start": 0.09864861899995958,
+      "t_upload_end": 0.3987091229998896,
+      "t_resp_hdr": 0.502041108999947,
+      "t_download_end": 1.6020766340000137,
+      "crc_sent": 540207777,
+      "crc_recv": 540207777,
+      "srv_recv_bytes": 200000,
+      "srv_declared_bytes": 200000,
+      "srv_sent_bytes": 200000,
+      "srv_recv_s": 0.326643174,
+      "srv_recv_total_s": 0.326658891,
+      "srv_service_s": 1.86e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 540207777,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 155691772,
+        "tx_bytes": 584801775
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 155922152,
+        "tx_bytes": 585026031
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      },
+      "cli_total_s": 1.6020766340000137,
+      "srv_total_s": 1.4266962760000665,
+      "phase_sum_s": 1.6020766340000137,
+      "residual_s": 0.1753803579999471,
+      "crc_upload_ok": true,
+      "crc_download_ok": true
+    },
+    {
+      "sub": "A1",
+      "size_mb": 2.0,
+      "ok": true,
+      "t0": 1762.413240488,
+      "upload_bytes": 2000000,
+      "download_bytes": 2000000,
+      "latency_s": 12.204002413000126,
+      "mode": "real",
+      "ph_upload_s": 0.61302645700016,
+      "ph_server_s": 0.38633113599985336,
+      "ph_download_s": 11.103698321000138,
+      "down_first_s": 4.028000148537103e-06,
+      "t_conn": 0.09967218600013439,
+      "t_pre_send_s": 0.10094649899997421,
+      "t_upload_start": 0.10094649899997421,
+      "t_upload_end": 0.7139729560001342,
+      "t_resp_hdr": 1.1003040919999876,
+      "t_download_end": 12.204002413000126,
+      "crc_sent": 2135050651,
+      "crc_recv": 2135050651,
+      "srv_recv_bytes": 2000000,
+      "srv_declared_bytes": 2000000,
+      "srv_sent_bytes": 2000000,
+      "srv_recv_s": 0.870340848,
+      "srv_recv_total_s": 0.870366814,
+      "srv_service_s": 2.599e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 2135050651,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 155930702,
+        "tx_bytes": 585034983
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 158100089,
+        "tx_bytes": 587128399
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      },
+      "cli_total_s": 12.204002413000126,
+      "srv_total_s": 11.974067734000139,
+      "phase_sum_s": 12.204002413000126,
+      "residual_s": 0.22993467899998699,
+      "crc_upload_ok": true,
+      "crc_download_ok": true
+    },
+    {
+      "sub": "A2_upload",
+      "ok": true,
+      "t0": 1776.614586214,
+      "upload_bytes": 8000000,
+      "download_bytes": 500000,
+      "latency_s": 5.198450955999988,
+      "mode": "real",
+      "ph_upload_s": 1.697393755999883,
+      "ph_server_s": 0.6034224659999836,
+      "ph_download_s": 2.795985533000021,
+      "down_first_s": 5.691000069418806e-06,
+      "t_conn": 0.09925536500009002,
+      "t_pre_send_s": 0.10164920100010022,
+      "t_upload_start": 0.10164920100010022,
+      "t_upload_end": 1.7990429569999833,
+      "t_resp_hdr": 2.402465422999967,
+      "t_download_end": 5.198450955999988,
+      "crc_sent": 2378585824,
+      "crc_recv": 889589360,
+      "srv_recv_bytes": 8000000,
+      "srv_declared_bytes": 8000000,
+      "srv_sent_bytes": 500000,
+      "srv_recv_s": 2.199946826,
+      "srv_recv_total_s": 2.200076394,
+      "srv_service_s": 2.299e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 2378585824,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 158110119,
+        "tx_bytes": 587138515
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 158771080,
+        "tx_bytes": 595234744
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      }
+    },
+    {
+      "sub": "A2_download",
+      "ok": true,
+      "t0": 1783.937948834,
+      "upload_bytes": 500000,
+      "download_bytes": 8000000,
+      "latency_s": 45.180768975999854,
+      "mode": "real",
+      "ph_upload_s": 0.40028638299986596,
+      "ph_server_s": 0.20220225900015976,
+      "ph_download_s": 44.50245813999982,
+      "down_first_s": 3.9069998365448555e-06,
+      "t_conn": 0.07519414600005803,
+      "t_pre_send_s": 0.07582219400001122,
+      "t_upload_start": 0.07582219400001122,
+      "t_upload_end": 0.4761085769998772,
+      "t_resp_hdr": 0.6783108360000369,
+      "t_download_end": 45.180768975999854,
+      "crc_sent": 889589360,
+      "crc_recv": 2378585824,
+      "srv_recv_bytes": 500000,
+      "srv_declared_bytes": 500000,
+      "srv_sent_bytes": 8000000,
+      "srv_recv_s": 0.519487666,
+      "srv_recv_total_s": 0.519515172,
+      "srv_service_s": 1.93e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 889589360,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 158780394,
+        "tx_bytes": 595242142
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 167310082,
+        "tx_bytes": 595995699
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      }
+    },
+    {
+      "sub": "A4_single",
+      "ok": true,
+      "t0": 1831.120369732,
+      "upload_bytes": 500000,
+      "download_bytes": 8000000,
+      "latency_s": 45.51632140200013,
+      "mode": "real",
+      "ph_upload_s": 0.39858339000011256,
+      "ph_server_s": 0.202607788000023,
+      "ph_download_s": 44.81713400800004,
+      "down_first_s": 4.378999847176601e-06,
+      "t_conn": 0.09749329999999645,
+      "t_pre_send_s": 0.0979962159999559,
+      "t_upload_start": 0.0979962159999559,
+      "t_upload_end": 0.49657960600006845,
+      "t_resp_hdr": 0.6991873940000914,
+      "t_download_end": 45.51632140200013,
+      "crc_sent": 889589360,
+      "crc_recv": 2378585824,
+      "srv_recv_bytes": 500000,
+      "srv_declared_bytes": 500000,
+      "srv_sent_bytes": 8000000,
+      "srv_recv_s": 0.529913585,
+      "srv_recv_total_s": 0.529937938,
+      "srv_service_s": 1.927e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 889589360,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 167320688,
+        "tx_bytes": 596006161
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 175914888,
+        "tx_bytes": 596771314
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000"
+      }
+    },
+    {
+      "sub": "A4_multi",
+      "flows": [
+        {
+          "ok": true,
+          "t0": 1877.724514804,
+          "upload_bytes": 500000,
+          "download_bytes": 8000000,
+          "latency_s": 133.805289808,
+          "mode": "real",
+          "ph_upload_s": 0.4027923529999953,
+          "ph_server_s": 0.32243765699990945,
+          "ph_download_s": 132.98434391199999,
+          "down_first_s": 0.0017824390001806023,
+          "t_conn": 0.09525081300012062,
+          "t_pre_send_s": 0.09571588600010728,
+          "t_upload_start": 0.09571588600010728,
+          "t_upload_end": 0.49850823900010255,
+          "t_resp_hdr": 0.820945896000012,
+          "t_download_end": 133.805289808,
+          "crc_sent": null,
+          "crc_recv": null,
+          "srv_recv_bytes": 500000,
+          "srv_declared_bytes": 500000,
+          "srv_sent_bytes": 8000000,
+          "srv_recv_s": 0.597471622,
+          "srv_recv_total_s": 0.597485139,
+          "srv_service_s": 1.604e-06,
+          "srv_node": "VM-0-9-ubuntu",
+          "srv_mode": "real",
+          "srv_crc": null
+        },
+        {
+          "ok": true,
+          "t0": 1877.724429989,
+          "upload_bytes": 500000,
+          "download_bytes": 8000000,
+          "latency_s": 133.80568447399992,
+          "mode": "real",
+          "ph_upload_s": 0.40168985399986923,
+          "ph_server_s": 0.3989924700001666,
+          "ph_download_s": 132.90845775599996,
+          "down_first_s": 3.5569998999562813e-06,
+          "t_conn": 0.09607189700000163,
+          "t_pre_send_s": 0.09654439399992043,
+          "t_upload_start": 0.09654439399992043,
+          "t_upload_end": 0.49823424799978966,
+          "t_resp_hdr": 0.8972267179999562,
+          "t_download_end": 133.80568447399992,
+          "crc_sent": null,
+          "crc_recv": null,
+          "srv_recv_bytes": 500000,
+          "srv_declared_bytes": 500000,
+          "srv_sent_bytes": 8000000,
+          "srv_recv_s": 0.600784459,
+          "srv_recv_total_s": 0.601672411,
+          "srv_service_s": 1.266e-06,
+          "srv_node": "VM-0-9-ubuntu",
+          "srv_mode": "real",
+          "srv_crc": null
+        },
+        {
+          "ok": true,
+          "t0": 1877.724346607,
+          "upload_bytes": 500000,
+          "download_bytes": 8000000,
+          "latency_s": 133.9046947700001,
+          "mode": "real",
+          "ph_upload_s": 0.30031045599980644,
+          "ph_server_s": 0.4014145300000109,
+          "ph_download_s": 133.10671723600012,
+          "down_first_s": 5.431000090538873e-06,
+          "t_conn": 0.09562706400015486,
+          "t_pre_send_s": 0.09625254800016592,
+          "t_upload_start": 0.09625254800016592,
+          "t_upload_end": 0.39656300399997235,
+          "t_resp_hdr": 0.7979775339999833,
+          "t_download_end": 133.9046947700001,
+          "crc_sent": null,
+          "crc_recv": null,
+          "srv_recv_bytes": 500000,
+          "srv_declared_bytes": 500000,
+          "srv_sent_bytes": 8000000,
+          "srv_recv_s": 0.561074123,
+          "srv_recv_total_s": 0.565992383,
+          "srv_service_s": 1.907e-06,
+          "srv_node": "VM-0-9-ubuntu",
+          "srv_mode": "real",
+          "srv_crc": null
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "check": "A1",
+      "item": "0.2 MB 字节数",
+      "measured": "客户端发=200000 服务端声明=200000 服务端实收=200000 客户端实收=200000（设定 200000）",
+      "verdict": "PASS",
+      "note": "载荷 CRC 两侧一致"
+    },
+    {
+      "check": "A1",
+      "item": "0.2 MB 阶段分解",
+      "measured": "入口(建连+组请求头) 0.099 s | 上传 0.300 s | 服务端段(含算力+余下接收) 0.103 s | 下传 1.100 s | 端到端 1.602 s",
+      "verdict": "INFO",
+      "note": "四段之和 − 端到端 = 0.000000000 s（同一次计时切出来，应为 0）"
+    },
+    {
+      "check": "A1",
+      "item": "2.0 MB 字节数",
+      "measured": "客户端发=2000000 服务端声明=2000000 服务端实收=2000000 客户端实收=2000000（设定 2000000）",
+      "verdict": "PASS",
+      "note": "载荷 CRC 两侧一致"
+    },
+    {
+      "check": "A1",
+      "item": "2.0 MB 阶段分解",
+      "measured": "入口(建连+组请求头) 0.101 s | 上传 0.613 s | 服务端段(含算力+余下接收) 0.386 s | 下传 11.104 s | 端到端 12.204 s",
+      "verdict": "INFO",
+      "note": "四段之和 − 端到端 = 0.000000000 s（同一次计时切出来，应为 0）"
+    },
+    {
+      "check": "A2",
+      "item": "载荷方向自证",
+      "measured": "--shaped-direction=download ⇒ 期望大载荷在【下传】侧；实际 上=500000 B / 下=8000000 B、A2/A4 判定方向=【下传】",
+      "verdict": "PASS",
+      "note": "方向由 --shaped-direction 唯一决定（both 沿用原口径＝大上传）；不一致会让 A4 去量没被限速的那条路，把'设计不匹配'报成 FAIL"
+    },
+    {
+      "check": "A2",
+      "item": "上传吞吐",
+      "measured": "实测 29.092 Mbit/s",
+      "verdict": "INFO",
+      "note": "--shaped-direction=download，该方向未限速，不判定"
+    },
+    {
+      "check": "A2",
+      "item": "下传吞吐",
+      "measured": "实测 1.438 Mbit/s / 设定 1.5 （偏差 -4.13%）",
+      "verdict": "PASS",
+      "note": "容差 ±10%"
+    },
+    {
+      "check": "A3",
+      "item": "overlimits 增量",
+      "measured": "overlimits +0，dropped +0",
+      "verdict": "FAIL",
+      "note": "只看 `tc qdisc show` 有输出不算生效，必须这个增量 > 0"
+    },
+    {
+      "check": "A4",
+      "item": "载荷方向（单路 vs 3 路实测的就是这一侧）",
+      "measured": "大载荷 8000000 字节走在【下传】方向，吞吐用 down_thr_mbps（客户端收到字节/耗时）",
+      "verdict": "INFO",
+      "note": "--shaped-direction=download ⇒ 必须测【下传】方向；只限速其中一个方向时，测错方向必然得到接近 1 的比值并误判 FAIL"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 单路吞吐",
+      "measured": "1 路 1.428 Mbit/s → 3 路时每路 0.481 Mbit/s（比值 2.97×；3 路合计 1.444 Mbit/s）",
+      "verdict": "PASS",
+      "note": "共享瓶颈下理想比值≈3；判据 ≥1.5"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 每请求端到端",
+      "measured": "1 路 45.516 s → 3 路时每路 133.839 s（比值 2.94×）",
+      "verdict": "INFO",
+      "note": "老协议下这个比值会≈1：它把'带宽'建模成一个与并发无关的睡眠时间，没有共享的物理瓶颈可瓜分"
+    },
+    {
+      "check": "A5",
+      "item": "网卡 tx 增量 / 上传字节",
+      "measured": "1.0120×",
+      "verdict": "INFO",
+      "note": "网卡 tx +8096229 字节，应用层发 8000000 字节；超出部分是 TCP/IP 头（20+20+12 字节/段）"
+    },
+    {
+      "check": "A5",
+      "item": "网卡 rx 增量 / 下传字节",
+      "measured": "1.0662×",
+      "verdict": "INFO",
+      "note": "网卡 rx +8529688 字节，应用层收 8000000 字节"
+    },
+    {
+      "check": "A1-summary",
+      "item": "全部档位字节一致",
+      "measured": "见上",
+      "verdict": "PASS",
+      "note": ""
+    }
+  ]
+}

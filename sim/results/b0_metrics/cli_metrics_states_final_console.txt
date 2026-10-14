@@ -1,0 +1,31 @@
+############ 四种状态 + 版本形态：全部用最终代码重跑 ############
+--- fake2_nonixl ---
+[metrics] 采集已开启：http://127.0.0.1:9741/metrics  间隔 0.4 s  超时 0.8 s  版本地址 http://127.0.0.1:9741/version
+metrics 快照  成功抓到指标但没有 NIXL 项（记作：未出现）
+  NIXL 项：未出现 ← **不是「传输量为 0」**：本次 /metrics 里没有 NIXL 相关序列（这是状态，不是数值）
+  目标版本：fake-vllm-0.0.1-test（来源 GET /version（JSON 字段 version））
+--- fake2_nixl ---
+[metrics] 采集已开启：http://127.0.0.1:9742/metrics  间隔 0.4 s  超时 0.8 s  版本地址 http://127.0.0.1:9742/version
+metrics 快照  抓到 NIXL 项
+  NIXL 项：出现（7 条序列；数值是按传输汇总的，见快照 raw_body）
+  目标版本：fake-vllm-0.0.1-test（来源 GET /version（JSON 字段 version））
+--- fake2_hang ---
+[metrics] 采集已开启：http://127.0.0.1:9743/metrics  间隔 0.4 s  超时 0.8 s  版本地址 http://127.0.0.1:9743/version
+metrics 快照  抓取失败（配了地址但抓不到）
+  NIXL 项：抓取失败（这一格**没有**数值可言）
+  目标版本：fake-vllm-0.0.1-test（来源 GET /version（JSON 字段 version））
+--- fake2_refused ---
+[metrics] 采集已开启：http://127.0.0.1:9799/metrics  间隔 0.4 s  超时 0.8 s  版本地址 http://127.0.0.1:9799/version
+metrics 快照  抓取失败（配了地址但抓不到）
+  NIXL 项：抓取失败（这一格**没有**数值可言）
+  目标版本：未取到  取不到的原因：TimeoutError: timed out
+--- fake2_vergarbage ---
+[metrics] 采集已开启：http://127.0.0.1:9744/metrics  间隔 0.4 s  超时 0.8 s  版本地址 http://127.0.0.1:9744/version
+metrics 快照  成功抓到指标但没有 NIXL 项（记作：未出现）
+  NIXL 项：未出现 ← **不是「传输量为 0」**：本次 /metrics 里没有 NIXL 相关序列（这是状态，不是数值）
+  目标版本：未取到  取不到的原因：HTTP 200，但 JSON 里没有 version/vllm_version/build_version 字段（字段名：['detail']）；/metrics 里有 1 个 version 标签候选，但它们不是服务构建信息（例如 python_info 的 version 是解释器版本），**未采用**
+--- fake2_verplain ---
+[metrics] 采集已开启：http://127.0.0.1:9745/metrics  间隔 0.4 s  超时 0.8 s  版本地址 http://127.0.0.1:9745/version
+metrics 快照  成功抓到指标但没有 NIXL 项（记作：未出现）
+  NIXL 项：未出现 ← **不是「传输量为 0」**：本次 /metrics 里没有 NIXL 相关序列（这是状态，不是数值）
+  目标版本：plain-text-v9.9.9（来源 GET /version（正文原样，单行短文本））

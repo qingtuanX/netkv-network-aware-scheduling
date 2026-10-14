@@ -1,0 +1,42 @@
+target=http://172.29.31.51:8300 arm=base_i1 mode=tokenids /version={'version': '0.31.0'}
+== [base_i1] q01_rep6
+   prompt_ids=651 ref_len=64
+   E3 self-check k=3: identical=True
+   step 16/64
+   step 32/64
+   step 48/64
+   step 64/64
+   wrote base_i1_q01_rep6.json: steps=64 prompt_tokens对账=64/64 参考臂一致=63/64 非退化步=64/64 弃用步=0
+== [base_i1] q02_rep10
+   prompt_ids=1071 ref_len=64
+   E3 self-check k=3: identical=True
+   step 16/64
+   step 32/64
+   step 48/64
+   step 64/64
+   wrote base_i1_q02_rep10.json: steps=64 prompt_tokens对账=64/64 参考臂一致=63/64 非退化步=64/64 弃用步=0
+== [base_i1] q03_rep14
+   prompt_ids=1491 ref_len=64
+   E3 self-check k=3: identical=True
+   step 16/64
+   step 32/64
+   step 48/64
+   step 64/64
+   wrote base_i1_q03_rep14.json: steps=64 prompt_tokens对账=64/64 参考臂一致=63/64 非退化步=64/64 弃用步=0
+== [base_i1] q04_rep18
+   prompt_ids=1911 ref_len=64
+   E3 self-check k=3: identical=True
+   step 16/64
+   step 32/64
+   step 48/64
+   step 64/64
+   wrote base_i1_q04_rep18.json: steps=64 prompt_tokens对账=64/64 参考臂一致=63/64 非退化步=64/64 弃用步=0
+== [base_i1] q05_rep22
+   prompt_ids=2331 ref_len=64
+   E3 self-check k=3: identical=True
+   step 16/64
+   step 32/64
+   step 48/64
+   step 64/64
+   wrote base_i1_q05_rep22.json: steps=64 prompt_tokens对账=64/64 参考臂一致=63/64 非退化步=64/64 弃用步=0
+wrote collect_base_i1_summary.json

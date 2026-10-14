@@ -1,0 +1,380 @@
+{
+  "run_id": "battery_20261006T172114549Z_21424-1",
+  "utc": "2026-10-06T17:21:37.820032+00:00",
+  "kind": "measure_serving/battery",
+  "host": {
+    "hostname": "青山",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "cpu_count": 16,
+    "time_time_resolution_s": 0.0018134117126464844
+  },
+  "code_version": "uncommitted",
+  "note": "本仓库无 git 提交时恒为 uncommitted（预期）",
+  "cov_tol_s": 0.005,
+  "loo_eps_s": 1e-06,
+  "checks": [
+    {
+      "check": "S0",
+      "item": "selftest（判据自身）",
+      "measured": "返回码 0（0=全通过）",
+      "verdict": "PASS",
+      "note": "只验通过路径等于没验，所以自检里必须含负对照"
+    },
+    {
+      "check": "B1",
+      "item": "overlap0 成功率",
+      "measured": "120/120",
+      "verdict": "PASS",
+      "note": "假后端不应丢请求；丢了说明心跳/连接复用有问题"
+    },
+    {
+      "check": "B2",
+      "item": "overlap0 TTFT 可测",
+      "measured": "p50=0.175052 s  p95=0.193624 s",
+      "verdict": "PASS",
+      "note": "TTFT = 请求开始 → 第一个内容片段"
+    },
+    {
+      "check": "B3",
+      "item": "overlap0 TPOT 可测",
+      "measured": "单请求p50口径：中位=0.019996 s  p95=0.020053 s",
+      "verdict": "PASS",
+      "note": "逐片段间隔的全量分位在 tokens.csv（--save-tokens）"
+    },
+    {
+      "check": "B4",
+      "item": "overlap0 覆盖：客户端分解最大空档",
+      "measured": "0.0 s（容差 0.005 s）",
+      "verdict": "PASS",
+      "note": "并集必须铺满 [请求开始, 请求结束]"
+    },
+    {
+      "check": "B5",
+      "item": "overlap0 leave-one-out 最小空档",
+      "measured": "0.0005035400390625 s（下限 1e-06）",
+      "verdict": "PASS",
+      "note": "每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）"
+    },
+    {
+      "check": "B6",
+      "item": "overlap0 服务端语义阶段覆盖",
+      "measured": "最大空档 0.0 s，判定 {\"PASS\": 120}",
+      "verdict": "PASS",
+      "note": "queue→prefill→kv→decode 在服务端窗口内也要铺满"
+    },
+    {
+      "check": "B7",
+      "item": "overlap0 KV 字节数可取",
+      "measured": "25165824.0 B/请求（配方 25165824 B）",
+      "verdict": "PASS",
+      "note": "假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）"
+    },
+    {
+      "check": "B1",
+      "item": "overlap50 成功率",
+      "measured": "120/120",
+      "verdict": "PASS",
+      "note": "假后端不应丢请求；丢了说明心跳/连接复用有问题"
+    },
+    {
+      "check": "B2",
+      "item": "overlap50 TTFT 可测",
+      "measured": "p50=0.14352 s  p95=0.162259 s",
+      "verdict": "PASS",
+      "note": "TTFT = 请求开始 → 第一个内容片段"
+    },
+    {
+      "check": "B3",
+      "item": "overlap50 TPOT 可测",
+      "measured": "单请求p50口径：中位=0.020003 s  p95=0.020058 s",
+      "verdict": "PASS",
+      "note": "逐片段间隔的全量分位在 tokens.csv（--save-tokens）"
+    },
+    {
+      "check": "B4",
+      "item": "overlap50 覆盖：客户端分解最大空档",
+      "measured": "0.0 s（容差 0.005 s）",
+      "verdict": "PASS",
+      "note": "并集必须铺满 [请求开始, 请求结束]"
+    },
+    {
+      "check": "B5",
+      "item": "overlap50 leave-one-out 最小空档",
+      "measured": "0.0005028247833251953 s（下限 1e-06）",
+      "verdict": "PASS",
+      "note": "每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）"
+    },
+    {
+      "check": "B6",
+      "item": "overlap50 服务端语义阶段覆盖",
+      "measured": "最大空档 0.0 s，判定 {\"PASS\": 120}",
+      "verdict": "PASS",
+      "note": "queue→prefill→kv→decode 在服务端窗口内也要铺满"
+    },
+    {
+      "check": "B7",
+      "item": "overlap50 KV 字节数可取",
+      "measured": "25165824.0 B/请求（配方 25165824 B）",
+      "verdict": "PASS",
+      "note": "假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）"
+    },
+    {
+      "check": "B8",
+      "item": "对照①：无重叠臂 Σ语义阶段 − 服务端窗口",
+      "measured": "0.0 s",
+      "verdict": "PASS",
+      "note": "无重叠时它本来就该接近 0（这是对照臂，不是验收判据）"
+    },
+    {
+      "check": "B9",
+      "item": "对照②：50% 重叠臂 Σ语义阶段 − 服务端窗口",
+      "measured": "实测中位 0.031457 s，配方预期 0.031457 s",
+      "verdict": "PASS",
+      "note": "★ 关键对照：实测重叠量必须**对得上配方**（预期 0.031457 s）。重叠存在时'加总'必然大于窗口，所以阶段 A 的'加总等于端到端'在阶段 B 会**误判**——这正是本工具换判据的理由"
+    },
+    {
+      "check": "B10",
+      "item": "对照③：两臂的覆盖结论都通过（与重叠无关）",
+      "measured": "臂A {'PASS': 120} / 臂B {'PASS': 120}",
+      "verdict": "PASS",
+      "note": "重叠只改变'之和'，不破坏'覆盖'——两类判据成功分离"
+    },
+    {
+      "check": "B11",
+      "item": "对照④：Σ阶段 − 端到端（朴素口径，只报不判）",
+      "measured": "臂A 中位 -0.001774 s / 臂B 中位 0.029755 s",
+      "verdict": "INFO",
+      "note": "同一个量在两个臂上不同：说明它就是被重叠污染的，不能当判据"
+    },
+    {
+      "check": "B12",
+      "item": "服务端语义阶段重叠量（臂 B）",
+      "measured": "中位 0.031457 s",
+      "verdict": "PASS",
+      "note": "重叠确实发生了（否则 B9 的对照无意义）"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（reset_mid_stream → 期望 stream_broken）",
+      "measured": "失败 6/6，分类={\"stream_broken\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    }
+  ],
+  "arms": [
+    {
+      "label": "overlap0",
+      "run_id": "serving_20261006T172114564Z_21424-2",
+      "backend": {
+        "token_count": 32,
+        "token_interval_s": 0.02,
+        "queue_s": 0.01,
+        "prefill_s": 0.1,
+        "kv_mb": 24.0,
+        "kv_gbps": 3.2,
+        "kv_overlap_frac": 0.0,
+        "fail_rate": 0.0,
+        "fail_mode": "http_500",
+        "seed": 1,
+        "kv_bytes": 25165824,
+        "kv_xfer_s": 0.062915
+      },
+      "summary": {
+        "n_requests": 120,
+        "n_ok": 120,
+        "n_err": 0,
+        "error_counts": {},
+        "wall_clock_s": 10.713,
+        "throughput_qps": 11.202,
+        "inflight_peak": 10,
+        "latency": {
+          "ttft_s": {
+            "p50": 0.175052,
+            "p95": 0.193624,
+            "p99": 0.198039,
+            "max": 0.200482
+          },
+          "tpot_p50_s": {
+            "p50": 0.019996,
+            "p95": 0.020053
+          },
+          "tpot_p95_s": {
+            "p50": 0.020369,
+            "p95": 0.020462
+          },
+          "e2e_s": {
+            "p50": 0.794689,
+            "p95": 0.813535,
+            "p99": 0.818067,
+            "max": 0.819368
+          }
+        },
+        "coverage_verdicts": {
+          "PASS": 120
+        },
+        "srv_verdicts": {
+          "PASS": 120
+        },
+        "coverage": {
+          "n_with_server_report": 120,
+          "cov_max_gap_s_max": 0.0,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": 0.0005035400390625,
+          "srv_gap_max_s_max": 0.0,
+          "srv_overlap_s_median": 0.0,
+          "sum_minus_e2e_s_median": -0.001774,
+          "sum_minus_e2e_s_max": -0.000162,
+          "sum_minus_srv_span_s_median": 0.0,
+          "srv_outside_s_median": 0.0,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": 25165824.0,
+        "run_id": "serving_20261006T172114564Z_21424-2",
+        "requests_csv": "results\\b0\\serving_20261006T172114564Z_21424-2_requests.csv",
+        "tokens_csv": null
+      }
+    },
+    {
+      "label": "overlap50",
+      "run_id": "serving_20261006T172125509Z_21424-3",
+      "backend": {
+        "token_count": 32,
+        "token_interval_s": 0.02,
+        "queue_s": 0.01,
+        "prefill_s": 0.1,
+        "kv_mb": 24.0,
+        "kv_gbps": 3.2,
+        "kv_overlap_frac": 0.5,
+        "fail_rate": 0.0,
+        "fail_mode": "http_500",
+        "seed": 1,
+        "kv_bytes": 25165824,
+        "kv_xfer_s": 0.062915
+      },
+      "summary": {
+        "n_requests": 120,
+        "n_ok": 120,
+        "n_err": 0,
+        "error_counts": {},
+        "wall_clock_s": 10.681,
+        "throughput_qps": 11.235,
+        "inflight_peak": 10,
+        "latency": {
+          "ttft_s": {
+            "p50": 0.14352,
+            "p95": 0.162259,
+            "p99": 0.166615,
+            "max": 0.168099
+          },
+          "tpot_p50_s": {
+            "p50": 0.020003,
+            "p95": 0.020058
+          },
+          "tpot_p95_s": {
+            "p50": 0.020376,
+            "p95": 0.020505
+          },
+          "e2e_s": {
+            "p50": 0.763159,
+            "p95": 0.781765,
+            "p99": 0.786226,
+            "max": 0.787892
+          }
+        },
+        "coverage_verdicts": {
+          "PASS": 120
+        },
+        "srv_verdicts": {
+          "PASS": 120
+        },
+        "coverage": {
+          "n_with_server_report": 120,
+          "cov_max_gap_s_max": 0.0,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": 0.0005028247833251953,
+          "srv_gap_max_s_max": 0.0,
+          "srv_overlap_s_median": 0.031457,
+          "sum_minus_e2e_s_median": 0.029755,
+          "sum_minus_e2e_s_max": 0.031118,
+          "sum_minus_srv_span_s_median": 0.031457,
+          "srv_outside_s_median": 0.0,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": 25165824.0,
+        "run_id": "serving_20261006T172125509Z_21424-3",
+        "requests_csv": "results\\b0\\serving_20261006T172125509Z_21424-3_requests.csv",
+        "tokens_csv": null
+      }
+    }
+  ],
+  "failinject": [
+    {
+      "mode": "reset_mid_stream",
+      "expected_class": "stream_broken",
+      "run_id": "serving_20261006T172136465Z_21424-4",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "stream_broken": 6
+        },
+        "wall_clock_s": 0.939,
+        "throughput_qps": 6.387,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          }
+        },
+        "coverage_verdicts": {
+          "N-A": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261006T172136465Z_21424-4",
+        "requests_csv": "results\\b0\\serving_20261006T172136465Z_21424-4_requests.csv",
+        "tokens_csv": null
+      }
+    }
+  ],
+  "client_summaries": [
+    "serving_20261006T172114564Z_21424-2_summary.json",
+    "serving_20261006T172125509Z_21424-3_summary.json",
+    "serving_20261006T172136465Z_21424-4_summary.json"
+  ]
+}

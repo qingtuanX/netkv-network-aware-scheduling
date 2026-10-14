@@ -1,0 +1,2 @@
+# 等待 baseline：curl http://127.0.0.1:8300/v1/models 直到 200（最多 240 s）
+NOT READY baseline after 240s (/v1/models)

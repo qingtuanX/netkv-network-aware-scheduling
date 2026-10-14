@@ -1,0 +1,43 @@
+{
+  "run_id": "serving_20261007T061623080Z_4763-1",
+  "utc": "2026-10-07T06:16:25.129048+00:00",
+  "kind": "measure_serving/client",
+  "host": {
+    "hostname": "localhost",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.14.4",
+    "cpu_count": 16,
+    "time_time_resolution_s": 2.384185791015625e-06
+  },
+  "code_version": "uncommitted",
+  "note": "本仓库无 git 提交时恒为 uncommitted（预期）",
+  "url": "http://127.0.0.1:8090/v1",
+  "label": "vllm_smoke",
+  "params": {
+    "requests": 3,
+    "qps": 1.0,
+    "arrival": "uniform",
+    "concurrency": 16,
+    "prompt_tokens": 64,
+    "max_tokens": 32,
+    "request_timeout_s": 30.0,
+    "cov_tol_s": 0.005,
+    "save_tokens": false,
+    "seed": 1,
+    "loo_eps_s": 1e-06
+  },
+  "n_ok": 0,
+  "n_err": 3,
+  "error_counts": {
+    "http_4xx": 3
+  },
+  "coverage_verdicts": {
+    "N-A": 3
+  },
+  "wall_clock_s": 2.002,
+  "what_this_does_not_prove": [
+    "本工具量的是**某一次运行**的逐请求时延，不评模型质量，也不含任何性能收益结论。",
+    "若后端是假后端，则各阶段时刻与 KV 字节数都是伪造的，只证明测量链路可用。",
+    "覆盖判据证明的是'时间被完整归属'，**不是**'各阶段时长量得准'。"
+  ]
+}

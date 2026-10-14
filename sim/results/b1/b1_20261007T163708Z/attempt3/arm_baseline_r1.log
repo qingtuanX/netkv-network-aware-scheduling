@@ -1,0 +1,4 @@
+# arm=baseline_r1 url=http://172.29.31.51:8300 extra='' start=2026-10-07T17:10:46Z
+/root/b1/venv/bin/python: can't open file '/tmp/b1_client.py': [Errno 2] No such file or directory
+client_exit=2
+# ---- exit=0 end=2026-10-07T17:10:49Z ----

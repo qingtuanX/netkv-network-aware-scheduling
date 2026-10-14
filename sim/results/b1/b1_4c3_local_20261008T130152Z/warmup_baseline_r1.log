@@ -1,0 +1,7 @@
+target=http://127.0.0.1:8300  /version={'version': '0.31.0'}
+  q01_rep6: http=200 prompt_tokens=651 completion_tokens=64 finish=length tok_ids=yes 1.5379s
+  q02_rep10: http=200 prompt_tokens=1071 completion_tokens=46 finish=stop tok_ids=yes 1.0677s
+  q03_rep14: http=200 prompt_tokens=1491 completion_tokens=44 finish=stop tok_ids=yes 1.0967s
+  q04_rep18: http=200 prompt_tokens=1911 completion_tokens=28 finish=stop tok_ids=yes 0.9136s
+  q05_rep22: http=200 prompt_tokens=2331 completion_tokens=21 finish=stop tok_ids=yes 1.5082s
+wrote /mnt/e/代码项目文件/论文/sim/results/b1/b1_4c3_local_20261008T130152Z/warmup_baseline_r1.json  (5 requests)

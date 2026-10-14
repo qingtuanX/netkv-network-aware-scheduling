@@ -1,0 +1,19 @@
+﻿mode,run_id,runs,paired,manifest,code_version,code_dirty,n_rows,n_cells,strategies,n_seeds,p_holm 来源,多余 run_id
+main,20260922T210019Z,有,有,有,a9acad1,干净,600,120,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,5,运行产物,20260922T183315Z
+staleness,20260922T203004Z,有,有,有,a9acad1,干净,480,96,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,20260922T181435Z
+datavolume,20260922T192223Z,有,有,有,uncommitted,干净,240,48,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,20260922T165504Z
+convergence,20260922T185339Z,有,有,有,uncommitted,干净,100,20,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,20,运行产物,"20260922T160347Z,20260922T162817Z"
+ablation,20260922T190805Z,有,有,有,uncommitted,干净,180,60,LeastLoad/NetworkAware/NetworkAware2,3,运行产物,"20260922T161858Z,20260922T164219Z"
+scale,20260922T190021Z,有,有,有,uncommitted,干净,90,18,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,"20260922T161116Z,20260922T163508Z"
+rho,20260922T200058Z,有,有,有,uncommitted,干净,450,90,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,20260922T175356Z
+fallback,20260922T193140Z,有,有,有,uncommitted,干净,216,36,LeastLoad/NetworkAware/NetworkAware_fb0.5/NetworkAware_fb1.5/NetworkAware_fb45/NetworkAware_fb5,3,运行产物,20260922T170615Z
+bandwidth,20260922T194645Z,有,有,有,uncommitted,干净,240,48,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,"20260922T172023Z,20260922T173755Z"
+avewindow,-,缺,缺,缺,-,-,0,0,-,0,-,-
+staleness2d,20260929T150719Z,有,有,有,a9acad1,干净,360,72,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,-
+align,20260929T161147Z,有,有,有,a9acad1,干净,600,120,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,10,运行产物,-
+alignscale,-,缺,缺,缺,-,-,0,0,-,0,-,-
+method,20261001T135729Z,有,有,有,a9acad1,干净,1200,240,AdaptHard/AdaptLinear/AdaptSplit/LeastLoad/NetworkAware2,10,运行产物,-
+method_ablate,-,缺,缺,缺,-,-,0,0,-,0,-,-
+method_ch,20261001T144306Z,有,有,有,a9acad1,干净,720,240,AdaptChannel/LeastLoad/NetworkAware2,10,运行产物,-
+method_ch_ablate,20261001T171149Z,有,有,有,a9acad1,干净,1080,120,LeastLoad/NetworkAware2/Tn120/Tn20/Tq2/Tq8/floor0.5/floor0.9/primary,10,运行产物,-
+baselines,20261005T113547Z,有,有,有,a9acad1,干净,640,80,Bottleneck/CongestionOnly/LeastLoad/LeastQueue/NetworkAware2/P2C/P2CNet/Random,10,运行产物,-

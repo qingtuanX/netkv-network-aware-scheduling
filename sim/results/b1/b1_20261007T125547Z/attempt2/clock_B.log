@@ -1,0 +1,20 @@
+# ---- clock_B @ B (8.130.179.201)  start=2026-10-07T13:00:33Z  cmd: timedatectl 2>/dev/null | head -8; echo '--- chrony/timesyncd ---'; systemctl is-active chrony chronyd systemd-timesyncd 2>/dev/null; chronyc tracking 2>/dev/null | head -6 || true; date -u +%s.%N ----
+               Local time: Wed 2026-10-07 21:00:30 CST
+           Universal time: Wed 2026-10-07 13:00:30 UTC
+                 RTC time: Wed 2026-10-07 13:00:30
+                Time zone: Asia/Shanghai (CST, +0800)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+--- chrony/timesyncd ---
+active
+active
+inactive
+Reference ID    : 64643D58 (100.100.61.88)
+Stratum         : 3
+Ref time (UTC)  : Wed Oct 07 12:58:42 2026
+System time     : 0.000118577 seconds slow of NTP time
+Last offset     : -0.000037900 seconds
+RMS offset      : 0.000262278 seconds
+1791378030.499867646
+# ---- exit=0 end=2026-10-07T13:00:34Z ----

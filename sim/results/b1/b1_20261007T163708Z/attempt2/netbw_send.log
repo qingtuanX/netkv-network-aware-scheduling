@@ -1,0 +1,5 @@
+# ---- netbw_send @ A (8.155.133.216)  start=2026-10-07T17:02:34Z ----
+connected to 172.29.31.51:9102
+sent_first_byte_epoch=1791392554.997271
+sent 536870912 bytes in 0.2236 s -> 2290.2 MiB/s (19.21 Gbit/s)
+# ---- exit=0 end=2026-10-07T17:02:37Z ----

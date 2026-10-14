@@ -1,0 +1,50 @@
+# ---- inventory_B @ B (8.130.179.201)  start=2026-10-07T12:56:00Z  cmd: set -x
+hostname; date -u; uptime
+nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+nproc; free -g | head -2; df -h /
+python3 --version; pip3 --version
+docker --version 2>/dev/null
+ip -4 addr show | grep -E "inet "
+ls -d /usr/local/cuda* 2>/dev/null
+which nvcc gcc ninja iperf3 2>/dev/null
+cat /etc/os-release | head -3 ----
+iZ0jl883rozsfu6gxf1vmwZ
++ hostname
++ date -u
+Wed Oct  7 12:55:57 PM UTC 2026
++ uptime
+ 20:55:57 up 8 min,  1 user,  load average: 0.02, 0.05, 0.01
++ nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+NVIDIA A10, 23028 MiB, 580.126.09, 8.6
++ nproc
+16
+               total        used        free      shared  buff/cache   available
+Mem:              58           1          56           0           1          57
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda3        99G   28G   67G  30% /
+Python 3.12.3
++ free -g
++ head -2
++ df -h /
++ python3 --version
++ pip3 --version
+pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.12)
++ docker --version
+Docker version 29.5.1, build 2518b52
++ ip -4 addr show
++ grep -E 'inet '
+    inet 127.0.0.1/8 scope host lo
+    inet 172.16.206.252/20 metric 100 brd 172.16.207.255 scope global dynamic eth0
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
++ ls -d /usr/local/cuda /usr/local/cuda-12.8 /usr/local/cuda-13.0
+/usr/local/cuda
+/usr/local/cuda-12.8
+/usr/local/cuda-13.0
++ which nvcc gcc ninja iperf3
+/usr/bin/gcc
++ cat /etc/os-release
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
++ head -3
+# ---- exit=0 end=2026-10-07T12:56:01Z ----

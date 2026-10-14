@@ -1,0 +1,14 @@
+{
+  "run_id": "probe_20261007T061758Z",
+  "url": "http://127.0.0.1:8090",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "utc": "2026-10-07T06:17:58.822661+00:00",
+  "errors": {
+    "error_classes_seen": [
+      "",
+      "http_4xx",
+      "timeout"
+    ],
+    "scenarios": 12
+  }
+}

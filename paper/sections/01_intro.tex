@@ -1,0 +1,98 @@
+\section{Introduction}
+\label{sec:intro}
+
+Large language model (LLM) serving has moved from single-GPU engines to
+\emph{disaggregated} deployments in which prefill and decode run on different workers, KV cache
+travels between them, and each incoming request must be routed to \emph{some} worker
+\cite{distserve,splitwise,mooncake,llumnix}. Routing is no longer a detail: the worker whose
+compute queue is emptiest is frequently \emph{not} the worker whose link can deliver the
+request's context (or its KV cache) fastest, and the two criteria can point in opposite
+directions. A growing line of work therefore makes the router \emph{network-aware}: it scores
+candidates using both a compute-backlog term and a link term
+\cite{cassini,vclos,helix,netkv,aegis,gensched}.
+
+The problem is that this literature reports wildly different value for the same idea.
+Reported gains range from negligible to more than $70\%$, and they are usually quoted as a
+single number under a single configuration. Worse, at least one recently published system
+reports a property that ought to be alarming for anyone deploying this class of scheduler:
+its gains ``hold under workload shifts and \emph{telemetry delays up to 60 seconds}''
+\cite{aegis}. If stale network telemetry does not matter, then a large fraction of the
+engineering effort around network-aware routing---and its sensitivity to monitoring
+latency---is misdirected. Yet the same paper, and the closest concurrent work
+\cite{netkv}, sweep only \emph{one} observable quantity.
+
+This paper asks the prior question: \textbf{when does network awareness actually pay in LLM
+inference serving, and when does trusting it hurt?} We treat the scheduler's benefit as an
+outcome to be \emph{characterized} rather than a result to be demonstrated: we measure where it
+appears, where it vanishes, where it reverses sign, and how each factor interacts with the
+others. Three design decisions shape the study.
+
+\paragraph{Ten independent workload realizations, not one.}
+A single simulation of a congested queueing system is not an experiment. In preliminary
+single-seed screens we observed that changing the routing decisions of the first $\sim2.5\%$ of
+requests alone moved the 95th-percentile sojourn time by up to $17\%$ in a \num{4000}-request
+run---i.e.~single-seed comparisons of this system are dominated by trajectory noise. We therefore
+treat the \emph{seed}, i.e.~one independent realization of the arrival process, as the unit of
+observation: every comparison in this paper aggregates ten seeds, uses per-request paired tests
+within a seed, and quotes intervals over seeds. Comparisons that a single-seed screen would have
+reported as ``network awareness becomes harmful under stale state'' turn out to be artifacts of
+one extreme seed (we give the concrete example in \S\ref{sec:discount}).
+
+\paragraph{One mechanism variable, measured directly.}
+Instead of reporting that network awareness ``helps'', we identify a configuration variable that
+strongly modulates---under the controlled conditions of our experiments---whether the link term
+carries \emph{any} information beyond the compute term: the
+rank correlation between per-worker compute capacity and per-worker bandwidth (that is, whether
+the fastest-computing workers are also those with the widest links). When the
+fastest-computing worker also has the widest link, the two criteria select the same worker and
+the link term is redundant; when they disagree, the link term is the only thing standing between
+the user and a $68\%$ worse tail. This distinction---which we call \emph{alignment}---is, in our
+reading of the literature, absent as an explanatory variable; within our fixed compute sets,
+bandwidth sets, workloads, and routing rules it accounts for a large part
+of the variance in reported gains, while absolute capacity ratios, topology, payload size, and
+queueing discipline remain co-determinants we do not fully separate.
+
+\paragraph{Staleness is not one thing but two, with different expiry times.}
+The scheduler observes two physically different quantities: the compute queue at each worker
+(changes on sub-second to second timescales) and the state of each link (bandwidth is a physical
+property, congestion changes on tens of seconds). Each observation carries an \emph{age}---how
+many seconds old the message is when the scheduler acts on it---and we sweep them jointly and find their value
+expires at rates that differ by roughly an order of magnitude. This single fact explains why
+the published ``60\,s does not matter'' claim is both true and misleading: it was measured on the
+slow-expiring channel only. We further separate \emph{latency} (seeing an old but true value)
+from \emph{averaging} (seeing a time-averaged value, where spikes are smoothed away), and show
+the two distort decisions differently.
+
+\paragraph{Contributions.}
+\begin{itemize}
+  \item \textbf{An explanatory variable.} We introduce compute--bandwidth rank alignment as an
+        important explanatory factor---among several, under our experimental controls---for
+        whether network information adds anything, and validate it across three
+        nodes $\times$ ten seeds (effect separates completely: Cliff's $\delta=1.00$,
+        $p=1.8\times10^{-4}$), across 4/8/16 workers, and against a direct probe that rules out
+        the obvious alternative explanation.
+  \item \textbf{A two-channel model of staleness with measured expiry times,} plus a 2-D
+        (queue age $\times$ link age) sweep, plus a separate characterization of averaging
+        windows as a distinct distortion from latency.
+  \item \textbf{A conditional discounting rule} whose parameters are fitted from measurement
+        rather than tuned, together with the \emph{falsification} of the intuitive alternative
+        and a three-source sensitivity ablation. We also show the rule is insurance, not a
+        free win: it is a net loss outside one regime, and we say which.
+  \item \textbf{Measurement of the observation feedback loop on real containers,} which the
+        simulator abstracts away: fetching state costs \SIrange{56}{876}{\milli\second} against
+        \SI{12}{\micro\second} for an in-cluster round trip, and it grows with load. The
+        tail-latency impact is threshold-like rather than proportional.
+  \item \textbf{A reproducibility protocol and an explicit negative-results ledger.} Four
+        validation gates, append-only artifacts, a manifest per run, a script that re-derives
+        every number in the paper from the raw outputs, and a section that lists what did not
+        work---including a design of our own that we falsify with our own data.
+\end{itemize}
+
+We are explicit about what this paper is not. It does not propose a scheduler that beats the
+state of the art; our conditional discounting rule is, in several regimes, indistinguishable
+from simply always trusting the network state (\S\ref{sec:discount}). It does not evaluate a
+multi-node GPU cluster: our real-cluster evidence comes from a single-node \texttt{k3s}
+deployment with application-level link shaping, which we use for direction validation and for
+quantities the simulator omits. And it does not fully explain when discounting pays: we tested
+two candidate mechanisms (arrival burstiness and rate persistence) and \emph{both were refuted
+by our own data}; we report that as an open question rather than fitting a story to it.

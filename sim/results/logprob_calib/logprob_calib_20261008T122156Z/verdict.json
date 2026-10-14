@@ -1,0 +1,610 @@
+{
+  "verdict": {
+    "C1_processed_all_top1": true,
+    "C2_raw_contradiction_rate": 0.2229,
+    "conclusion": "口径解释成立：此前矛盾是 raw/processed 口径差"
+  },
+  "raw": {
+    "arm": "raw",
+    "n_steps": 498,
+    "n_bad": 111,
+    "bad_rate": 0.2229,
+    "bad_kinds": {
+      "in_window_not_top1": 111
+    },
+    "c3_repeat_identical": true,
+    "reps_seen": [
+      1,
+      2,
+      3
+    ],
+    "shape_p_top1": {
+      "min": -1.4667,
+      "med": -0.283,
+      "max": -0.0001
+    },
+    "shape_gap_top1_top2": {
+      "min": 0.0,
+      "med": 1.875,
+      "max": 10.625
+    },
+    "n_onehot_like": 330,
+    "bad_steps": [
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 2,
+        "token": " is",
+        "verdict": "in_window_not_top1",
+        "top1": " of",
+        "p_top1": -0.19241254031658173,
+        "p_top2": -2.0674126148223877,
+        "p_token": -2.0674126148223877
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 3,
+        "token": " about",
+        "verdict": "in_window_not_top1",
+        "top1": " the",
+        "p_top1": -0.8472369313240051,
+        "p_top2": -1.5972368717193604,
+        "p_token": -1.5972368717193604
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 4,
+        "token": " how",
+        "verdict": "in_window_not_top1",
+        "top1": " the",
+        "p_top1": -0.5612285137176514,
+        "p_top2": -2.4362285137176514,
+        "p_token": -2.6862285137176514
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 16,
+        "token": " use",
+        "verdict": "in_window_not_top1",
+        "top1": " execute",
+        "p_top1": -0.7473308444023132,
+        "p_top2": -1.497330904006958,
+        "p_token": -1.497330904006958
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 18,
+        "token": " an",
+        "verdict": "in_window_not_top1",
+        "top1": " each",
+        "p_top1": -0.8107122182846069,
+        "p_top2": -1.935712218284607,
+        "p_token": -1.935712218284607
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 21,
+        "token": " based",
+        "verdict": "in_window_not_top1",
+        "top1": ",",
+        "p_top1": -0.511651873588562,
+        "p_top2": -1.636651873588562,
+        "p_token": -1.636651873588562
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 32,
+        "token": " status",
+        "verdict": "in_window_not_top1",
+        "top1": " to",
+        "p_top1": -1.21418035030365,
+        "p_top2": -1.46418035030365,
+        "p_token": -2.9641804695129395
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 36,
+        "token": " explains",
+        "verdict": "in_window_not_top1",
+        "top1": " is",
+        "p_top1": -1.3940136432647705,
+        "p_top2": -2.2690136432647705,
+        "p_token": -2.2690136432647705
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 37,
+        "token": " this",
+        "verdict": "in_window_not_top1",
+        "top1": " that",
+        "p_top1": -0.7106767296791077,
+        "p_top2": -1.335676670074463,
+        "p_token": -2.085676670074463
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 38,
+        "token": " process",
+        "verdict": "in_window_not_top1",
+        "top1": " decision",
+        "p_top1": -1.3255101442337036,
+        "p_top2": -1.4505101442337036,
+        "p_token": -1.4505101442337036
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 39,
+        "token": " without",
+        "verdict": "in_window_not_top1",
+        "top1": " and",
+        "p_top1": -1.2599596977233887,
+        "p_top2": -1.3849596977233887,
+        "p_token": -2.3849596977233887
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 48,
+        "token": " main",
+        "verdict": "in_window_not_top1",
+        "top1": " paragraph",
+        "p_top1": -1.3434075117111206,
+        "p_top2": -1.5934075117111206,
+        "p_token": -2.71840763092041
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 53,
+        "token": " inter",
+        "verdict": "in_window_not_top1",
+        "top1": " decision",
+        "p_top1": -1.1521869897842407,
+        "p_top2": -2.277186870574951,
+        "p_token": -2.277186870574951
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 56,
+        "token": " computing",
+        "verdict": "in_window_not_top1",
+        "top1": " compute",
+        "p_top1": -1.4111907482147217,
+        "p_top2": -1.5361907482147217,
+        "p_token": -2.9111907482147217
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 58,
+        "token": " (",
+        "verdict": "in_window_not_top1",
+        "top1": " and",
+        "p_top1": -0.32822221517562866,
+        "p_top2": -1.8282222747802734,
+        "p_token": -2.5782222747802734
+      },
+      {
+        "rep": 1,
+        "id": "p01_rep8",
+        "j": 63,
+        "token": " communication",
+        "verdict": "in_window_not_top1",
+        "top1": " network",
+        "p_top1": -0.1200442910194397,
+        "p_top2": -2.745044231414795,
+        "p_token": -2.745044231414795
+      },
+      {
+        "rep": 1,
+        "id": "p02_rep12",
+        "j": 7,
+        "token": " makes",
+        "verdict": "in_window_not_top1",
+        "top1": " must",
+        "p_top1": -0.7635214924812317,
+        "p_top2": -1.638521432876587,
+        "p_token": -1.638521432876587
+      },
+      {
+        "rep": 1,
+        "id": "p02_rep12",
+        "j": 17,
+        "token": " states",
+        "verdict": "in_window_not_top1",
+        "top1": " state",
+        "p_top1": -0.30879515409469604,
+        "p_top2": -2.058795213699341,
+        "p_token": -2.058795213699341
+      },
+      {
+        "rep": 1,
+        "id": "p02_rep12",
+        "j": 18,
+        "token": " for",
+        "verdict": "in_window_not_top1",
+        "top1": " of",
+        "p_top1": -0.1745038777589798,
+        "p_top2": -2.424503803253174,
+        "p_token": -2.424503803253174
+      },
+      {
+        "rep": 1,
+        "id": "p02_rep12",
+        "j": 19,
+        "token": " workers",
+        "verdict": "in_window_not_top1",
+        "top1": " each",
+        "p_top1": -1.091386318206787,
+        "p_top2": -1.216386318206787,
+        "p_token": -1.841386318206787
+      },
+      {
+        "rep": 1,
+        "id": "p02_rep12",
+        "j": 21,
+        "token": "<|endoftext|>",
+        "verdict": "in_window_not_top1",
+        "top1": " \n\n",
+        "p_top1": -1.1633106470108032,
+        "p_top2": -1.4133106470108032,
+        "p_token": -2.4133105278015137
+      },
+      {
+        "rep": 1,
+        "id": "p03_rep16",
+        "j": 7,
+        "token": " decides",
+        "verdict": "in_window_not_top1",
+        "top1": " must",
+        "p_top1": -0.7969106435775757,
+        "p_top2": -1.6719106435775757,
+        "p_token": -1.6719106435775757
+      },
+      {
+        "rep": 1,
+        "id": "p03_rep16",
+        "j": 10,
+        "token": " executes",
+        "verdict": "in_window_not_top1",
+        "top1": " to",
+        "p_top1": -0.7072478532791138,
+        "p_top2": -0.9572478532791138,
+        "p_token": -2.832247734069824
+      },
+      {
+        "rep": 1,
+        "id": "p03_rep16",
+        "j": 11,
+        "token": " an",
+        "verdict": "in_window_not_top1",
+        "top1": " each",
+        "p_top1": -0.42273080348968506,
+        "p_top2": -1.672730803489685,
+        "p_token": -2.6727309226989746
+      },
+      {
+        "rep": 1,
+        "id": "p03_rep16",
+        "j": 27,
+        "token": "<|endoftext|>",
+        "verdict": "in_window_not_top1",
+        "top1": " \n\n",
+        "p_top1": -1.225965976715088,
+        "p_top2": -1.475965976715088,
+        "p_token": -2.350965976715088
+      },
+      {
+        "rep": 1,
+        "id": "p04_rep20",
+        "j": 7,
+        "token": " decides",
+        "verdict": "in_window_not_top1",
+        "top1": " must",
+        "p_top1": -0.7962535619735718,
+        "p_top2": -1.6712535619735718,
+        "p_token": -1.6712535619735718
+      },
+      {
+        "rep": 1,
+        "id": "p04_rep20",
+        "j": 10,
+        "token": " executes",
+        "verdict": "in_window_not_top1",
+        "top1": " to",
+        "p_top1": -0.6115144491195679,
+        "p_top2": -1.1115144491195679,
+        "p_token": -2.7365145683288574
+      },
+      {
+        "rep": 1,
+        "id": "p04_rep20",
+        "j": 11,
+        "token": " an",
+        "verdict": "in_window_not_top1",
+        "top1": " each",
+        "p_top1": -0.5215872526168823,
+        "p_top2": -1.2715872526168823,
+        "p_token": -2.896587371826172
+      },
+      {
+        "rep": 1,
+        "id": "p04_rep20",
+        "j": 25,
+        "token": " status",
+        "verdict": "in_window_not_top1",
+        "top1": "'s",
+        "p_top1": -0.926460862159729,
+        "p_top2": -0.926460862159729,
+        "p_token": -3.3014607429504395
+      },
+      {
+        "rep": 1,
+        "id": "p04_rep20",
+        "j": 27,
+        "token": "<|endoftext|>",
+        "verdict": "in_window_not_top1",
+        "top1": " The",
+        "p_top1": -1.2545411586761475,
+        "p_top2": -1.5045411586761475,
+        "p_token": -2.5045411586761475
+      },
+      {
+        "rep": 1,
+        "id": "p05_rep24",
+        "j": 7,
+        "token": " makes",
+        "verdict": "in_window_not_top1",
+        "top1": " must",
+        "p_top1": -0.6153374314308167,
+        "p_top2": -1.8653373718261719,
+        "p_token": -1.8653373718261719
+      },
+      {
+        "rep": 1,
+        "id": "p05_rep24",
+        "j": 17,
+        "token": " states",
+        "verdict": "in_window_not_top1",
+        "top1": " state",
+        "p_top1": -0.3369143009185791,
+        "p_top2": -2.086914300918579,
+        "p_token": -2.086914300918579
+      },
+      {
+        "rep": 1,
+        "id": "p05_rep24",
+        "j": 18,
+        "token": " for",
+        "verdict": "in_window_not_top1",
+        "top1": " of",
+        "p_top1": -0.14784926176071167,
+        "p_top2": -2.3978493213653564,
+        "p_token": -2.3978493213653564
+      },
+      {
+        "rep": 1,
+        "id": "p05_rep24",
+        "j": 19,
+        "token": " workers",
+        "verdict": "in_window_not_top1",
+        "top1": " each",
+        "p_top1": -0.8850317001342773,
+        "p_top2": -1.6350317001342773,
+        "p_token": -2.2600317001342773
+      },
+      {
+        "rep": 1,
+        "id": "p05_rep24",
+        "j": 20,
+        "token": " executing",
+        "verdict": "in_window_not_top1",
+        "top1": ".",
+        "p_top1": -0.8429844379425049,
+        "p_top2": -1.2179844379425049,
+        "p_token": -2.592984437942505
+      },
+      {
+        "rep": 1,
+        "id": "p05_rep24",
+        "j": 21,
+        "token": " requests",
+        "verdict": "in_window_not_top1",
+        "top1": " incoming",
+        "p_top1": -0.18417507410049438,
+        "p_top2": -1.9341750144958496,
+        "p_token": -1.9341750144958496
+      },
+      {
+        "rep": 1,
+        "id": "p05_rep24",
+        "j": 23,
+        "token": "<|endoftext|>",
+        "verdict": "in_window_not_top1",
+        "top1": " The",
+        "p_top1": -1.0260744094848633,
+        "p_top2": -1.7760744094848633,
+        "p_token": -2.7760744094848633
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 2,
+        "token": " is",
+        "verdict": "in_window_not_top1",
+        "top1": " of",
+        "p_top1": -0.19241254031658173,
+        "p_top2": -2.0674126148223877,
+        "p_token": -2.0674126148223877
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 3,
+        "token": " about",
+        "verdict": "in_window_not_top1",
+        "top1": " the",
+        "p_top1": -0.8472369313240051,
+        "p_top2": -1.5972368717193604,
+        "p_token": -1.5972368717193604
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 4,
+        "token": " how",
+        "verdict": "in_window_not_top1",
+        "top1": " the",
+        "p_top1": -0.5612285137176514,
+        "p_top2": -2.4362285137176514,
+        "p_token": -2.6862285137176514
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 16,
+        "token": " use",
+        "verdict": "in_window_not_top1",
+        "top1": " execute",
+        "p_top1": -0.7473308444023132,
+        "p_top2": -1.497330904006958,
+        "p_token": -1.497330904006958
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 18,
+        "token": " an",
+        "verdict": "in_window_not_top1",
+        "top1": " each",
+        "p_top1": -0.8107122182846069,
+        "p_top2": -1.935712218284607,
+        "p_token": -1.935712218284607
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 21,
+        "token": " based",
+        "verdict": "in_window_not_top1",
+        "top1": ",",
+        "p_top1": -0.511651873588562,
+        "p_top2": -1.636651873588562,
+        "p_token": -1.636651873588562
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 32,
+        "token": " status",
+        "verdict": "in_window_not_top1",
+        "top1": " to",
+        "p_top1": -1.21418035030365,
+        "p_top2": -1.46418035030365,
+        "p_token": -2.9641804695129395
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 36,
+        "token": " explains",
+        "verdict": "in_window_not_top1",
+        "top1": " is",
+        "p_top1": -1.3940136432647705,
+        "p_top2": -2.2690136432647705,
+        "p_token": -2.2690136432647705
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 37,
+        "token": " this",
+        "verdict": "in_window_not_top1",
+        "top1": " that",
+        "p_top1": -0.7106767296791077,
+        "p_top2": -1.335676670074463,
+        "p_token": -2.085676670074463
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 38,
+        "token": " process",
+        "verdict": "in_window_not_top1",
+        "top1": " decision",
+        "p_top1": -1.3255101442337036,
+        "p_top2": -1.4505101442337036,
+        "p_token": -1.4505101442337036
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 39,
+        "token": " without",
+        "verdict": "in_window_not_top1",
+        "top1": " and",
+        "p_top1": -1.2599596977233887,
+        "p_top2": -1.3849596977233887,
+        "p_token": -2.3849596977233887
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 48,
+        "token": " main",
+        "verdict": "in_window_not_top1",
+        "top1": " paragraph",
+        "p_top1": -1.3434075117111206,
+        "p_top2": -1.5934075117111206,
+        "p_token": -2.71840763092041
+      },
+      {
+        "rep": 2,
+        "id": "p01_rep8",
+        "j": 53,
+        "token": " inter",
+        "verdict": "in_window_not_top1",
+        "top1": " decision",
+        "p_top1": -1.1521869897842407,
+        "p_top2": -2.277186870574951,
+        "p_token": -2.277186870574951
+      }
+    ]
+  },
+  "processed": {
+    "arm": "processed",
+    "n_steps": 498,
+    "n_bad": 0,
+    "bad_rate": 0.0,
+    "bad_kinds": {},
+    "c3_repeat_identical": true,
+    "reps_seen": [
+      1,
+      2,
+      3
+    ],
+    "shape_p_top1": {
+      "min": -2.235,
+      "med": -0.5187,
+      "max": -0.0018
+    },
+    "shape_gap_top1_top2": {
+      "min": 0.0,
+      "med": 1.3068,
+      "max": 7.6705
+    },
+    "n_onehot_like": 279,
+    "bad_steps": []
+  }
+}

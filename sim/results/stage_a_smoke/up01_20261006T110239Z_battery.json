@@ -1,0 +1,503 @@
+{
+  "run_id": "transfer_20261006T110254Z",
+  "utc": "2026-10-06T11:02:54.929516+00:00",
+  "host": {
+    "python": "3.14.4",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "system": "Linux",
+    "uname": "Linux localhost 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 ",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2",
+    "os_version": "#1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026"
+  },
+  "source": "外部 worker（http://49.235.115.164:8000），电池跑在客户端这一侧",
+  "target": "http://49.235.115.164:8000",
+  "iface": "eth0",
+  "tc_cmd": "tc -s qdisc show dev eth0",
+  "tc_rate_mbps": 6.0,
+  "shaped_direction": "upload",
+  "sizes_mb": [
+    0.2,
+    2.0
+  ],
+  "rate_test_mb": 2.0,
+  "concurrency": 3,
+  "rate_load_on": "upload",
+  "transfers": [
+    {
+      "sub": "A1",
+      "size_mb": 0.2,
+      "ok": true,
+      "t0": 825.862221166,
+      "upload_bytes": 200000,
+      "download_bytes": 200000,
+      "latency_s": 2.1040829169999142,
+      "mode": "real",
+      "ph_upload_s": 0.6733763629999885,
+      "ph_server_s": 0.3355364820000659,
+      "ph_download_s": 0.8242104389998985,
+      "down_first_s": 3.1520999982603826e-05,
+      "t_conn": 0.270638121999923,
+      "t_pre_send_s": 0.2709596329999613,
+      "t_upload_start": 0.2709596329999613,
+      "t_upload_end": 0.9443359959999498,
+      "t_resp_hdr": 1.2798724780000157,
+      "t_download_end": 2.1040829169999142,
+      "crc_sent": 540207777,
+      "crc_recv": 540207777,
+      "srv_recv_bytes": 200000,
+      "srv_declared_bytes": 200000,
+      "srv_sent_bytes": 200000,
+      "srv_recv_s": 0.796930307,
+      "srv_recv_total_s": 0.796969983,
+      "srv_service_s": 2.997e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 540207777,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 29825200,
+        "tx_bytes": 128989534
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 30042530,
+        "tx_bytes": 129197962
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 348,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 507863 bytes 368 pkt (dropped 0, overlimits 348 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 491,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 721043 bytes 564 pkt (dropped 0, overlimits 491 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "cli_total_s": 2.1040829169999142,
+      "srv_total_s": 1.6211834189998986,
+      "phase_sum_s": 2.1040829169999142,
+      "residual_s": 0.48289949800001564,
+      "crc_upload_ok": true,
+      "crc_download_ok": true
+    },
+    {
+      "sub": "A1",
+      "size_mb": 2.0,
+      "ok": true,
+      "t0": 827.974336054,
+      "upload_bytes": 2000000,
+      "download_bytes": 2000000,
+      "latency_s": 9.567371078000065,
+      "mode": "real",
+      "ph_upload_s": 3.5531309240000155,
+      "ph_server_s": 0.5792981989999362,
+      "ph_download_s": 5.360404457000072,
+      "down_first_s": 7.804999995641992e-06,
+      "t_conn": 0.07327983100003621,
+      "t_pre_send_s": 0.07453749800004061,
+      "t_upload_start": 0.07453749800004061,
+      "t_upload_end": 3.627668422000056,
+      "t_resp_hdr": 4.206966620999992,
+      "t_download_end": 9.567371078000065,
+      "crc_sent": 2135050651,
+      "crc_recv": 2135050651,
+      "srv_recv_bytes": 2000000,
+      "srv_declared_bytes": 2000000,
+      "srv_sent_bytes": 2000000,
+      "srv_recv_s": 3.979229126,
+      "srv_recv_total_s": 3.979246959,
+      "srv_service_s": 2.861e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 2135050651,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 30042530,
+        "tx_bytes": 129197962
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 32187971,
+        "tx_bytes": 131286804
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 491,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 721043 bytes 564 pkt (dropped 0, overlimits 491 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 1774,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 2853379 bytes 2476 pkt (dropped 0, overlimits 1774 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "cli_total_s": 9.567371078000065,
+      "srv_total_s": 9.339654277000072,
+      "phase_sum_s": 9.567371078000065,
+      "residual_s": 0.22771680099999259,
+      "crc_upload_ok": true,
+      "crc_download_ok": true
+    },
+    {
+      "sub": "A2_upload",
+      "ok": true,
+      "t0": 837.54963918,
+      "upload_bytes": 2000000,
+      "download_bytes": 125000,
+      "latency_s": 3.877190286999962,
+      "mode": "real",
+      "ph_upload_s": 2.068612016999964,
+      "ph_server_s": 1.1490406140000005,
+      "ph_download_s": 0.5252508109999781,
+      "down_first_s": 3.6270000691729365e-06,
+      "t_conn": 0.13325309000003926,
+      "t_pre_send_s": 0.13428684500001964,
+      "t_upload_start": 0.13428684500001964,
+      "t_upload_end": 2.2028988619999836,
+      "t_resp_hdr": 3.351939475999984,
+      "t_download_end": 3.877190286999962,
+      "crc_sent": 2135050651,
+      "crc_recv": 936698941,
+      "srv_recv_bytes": 2000000,
+      "srv_declared_bytes": 2000000,
+      "srv_sent_bytes": 125000,
+      "srv_recv_s": 3.046215587,
+      "srv_recv_total_s": 3.046235612,
+      "srv_service_s": 2.319e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 2135050651,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 32187971,
+        "tx_bytes": 131286804
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 32367014,
+        "tx_bytes": 133334835
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 1774,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 2853379 bytes 2476 pkt (dropped 0, overlimits 1774 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 3159,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 4950646 bytes 3946 pkt (dropped 0, overlimits 3159 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A2_download",
+      "ok": true,
+      "t0": 841.435145087,
+      "upload_bytes": 125000,
+      "download_bytes": 2000000,
+      "latency_s": 6.540099670000018,
+      "mode": "real",
+      "ph_upload_s": 0.40112496400001874,
+      "ph_server_s": 0.40630416800001967,
+      "ph_download_s": 5.547496335999995,
+      "down_first_s": 0.000756369999976414,
+      "t_conn": 0.18499355300002662,
+      "t_pre_send_s": 0.1851742019999847,
+      "t_upload_start": 0.1851742019999847,
+      "t_upload_end": 0.5862991660000034,
+      "t_resp_hdr": 0.9926033340000231,
+      "t_download_end": 6.540099670000018,
+      "crc_sent": 936698941,
+      "crc_recv": 2135050651,
+      "srv_recv_bytes": 125000,
+      "srv_declared_bytes": 125000,
+      "srv_sent_bytes": 2000000,
+      "srv_recv_s": 0.605047954,
+      "srv_recv_total_s": 0.605060576,
+      "srv_service_s": 1.876e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 936698941,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 32367014,
+        "tx_bytes": 133334835
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 34470366,
+        "tx_bytes": 133496024
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 3159,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 4950646 bytes 3946 pkt (dropped 0, overlimits 3159 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 3247,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 5114805 bytes 4483 pkt (dropped 0, overlimits 3247 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A4_single",
+      "ok": true,
+      "t0": 847.982954735,
+      "upload_bytes": 2000000,
+      "download_bytes": 125000,
+      "latency_s": 4.392773588999944,
+      "mode": "real",
+      "ph_upload_s": 2.5277206679999153,
+      "ph_server_s": 0.9957498130000886,
+      "ph_download_s": 0.6427991869999232,
+      "down_first_s": 4.7889999450489995e-06,
+      "t_conn": 0.2257415789999868,
+      "t_pre_send_s": 0.22650392100001682,
+      "t_upload_start": 0.22650392100001682,
+      "t_upload_end": 2.754224588999932,
+      "t_resp_hdr": 3.7499744020000207,
+      "t_download_end": 4.392773588999944,
+      "crc_sent": 2135050651,
+      "crc_recv": 936698941,
+      "srv_recv_bytes": 2000000,
+      "srv_declared_bytes": 2000000,
+      "srv_sent_bytes": 125000,
+      "srv_recv_s": 3.330469207,
+      "srv_recv_total_s": 3.330488556,
+      "srv_service_s": 2.213e-06,
+      "srv_node": "VM-0-9-ubuntu",
+      "srv_mode": "real",
+      "srv_crc": 2135050651,
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 34470366,
+        "tx_bytes": 133496024
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 34654213,
+        "tx_bytes": 135546431
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 3247,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 5114805 bytes 4483 pkt (dropped 0, overlimits 3247 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 4685,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 65 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 7212732 bytes 5963 pkt (dropped 0, overlimits 4685 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A4_multi",
+      "flows": [
+        {
+          "ok": true,
+          "t0": 852.381168203,
+          "upload_bytes": 2000000,
+          "download_bytes": 125000,
+          "latency_s": 9.520035395000036,
+          "mode": "real",
+          "ph_upload_s": 8.015138541000056,
+          "ph_server_s": 0.8083553169999504,
+          "ph_download_s": 0.4716121460000977,
+          "down_first_s": 5.9920000694546616e-06,
+          "t_conn": 0.22465372900001057,
+          "t_pre_send_s": 0.22492939099993237,
+          "t_upload_start": 0.22492939099993237,
+          "t_upload_end": 8.240067931999988,
+          "t_resp_hdr": 9.048423248999939,
+          "t_download_end": 9.520035395000036,
+          "crc_sent": null,
+          "crc_recv": null,
+          "srv_recv_bytes": 2000000,
+          "srv_declared_bytes": 2000000,
+          "srv_sent_bytes": 125000,
+          "srv_recv_s": 8.635483887,
+          "srv_recv_total_s": 8.644863465,
+          "srv_service_s": 1.327e-06,
+          "srv_node": "VM-0-9-ubuntu",
+          "srv_mode": "real",
+          "srv_crc": null
+        },
+        {
+          "ok": true,
+          "t0": 852.381303774,
+          "upload_bytes": 2000000,
+          "download_bytes": 125000,
+          "latency_s": 9.675593583000023,
+          "mode": "real",
+          "ph_upload_s": 8.093133241000032,
+          "ph_server_s": 0.7386160500000187,
+          "ph_download_s": 0.6191740809999828,
+          "down_first_s": 0.00020689899997705652,
+          "t_conn": 0.2246115780000082,
+          "t_pre_send_s": 0.22467021099998874,
+          "t_upload_start": 0.22467021099998874,
+          "t_upload_end": 8.317803452000021,
+          "t_resp_hdr": 9.05641950200004,
+          "t_download_end": 9.675593583000023,
+          "crc_sent": null,
+          "crc_recv": null,
+          "srv_recv_bytes": 2000000,
+          "srv_declared_bytes": 2000000,
+          "srv_sent_bytes": 125000,
+          "srv_recv_s": 8.651393035,
+          "srv_recv_total_s": 8.651401792,
+          "srv_service_s": 1.102e-06,
+          "srv_node": "VM-0-9-ubuntu",
+          "srv_mode": "real",
+          "srv_crc": null
+        },
+        {
+          "ok": true,
+          "t0": 852.381073971,
+          "upload_bytes": 2000000,
+          "download_bytes": 125000,
+          "latency_s": 9.463524796000002,
+          "mode": "real",
+          "ph_upload_s": 6.794380563000004,
+          "ph_server_s": 1.9289469770000096,
+          "ph_download_s": 0.5157188549999319,
+          "down_first_s": 0.0015400830000089627,
+          "t_conn": 0.22433985300006043,
+          "t_pre_send_s": 0.22447840100005578,
+          "t_upload_start": 0.22447840100005578,
+          "t_upload_end": 7.01885896400006,
+          "t_resp_hdr": 8.94780594100007,
+          "t_download_end": 9.463524796000002,
+          "crc_sent": null,
+          "crc_recv": null,
+          "srv_recv_bytes": 2000000,
+          "srv_declared_bytes": 2000000,
+          "srv_sent_bytes": 125000,
+          "srv_recv_s": 8.560310597,
+          "srv_recv_total_s": 8.560322123,
+          "srv_service_s": 1.928e-06,
+          "srv_node": "VM-0-9-ubuntu",
+          "srv_mode": "real",
+          "srv_crc": null
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "check": "A1",
+      "item": "0.2 MB 字节数",
+      "measured": "客户端发=200000 服务端声明=200000 服务端实收=200000 客户端实收=200000（设定 200000）",
+      "verdict": "PASS",
+      "note": "载荷 CRC 两侧一致"
+    },
+    {
+      "check": "A1",
+      "item": "0.2 MB 阶段分解",
+      "measured": "入口(建连+组请求头) 0.271 s | 上传 0.673 s | 服务端段(含算力+余下接收) 0.336 s | 下传 0.824 s | 端到端 2.104 s",
+      "verdict": "INFO",
+      "note": "四段之和 − 端到端 = 0.000000000 s（同一次计时切出来，应为 0）"
+    },
+    {
+      "check": "A1",
+      "item": "2.0 MB 字节数",
+      "measured": "客户端发=2000000 服务端声明=2000000 服务端实收=2000000 客户端实收=2000000（设定 2000000）",
+      "verdict": "PASS",
+      "note": "载荷 CRC 两侧一致"
+    },
+    {
+      "check": "A1",
+      "item": "2.0 MB 阶段分解",
+      "measured": "入口(建连+组请求头) 0.075 s | 上传 3.553 s | 服务端段(含算力+余下接收) 0.579 s | 下传 5.360 s | 端到端 9.567 s",
+      "verdict": "INFO",
+      "note": "四段之和 − 端到端 = 0.000000000 s（同一次计时切出来，应为 0）"
+    },
+    {
+      "check": "A2",
+      "item": "载荷方向自证",
+      "measured": "--shaped-direction=upload ⇒ 期望大载荷在【上传】侧；实际 上=2000000 B / 下=125000 B、A2/A4 判定方向=【上传】",
+      "verdict": "PASS",
+      "note": "方向由 --shaped-direction 唯一决定（both 沿用原口径＝大上传）；不一致会让 A4 去量没被限速的那条路，把'设计不匹配'报成 FAIL"
+    },
+    {
+      "check": "A2",
+      "item": "上传吞吐",
+      "measured": "实测 5.252 Mbit/s / 设定 6.0 （偏差 -12.46%）",
+      "verdict": "FAIL",
+      "note": "容差 ±10%"
+    },
+    {
+      "check": "A2",
+      "item": "下传吞吐",
+      "measured": "实测 2.885 Mbit/s",
+      "verdict": "INFO",
+      "note": "--shaped-direction=upload，该方向未限速，不判定"
+    },
+    {
+      "check": "A3",
+      "item": "overlimits 增量",
+      "measured": "overlimits +1473，dropped +0",
+      "verdict": "PASS",
+      "note": "只看 `tc qdisc show` 有输出不算生效，必须这个增量 > 0"
+    },
+    {
+      "check": "A4",
+      "item": "载荷方向（单路 vs 3 路实测的就是这一侧）",
+      "measured": "大载荷 2000000 字节走在【上传】方向，吞吐用 up_thr_mbps（服务端收到字节/耗时）",
+      "verdict": "INFO",
+      "note": "--shaped-direction=upload ⇒ 必须测【上传】方向；只限速其中一个方向时，测错方向必然得到接近 1 的比值并误判 FAIL"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 单路吞吐",
+      "measured": "1 路 4.804 Mbit/s → 3 路时每路 1.857 Mbit/s（比值 2.59×；3 路合计 5.571 Mbit/s）",
+      "verdict": "PASS",
+      "note": "共享瓶颈下理想比值≈3；判据 ≥1.5"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 每请求端到端",
+      "measured": "1 路 4.393 s → 3 路时每路 9.553 s（比值 2.17×）",
+      "verdict": "INFO",
+      "note": "老协议下这个比值会≈1：它把'带宽'建模成一个与并发无关的睡眠时间，没有共享的物理瓶颈可瓜分"
+    },
+    {
+      "check": "A5",
+      "item": "网卡 tx 增量 / 上传字节",
+      "measured": "1.0240×",
+      "verdict": "INFO",
+      "note": "网卡 tx +2048031 字节，应用层发 2000000 字节；超出部分是 TCP/IP 头（20+20+12 字节/段）"
+    },
+    {
+      "check": "A5",
+      "item": "网卡 rx 增量 / 下传字节",
+      "measured": "1.0517×",
+      "verdict": "INFO",
+      "note": "网卡 rx +2103352 字节，应用层收 2000000 字节"
+    },
+    {
+      "check": "A1-summary",
+      "item": "全部档位字节一致",
+      "measured": "见上",
+      "verdict": "PASS",
+      "note": ""
+    }
+  ]
+}

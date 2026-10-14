@@ -1,0 +1,42 @@
+run_id,attempt,host,step,utc_start,utc_end,exit_code,status,note
+b1_4c_20261008T002222Z,1,A,gen_prompts_4c,2026-10-08T00:22:37Z,2026-10-08T00:22:38Z,0,OK,"cmd=/root/b1/venv/bin/python /tmp/b1_client.py gen-prompts --out /root/b1/official/b1_prompts.json"
+b1_4c_20261008T002222Z,1,B,start_baseline_4c,2026-10-08T00:22:39Z,2026-10-08T00:22:41Z,0,OK,"cmd=B1_BIND_IP=172.29.31.51 B1_PREFIX_CACHING=off bash /tmp/b1_remote_serve.sh start-baseline 8300 /root/b1/venv/bin/vllm /root/b1/models/Qwen2.5-1.5B-Instruct Qwen/Qwen2.5-1.5B-Instruct"
+b1_4c_20261008T002222Z,1,B,waitready_baseline4c,2026-10-08T00:22:41Z,2026-10-08T00:23:38Z,0,OK,"port=8300 path=/v1/models"
+b1_4c_20261008T002222Z,1,B,metrics_diag4c_baseline_t0,2026-10-08T00:23:38Z,2026-10-08T00:23:39Z,0,OK,"port=8300 bytes=56268"
+b1_4c_20261008T002222Z,1,B,prefixcache_diag4c_baseline_t0,2026-10-08T00:23:40Z,2026-10-08T00:23:40Z,0,OK,"enable_prefix_caching=""False"""
+b1_4c_20261008T002222Z,1,A,arm_warmup_baseline_w1,2026-10-08T00:23:40Z,2026-10-08T00:23:46Z,0,OK,"url=http://172.29.31.51:8300 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_warmup_baseline_w2,2026-10-08T00:23:47Z,2026-10-08T00:23:53Z,0,OK,"url=http://172.29.31.51:8300 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_warmup_baseline_w3,2026-10-08T00:23:53Z,2026-10-08T00:23:59Z,0,OK,"url=http://172.29.31.51:8300 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_baseline4c_r1,2026-10-08T00:23:59Z,2026-10-08T00:24:05Z,0,OK,"url=http://172.29.31.51:8300 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_baseline4c_r2,2026-10-08T00:24:05Z,2026-10-08T00:24:11Z,0,OK,"url=http://172.29.31.51:8300 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_baseline4c_r3,2026-10-08T00:24:11Z,2026-10-08T00:24:17Z,0,OK,"url=http://172.29.31.51:8300 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,B,metrics_diag4c_baseline_t1,2026-10-08T00:24:17Z,2026-10-08T00:24:18Z,0,OK,"port=8300 bytes=57991"
+b1_4c_20261008T002222Z,1,B,stop_baseline_4c,2026-10-08T00:24:19Z,2026-10-08T00:24:20Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop baseline"
+b1_4c_20261008T002222Z,1,A,start_prefill_4c,2026-10-08T00:24:29Z,2026-10-08T00:24:31Z,0,OK,"cmd=B1_BIND_IP=172.29.31.52 B1_PREFIX_CACHING=off bash /tmp/b1_remote_serve.sh start-prefill 8100 5600 /root/b1/venv/bin/vllm /root/b1/models/Qwen2.5-1.5B-Instruct Qwen/Qwen2.5-1.5B-Instruct 172.29.31.52"
+b1_4c_20261008T002222Z,1,B,start_decode_4c,2026-10-08T00:24:31Z,2026-10-08T00:24:33Z,0,OK,"cmd=B1_BIND_IP=172.29.31.51 B1_PREFIX_CACHING=off bash /tmp/b1_remote_serve.sh start-decode  8200  5600 /root/b1/venv/bin/vllm /root/b1/models/Qwen2.5-1.5B-Instruct Qwen/Qwen2.5-1.5B-Instruct 172.29.31.51"
+b1_4c_20261008T002222Z,1,A,waitready_prefill4c,2026-10-08T00:24:33Z,2026-10-08T00:25:28Z,0,OK,"port=8100 path=/v1/models"
+b1_4c_20261008T002222Z,1,B,waitready_decode4c,2026-10-08T00:25:29Z,2026-10-08T00:25:30Z,0,OK,"port=8200 path=/v1/models"
+b1_4c_20261008T002222Z,1,A,metrics_diag4c_prefill_t0,2026-10-08T00:25:30Z,2026-10-08T00:25:31Z,0,OK,"port=8100 bytes=66219"
+b1_4c_20261008T002222Z,1,B,metrics_diag4c_decode_t0,2026-10-08T00:25:31Z,2026-10-08T00:25:32Z,0,OK,"port=8200 bytes=66223"
+b1_4c_20261008T002222Z,1,A,prefixcache_diag4c_prefill_t0,2026-10-08T00:25:33Z,2026-10-08T00:25:33Z,0,OK,"enable_prefix_caching=""False"""
+b1_4c_20261008T002222Z,1,B,prefixcache_diag4c_decode_t0,2026-10-08T00:25:33Z,2026-10-08T00:25:33Z,0,OK,"enable_prefix_caching=""False"""
+b1_4c_20261008T002222Z,1,A,start_proxy_4c,2026-10-08T00:25:33Z,2026-10-08T00:25:35Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh start-proxy 8192 172.29.31.52:8100 172.29.31.51:8200 /root/b1/venv/bin/python /root/b1/official/toy_proxy_server.py"
+b1_4c_20261008T002222Z,1,A,waitready_proxy4c,2026-10-08T00:25:35Z,2026-10-08T00:25:36Z,0,OK,"port=8192 path=/healthcheck"
+b1_4c_20261008T002222Z,1,A,arm_warmup_disagg_w1,2026-10-08T00:25:36Z,2026-10-08T00:25:44Z,0,OK,"url=http://127.0.0.1:8192 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_warmup_disagg_w2,2026-10-08T00:25:44Z,2026-10-08T00:25:52Z,0,OK,"url=http://127.0.0.1:8192 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_warmup_disagg_w3,2026-10-08T00:25:52Z,2026-10-08T00:25:59Z,0,OK,"url=http://127.0.0.1:8192 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_disagg4c_r1,2026-10-08T00:25:59Z,2026-10-08T00:26:06Z,0,OK,"url=http://127.0.0.1:8192 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_disagg4c_r2,2026-10-08T00:26:06Z,2026-10-08T00:26:13Z,0,OK,"url=http://127.0.0.1:8192 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,arm_disagg4c_r3,2026-10-08T00:26:13Z,2026-10-08T00:26:21Z,0,OK,"url=http://127.0.0.1:8192 extra=--logprobs 5"
+b1_4c_20261008T002222Z,1,A,metrics_diag4c_prefill_t1,2026-10-08T00:26:21Z,2026-10-08T00:26:22Z,0,OK,"port=8100 bytes=67814"
+b1_4c_20261008T002222Z,1,B,metrics_diag4c_decode_t1,2026-10-08T00:26:22Z,2026-10-08T00:26:23Z,0,OK,"port=8200 bytes=68049"
+b1_4c_20261008T002222Z,1,A,stop_all_A,2026-10-08T00:28:17Z,2026-10-08T00:28:20Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop-all"
+b1_4c_20261008T002222Z,1,B,stop_all_B,2026-10-08T00:28:21Z,2026-10-08T00:28:22Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop-all"
+b1_4c_20261008T002222Z,1,A,stop_model_download_A,2026-10-08T00:28:23Z,2026-10-08T00:28:24Z,0,OK,"cmd=self=$$
+pids=$(ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}' | grep -v ""^$self$"")
+if [[ -z ""$pids"" ]]; then echo ""  A: 没有模型下载进程（无需停）""; else
+  for p in $pids; do echo ""  A: SIGTERM pid=$p $(ps -o args= -p $p 2>/dev/null | head -c 60)""; kill -TERM ""$p"
+b1_4c_20261008T002222Z,1,B,stop_model_download_B,2026-10-08T00:28:24Z,2026-10-08T00:28:25Z,0,OK,"cmd=self=$$
+pids=$(ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}' | grep -v ""^$self$"")
+if [[ -z ""$pids"" ]]; then echo ""  B: 没有模型下载进程（无需停）""; else
+  for p in $pids; do echo ""  B: SIGTERM pid=$p $(ps -o args= -p $p 2>/dev/null | head -c 60)""; kill -TERM ""$p"

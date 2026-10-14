@@ -1,0 +1,19 @@
+# ---- clock_B @ B (8.155.131.183)  start=2026-10-07T17:11:58Z ----
+               Local time: Thu 2026-10-08 01:11:59 CST
+           Universal time: Wed 2026-10-07 17:11:59 UTC
+                 RTC time: Wed 2026-10-07 17:11:59
+                Time zone: Asia/Shanghai (CST, +0800)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+active
+active
+inactive
+Reference ID    : 64643D58 (100.100.61.88)
+Stratum         : 2
+Ref time (UTC)  : Wed Oct 07 17:09:52 2026
+System time     : 0.000095666 seconds slow of NTP time
+Last offset     : -0.000068107 seconds
+RMS offset      : 0.000236045 seconds
+1791393119.243347748
+# ---- exit=0 end=2026-10-07T17:11:59Z ----

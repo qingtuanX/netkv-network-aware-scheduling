@@ -1,0 +1,28 @@
+{
+  "prefill": {
+    "precheck_delta": {
+      "count": 1,
+      "sum": 327680
+    },
+    "measure_delta": {
+      "count": 3,
+      "sum": 983040,
+      "failed_transfers": 0,
+      "failed_notifications": 0,
+      "kv_expired": 0
+    }
+  },
+  "decode": {
+    "precheck_delta": {
+      "count": 2,
+      "sum": 655360
+    },
+    "measure_delta": {
+      "count": 4,
+      "sum": 1310720,
+      "failed_transfers": 2,
+      "failed_notifications": 1,
+      "kv_expired": 1
+    }
+  }
+}

@@ -1,0 +1,16 @@
+# ---- net_internal_A @ A (8.155.133.216)  start=2026-10-07T17:11:34Z ----
+--- ping B ---
+PING 172.29.31.51 (172.29.31.51) 56(84) bytes of data.
+64 bytes from 172.29.31.51: icmp_seq=1 ttl=64 time=0.286 ms
+64 bytes from 172.29.31.51: icmp_seq=2 ttl=64 time=0.206 ms
+64 bytes from 172.29.31.51: icmp_seq=3 ttl=64 time=0.196 ms
+64 bytes from 172.29.31.51: icmp_seq=4 ttl=64 time=0.214 ms
+64 bytes from 172.29.31.51: icmp_seq=5 ttl=64 time=0.219 ms
+
+--- 172.29.31.51 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4113ms
+rtt min/avg/max/mdev = 0.196/0.224/0.286/0.031 ms
+--- 内网到 B 的路由 ---
+172.29.31.51 dev eth0 src 172.29.31.52 uid 0 
+    cache 
+# ---- exit=0 end=2026-10-07T17:11:39Z ----

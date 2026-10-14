@@ -1,0 +1,25 @@
+== 两台机器的真实云身份（证据来自元数据服务，不是推测） ==
+取法：在实例内 curl http://100.100.100.200/latest/meta-data/<key>
+（100.100.100.200 是**阿里云专属**的元数据服务地址，它本身即厂商证据之一；
+  另有 /usr/local/aegis/AliYunDun 与 aliyun-assist 两个阿里云 agent 进程）
+
+厂商      : 阿里云（Alibaba Cloud）
+地域      : cn-heyuan
+可用区    : cn-heyuan-b
+VPC       : vpc-f8zxd5ciman5fejiit9gx   网段 172.16.0.0/12
+子网      : vsw-f8zmfknugi51fr1hn7b5h   网段 172.29.16.0/20
+机型      : ecs.gn7i-c8g1.2xlarge（单卡 NVIDIA A10 24 GB，8 vCPU / 29.7 GB 可用内存）
+账号      : 1135257242649102
+镜像      : ubuntu_24_04_x64_100G_with_gpu_driver_and_cuda_alibase_20260519.vhd
+A         : iZf8z4ggqwhyqz0r6lp1mjZ  8.155.133.216 / 172.29.31.52   i-f8z4ggqwhyqz0r6lp1mj
+B         : iZf8z4ggqwhyqz0r6lp1miZ  8.155.131.183 / 172.29.31.51   i-f8z4ggqwhyqz0r6lp1mi
+
+结论：**两台同厂商、同地域、同可用区、同 VPC、同子网** —— 这正是内网直连的充分条件，
+      所以本批属于「同云（B）」，**不是跨云证据**。
+      若日后两台落在不同厂商，必须重做同一套核实并把结论改成「跨云（C）」。
+
+--- 两端元数据原文（逐字段） ---
+[A]
+    # ---- cloud_meta_A @ A (8.155.133.216)  start=2026-10-07T16:36:02Z ----
+[B]
+    # ---- cloud_meta_B @ B (8.155.131.183)  start=2026-10-07T16:36:03Z ----

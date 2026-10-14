@@ -1,0 +1,2 @@
+# 等待 proxy：curl http://<172.29.31.52|127.0.0.1>:8192/healthcheck 直到 200（最多 240 s）
+READY proxy after 1s (http://127.0.0.1:8192/healthcheck)

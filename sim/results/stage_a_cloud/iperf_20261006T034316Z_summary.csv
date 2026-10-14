@@ -1,0 +1,7 @@
+条件,口径,Mbit/s,对设定值偏差
+基线(不限速),iperf3 发送端,24.744,
+基线(不限速),iperf3 接收端,23.714,
+限速6Mbit,iperf3 发送端,6.151,+2.52%
+限速6Mbit,iperf3 接收端,5.630,-6.17%
+限速6Mbit,tc overlimits 增量,7670,
+限速6Mbit,tc dropped 增量,0,

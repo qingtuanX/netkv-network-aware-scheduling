@@ -118,6 +118,29 @@ def service_time(work: float, node: NodeSpec) -> float:
     return work / rate
 
 
+def service_slowdown_factor(n_in_service: int, mode: str) -> float:
+    """保守模型：并发越高、单请求越慢（CONS_MODEL_PREREG 冻结值，2026-10-12 按 (a)）。
+
+    校准来源：B0 组件级实测——单请求 83 ms（空闲）→ 162 ms（持续满载），×1.95。
+    冻结取值（看结果前写死，L/P 两版都跑、不得择优）：
+      linear   : f(1)=1.000, f(2)=1.317, f(3)=1.633, f(c>=4)=1.950
+                 （线跨 c=1→4：f(c)=1+0.95×(c−1)/3，c≥4 封顶）
+      pressure : f(1)=1.000, f(c>=2)=1.950（压力上界）
+      none     : 恒 1.0（默认；理想服务时间模型，行为与注入前逐位一致——
+                 regtest_slowdown.py 的默认关闭回归检查钉住这一点）
+
+    n_in_service = 请求开始接受服务那一刻，该节点上正在服务的请求数（含自己）。
+    """
+    if mode is None or mode == "none":
+        return 1.0
+    c = max(1, int(n_in_service))
+    if mode == "linear":
+        return 1.0 if c == 1 else min(1.95, 1.0 + 0.95 * (c - 1) / 3.0)
+    if mode == "pressure":
+        return 1.0 if c == 1 else 1.95
+    raise ValueError(f"unknown service_slowdown mode: {mode!r}")
+
+
 @dataclass
 class NodeView:
     """调度器在一次决策时"以为"的某个节点状态。

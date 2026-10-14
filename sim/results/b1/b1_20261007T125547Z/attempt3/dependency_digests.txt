@@ -1,0 +1,29 @@
+== B1 依赖锁定：vLLM / NIXL 的精确版本与 wheel sha256 ==
+取法：pip download --no-deps 从内网镜像取原始 wheel，再算 sha256（下完即删，不留大文件）。
+为什么需要它：本任务**不用容器镜像**，所以'镜像 digest'的等价物是
+  （a）精确版本号 +（b）wheel 的 sha256 +（c）requirements_locked.txt 的 sha256。
+  vLLM v0.31.0 官方 requirements/kv_connectors.txt 把 NIXL 钉在 nixl == 1.4.1 —— 与本机装的版本一致。
+
+---- 主机 8.130.72.109 ----
+pip download rc=0
+40168c1fd9e6b77761d9e0f9225bd616cc3e48c75a9592fff488745ca33244df  /root/b1/_wheelcheck/nixl-1.4.1-py3-none-any.whl
+39132b433967f0962d03d8a5f633b9bee6b32708f566c7d5637b79f8d0ef3433  /root/b1/_wheelcheck/vllm-0.31.0-cp38-abi3-manylinux_2_28_x86_64.whl
+requirements_locked.txt sha256: e5fedd97089a156420b4434858b2c27b3e5a6177ca5d5e6221888e725b2b47f9
+
+---- 主机 8.130.179.201 ----
+pip download rc=0
+40168c1fd9e6b77761d9e0f9225bd616cc3e48c75a9592fff488745ca33244df  /root/b1/_wheelcheck/nixl-1.4.1-py3-none-any.whl
+39132b433967f0962d03d8a5f633b9bee6b32708f566c7d5637b79f8d0ef3433  /root/b1/_wheelcheck/vllm-0.31.0-cp38-abi3-manylinux_2_28_x86_64.whl
+requirements_locked.txt sha256: e5fedd97089a156420b4434858b2c27b3e5a6177ca5d5e6221888e725b2b47f9
+
+
+== 模型修订号（锁定字段，R7 要求）==
+来源：hf-mirror 的 Hub API  curl https://hf-mirror.com/api/models/Qwen/Qwen2.5-7B-Instruct
+实测值： sha = a09a35458c702b33eeacc393d103063234e8bc28
+         lastModified = 2025-01-12T02:10:10.000Z
+         gated = false, private = false
+说明：这是**官方仓库的 revision**；两端实际下载到的目录哈希本轮**没拿到**
+      （下载未完成、实例失联），所以“两端模型一致”这一条**未验证**。
+取到时的原文见下面的 JSON 片段（截断保存）。
+
+{"_id":"66e81cbcd683a3f4e5291bbf","id":"Qwen/Qwen2.5-7B-Instruct","sha":"a09a35458c702b33eeacc393d103063234e8bc28","lastModified":"2025-01-12T02:10:10.000Z","gated":false,"private":false}

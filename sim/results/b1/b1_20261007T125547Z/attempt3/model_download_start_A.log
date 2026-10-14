@@ -1,0 +1,6 @@
+# 在 A 上起后台下载
+# 为什么必须关 Xet：hf-mirror 不代理 Xet，走 Xet 会报
+#   RuntimeError: CAS Client Error: HTTP 401 Unauthorized, domain: https://cas-server.xethub.hf.co/...
+# 实测发生过一次（B 端），所以显式 HF_HUB_DISABLE_XET=1。
+ssh: connect to host 8.130.72.109 port 22: Connection timed out
+# ---- exit=255 end=2026-10-07T13:51:34Z ----

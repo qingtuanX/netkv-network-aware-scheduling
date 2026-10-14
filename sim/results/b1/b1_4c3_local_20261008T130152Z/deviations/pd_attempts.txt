@@ -1,0 +1,2 @@
+tier util=0.44 max_model_len=8192
+tier util=0.42 max_model_len=2048

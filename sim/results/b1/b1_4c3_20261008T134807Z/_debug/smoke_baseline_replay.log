@@ -1,0 +1,3 @@
++ local h=8.155.133.216
++ shift
++ ssh -i '/mnt/d/Documents/API/_网络感应 (1).pem' -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_net -o BatchMode=yes -o ConnectTimeout=20 -o LogLevel=ERROR root@8.155.133.216 'mkdir -p /root/b1/prereg3_out && cd /root/b1 && ./venv/bin/python b1_client.py --url '\''http://172.29.31.51:8300'\'' --model '\''Qwen/Qwen2.5-1.5B-Instruct'\''     --prompts-file /root/b1/prereg3_prompts.json --logprobs 20 --only-ids q01_rep6 q02_rep10 q03_rep14     --out /root/b1/prereg3_out/smoke_baseline_replay.json'

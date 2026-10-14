@@ -1,0 +1,2 @@
+# 等待 decode：curl http://<172.29.31.51|127.0.0.1>:8200/v1/models 直到 200（最多 240 s）
+READY decode after 4s (http://172.29.31.51:8200/v1/models)

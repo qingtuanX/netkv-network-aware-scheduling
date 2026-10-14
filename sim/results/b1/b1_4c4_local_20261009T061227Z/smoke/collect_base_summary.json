@@ -1,0 +1,34 @@
+{
+  "tool": "b1_prefix_4c.py collect",
+  "utc_started": "2026-10-09T06:24:45.611739Z",
+  "arm": "base",
+  "target_url": "http://127.0.0.1:8300",
+  "target_version_endpoint": {
+    "version": "0.31.0"
+  },
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "prefix_mode": "tokenids",
+  "max_new": 8,
+  "request_params_actual": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": -1,
+    "repetition_penalty": 1.0,
+    "seed": 0,
+    "stream": false,
+    "return_token_ids": true,
+    "logprobs": 20
+  },
+  "prompts": [
+    {
+      "id": "c01_rep4",
+      "n_prompt_ids": 441,
+      "ref_len": 8,
+      "e3_identical": true,
+      "prompt_tokens_match": "8/8",
+      "ref_consistent": "7/8",
+      "non_degenerate": "8/8"
+    }
+  ],
+  "utc_written": "2026-10-09T06:24:47.047997Z"
+}

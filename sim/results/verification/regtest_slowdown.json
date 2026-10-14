@@ -1,0 +1,7 @@
+{
+ "hash": "abc6f60e5fdcad5ffc40c5fc7a67e53105d1afc5412c7966ad85fc58c7403081",
+ "n_requests": 500,
+ "sojourn_p50": 3.474647767756,
+ "sojourn_p95": 5.732526477461,
+ "sojourn_sum": 1684.950446085866
+}

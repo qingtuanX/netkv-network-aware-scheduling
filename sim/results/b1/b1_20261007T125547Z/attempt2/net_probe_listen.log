@@ -1,0 +1,12 @@
+# ---- net_probe_listen @ B (8.130.179.201)  start=2026-10-07T13:00:15Z  cmd: setsid nohup python3 -c "
+import socket,time
+socks=[]
+for p in (5600,8200,8300,9101):
+    s=socket.socket(); s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+    s.bind(('0.0.0.0',p)); s.listen(4); socks.append(s)
+print('listening 5600 8200 8300 9101', flush=True)
+time.sleep(90)
+" >/tmp/b1_portprobe.log 2>&1 </dev/null &
+sleep 3; cat /tmp/b1_portprobe.log ----
+listening 5600 8200 8300 9101
+# ---- exit=0 end=2026-10-07T13:00:19Z ----

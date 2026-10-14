@@ -1,0 +1,80 @@
+标签                           列                               Win p50    Linux p50   Δp50(ms)      Win max    Linux max
+failinject_disconnect_mid_stream e2e_s                          0.104805     0.104607    -0.1979     0.122514     0.104723
+failinject_disconnect_mid_stream n_stream_bytes                      496          496     0.0000          496          496
+failinject_disconnect_mid_stream cov_max_gap_s                         0            0     0.0000            0            0
+failinject_disconnect_mid_stream cov_gap_total_s                       0            0     0.0000            0            0
+failinject_disconnect_mid_stream cov_loo_min_gap_s            0.00117779  0.000146389    -1.0314    0.0185428  0.000222921
+failinject_disconnect_mid_stream cov_overlap_s                         0            0     0.0000            0            0
+failinject_disconnect_mid_stream cov_loo_stage              分类不同: win={'wait_first_byte': 3, 'send': 3} linux={'wait_first_byte': 6}
+failinject_hang              n_stream_bytes                        0            0     0.0000            0            0
+failinject_http_500          e2e_s                        0.00101089    0.0013957     0.3848   0.00152135   0.00173688
+failinject_http_500          n_stream_bytes                        0            0     0.0000            0            0
+failinject_reset_mid_stream  n_stream_bytes                        0            0     0.0000            0            0
+failinject_truncate_clean    e2e_s                          0.105071     0.104627    -0.4444      0.10559     0.104805
+failinject_truncate_clean    n_stream_bytes                      496          496     0.0000          496          496
+failinject_truncate_clean    cov_max_gap_s                         0            0     0.0000            0            0
+failinject_truncate_clean    cov_gap_total_s                       0            0     0.0000            0            0
+failinject_truncate_clean    cov_loo_min_gap_s            0.00100362  0.000167727    -0.8359   0.00111151  0.000464916
+failinject_truncate_clean    cov_overlap_s                         0            0     0.0000            0            0
+failinject_truncate_clean    cov_loo_stage              分类不同: win={'send': 4, 'wait_first_byte': 2} linux={'wait_first_byte': 5, 'send': 1}
+overlap0                     e2e_s                          0.794734      0.79433    -0.4041     0.818372     0.795143
+overlap0                     ttft_s                         0.174929     0.174021    -0.9078     0.199146     0.174681
+overlap0                     ttft_from_arrival_s            0.175569     0.174496    -1.0731     0.199558     0.175567
+overlap0                     tpot_p50_s                    0.0199972    0.0199997     0.0025    0.0200791    0.0200248
+overlap0                     tpot_p95_s                    0.0203757    0.0201862    -0.1895    0.0205673    0.0205317
+overlap0                     tpot_max_s                    0.0204836    0.0204343    -0.0494     0.021311    0.0210898
+overlap0                     n_stream_bytes                     4993         4993     0.0000         4997         4997
+overlap0                     cov_max_gap_s                         0            0     0.0000            0            0
+overlap0                     cov_gap_total_s                       0            0     0.0000            0            0
+overlap0                     cov_loo_min_gap_s            0.00101268  0.000102758    -0.9099    0.0253839   0.00046587
+overlap0                     cov_overlap_s                         0            0     0.0000            0            0
+overlap0                     srv_span_s                     0.792914     0.792914     0.0000     0.792914     0.792914
+overlap0                     srv_stage_sum_s                0.792914     0.792914     0.0000     0.792914     0.792914
+overlap0                     srv_gap_max_s                         0            0     0.0000            0            0
+overlap0                     srv_overlap_s                         0            0     0.0000            0            0
+overlap0                     srv_outside_s                         0            0     0.0000            0            0
+overlap0                     sum_minus_e2e_s             -0.00181997  -0.00141585     0.4041 -0.000105858 -0.000993967
+overlap0                     sum_minus_srv_span_s                  0            0     0.0000            0            0
+overlap0                     cov_loo_stage              分类不同: win={'wait_first_byte': 48, 'send': 60, 'teardown': 12} linux={'teardown': 99, 'wait_first_byte': 21}
+overlap50                    e2e_s                          0.763068     0.762845    -0.2233     0.782742      0.76347
+overlap50                    ttft_s                         0.143429     0.142526    -0.9034      0.16327     0.143156
+overlap50                    ttft_from_arrival_s            0.144208     0.142987    -1.2217     0.164257     0.143623
+overlap50                    tpot_p50_s                    0.0199871    0.0200028     0.0157     0.020061    0.0200274
+overlap50                    tpot_p95_s                    0.0203736    0.0201567    -0.2170    0.0206052    0.0204535
+overlap50                    tpot_max_s                    0.0204722    0.0203001    -0.1720    0.0208695    0.0207725
+overlap50                    n_stream_bytes                     4993         4993     0.0000         4997         4997
+overlap50                    cov_max_gap_s                         0            0     0.0000            0            0
+overlap50                    cov_gap_total_s                       0            0     0.0000            0            0
+overlap50                    cov_loo_min_gap_s            0.00100791  9.59635e-05    -0.9120    0.0208848  0.000393391
+overlap50                    cov_overlap_s                         0            0     0.0000            0            0
+overlap50                    srv_span_s                     0.761457     0.761457     0.0000     0.761457     0.761457
+overlap50                    srv_stage_sum_s                0.792914     0.792914     0.0000     0.792914     0.792914
+overlap50                    srv_gap_max_s                         0            0     0.0000            0            0
+overlap50                    srv_overlap_s                 0.0314572    0.0314572     0.0000    0.0314572    0.0314572
+overlap50                    srv_outside_s                         0            0     0.0000            0            0
+overlap50                    sum_minus_e2e_s               0.0298464    0.0300697     0.2233    0.0310526    0.0305276
+overlap50                    sum_minus_srv_span_s          0.0314572    0.0314572     0.0000    0.0314572    0.0314572
+overlap50                    cov_loo_stage              分类不同: win={'teardown': 15, 'send': 86, 'wait_first_byte': 19} linux={'teardown': 81, 'wait_first_byte': 38, 'send': 1}
+smoke_linux                  e2e_s                          0.478968     0.478209    -0.7591     0.506905     0.480125
+smoke_linux                  ttft_s                         0.134227     0.133013    -1.2138     0.162477     0.135102
+smoke_linux                  ttft_from_arrival_s            0.134967     0.133488    -1.4794      0.16349     0.135559
+smoke_linux                  tpot_p50_s                    0.0150038    0.0150019    -0.0019    0.0151007    0.0150173
+smoke_linux                  tpot_p95_s                    0.0153405    0.0151137    -0.2268    0.0157308    0.0152828
+smoke_linux                  tpot_max_s                     0.015447    0.0151489    -0.2981    0.0160286    0.0156648
+smoke_linux                  n_stream_bytes                     3981         3981     0.0000         3981         3981
+smoke_linux                  cov_max_gap_s                         0            0     0.0000            0            0
+smoke_linux                  cov_gap_total_s                       0            0     0.0000            0            0
+smoke_linux                  cov_loo_min_gap_s            0.00100744  0.000123024    -0.8844    0.0297165  0.000386715
+smoke_linux                  cov_overlap_s                         0            0     0.0000            0            0
+smoke_linux                  srv_span_s                     0.476943     0.476943     0.0000     0.476943     0.476943
+smoke_linux                  srv_stage_sum_s                0.476943     0.476943     0.0000     0.476943     0.476943
+smoke_linux                  srv_gap_max_s                         0            0     0.0000            0            0
+smoke_linux                  srv_overlap_s                         0            0     0.0000            0            0
+smoke_linux                  srv_outside_s                         0            0     0.0000            0            0
+smoke_linux                  sum_minus_e2e_s             -0.00202537  -0.00126624     0.7591  -0.00078392   -0.0010078
+smoke_linux                  sum_minus_srv_span_s                  0            0     0.0000            0            0
+smoke_linux                  cov_loo_stage              分类不同: win={'send': 47, 'wait_first_byte': 11, 'teardown': 2} linux={'teardown': 56, 'send': 4}
+
+=== 电池判定：Windows 24 项 PASS / Linux 24 项 PASS；判定不一致 0 项 ===
+
+产物 -> results/b0_linux/os_diff_from_linux.json

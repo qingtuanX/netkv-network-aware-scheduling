@@ -1,0 +1,187 @@
+=== B0 验收电池 battery_20261007T034941871Z_15640-1 ===
+
+--- S0：先自检判据本身（含会 FAIL 的负对照）
+== selftest 1/3：区间并集 / 空档 / 重叠 / 分位数 ==
+  [PASS] 并集：重叠两段: got=3.0 want=3.0
+  [PASS] 并集：相接两段: got=2.0 want=2.0
+  [PASS] 并集：分离两段: got=2.0 want=2.0
+  [PASS] 空档：中间一段: got=1.0 want=1.0
+  [PASS] 空档：合计（[0,1]+[2,4] 在窗口 [0,4] 内）: got=1.0 want=1.0
+  [PASS] 空档：完全覆盖时无空档: got=0 want=0
+  [PASS] 重叠：两段重叠 1: got=1.0 want=1.0
+  [PASS] 重叠：按两两计: got=2.0 want=2.0
+  [PASS] 分位数：中位: got=2.5 want=2.5
+  [PASS] 分位数：单值: got=7.0 want=7.0
+  [PASS] 裁剪：越界部分被切掉: got=3.0 want=3.0
+== selftest 2/3：覆盖判据的正确路径 ==
+  [PASS] 铺满、无重叠 => PASS: got=PASS want=PASS
+  [PASS] 铺满、无重叠：空档 0: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：Σ≈窗口: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：重叠 0: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：LOO 最小空档 = 最小段长 0.1: got=0.1 want=0.1
+  [PASS] 铺满、无重叠：窗口外部分 0: got=0.0 want=0.0
+== selftest 3/3：负对照（判据必须抓得住错）==
+  [PASS] 漏记 wait_first_byte => FAIL: got=FAIL want=FAIL
+  [PASS] 漏记 wait_first_byte：露出空档 0.2: got=0.2 want=0.2
+  [PASS] 有重叠 => 仍 PASS: got=PASS want=PASS
+  [PASS] 有重叠：Σ − 窗口 = 0.15（>0）: got=0.15 want=0.15
+  [PASS] 有重叠：重叠量 = 0.15: got=0.15 want=0.15
+  [PASS] 有重叠：LOO 最小空档 > eps: got=True want=True
+  [PASS] 区间伸到窗口外 => outside > 0: got=True want=True
+  [PASS] 区间伸到窗口外 => FAIL: got=FAIL want=FAIL
+  [PASS] 空集 => 空档 = 全窗: got=1.0 want=1.0
+  [PASS] 空集 => FAIL: got=FAIL want=FAIL
+  [PASS] 无空档时 gap_total_s 仍是 float: got=True want=True
+  [PASS] 空集时 gap_total_s 仍是 float: got=True want=True
+  [PASS] sum_stage_s 是 float: got=True want=True
+
+selftest 全部通过
+  [PASS] S0 / selftest（判据自身）: 返回码 0（0=全通过）  (只验通过路径等于没验，所以自检里必须含负对照)
+
+--- 臂 overlap0：假后端 :9600  配方={"token_count": 32, "token_interval_s": 0.02, "queue_s": 0.01, "prefill_s": 0.1, "kv_mb": 24.0, "kv_gbps": 3.2, "kv_overlap_frac": 0.0, "fail_rate": 0.0, "fail_mode": "http_500", "seed": 1, "kv_bytes": 25165824, "kv_xfer_s": 0.062915}
+
+=== serving_20261007T034941887Z_15640-2 ===
+请求 120  成功 120  失败 0  墙钟 10.731 s  吞吐 11.182 req/s  在途峰值 10
+TTFT(s)   p50=0.174932  p95=0.19809  p99=0.199461  max=0.199692
+TPOT(s)   单请求 p50 口径 p50=0.019993  p95=0.020042
+          逐片段 p95 口径 p50=0.020375  p95=0.02047
+端到端(s) p50=0.794532  p95=0.818322  p99=0.818691  max=0.818771
+覆盖判定（客户端分解）{"PASS": 120}
+覆盖判定（服务端阶段）{"PASS": 120}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005044937133789062 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.001617 s，最大 -0.000135 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+产物 -> results\b0_linux\win_rerun
+
+--- 臂 overlap50：假后端 :9601  配方={"token_count": 32, "token_interval_s": 0.02, "queue_s": 0.01, "prefill_s": 0.1, "kv_mb": 24.0, "kv_gbps": 3.2, "kv_overlap_frac": 0.5, "fail_rate": 0.0, "fail_mode": "http_500", "seed": 1, "kv_bytes": 25165824, "kv_xfer_s": 0.062915}
+
+=== serving_20261007T034952832Z_15640-3 ===
+请求 120  成功 120  失败 0  墙钟 10.681 s  吞吐 11.235 req/s  在途峰值 10
+TTFT(s)   p50=0.143621  p95=0.165441  p99=0.168267  max=0.16919
+TPOT(s)   单请求 p50 口径 p50=0.019993  p95=0.020049
+          逐片段 p95 口径 p50=0.02036  p95=0.020489
+端到端(s) p50=0.763222  p95=0.785254  p99=0.787635  max=0.788119
+覆盖判定（客户端分解）{"PASS": 120}
+覆盖判定（服务端阶段）{"PASS": 120}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005033016204833984 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.031457 s
+        (Σ语义阶段 − 端到端) 中位 0.029693 s，最大 0.031339 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+产物 -> results\b0_linux\win_rerun
+
+=== 判定 ===
+  [PASS] B1 / overlap0 成功率: 120/120  (假后端不应丢请求；丢了说明心跳/连接复用有问题)
+  [PASS] B2 / overlap0 TTFT 可测: p50=0.174932 s  p95=0.19809 s  (TTFT = 请求开始 → 第一个内容片段)
+  [PASS] B3 / overlap0 TPOT 可测: 单请求p50口径：中位=0.019993 s  p95=0.020042 s  (逐片段间隔的全量分位在 tokens.csv（--save-tokens）)
+  [PASS] B4 / overlap0 覆盖：客户端分解最大空档: 0.0 s（容差 0.005 s）  (并集必须铺满 [请求开始, 请求结束])
+  [PASS] B5 / overlap0 leave-one-out 最小空档: 0.0005044937133789062 s（下限 1e-06）  (每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）)
+  [PASS] B6 / overlap0 服务端语义阶段覆盖: 最大空档 0.0 s，判定 {"PASS": 120}  (queue→prefill→kv→decode 在服务端窗口内也要铺满)
+  [PASS] B7 / overlap0 KV 字节数可取: 25165824.0 B/请求（配方 25165824 B）  (假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）)
+  [PASS] B1 / overlap50 成功率: 120/120  (假后端不应丢请求；丢了说明心跳/连接复用有问题)
+  [PASS] B2 / overlap50 TTFT 可测: p50=0.143621 s  p95=0.165441 s  (TTFT = 请求开始 → 第一个内容片段)
+  [PASS] B3 / overlap50 TPOT 可测: 单请求p50口径：中位=0.019993 s  p95=0.020049 s  (逐片段间隔的全量分位在 tokens.csv（--save-tokens）)
+  [PASS] B4 / overlap50 覆盖：客户端分解最大空档: 0.0 s（容差 0.005 s）  (并集必须铺满 [请求开始, 请求结束])
+  [PASS] B5 / overlap50 leave-one-out 最小空档: 0.0005033016204833984 s（下限 1e-06）  (每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）)
+  [PASS] B6 / overlap50 服务端语义阶段覆盖: 最大空档 0.0 s，判定 {"PASS": 120}  (queue→prefill→kv→decode 在服务端窗口内也要铺满)
+  [PASS] B7 / overlap50 KV 字节数可取: 25165824.0 B/请求（配方 25165824 B）  (假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）)
+  [PASS] B8 / 对照①：无重叠臂 Σ语义阶段 − 服务端窗口: 0.0 s  (无重叠时它本来就该接近 0（这是对照臂，不是验收判据）)
+  [PASS] B9 / 对照②：50% 重叠臂 Σ语义阶段 − 服务端窗口: 实测中位 0.031457 s，配方预期 0.031457 s  (★ 关键对照：实测重叠量必须**对得上配方**（预期 0.031457 s）。重叠存在时'加总'必然大于窗口，所以阶段 A 的'加总等于端到端'在阶段 B 会**误判**——这正是本工具换判据的理由)
+  [PASS] B10 / 对照③：两臂的覆盖结论都通过（与重叠无关）: 臂A {'PASS': 120} / 臂B {'PASS': 120}  (重叠只改变'之和'，不破坏'覆盖'——两类判据成功分离)
+  [INFO] B11 / 对照④：Σ阶段 − 端到端（朴素口径，只报不判）: 臂A 中位 -0.001617 s / 臂B 中位 0.029693 s  (同一个量在两个臂上不同：说明它就是被重叠污染的，不能当判据)
+  [PASS] B12 / 服务端语义阶段重叠量（臂 B）: 中位 0.031457 s  (重叠确实发生了（否则 B9 的对照无意义）)
+
+--- 臂 failinject[http_500]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T035003790Z_15640-4 ===
+请求 6  成功 0  失败 6  墙钟 0.835 s  吞吐 7.183 req/s  在途峰值 1
+错误分类：{"http_5xx": 6}
+TTFT(s)   
+TPOT(s)   单请求 p50 口径 
+          逐片段 p95 口径 
+端到端(s) 
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_linux\win_rerun
+  [PASS] B13 / 错误分类（http_500 → 期望 http_5xx）: 失败 6/6，分类={"http_5xx": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[disconnect_mid_stream]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T035005139Z_15640-5 ===
+请求 6  成功 0  失败 6  墙钟 0.939 s  吞吐 6.391 req/s  在途峰值 1
+错误分类：{"stream_incomplete": 6}
+TTFT(s)   
+TPOT(s)   单请求 p50 口径 
+          逐片段 p95 口径 
+端到端(s) 
+覆盖判定（客户端分解）{"PASS": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_linux\win_rerun
+  [PASS] B13 / 错误分类（disconnect_mid_stream → 期望 stream_incomplete）: 失败 6/6，分类={"stream_incomplete": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[truncate_clean]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T035006493Z_15640-6 ===
+请求 6  成功 0  失败 6  墙钟 0.964 s  吞吐 6.222 req/s  在途峰值 1
+错误分类：{"stream_incomplete": 6}
+TTFT(s)   
+TPOT(s)   单请求 p50 口径 
+          逐片段 p95 口径 
+端到端(s) 
+覆盖判定（客户端分解）{"PASS": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_linux\win_rerun
+  [PASS] B13 / 错误分类（truncate_clean → 期望 stream_incomplete）: 失败 6/6，分类={"stream_incomplete": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[reset_mid_stream]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T035007847Z_15640-7 ===
+请求 6  成功 0  失败 6  墙钟 0.94 s  吞吐 6.386 req/s  在途峰值 1
+错误分类：{"stream_broken": 6}
+TTFT(s)   
+TPOT(s)   单请求 p50 口径 
+          逐片段 p95 口径 
+端到端(s) 
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_linux\win_rerun
+  [PASS] B13 / 错误分类（reset_mid_stream → 期望 stream_broken）: 失败 6/6，分类={"stream_broken": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[hang]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T035009208Z_15640-8 ===
+请求 6  成功 0  失败 6  墙钟 2.857 s  吞吐 2.1 req/s  在途峰值 6
+错误分类：{"timeout": 6}
+TTFT(s)   
+TPOT(s)   单请求 p50 口径 
+          逐片段 p95 口径 
+端到端(s) 
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+产物 -> results\b0_linux\win_rerun
+  [PASS] B13 / 错误分类（hang → 期望 timeout）: 失败 6/6，分类={"timeout": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+=== 电池结果：PASS 24 / FAIL 0 / INFO 1 ===
+产物 -> results\b0_linux\win_rerun\battery_20261007T034941871Z_15640-1_checks.csv

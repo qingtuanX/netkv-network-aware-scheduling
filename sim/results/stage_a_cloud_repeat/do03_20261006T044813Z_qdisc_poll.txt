@@ -1,0 +1,174 @@
+04:48:15 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:16 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:18 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:19 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:21 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:23 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:24 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:26 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:27 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:29 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:30 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:32 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:33 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:35 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:36 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:39 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:40 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:42 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:43 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:45 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:46 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:48 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:49 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:51 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:52 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:54 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:56 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:57 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:48:59 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:00 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:02 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:03 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:05 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:06 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:08 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:09 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:11 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:12 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:14 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:16 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:17 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:19 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:20 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:22 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:23 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:25 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:26 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:28 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:29 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:31 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:32 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:34 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:35 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:37 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:38 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:40 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:41 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:43 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:44 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:46 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:47 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:49 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:50 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:52 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:53 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:55 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:56 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:58 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:49:59 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:01 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:02 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:04 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:05 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:07 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:08 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:10 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:11 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:13 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:14 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:16 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:18 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:20 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:21 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:23 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:24 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:26 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:27 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:29 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:30 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:32 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:33 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:35 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:36 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:38 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:39 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:41 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:42 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:44 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:45 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:47 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:48 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:50 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:51 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:53 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:54 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:56 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:57 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:50:59 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:00 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:02 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:03 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:05 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:06 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:08 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:09 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:11 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:12 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:14 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:15 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:17 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:19 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:20 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:22 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:23 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:25 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:26 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:28 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:29 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:31 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:32 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:34 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:35 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:37 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:38 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:40 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:41 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:43 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:44 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:46 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:47 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:49 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:50 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:52 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:53 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:55 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:56 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+04:51:58 qdisc mq 0: root 
+04:52:00 qdisc mq 0: root 
+04:52:01 qdisc mq 0: root 
+04:52:03 qdisc mq 0: root 
+04:52:04 qdisc mq 0: root 
+04:52:06 qdisc mq 0: root 
+04:52:07 qdisc mq 0: root 
+04:52:09 qdisc mq 0: root 
+04:52:10 qdisc mq 0: root 
+04:52:12 qdisc mq 0: root 
+04:52:13 qdisc mq 0: root 
+04:52:15 qdisc mq 0: root 
+04:52:16 qdisc mq 0: root 
+04:52:18 qdisc mq 0: root 
+04:52:20 qdisc mq 0: root 
+04:52:22 qdisc mq 0: root 
+04:52:23 qdisc mq 0: root 
+04:52:25 qdisc mq 0: root 
+04:52:27 qdisc mq 0: root 
+04:52:28 qdisc mq 0: root 
+04:52:30 qdisc mq 0: root 
+04:52:31 qdisc mq 0: root 
+04:52:33 qdisc mq 0: root 
+04:52:34 qdisc mq 0: root 
+04:52:36 qdisc mq 0: root 
+04:52:37 qdisc mq 0: root 
+04:52:39 qdisc mq 0: root 
+04:52:41 qdisc mq 0: root 

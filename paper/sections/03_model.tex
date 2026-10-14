@@ -1,0 +1,156 @@
+\section{System Model and Method}
+\label{sec:model}
+
+\subsection{Workers, requests, and two queues}
+We model a heterogeneous pool of $N$ workers. Worker $i$ has compute rate $r_i$ (work units per
+second), $s_i$ service slots, one-way link latency $\ell_i$, and link bandwidth $b_i$. A request
+$q$ is characterized by its arrival time $a_q$, context length $c_q$, and generated length $g_q$.
+Its compute work is
+\begin{equation}
+  w_q \;=\; \alpha\, c_q + \beta\, g_q ,
+  \label{eq:work}
+\end{equation}
+with $\alpha=1$ and $\beta=4$ (prefill and decode cost per token differ; these coefficients are
+engineering estimates, see \S\ref{sec:threats}). Its network payload is
+\begin{equation}
+  \text{in}_q = \kappa_c\, c_q, \qquad \text{out}_q = \kappa_g\, g_q ,
+  \label{eq:bytes}
+\end{equation}
+where $\kappa_c$ is the decisive modeling choice of this paper. We evaluate two regimes:
+\emph{co-located} ($\kappa_c=\kappa_g=4$ bytes/token: only token ids move) and
+\emph{disaggregated} ($\kappa_c=\SI{330}{\kilo\byte}$/token: KV cache moves, a 70B-class model).
+Everything else is held fixed, so the two regimes isolate the effect of network payload.
+
+Serving a request on worker $i$ consumes one of its $s_i$ slots for $w_q/r_i$ seconds, and
+requires two one-way transfers:
+\begin{equation}
+  t^{\text{in}}_{q,i} = \ell_i + \frac{\text{in}_q}{b_i}, \qquad
+  t^{\text{out}}_{q,i} = \ell_i + \frac{\text{out}_q}{b_i}.
+  \label{eq:net}
+\end{equation}
+Two \emph{queues} therefore delay a request: the compute queue, whose drain time we estimate as
+\begin{equation}
+  \text{backlog}_i = \frac{\sum_{q \in \text{unfinished}(i)} \tilde w_q}{r_i\, s_i},
+  \label{eq:backlog}
+\end{equation}
+where $\tilde w_q$ is a request's full work (an upper-bound estimate, as in-flight requests are
+charged their entire work), and the \emph{link} queue, whose drain time is
+\begin{equation}
+  \text{drain}_i = \frac{\sum_{q \in \text{in-flight on } i} \text{bytes}_q}{b_i}.
+  \label{eq:drain}
+\end{equation}
+Equations~\eqref{eq:backlog} and \eqref{eq:drain} are deliberately symmetric: one is the drain
+time of a compute queue, the other of a link queue. A network-aware router uses both; a
+network-blind router uses only the first.
+
+\subsection{Two channels of observable state, and three distortions}
+The scheduler never sees the true state. Its policy receives an \emph{observation}
+\begin{equation}
+  \mathcal{O}(t) = \big\{\, \mathbf{v}_i(t),\; t^{\text{obs}}_q,\; t^{\text{obs}}_n \,\big\}_{i=1..N},
+\end{equation}
+where $\mathbf{v}_i$ is the view of worker $i$ (pending work, link bytes, latency, bandwidth),
+$t^{\text{obs}}_q$ is when the \emph{queue} fields were sampled and $t^{\text{obs}}_n$ when the
+\emph{link} fields were sampled. We call
+\begin{equation}
+  \text{age}_q = t - t^{\text{obs}}_q, \qquad \text{age}_n = t - t^{\text{obs}}_n
+\end{equation}
+the queue age and link age. Keeping them separate is not cosmetic: they are the two quantities
+that our measurements show expire at different rates, and a policy that gates on a single age
+necessarily gets one of them wrong.
+
+We distinguish three distortions, because they have different mechanisms and, as we show,
+different consequences:
+\begin{itemize}
+  \item \textbf{Latency} (age $>0$, value true at sampling time): the router reacts late.
+  \item \textbf{Averaging} (the router is shown the time-average of the last $W$ seconds rather
+        than an instantaneous value): slow variation survives, spikes are smoothed away, and the
+        router therefore \emph{under-reacts to a burst it is currently inside}. This is not the
+        same failure as lateness: it makes the router see the wrong thing, not an old thing.
+  \item \textbf{Sampling cost} (the act of reading state takes time, and takes longer when the
+        system is busy): a feedback loop that simulation normally omits. We measure it on real
+        containers in \S\ref{sec:real}.
+\end{itemize}
+Averaging is implemented as $\mathbf{v}_i$ computed by time-weighted integration over
+$[t-W, t]$ for the queue channel and by uniformly sampling the link trajectory on $[t-W,t]$ for
+the link channel.
+
+\subsection{Objectives}
+Our primary metric is the $95$th percentile of end-to-end sojourn time (arrival to completion),
+which is the metric operators of a tail-sensitive service care about. We additionally report
+\emph{network share}, the fraction of a request's end-to-end time spent moving bytes, because it
+is the natural scale of the benefit, and an SLO miss rate with a \emph{relative} deadline
+\begin{equation}
+  d_q = m \cdot \min_i \big( t^{\text{in}}_{q,i} + w_q/r_i + t^{\text{out}}_{q,i} \big),
+  \qquad m = 3,
+  \label{eq:slo}
+\end{equation}
+i.e.~a request misses its SLO if it is more than $m$ times slower than it would have been on its
+best possible worker with an empty queue. A fixed absolute deadline saturates (miss rate $\to
+0$ or $1$) across our operating range and carries no information; the relative form does not.
+
+\subsection{Routing policies}
+\label{sec:policies}
+All policies score candidate workers and pick the minimum, breaking ties by worker id, so they
+differ only in the score:
+\begin{align}
+  \text{LeastQueue:} \quad & \text{score}_i = \text{pending}_i, \label{eq:lq}\\
+  \text{LeastLoad:}  \quad & \text{score}_i = \text{backlog}_i, \label{eq:ll}\\
+  \text{NetworkAware:} \quad & \text{score}_i = \text{backlog}_i + \big(t^{\text{in}}_i + t^{\text{out}}_i\big), \label{eq:na1}\\
+  \text{NetworkAware2:} \quad & \text{score}_i = \text{backlog}_i + \big(\text{drain}_i + t^{\text{in}}_i + t^{\text{out}}_i\big). \label{eq:na2}
+\end{align}
+LeastLoad is the network-blind reference; NetworkAware2 is full-trust network awareness. Note
+that \eqref{eq:na1}--\eqref{eq:na2} use \emph{observed} link values, so both are vulnerable to
+stale state. A crucial property we enforce: setting the network weight to zero makes
+\eqref{eq:na1}--\eqref{eq:na2} bit-identical to \eqref{eq:ll} (verified per request, gate~2 in
+\S\ref{sec:setup}), so any measured difference is attributable to the network term alone.
+
+\subsection{Alignment: the configuration variable}
+\label{sec:alignment}
+Whether the link term carries information depends on how the two rankings of workers---by compute
+capacity and by bandwidth---relate. We quantify this with
+\begin{equation}
+  \rho \;=\; \mathrm{Spearman}\big(\{r_i\},\; \{b_i\}\big) \in [-1, 1],
+  \label{eq:alignment}
+\end{equation}
+computed on the node configuration alone (no workload, no policy). $\rho=+1$ means the
+fastest-computing worker also has the widest link: then ``pick the idlest'' and ``pick the
+fattest pipe'' select the same worker, and the network term is redundant. $\rho=-1$ means they
+conflict maximally, which is where a network term has something to add. We construct
+configurations by permuting \emph{which link is attached to which worker} while holding the
+multiset of links and the multiset of compute rates fixed, so that only the pairing changes:
+\emph{anti} ($\rho=-1$), \emph{rot1} (intermediate), \emph{aligned} ($\rho=+1$). At $N>4$ the
+compute-rate ladder (period 4, powers of two) cannot be permuted into extreme correlations
+against an $N$-step bandwidth ramp; the attainable range narrows ($|\rho|$ from $1.00$ at
+$N{=}3,4$ to $0.49$ at $N{=}8$ and $0.24$ at $N{=}16$). We therefore report the achieved $\rho$
+next to every measured effect rather than trusting the label.
+
+\subsection{Conditional use of network state}
+\label{sec:policy:adaptive}
+Finally we define the family of \emph{discounting} policies that decide how much to trust the
+observed network state. All of them keep the compute term \eqref{eq:backlog} intact---an early
+design that also weakened the queue term failed catastrophically, sending every request to a
+``fat link, slow compute'' worker and inflating p95 by $9\times$---and only scale the network
+term. They differ in \emph{what} they discount:
+\begin{align}
+  \text{hard:} \quad & w = \mathbf{1}[\text{age}_q \le \tau_q]\cdot\mathbf{1}[\text{age}_n \le \tau_n], \label{eq:hard}\\
+  \text{linear:} \quad & w = \mathrm{clamp}\!\left(1-\tfrac{\text{age}_q}{\tau_q}\right)\mathrm{clamp}\!\left(1-\tfrac{\text{age}_n}{\tau_n}\right), \label{eq:linear}\\
+  \text{term-split:} \quad & \text{score}_i = \text{backlog}_i + w_q\big(w_{\text{dyn}}\text{drain}_i + \textstyle\sum t\big), \label{eq:split}\\
+  \text{per-channel:} \quad & w = \exp\!\left(-\tfrac{\text{age}_q}{\tau_q}\right)\max\!\left(f,\; \exp\!\left(-\tfrac{\text{age}_n}{\tau_n}\right)\right), \label{eq:channel}
+\end{align}
+each multiplied into the whole network term of \eqref{eq:na2}. Equation~\eqref{eq:channel} is
+our final rule with $\tau_q = \SI{4}{\second}$, $\tau_n = \SI{60}{\second}$, floor $f = 0.7$;
+\eqref{eq:split} is the design we falsify; \eqref{eq:hard}--\eqref{eq:linear} are the obvious
+baselines. The parameters of \eqref{eq:channel} are not tuned---they are read off the measured
+expiry curves of \S\ref{sec:rq2}, and \S\ref{sec:discount} shows the conclusions are insensitive
+to moving each of them by a factor of two. All variants coincide at zero age, and all reduce to
+\eqref{eq:ll} when the discount factor reaches zero, preserving gate~2.
+
+\paragraph{A second, orthogonal gate.}
+Every discounted score also carries a multiplicative indicator on the request's own network
+share: if $\text{share}_q = t^{\text{in}+\text{out}}_q /
+(t^{\text{in}+\text{out}}_q + w_q/\bar r) < 0.10$, the network term is switched off entirely.
+This is a property of the \emph{request}, not of the state, and it is what makes the policy
+correct in the co-located regime, where network awareness has nothing to contribute
+(\S\ref{sec:rq1}). Because the gate has a hard threshold, policies record the fraction of
+decisions it zeroed (\texttt{w\_gated\_frac}) so that a reader can confirm the network term was
+actually used rather than merely available.

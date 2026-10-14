@@ -1,0 +1,24 @@
+# HELP vllm:nixl_bytes_transferred Bytes transferred via NIXL
+# TYPE vllm:nixl_bytes_transferred histogram
+vllm:nixl_bytes_transferred_bucket{le="1024"} 3
+vllm:nixl_bytes_transferred_bucket{le="16384"} 6
+vllm:nixl_bytes_transferred_bucket{le="+Inf"} 6
+vllm:nixl_bytes_transferred_count 6
+vllm:nixl_bytes_transferred_sum 1966080
+# HELP vllm:nixl_num_descriptors Number of NIXL descriptors
+# TYPE vllm:nixl_num_descriptors histogram
+vllm:nixl_num_descriptors_bucket{le="16"} 7
+vllm:nixl_num_descriptors_count 7
+vllm:nixl_num_descriptors_sum 7
+# HELP vllm:nixl_num_failed_transfers_total Failed NIXL transfers
+# TYPE vllm:nixl_num_failed_transfers_total counter
+vllm:nixl_num_failed_transfers_total 2
+# HELP vllm:nixl_num_failed_notifications_total Failed notifications
+# TYPE vllm:nixl_num_failed_notifications_total counter
+vllm:nixl_num_failed_notifications_total 1
+# HELP vllm:nixl_num_kv_expired_reqs_total Expired KV requests
+# TYPE vllm:nixl_num_kv_expired_reqs_total counter
+vllm:nixl_num_kv_expired_reqs_total 1
+# 无关族：解析链不应该把它并进传输计数
+# TYPE vllm:num_requests_running gauge
+vllm:num_requests_running 0

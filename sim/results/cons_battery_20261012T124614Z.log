@@ -1,0 +1,208 @@
+[12:46:14] ########## 变体 linear → matrix_consL ##########
+[12:46:14] synthetic/main/linear 跳过（resume：已由上一轮完成）
+[12:46:14] synthetic/rho/linear 跳过（resume：已由上一轮完成）
+[12:46:14] synthetic/align/linear 跳过（resume：已由上一轮完成）
+[12:46:14] synthetic/alignscale/linear 跳过（resume：已由上一轮完成）
+[12:46:14] synthetic/datavolume/linear 跳过（resume：已由上一轮完成）
+[12:46:14] synthetic/bandwidth/linear 跳过（resume：已由上一轮完成）
+[12:46:14] azure/main/linear 启动
+min  预计剩余 3.4 min  (6.88 s/cell)
+  100/120 cells  已用 11.7 min  预计剩余 2.3 min  (6.99 s/cell)
+  110/120 cells  已用 12.9 min  预计剩余 1.2 min  (7.03 s/cell)
+  120/120 cells  已用 14.8 min  预计剩余 0.0 min  (7.41 s/cell)
+
+完成：600 次仿真，用时 14.82 min （1.482 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\main_20261012T124624Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\main_20261012T124624Z_paired.csv
+
+[13:02:27] azure/main/linear 完成（973s）
+[13:02:27] azure/rho/linear 启动
+ 已用 9.3 min  预计剩余 4.7 min  (9.31 s/cell)
+  70/90 cells  已用 11.0 min  预计剩余 3.1 min  (9.41 s/cell)
+  80/90 cells  已用 12.8 min  预计剩余 1.6 min  (9.59 s/cell)
+  90/90 cells  已用 14.2 min  预计剩余 0.0 min  (9.48 s/cell)
+
+完成：450 次仿真，用时 14.23 min （1.897 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\rho_20261012T130230Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\rho_20261012T130230Z_paired.csv
+
+[13:18:05] azure/rho/linear 完成（938s）
+[13:18:05] azure/align/linear 启动
+ 已用 4.3 min  预计剩余 4.3 min  (8.64 s/cell)
+  40/60 cells  已用 5.6 min  预计剩余 2.8 min  (8.43 s/cell)
+  50/60 cells  已用 7.2 min  预计剩余 1.4 min  (8.69 s/cell)
+  60/60 cells  已用 8.5 min  预计剩余 0.0 min  (8.52 s/cell)
+
+完成：300 次仿真，用时 8.52 min （1.704 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\align_20261012T131808Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\align_20261012T131808Z_paired.csv
+
+[13:27:56] azure/align/linear 完成（591s）
+[13:27:56] azure/alignscale/linear 启动
+n  预计剩余 3.0 min  (7.18 s/cell)
+  30/45 cells  已用 3.7 min  预计剩余 1.8 min  (7.39 s/cell)
+  40/45 cells  已用 5.4 min  预计剩余 0.7 min  (8.04 s/cell)
+  45/45 cells  已用 6.1 min  预计剩余 0.0 min  (8.19 s/cell)
+
+完成：225 次仿真，用时 6.15 min （1.639 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\alignscale_20261012T132759Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\alignscale_20261012T132759Z_paired.csv
+
+[13:35:19] azure/alignscale/linear 完成（443s）
+[13:35:19] azure/datavolume/linear 启动
+n  预计剩余 3.3 min  (7.09 s/cell)
+  30/48 cells  已用 4.0 min  预计剩余 2.4 min  (8.07 s/cell)
+  40/48 cells  已用 5.2 min  预计剩余 1.0 min  (7.76 s/cell)
+  48/48 cells  已用 6.4 min  预计剩余 0.0 min  (8.03 s/cell)
+
+完成：240 次仿真，用时 6.43 min （1.607 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\datavolume_20261012T133522Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\datavolume_20261012T133522Z_paired.csv
+
+[13:43:02] azure/datavolume/linear 完成（462s）
+[13:43:02] azure/bandwidth/linear 启动
+计剩余 5.0 min  (10.76 s/cell)
+  30/48 cells  已用 5.9 min  预计剩余 3.5 min  (11.76 s/cell)
+  40/48 cells  已用 8.6 min  预计剩余 1.7 min  (12.96 s/cell)
+  48/48 cells  已用 10.4 min  预计剩余 0.0 min  (13.00 s/cell)
+
+完成：240 次仿真，用时 10.40 min （2.600 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\bandwidth_20261012T134304Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\bandwidth_20261012T134304Z_paired.csv
+
+[13:55:15] azure/bandwidth/linear 完成（734s）
+[13:55:15] burstgpt/main/linear 启动
+min  预计剩余 3.3 min  (6.68 s/cell)
+  100/120 cells  已用 10.7 min  预计剩余 2.1 min  (6.42 s/cell)
+  110/120 cells  已用 11.4 min  预计剩余 1.0 min  (6.20 s/cell)
+  120/120 cells  已用 12.6 min  预计剩余 0.0 min  (6.32 s/cell)
+
+完成：600 次仿真，用时 12.65 min （1.265 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\main_20261012T135520Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\main_20261012T135520Z_paired.csv
+
+[14:08:07] burstgpt/main/linear 完成（771s）
+[14:08:07] burstgpt/rho/linear 启动
+lls  已用 5.1 min  预计剩余 2.5 min  (5.07 s/cell)
+  70/90 cells  已用 6.0 min  预计剩余 1.7 min  (5.18 s/cell)
+  80/90 cells  已用 7.0 min  预计剩余 0.9 min  (5.28 s/cell)
+  90/90 cells  已用 8.4 min  预计剩余 0.0 min  (5.57 s/cell)
+
+完成：450 次仿真，用时 8.36 min （1.115 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\rho_20261012T140808Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\rho_20261012T140808Z_paired.csv
+
+[14:16:35] burstgpt/rho/linear 完成（508s）
+[14:16:35] burstgpt/align/linear 启动
+ 已用 4.9 min  预计剩余 4.9 min  (9.77 s/cell)
+  40/60 cells  已用 6.4 min  预计剩余 3.2 min  (9.66 s/cell)
+  50/60 cells  已用 8.0 min  预计剩余 1.6 min  (9.57 s/cell)
+  60/60 cells  已用 9.4 min  预计剩余 0.0 min  (9.37 s/cell)
+
+完成：300 次仿真，用时 9.37 min （1.873 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\align_20261012T141637Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\align_20261012T141637Z_paired.csv
+
+[14:26:05] burstgpt/align/linear 完成（570s）
+[14:26:05] burstgpt/alignscale/linear 启动
+n  预计剩余 1.7 min  (4.17 s/cell)
+  30/45 cells  已用 2.2 min  预计剩余 1.1 min  (4.41 s/cell)
+  40/45 cells  已用 3.1 min  预计剩余 0.4 min  (4.71 s/cell)
+  45/45 cells  已用 3.6 min  预计剩余 0.0 min  (4.82 s/cell)
+
+完成：225 次仿真，用时 3.62 min （0.965 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\alignscale_20261012T142607Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\alignscale_20261012T142607Z_paired.csv
+
+[14:29:49] burstgpt/alignscale/linear 完成（224s）
+[14:29:49] burstgpt/datavolume/linear 启动
+n  预计剩余 1.8 min  (3.90 s/cell)
+  30/48 cells  已用 2.0 min  预计剩余 1.2 min  (4.07 s/cell)
+  40/48 cells  已用 2.9 min  预计剩余 0.6 min  (4.35 s/cell)
+  48/48 cells  已用 3.4 min  预计剩余 0.0 min  (4.30 s/cell)
+
+完成：240 次仿真，用时 3.44 min （0.860 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\datavolume_20261012T142951Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\datavolume_20261012T142951Z_paired.csv
+
+[14:33:22] burstgpt/datavolume/linear 完成（213s）
+[14:33:22] burstgpt/bandwidth/linear 启动
+min  预计剩余 1.8 min  (3.93 s/cell)
+  30/48 cells  已用 2.0 min  预计剩余 1.2 min  (3.94 s/cell)
+  40/48 cells  已用 2.6 min  预计剩余 0.5 min  (3.95 s/cell)
+  48/48 cells  已用 3.2 min  预计剩余 0.0 min  (3.95 s/cell)
+
+完成：240 次仿真，用时 3.16 min （0.791 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\bandwidth_20261012T143323Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\bandwidth_20261012T143323Z_paired.csv
+
+[14:36:38] burstgpt/bandwidth/linear 完成（196s）
+[14:36:38] ########## 变体 linear 完成 ##########
+[14:36:38] ########## 变体 pressure → matrix_consP ##########
+[14:36:38] synthetic/main/pressure 启动
+min  预计剩余 3.7 min  (7.48 s/cell)
+  100/120 cells  已用 12.1 min  预计剩余 2.4 min  (7.24 s/cell)
+  110/120 cells  已用 12.9 min  预计剩余 1.2 min  (7.03 s/cell)
+  120/120 cells  已用 14.3 min  预计剩余 0.0 min  (7.14 s/cell)
+
+完成：600 次仿真，用时 14.29 min （1.429 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\main_20261012T143640Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\main_20261012T143640Z_paired.csv
+
+[14:50:58] synthetic/main/pressure 完成（860s）
+[14:50:58] synthetic/rho/pressure 启动
+lls  已用 4.3 min  预计剩余 2.2 min  (4.34 s/cell)
+  70/90 cells  已用 5.2 min  预计剩余 1.5 min  (4.42 s/cell)
+  80/90 cells  已用 6.0 min  预计剩余 0.7 min  (4.48 s/cell)
+  90/90 cells  已用 6.8 min  预计剩余 0.0 min  (4.53 s/cell)
+
+完成：450 次仿真，用时 6.79 min （0.906 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\rho_20261012T145100Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\rho_20261012T145100Z_paired.csv
+
+[14:57:48] synthetic/rho/pressure 完成（410s）
+[14:57:48] synthetic/align/pressure 启动
+ 已用 2.5 min  预计剩余 2.5 min  (5.08 s/cell)
+  40/60 cells  已用 3.4 min  预计剩余 1.7 min  (5.08 s/cell)
+  50/60 cells  已用 4.2 min  预计剩余 0.8 min  (5.09 s/cell)
+  60/60 cells  已用 5.1 min  预计剩余 0.0 min  (5.10 s/cell)
+
+完成：300 次仿真，用时 5.10 min （1.020 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\align_20261012T145750Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\align_20261012T145750Z_paired.csv
+
+[15:02:56] synthetic/align/pressure 完成（308s）
+[15:02:56] synthetic/alignscale/pressure 启动
+n  预计剩余 1.5 min  (3.64 s/cell)
+  30/45 cells  已用 1.9 min  预计剩余 0.9 min  (3.78 s/cell)
+  40/45 cells  已用 2.8 min  预计剩余 0.3 min  (4.16 s/cell)
+  45/45 cells  已用 3.2 min  预计剩余 0.0 min  (4.28 s/cell)
+
+完成：225 次仿真，用时 3.21 min （0.856 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\alignscale_20261012T150258Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\alignscale_20261012T150258Z_paired.csv
+
+[15:06:11] synthetic/alignscale/pressure 完成（195s）
+[15:06:11] synthetic/datavolume/pressure 启动
+n  预计剩余 2.0 min  (4.29 s/cell)
+  30/48 cells  已用 1.9 min  预计剩余 1.2 min  (3.90 s/cell)
+  40/48 cells  已用 2.5 min  预计剩余 0.5 min  (3.70 s/cell)
+  48/48 cells  已用 2.9 min  预计剩余 0.0 min  (3.61 s/cell)
+
+完成：240 次仿真，用时 2.89 min （0.722 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\datavolume_20261012T150613Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\datavolume_20261012T150613Z_paired.csv
+
+[15:09:06] synthetic/datavolume/pressure 完成（175s）
+[15:09:06] synthetic/bandwidth/pressure 启动
+min  预计剩余 1.4 min  (3.09 s/cell)
+  30/48 cells  已用 1.5 min  预计剩余 0.9 min  (3.10 s/cell)
+  40/48 cells  已用 2.1 min  预计剩余 0.4 min  (3.10 s/cell)
+  48/48 cells  已用 2.5 min  预计剩余 0.0 min  (3.11 s/cell)
+
+完成：240 次仿真，用时 2.48 min （0.621 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\bandwidth_20261012T150908Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\bandwidth_20261012T150908Z_paired.csv
+
+[15:11:37] synthetic/bandwidth/pressure 完成（151s）
+[15:11:37] azure/main/pressure 启动

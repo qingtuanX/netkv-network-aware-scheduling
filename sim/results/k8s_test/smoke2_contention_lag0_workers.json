@@ -1,0 +1,32 @@
+[
+  {
+    "worker": "http://127.0.0.1:9101",
+    "inflight": 0,
+    "backlog_work": 0.0,
+    "link_backlog_mb": 0.0,
+    "done": 80,
+    "busy_s": 65.831,
+    "compute": 4.0,
+    "bw_mbps": 100.0
+  },
+  {
+    "worker": "http://127.0.0.1:9102",
+    "inflight": 0,
+    "backlog_work": 0.0,
+    "link_backlog_mb": 0.0,
+    "done": 0,
+    "busy_s": 0.0,
+    "compute": 2.0,
+    "bw_mbps": 500.0
+  },
+  {
+    "worker": "http://127.0.0.1:9103",
+    "inflight": 0,
+    "backlog_work": 0.0,
+    "link_backlog_mb": 0.0,
+    "done": 80,
+    "busy_s": 32.115,
+    "compute": 1.0,
+    "bw_mbps": 1000.0
+  }
+]

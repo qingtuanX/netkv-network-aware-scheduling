@@ -1,0 +1,17 @@
+# ---- net_internal_A @ A (8.130.72.109)  start=2026-10-07T13:00:10Z  cmd: echo '--- ping B ---'; ping -c 5 -W 2 172.16.206.252;     echo '--- TCP 探测 B 的 5600/8200/8300（此刻还没有服务在听，"BLOCKED" 是预期的，不能当成防火墙结论） ---';     for p in 5600 8200 8300; do timeout 5 bash -c "echo > /dev/tcp/172.16.206.252/$p" 2>/dev/null && echo "$p OPEN" || echo "$p 无监听"; done ----
+--- ping B ---
+PING 172.16.206.252 (172.16.206.252) 56(84) bytes of data.
+64 bytes from 172.16.206.252: icmp_seq=1 ttl=64 time=0.252 ms
+64 bytes from 172.16.206.252: icmp_seq=2 ttl=64 time=0.151 ms
+64 bytes from 172.16.206.252: icmp_seq=3 ttl=64 time=0.131 ms
+64 bytes from 172.16.206.252: icmp_seq=4 ttl=64 time=0.144 ms
+64 bytes from 172.16.206.252: icmp_seq=5 ttl=64 time=0.165 ms
+
+--- 172.16.206.252 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4127ms
+rtt min/avg/max/mdev = 0.131/0.168/0.252/0.043 ms
+--- TCP 探测 B 的 5600/8200/8300（此刻还没有服务在听，"BLOCKED" 是预期的，不能当成防火墙结论） ---
+5600 无监听
+8200 无监听
+8300 无监听
+# ---- exit=0 end=2026-10-07T13:00:15Z ----

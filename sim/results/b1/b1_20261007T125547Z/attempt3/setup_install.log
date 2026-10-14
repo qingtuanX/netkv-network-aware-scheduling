@@ -1,0 +1,109 @@
+# ---- setup_install @ A (8.130.72.109) start=2026-10-07T13:20:09Z script=/e/代码项目文件/论文/sim/k8s_test/b1_remote_setup.sh args=install ----
+
+==================== 0) 装之前先看空间（磁盘只剩 67 G，别塞满） ====================
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda3        99G   41G   54G  44% /
+--- 已占用的：
+9.3G	/root/b1
+
+==================== 1) 建目录与 venv ====================
+Python 3.12.3
+pip 26.2.1 from /root/b1/venv/lib/python3.12/site-packages/pip (python 3.12)
+
+==================== 2) 升级 pip（走内网 aliyun 镜像：区域内流量免费且快） ====================
+    Uninstalling setuptools-80.10.2:
+      Successfully uninstalled setuptools-80.10.2
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+vllm 0.31.0 requires setuptools<81.0.0,>=77.0.3; python_version > "3.11", but you have setuptools 84.0.0 which is incompatible.
+Successfully installed setuptools-84.0.0
+
+==================== 3) 装 vLLM 0.31.0 ====================
+Requirement already satisfied: grpcio<2.0.0,>=1.63.2 in ./b1/venv/lib/python3.12/site-packages (from opentelemetry-exporter-otlp-proto-grpc==1.45.1->opentelemetry-exporter-otlp>=1.27.0->vllm==0.31.0) (1.84.0)
+Requirement already satisfied: opentelemetry-exporter-otlp-common==0.66b1 in ./b1/venv/lib/python3.12/site-packages (from opentelemetry-exporter-otlp-proto-grpc==1.45.1->opentelemetry-exporter-otlp>=1.27.0->vllm==0.31.0) (0.66b1)
+Requirement already satisfied: opentelemetry-exporter-otlp-proto-common==1.45.1 in ./b1/venv/lib/python3.12/site-packages (from opentelemetry-exporter-otlp-proto-grpc==1.45.1->opentelemetry-exporter-otlp>=1.27.0->vllm==0.31.0) (1.45.1)
+Requirement already satisfied: opentelemetry-proto==1.45.1 in ./b1/venv/lib/python3.12/site-packages (from opentelemetry-exporter-otlp-proto-grpc==1.45.1->opentelemetry-exporter-otlp>=1.27.0->vllm==0.31.0) (1.45.1)
+Requirement already satisfied: opentelemetry-exporter-http-transport==0.66b1 in ./b1/venv/lib/python3.12/site-packages (from opentelemetry-exporter-http-transport[requests]==0.66b1->opentelemetry-exporter-otlp-proto-http==1.45.1->opentelemetry-exporter-otlp>=1.27.0->vllm==0.31.0) (0.66b1)
+Requirement already satisfied: opentelemetry-semantic-conventions==0.66b1 in ./b1/venv/lib/python3.12/site-packages (from opentelemetry-sdk>=1.27.0->vllm==0.31.0) (0.66b1)
+Requirement already satisfied: charset_normalizer<4,>=2 in ./b1/venv/lib/python3.12/site-packages (from requests>=2.26.0->vllm==0.31.0) (3.5.2)
+Requirement already satisfied: urllib3<3,>=1.26 in ./b1/venv/lib/python3.12/site-packages (from requests>=2.26.0->vllm==0.31.0) (2.8.0)
+Requirement already satisfied: pycountry>=23 in ./b1/venv/lib/python3.12/site-packages (from pydantic-extra-types[pycountry]>=2.10.5->mistral_common>=1.11.6->mistral_common[image]>=1.11.6->vllm==0.31.0) (26.2.16)
+Requirement already satisfied: python-dotenv>=0.21.0 in ./b1/venv/lib/python3.12/site-packages (from pydantic-settings>=2.0.0->fastapi[standard]<0.137.0,>=0.133.0->vllm==0.31.0) (1.2.4)
+Requirement already satisfied: cryptography>=3.4.0 in ./b1/venv/lib/python3.12/site-packages (from pyjwt[crypto]>=2.10.1->mcp<3.0.0,>=2.0.0->vllm==0.31.0) (50.0.2)
+Requirement already satisfied: cffi>=2.0.0 in ./b1/venv/lib/python3.12/site-packages (from cryptography>=3.4.0->pyjwt[crypto]>=2.10.1->mcp<3.0.0,>=2.0.0->vllm==0.31.0) (2.1.1)
+Requirement already satisfied: pycparser in ./b1/venv/lib/python3.12/site-packages (from cffi>=2.0.0->cryptography>=3.4.0->pyjwt[crypto]>=2.10.1->mcp<3.0.0,>=2.0.0->vllm==0.31.0) (3.0)
+Requirement already satisfied: rich>=13.7.1 in ./b1/venv/lib/python3.12/site-packages (from rich-toolkit>=0.14.8->fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm==0.31.0) (15.0.0)
+Requirement already satisfied: markdown-it-py>=2.2.0 in ./b1/venv/lib/python3.12/site-packages (from rich>=13.7.1->rich-toolkit>=0.14.8->fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm==0.31.0) (4.2.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in ./b1/venv/lib/python3.12/site-packages (from rich>=13.7.1->rich-toolkit>=0.14.8->fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm==0.31.0) (2.21.0)
+Requirement already satisfied: mdurl~=0.1 in ./b1/venv/lib/python3.12/site-packages (from markdown-it-py>=2.2.0->rich>=13.7.1->rich-toolkit>=0.14.8->fastapi-cli>=0.0.8->fastapi-cli[standard]>=0.0.8; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm==0.31.0) (0.1.2)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in ./b1/venv/lib/python3.12/site-packages (from sympy>=1.13.3->torch==2.13.0->vllm==0.31.0) (1.3.0)
+Requirement already satisfied: shellingham>=1.3.0 in ./b1/venv/lib/python3.12/site-packages (from typer->transformers<5.18.0,>=5.10.4->vllm==0.31.0) (1.5.4)
+Requirement already satisfied: httptools>=0.8.0 in ./b1/venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.12.0; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm==0.31.0) (0.8.0)
+Requirement already satisfied: uvloop>=0.15.1 in ./b1/venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.12.0; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm==0.31.0) (0.23.0)
+Requirement already satisfied: websockets>=13.0 in ./b1/venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.12.0; extra == "standard"->fastapi[standard]<0.137.0,>=0.133.0->vllm==0.31.0) (17.2)
+Requirement already satisfied: nvidia-nvvm in ./b1/venv/lib/python3.12/site-packages (from nvidia-cuda-nvcc->humming-kernels[cu13]==0.1.16->vllm==0.31.0) (13.4.92)
+Requirement already satisfied: nvidia-cuda-crt in ./b1/venv/lib/python3.12/site-packages (from nvidia-cuda-nvcc->humming-kernels[cu13]==0.1.16->vllm==0.31.0) (13.4.92)
+Installing collected packages: setuptools
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 84.0.0
+    Uninstalling setuptools-84.0.0:
+      Successfully uninstalled setuptools-84.0.0
+Successfully installed setuptools-80.10.2
+
+==================== 4) 装 NIXL 1.4.1（KV 传输用的库；官方 kv_connectors.txt 就把版本钉在这里） ====================
+Requirement already satisfied: cuda-bindings<14,>=13.0.3 in ./b1/venv/lib/python3.12/site-packages (from torch->nixl-cu12==1.4.1->nixl==1.4.1) (13.4.3)
+Requirement already satisfied: nvidia-cudnn-cu13==9.20.0.48 in ./b1/venv/lib/python3.12/site-packages (from torch->nixl-cu12==1.4.1->nixl==1.4.1) (9.20.0.48)
+Requirement already satisfied: nvidia-cusparselt-cu13==0.8.1 in ./b1/venv/lib/python3.12/site-packages (from torch->nixl-cu12==1.4.1->nixl==1.4.1) (0.8.1)
+Requirement already satisfied: nvidia-nccl-cu13==2.29.7 in ./b1/venv/lib/python3.12/site-packages (from torch->nixl-cu12==1.4.1->nixl==1.4.1) (2.29.7)
+Requirement already satisfied: nvidia-nvshmem-cu13==3.4.5 in ./b1/venv/lib/python3.12/site-packages (from torch->nixl-cu12==1.4.1->nixl==1.4.1) (3.4.5)
+Requirement already satisfied: triton==3.7.1 in ./b1/venv/lib/python3.12/site-packages (from torch->nixl-cu12==1.4.1->nixl==1.4.1) (3.7.1)
+Requirement already satisfied: nvidia-cublas==13.1.1.3.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (13.1.1.3)
+Requirement already satisfied: nvidia-cuda-nvrtc==13.0.88.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (13.0.88)
+Requirement already satisfied: nvidia-cuda-runtime==13.0.96.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (13.0.96)
+Requirement already satisfied: nvidia-cufft==12.0.0.61.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (12.0.0.61)
+Requirement already satisfied: nvidia-nvjitlink<14,>=13.0.88 in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (13.4.92)
+Requirement already satisfied: nvidia-cufile==1.15.1.6.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (1.15.1.6)
+Requirement already satisfied: nvidia-cuda-cupti==13.0.85.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (13.0.85)
+Requirement already satisfied: nvidia-curand==10.4.0.35.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (10.4.0.35)
+Requirement already satisfied: nvidia-cusolver==12.0.4.66.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (12.0.4.66)
+Requirement already satisfied: nvidia-cusparse==12.6.3.3.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (12.6.3.3)
+Requirement already satisfied: nvidia-nvtx==13.0.85.* in ./b1/venv/lib/python3.12/site-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.3; platform_system == "Linux"->torch->nixl-cu12==1.4.1->nixl==1.4.1) (13.0.85)
+Requirement already satisfied: cuda-pathfinder>=1.4.2 in ./b1/venv/lib/python3.12/site-packages (from cuda-bindings<14,>=13.0.3->torch->nixl-cu12==1.4.1->nixl==1.4.1) (1.8.3)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in ./b1/venv/lib/python3.12/site-packages (from sympy>=1.13.3->torch->nixl-cu12==1.4.1->nixl==1.4.1) (1.3.0)
+Requirement already satisfied: MarkupSafe>=2.0 in ./b1/venv/lib/python3.12/site-packages (from jinja2->torch->nixl-cu12==1.4.1->nixl==1.4.1) (3.0.4)
+
+==================== 5) 版本与依赖锁定 ====================
+0.31.0
+--- 关键包：
+fastapi==0.136.3
+fastapi-cli==0.0.32
+fastapi-cloud-cli==0.26.0
+flashinfer-python==0.7.0.post1
+httpx==0.28.1
+httpx2==2.13.1
+huggingface_hub==1.33.0
+nixl==1.4.1
+nixl-cu12==1.4.1
+nixl-cu13==1.4.1
+torch==2.13.0
+torch_c_dlpack_ext==0.1.5
+torchaudio==2.11.0
+torchcodec==0.17.0
+torchvision==0.28.0
+transformers==5.17.0
+uvicorn==0.54.0
+vllm==0.31.0
+--- nixl 组件：
+nixl version: 1.4.1
+nixl-cu12 1.4.1
+nixl-cu13 1.4.1
+
+==================== 6) torch 能不能看到卡 ====================
+torch 2.13.0+cu130 cuda 13.0 avail True
+device: NVIDIA A10 cap (8, 6)
+
+==================== 7) 装之后的磁盘 ====================
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda3        99G   41G   54G  44% /
+8.7G	/root/b1/venv
+632M	/root/b1/models
+# ---- exit=0 end=2026-10-07T13:20:24Z ----

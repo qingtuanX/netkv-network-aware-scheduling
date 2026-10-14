@@ -1,0 +1,23 @@
+== 4b：KV 到底有没有传到另一端 ==
+
+口径（**最要紧，别读错**）：nixl_bytes_transferred 与传输耗时指标是**直方图**，
+run_b1.sh: line 1022: _count: command not found
+   = 发生了几次「KV 传输通知」（**不是请求数**）；
+run_b1.sh: line 1023: _sum: command not found
+     = 一共搬了多少字节（**这才是「传没传到」的证据**）。
+  所以判据是「样本数与字节总和有没有变大」，不是「指标名出现过」。
+
+--- 证据 1：D（生成端，B:B8200）的直方图增量
+    （缺 kv_delta_measure_B.txt）
+
+--- 证据 2：P（前处理端，A:8100）的直方图增量
+    （缺 kv_delta_measure_A.txt）
+
+--- 证据 3：D 端「外部 KV 传输进来的 token」计数器（vllm:prompt_tokens_by_source）
+  [measure_decode_t0] 抓取失败/空
+  [measure_decode_t1] 抓取失败/空
+
+--- 不许混为一谈的三样东西（报告里逐条对照，别当成传输量） ---
+  * kv_cache_size_tokens / cache_config_info  = 缓存**容量**信息        ❌ 不是某次请求实际传的字节
+  * 理论 KV 估算（Qwen2.5-7B：4096 token ≈ 224 MiB） = 量级参考        ❌ 不是实测传输量
+  * 显存占用（nvidia-smi）                    = 资源消耗                ❌ 不是传输量

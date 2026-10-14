@@ -1,0 +1,12 @@
+check,item,measured,verdict,note
+A1,0.5 MB,请求失败：RemoteDisconnected: Remote end closed connection without response,FAIL,
+A1,8.0 MB,请求失败：RemoteDisconnected: Remote end closed connection without response,FAIL,
+A1,200.0 MB,请求失败：RemoteDisconnected: Remote end closed connection without response,FAIL,
+A2,上传吞吐,n/a（老协议无载荷字节）,INFO,--fake-transfer 下吞吐没有定义；这正是对照臂要说明的事
+A2,下传吞吐,n/a（老协议无载荷字节）,INFO,--fake-transfer 下吞吐没有定义；这正是对照臂要说明的事
+A3,overlimits 增量,overlimits +785，dropped +0,PASS,只看 `tc qdisc show` 有输出不算生效，必须这个增量 > 0
+A4,1 路 vs 3 路 单路吞吐,1 路 n/a → 3 路时每路 n/a（比值 n/a；3 路合计 0.000 Mbit/s）,FAIL,共享瓶颈下理想比值≈3；判据 ≥1.5
+A4,1 路 vs 3 路 每请求端到端,1 路 2.677 s → 3 路时每路 8.028 s（比值 3.00×）,INFO,老协议下这个比值会≈1：它把'带宽'建模成一个与并发无关的睡眠时间，没有共享的物理瓶颈可瓜分
+A5,网卡 tx 增量 / 上传字节,1.0021×,INFO,网卡 tx +8017075 字节，应用层发 8000000 字节；超出部分是 TCP/IP 头（20+20+12 字节/段）
+A5,网卡 rx 增量 / 下传字节,0.0002×,INFO,网卡 rx +1526 字节，应用层收 8000000 字节
+A1-summary,全部档位字节一致,见上,FAIL,

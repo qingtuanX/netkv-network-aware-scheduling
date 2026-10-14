@@ -1,0 +1,6 @@
+filter parent 1: protocol ip pref 1 u32 chain 0 
+filter parent 1: protocol ip pref 1 u32 chain 0 fh 800: ht divisor 1 
+filter parent 1: protocol ip pref 1 u32 chain 0 fh 800::800 order 2048 key ht 800 bkt 0 flowid 1:10 not_in_hw (rule hit 21492 success 18227)
+  match 00001f40/0000ffff at 20 (success 18227 ) 
+filter parent 1: protocol ip pref 1 u32 chain 0 fh 800::801 order 2049 key ht 800 bkt 0 flowid 1:10 not_in_hw (rule hit 3265 success 3255)
+  match 00001435/0000ffff at 20 (success 3255 ) 

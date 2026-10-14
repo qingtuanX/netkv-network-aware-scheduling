@@ -1,0 +1,11 @@
+# arm=disagg_r2 url=http://127.0.0.1:8192 extra='' start=2026-10-07T17:17:49Z
+# 客户端跑在 A 上（chost=A），目标 127.0.0.1:8192
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 0.5765s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=24 finish=stop tok_ids=yes 0.4294s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=35 finish=stop tok_ids=yes 0.5962s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.491s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.0118s
+wrote /root/b1/out/disagg_r2.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-07T17:17:55Z ----

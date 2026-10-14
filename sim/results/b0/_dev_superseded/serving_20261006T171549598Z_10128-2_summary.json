@@ -1,0 +1,55 @@
+{
+  "n_requests": 120,
+  "n_ok": 120,
+  "n_err": 0,
+  "error_counts": {},
+  "wall_clock_s": 10.712,
+  "throughput_qps": 11.203,
+  "inflight_peak": 10,
+  "latency": {
+    "ttft_s": {
+      "p50": 0.184236,
+      "p95": 0.196948,
+      "p99": 0.199298,
+      "max": 0.199742
+    },
+    "tpot_p50_s": {
+      "p50": 0.02,
+      "p95": 0.020052
+    },
+    "tpot_p95_s": {
+      "p50": 0.020366,
+      "p95": 0.020479
+    },
+    "e2e_s": {
+      "p50": 0.803775,
+      "p95": 0.816424,
+      "p99": 0.819229,
+      "max": 0.81969
+    }
+  },
+  "coverage_verdicts": {
+    "PASS": 120
+  },
+  "srv_verdicts": {
+    "PASS": 120
+  },
+  "coverage": {
+    "n_with_server_report": 120,
+    "cov_max_gap_s_max": 0.0,
+    "cov_gap_total_s_max": null,
+    "cov_loo_min_gap_s_min": 0.0005049705505371094,
+    "srv_gap_max_s_max": 0.0,
+    "srv_overlap_s_median": 0.0,
+    "sum_minus_e2e_s_median": -0.010861,
+    "sum_minus_e2e_s_max": -9e-05,
+    "sum_minus_srv_span_s_median": 0.0,
+    "srv_outside_s_median": 0.0,
+    "cov_tol_s": 0.0207,
+    "loo_eps_s": 1e-06
+  },
+  "kv_bytes_per_request": 25165824.0,
+  "run_id": "serving_20261006T171549598Z_10128-2",
+  "requests_csv": "results\\b0\\serving_20261006T171549598Z_10128-2_requests.csv",
+  "tokens_csv": null
+}

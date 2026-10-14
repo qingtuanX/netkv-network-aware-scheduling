@@ -1,0 +1,32 @@
+[
+  {
+    "worker": "http://10.42.0.4:9101",
+    "inflight": 0,
+    "backlog_work": 1.1213252548714081e-14,
+    "link_backlog_mb": 6.794564910705958e-14,
+    "done": 596,
+    "busy_s": 531.799,
+    "compute": 4.0,
+    "bw_mbps": 100.0
+  },
+  {
+    "worker": "http://10.42.0.2:9101",
+    "inflight": 0,
+    "backlog_work": 3.3306690738754696e-15,
+    "link_backlog_mb": 8.193445921733655e-14,
+    "done": 406,
+    "busy_s": 302.298,
+    "compute": 2.0,
+    "bw_mbps": 500.0
+  },
+  {
+    "worker": "http://10.42.0.3:9101",
+    "inflight": 0,
+    "backlog_work": 8.881784197001252e-16,
+    "link_backlog_mb": 1.0658141036401503e-14,
+    "done": 233,
+    "busy_s": 281.295,
+    "compute": 1.0,
+    "bw_mbps": 1000.0
+  }
+]

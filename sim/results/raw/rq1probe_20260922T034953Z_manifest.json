@@ -1,0 +1,66 @@
+{
+  "run_id": "rq1probe_20260922T034953Z",
+  "created_utc": "2026-09-22T03:50:02.566139+00:00",
+  "kind": "EXPLORATORY PROBE (synthetic workload, not paper results)",
+  "qps": 17.558825056922238,
+  "seeds": [
+    1
+  ],
+  "n_requests": 8000,
+  "network_scenarios": {
+    "aligned": [
+      {
+        "latency": 0.0005,
+        "bandwidth": 1250000000.0
+      },
+      {
+        "latency": 0.002,
+        "bandwidth": 125000000.0
+      },
+      {
+        "latency": 0.005,
+        "bandwidth": 12500000.0
+      }
+    ],
+    "anti": [
+      {
+        "latency": 0.005,
+        "bandwidth": 12500000.0
+      },
+      {
+        "latency": 0.002,
+        "bandwidth": 125000000.0
+      },
+      {
+        "latency": 0.0005,
+        "bandwidth": 1250000000.0
+      }
+    ],
+    "uniform": [
+      {
+        "latency": 0.0005,
+        "bandwidth": 1250000000.0
+      },
+      {
+        "latency": 0.0005,
+        "bandwidth": 1250000000.0
+      },
+      {
+        "latency": 0.0005,
+        "bandwidth": 1250000000.0
+      }
+    ]
+  },
+  "compute_rates": [
+    16000.0,
+    8000.0,
+    4000.0
+  ],
+  "data_volumes_bytes_per_ctx_token": [
+    4.0,
+    4000.0,
+    33000.0,
+    330000.0
+  ],
+  "ablation_check_passed": true
+}

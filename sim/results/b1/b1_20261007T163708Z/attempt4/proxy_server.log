@@ -1,0 +1,23 @@
+INFO:     Started server process [13368]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8192 (Press CTRL+C to quit)
+Initialized 1 prefill clients and 1 decode clients.
+INFO:     127.0.0.1:60546 - "GET /healthcheck HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60560 - "GET /version HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60576 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35458 - "GET /version HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:35466 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35482 - "GET /version HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:35486 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35494 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35498 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53532 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53538 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53554 - "GET /version HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53564 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53576 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53582 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53586 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38842 - "GET /metrics HTTP/1.1" 404 Not Found

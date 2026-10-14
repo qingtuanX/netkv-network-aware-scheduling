@@ -1,0 +1,12 @@
+run_id,attempt,host,step,utc_start,utc_end,exit_code,status,note
+b1_20261007T163708Z,5,A,stop_all_A,2026-10-07T17:19:45Z,2026-10-07T17:19:48Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop-all"
+b1_20261007T163708Z,5,B,stop_all_B,2026-10-07T17:19:48Z,2026-10-07T17:19:50Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop-all"
+b1_20261007T163708Z,5,A,stop_model_download_A,2026-10-07T17:19:51Z,2026-10-07T17:19:51Z,0,OK,"cmd=self=$$
+pids=$(ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}' | grep -v ""^$self$"")
+if [[ -z ""$pids"" ]]; then echo ""  A: 没有模型下载进程（无需停）""; else
+  for p in $pids; do echo ""  A: SIGTERM pid=$p $(ps -o args= -p $p 2>/dev/null | head -c 60)""; kill -TERM ""$p"
+b1_20261007T163708Z,5,B,stop_model_download_B,2026-10-07T17:19:52Z,2026-10-07T17:19:53Z,0,OK,"cmd=self=$$
+pids=$(ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}' | grep -v ""^$self$"")
+if [[ -z ""$pids"" ]]; then echo ""  B: 没有模型下载进程（无需停）""; else
+  for p in $pids; do echo ""  B: SIGTERM pid=$p $(ps -o args= -p $p 2>/dev/null | head -c 60)""; kill -TERM ""$p"
+b1_20261007T163708Z,5,-,cleanup_check,2026-10-07T17:19:59Z,2026-10-07T17:20:25Z,0,DONE,"见 cleanup_check.txt"

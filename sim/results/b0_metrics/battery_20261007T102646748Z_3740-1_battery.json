@@ -1,0 +1,1690 @@
+{
+  "run_id": "battery_20261007T102646748Z_3740-1",
+  "utc": "2026-10-07T10:27:35.673136+00:00",
+  "kind": "measure_serving/battery",
+  "host": {
+    "hostname": "青山",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "cpu_count": 16,
+    "time_time_resolution_s": 0.0010025501251220703
+  },
+  "code_version": "uncommitted",
+  "note": "本仓库无 git 提交时恒为 uncommitted（预期）",
+  "cov_tol_s": 0.005,
+  "loo_eps_s": 1e-06,
+  "checks": [
+    {
+      "check": "S0",
+      "item": "selftest（判据自身）",
+      "measured": "返回码 0（0=全通过）",
+      "verdict": "PASS",
+      "note": "只验通过路径等于没验，所以自检里必须含负对照"
+    },
+    {
+      "check": "B1",
+      "item": "overlap0 成功率",
+      "measured": "120/120",
+      "verdict": "PASS",
+      "note": "假后端不应丢请求；丢了说明心跳/连接复用有问题"
+    },
+    {
+      "check": "B2",
+      "item": "overlap0 TTFT 可测",
+      "measured": "p50=0.174977 s  p95=0.195284 s",
+      "verdict": "PASS",
+      "note": "TTFT = 请求开始 → 第一个内容片段"
+    },
+    {
+      "check": "B3",
+      "item": "overlap0 TPOT 可测",
+      "measured": "单请求p50口径：中位=0.020003 s  p95=0.020053 s",
+      "verdict": "PASS",
+      "note": "逐片段间隔的全量分位在 tokens.csv（--save-tokens）"
+    },
+    {
+      "check": "B4",
+      "item": "overlap0 覆盖：客户端分解最大空档",
+      "measured": "0.0 s（容差 0.005 s）",
+      "verdict": "PASS",
+      "note": "并集必须铺满 [请求开始, 请求结束]"
+    },
+    {
+      "check": "B5",
+      "item": "overlap0 leave-one-out 最小空档",
+      "measured": "0.0005042552947998047 s（下限 1e-06）",
+      "verdict": "PASS",
+      "note": "每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）"
+    },
+    {
+      "check": "B6",
+      "item": "overlap0 服务端语义阶段覆盖",
+      "measured": "最大空档 0.0 s，判定 {\"PASS\": 120}",
+      "verdict": "PASS",
+      "note": "queue→prefill→kv→decode 在服务端窗口内也要铺满"
+    },
+    {
+      "check": "B7",
+      "item": "overlap0 KV 字节数可取",
+      "measured": "25165824.0 B/请求（配方 25165824 B）",
+      "verdict": "PASS",
+      "note": "假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）"
+    },
+    {
+      "check": "B1",
+      "item": "overlap50 成功率",
+      "measured": "120/120",
+      "verdict": "PASS",
+      "note": "假后端不应丢请求；丢了说明心跳/连接复用有问题"
+    },
+    {
+      "check": "B2",
+      "item": "overlap50 TTFT 可测",
+      "measured": "p50=0.143425 s  p95=0.143944 s",
+      "verdict": "PASS",
+      "note": "TTFT = 请求开始 → 第一个内容片段"
+    },
+    {
+      "check": "B3",
+      "item": "overlap50 TPOT 可测",
+      "measured": "单请求p50口径：中位=0.019998 s  p95=0.020053 s",
+      "verdict": "PASS",
+      "note": "逐片段间隔的全量分位在 tokens.csv（--save-tokens）"
+    },
+    {
+      "check": "B4",
+      "item": "overlap50 覆盖：客户端分解最大空档",
+      "measured": "0.0 s（容差 0.005 s）",
+      "verdict": "PASS",
+      "note": "并集必须铺满 [请求开始, 请求结束]"
+    },
+    {
+      "check": "B5",
+      "item": "overlap50 leave-one-out 最小空档",
+      "measured": "0.0005037784576416016 s（下限 1e-06）",
+      "verdict": "PASS",
+      "note": "每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）"
+    },
+    {
+      "check": "B6",
+      "item": "overlap50 服务端语义阶段覆盖",
+      "measured": "最大空档 0.0 s，判定 {\"PASS\": 120}",
+      "verdict": "PASS",
+      "note": "queue→prefill→kv→decode 在服务端窗口内也要铺满"
+    },
+    {
+      "check": "B7",
+      "item": "overlap50 KV 字节数可取",
+      "measured": "25165824.0 B/请求（配方 25165824 B）",
+      "verdict": "PASS",
+      "note": "假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）"
+    },
+    {
+      "check": "B8",
+      "item": "对照①：无重叠臂 Σ语义阶段 − 服务端窗口",
+      "measured": "0.0 s",
+      "verdict": "PASS",
+      "note": "无重叠时它本来就该接近 0（这是对照臂，不是验收判据）"
+    },
+    {
+      "check": "B9",
+      "item": "对照②：50% 重叠臂 Σ语义阶段 − 服务端窗口",
+      "measured": "实测中位 0.031457 s，配方预期 0.031457 s",
+      "verdict": "PASS",
+      "note": "★ 关键对照：实测重叠量必须**对得上配方**（预期 0.031457 s）。重叠存在时'加总'必然大于窗口，所以阶段 A 的'加总等于端到端'在阶段 B 会**误判**——这正是本工具换判据的理由"
+    },
+    {
+      "check": "B10",
+      "item": "对照③：两臂的覆盖结论都通过（与重叠无关）",
+      "measured": "臂A {'PASS': 120} / 臂B {'PASS': 120}",
+      "verdict": "PASS",
+      "note": "重叠只改变'之和'，不破坏'覆盖'——两类判据成功分离"
+    },
+    {
+      "check": "B11",
+      "item": "对照④：Σ阶段 − 端到端（朴素口径，只报不判）",
+      "measured": "臂A 中位 -0.001729 s / 臂B 中位 0.0298 s",
+      "verdict": "INFO",
+      "note": "同一个量在两个臂上不同：说明它就是被重叠污染的，不能当判据"
+    },
+    {
+      "check": "B12",
+      "item": "服务端语义阶段重叠量（臂 B）",
+      "measured": "中位 0.031457 s",
+      "verdict": "PASS",
+      "note": "重叠确实发生了（否则 B9 的对照无意义）"
+    },
+    {
+      "check": "C1",
+      "item": "emptychunks 成功率与覆盖",
+      "measured": "成功 120/120，覆盖 {\"PASS\": 120}",
+      "verdict": "PASS",
+      "note": "空文本块必须被当成正常输出块：既不能丢，也不能破坏覆盖判据"
+    },
+    {
+      "check": "C2",
+      "item": "★ 块数 ≠ token 数（块口径数得全）",
+      "measured": "输出块中位 32.0（预期 32）、内容块中位 21.0（预期 21）、空文本块中位 11.0（预期 11）",
+      "verdict": "PASS",
+      "note": "输出块 = 内容块 + 空文本块；旧口径只数后者，所以连'块数'都会数小"
+    },
+    {
+      "check": "C3",
+      "item": "块序列落盘（tokens.csv 每块一行）",
+      "measured": "行数 3840（预期 3840），其中 text_empty=1 的 1320 行（预期 1320）",
+      "verdict": "PASS",
+      "note": "块序列必须与 chunk_interval_* 对得上；空文本块也要留痕，否则事后没法核"
+    },
+    {
+      "check": "C4",
+      "item": "★ 块间隔 vs 历史 tpot（两种口径必须不同）",
+      "measured": "块间隔中位 0.019986 s（配方 0.02 s）；历史 tpot 中位 0.029999 s",
+      "verdict": "PASS",
+      "note": "块口径数全部输出块 ⇒ 接近配方间隔；历史口径跳过空文本块 ⇒ 把两个间隔并成一个，偏大"
+    },
+    {
+      "check": "C5",
+      "item": "★ 服务端不给 token 数时必须留空（不拿块数冒充）",
+      "measured": "有 usage 的请求 0/120，srv_completion_tokens 中位 None，srv_token_ids_total 中位 32.0，来源 {\"token_ids\": 120}",
+      "verdict": "PASS",
+      "note": "这一臂故意不发 stream_options.include_usage：usage 路径必须为空，而逐块 token_ids（服务端真的给了）照常可用"
+    },
+    {
+      "check": "C6",
+      "item": "臂 A：请求了 usage 就必须取到，且收尾片不算输出块",
+      "measured": "有 usage 的请求 120/120，srv_completion_tokens 中位 32.0（配方 token 数 32），空文本块合计 0",
+      "verdict": "PASS",
+      "note": "只有 usage 的收尾片带 choices=[]，**不是**输出块；把它算成'空文本块'就会凭空多 1"
+    },
+    {
+      "check": "M1",
+      "item": "①未配置 --metrics-url：状态=未配置地址，且不多产任何文件",
+      "measured": "state=not_configured / NIXL=未配置地址 / 额外文件 0 个",
+      "verdict": "PASS",
+      "note": "★ 缺项不写成 0 的第一层：连'未出现'都不能写——**没采集就说'未配置地址'**；这条同时是'不配就不生效'的机械证据（一个文件都没多）"
+    },
+    {
+      "check": "M2",
+      "item": "③抓到指标但没有 NIXL 项 → 记「未出现」（不是 0）",
+      "measured": "state=nixl_absent / NIXL=未出现 / 序列值=null",
+      "verdict": "PASS",
+      "note": "★ 本任务最关键的一条：假服务正文里**一条 NIXL 序列都没有**，此时任何数字（尤其 0）都是编的"
+    },
+    {
+      "check": "M3",
+      "item": "抓取是**按固定间隔**做的、带时间戳（含 start 与 end）",
+      "measured": "尝试 4 次（成功 4 / 失败 0），phase=['start', 'periodic', 'periodic', 'end']，t_rel=[0.0, 0.261935, 0.511653, 0.540674]",
+      "verdict": "PASS",
+      "note": "开局基线 + 收尾各一次 —— '整次运行前后'的对比靠的就是首末两点；CSV 行数必须与快照文件数一致"
+    },
+    {
+      "check": "M4",
+      "item": "目标版本被记进快照元数据，且**没把解释器版本当服务版本**",
+      "measured": "target_version=fake-vllm-0.0.1-test 来源=GET /version（JSON 字段 version）",
+      "verdict": "PASS",
+      "note": "假正文里故意放了一条 python_info{version=\"3.12.10\"}——那是**解释器版本**，拿它当服务版本就是编数，实现里只记成候选"
+    },
+    {
+      "check": "M5",
+      "item": "原始正文与指纹都落了盘（可事后复核）",
+      "measured": "首快照 1796 字节，sha256 复核一致；n_series=11，nixl_note=未出现：本次 /metrics 里没有任何 NI…",
+      "verdict": "PASS",
+      "note": "快照存的是**原样正文**＋指纹：以后谁都可以重算一遍，不用信我们的转述"
+    },
+    {
+      "check": "M6",
+      "item": "★「快照不能分摊给单个请求」这条限制写进了产物",
+      "measured": "summary 与快照 JSON 都带 scope_note（243 字符），CSV 列里也有 nixl_note",
+      "verdict": "PASS",
+      "note": "写在文档里会被忘掉；写进产物，读数的人绕不过去"
+    },
+    {
+      "check": "M7",
+      "item": "④抓到 NIXL 项 → 记「出现」，且**真 0 照实记成 0**",
+      "measured": "state=nixl_present / NIXL=出现 / 7 条序列，其中 num_failed_transfers=0.0",
+      "verdict": "PASS",
+      "note": "★ 与 M2 正好成对照：序列**存在**时 0 就是'确实一次都没失败'；序列**不存在**时只能写'未出现'。两种 0 含义完全不同，所以必须分开记"
+    },
+    {
+      "check": "M8",
+      "item": "②抓取失败（HTTP 500）→ 状态=抓取失败，记下错误原文",
+      "measured": "state=scrape_failed，错误原文=\"HTTP 500（正文前 200 字符：'boom\\\\n'）\"",
+      "verdict": "PASS",
+      "note": "★ 失败**不等于**'未出现'：没抓到正文时我们根本无从判断有没有 NIXL 项。原文必须留下，否则事后只能猜是超时还是 5xx"
+    },
+    {
+      "check": "M9",
+      "item": "采集失败**不影响测量**（请求照常全成功）",
+      "measured": "成功 6/6，覆盖 {\"PASS\": 6}",
+      "verdict": "PASS",
+      "note": "采集是旁路：抓不到指标是服务端的事，不该让测量跟着失败"
+    },
+    {
+      "check": "M10",
+      "item": "②抓取失败（连接被拒）→ 状态=抓取失败，错误原文非空",
+      "measured": "state=scrape_failed / [{\"seq\": 0, \"phase\": \"start\", \"error_class\": \"timeout\", \"error_text\": \"TimeoutError: timed",
+      "verdict": "PASS",
+      "note": "连不上与 5xx 都归'抓取失败'，但原文不同——原文比分类更能定位问题"
+    },
+    {
+      "check": "M11",
+      "item": "版本取不到 → 记「未取到」＋原因（**不编**）",
+      "measured": "target_version='未取到' 原因='TimeoutError: timed out'",
+      "verdict": "PASS",
+      "note": "这条路径在真机上会遇到（/version 不存在、被网关挡掉），所以宁可记'未取到'也不许拿别的字段顶替"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（http_500 → 期望 http_5xx）",
+      "measured": "失败 6/6，分类={\"http_5xx\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（disconnect_mid_stream → 期望 stream_incomplete）",
+      "measured": "失败 6/6，分类={\"stream_incomplete\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（truncate_clean → 期望 stream_incomplete）",
+      "measured": "失败 6/6，分类={\"stream_incomplete\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（reset_mid_stream → 期望 stream_broken）",
+      "measured": "失败 6/6，分类={\"stream_broken\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（hang → 期望 timeout）",
+      "measured": "失败 6/6，分类={\"timeout\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    }
+  ],
+  "arms": [
+    {
+      "label": "overlap0",
+      "run_id": "serving_20261007T102647586Z_3740-2",
+      "backend": {
+        "token_count": 32,
+        "token_interval_s": 0.02,
+        "queue_s": 0.01,
+        "prefill_s": 0.1,
+        "kv_mb": 24.0,
+        "kv_gbps": 3.2,
+        "kv_overlap_frac": 0.0,
+        "fail_rate": 0.0,
+        "fail_mode": "http_500",
+        "seed": 1,
+        "empty_text_every": 0,
+        "kv_bytes": 25165824,
+        "kv_xfer_s": 0.062915
+      },
+      "summary": {
+        "n_requests": 120,
+        "n_ok": 120,
+        "n_err": 0,
+        "error_counts": {},
+        "wall_clock_s": 10.713,
+        "throughput_qps": 11.202,
+        "inflight_peak": 10,
+        "latency": {
+          "ttft_s": {
+            "p50": 0.174977,
+            "p95": 0.195284,
+            "p99": 0.19846,
+            "max": 0.199259
+          },
+          "e2e_s": {
+            "p50": 0.794644,
+            "p95": 0.815045,
+            "p99": 0.818011,
+            "max": 0.818426
+          },
+          "chunk_interval_mean_s": {
+            "p50": 0.019988,
+            "p95": 0.020009
+          },
+          "chunk_interval_p95_s": {
+            "p50": 0.020359,
+            "p95": 0.020508
+          },
+          "tpot_p50_s": {
+            "p50": 0.020003,
+            "p95": 0.020053
+          },
+          "tpot_p95_s": {
+            "p50": 0.020359,
+            "p95": 0.020508
+          },
+          "tpot_mean_s": {
+            "p50": 0.019988,
+            "p95": 0.020009
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": 32.0,
+          "n_content_chunks_median": 32.0,
+          "n_empty_text_chunks_median": 0.0,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 120,
+          "n_requests_with_token_ids": 120,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": 32.0,
+          "srv_token_ids_total_median": 32.0,
+          "srv_token_count_source_counts": {
+            "usage": 120
+          },
+          "token_interval_mean_s_median": 0.019988
+        },
+        "coverage_verdicts": {
+          "PASS": 120
+        },
+        "srv_verdicts": {
+          "PASS": 120
+        },
+        "coverage": {
+          "n_with_server_report": 120,
+          "cov_max_gap_s_max": 0.0,
+          "cov_gap_total_s_max": 0.0,
+          "cov_loo_min_gap_s_min": 0.0005042552947998047,
+          "srv_gap_max_s_max": 0.0,
+          "srv_overlap_s_median": 0.0,
+          "sum_minus_e2e_s_median": -0.001729,
+          "sum_minus_e2e_s_max": -0.000134,
+          "sum_minus_srv_span_s_median": 0.0,
+          "srv_outside_s_median": 0.0,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": 25165824.0,
+        "run_id": "serving_20261007T102647586Z_3740-2",
+        "requests_csv": "results\\b0_metrics\\serving_20261007T102647586Z_3740-2_requests.csv",
+        "tokens_csv": null,
+        "metrics_snapshot": {
+          "state": "not_configured",
+          "state_zh": "未配置地址（本次没有采集）",
+          "nixl_presence_zh": "未配置地址",
+          "nixl_matched_series_count": null,
+          "nixl_series_values": null,
+          "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+          "n_attempts": 0,
+          "n_ok": 0,
+          "n_failed": 0,
+          "url": "",
+          "version_url": "",
+          "interval_s": 5.0,
+          "timeout_s": 5.0,
+          "target_version": "未取到",
+          "version_source": "",
+          "version_error": "",
+          "first_snapshot": null,
+          "last_snapshot": null,
+          "scrapes_csv": null,
+          "snapshot_files": [],
+          "diff_start_end": null,
+          "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+        }
+      }
+    },
+    {
+      "label": "overlap50",
+      "run_id": "serving_20261007T102658533Z_3740-3",
+      "backend": {
+        "token_count": 32,
+        "token_interval_s": 0.02,
+        "queue_s": 0.01,
+        "prefill_s": 0.1,
+        "kv_mb": 24.0,
+        "kv_gbps": 3.2,
+        "kv_overlap_frac": 0.5,
+        "fail_rate": 0.0,
+        "fail_mode": "http_500",
+        "seed": 1,
+        "empty_text_every": 0,
+        "kv_bytes": 25165824,
+        "kv_xfer_s": 0.062915
+      },
+      "summary": {
+        "n_requests": 120,
+        "n_ok": 120,
+        "n_err": 0,
+        "error_counts": {},
+        "wall_clock_s": 10.682,
+        "throughput_qps": 11.234,
+        "inflight_peak": 10,
+        "latency": {
+          "ttft_s": {
+            "p50": 0.143425,
+            "p95": 0.143944,
+            "p99": 0.161229,
+            "max": 0.163403
+          },
+          "e2e_s": {
+            "p50": 0.763115,
+            "p95": 0.763764,
+            "p99": 0.780621,
+            "max": 0.782992
+          },
+          "chunk_interval_mean_s": {
+            "p50": 0.019984,
+            "p95": 0.020006
+          },
+          "chunk_interval_p95_s": {
+            "p50": 0.020362,
+            "p95": 0.020499
+          },
+          "tpot_p50_s": {
+            "p50": 0.019998,
+            "p95": 0.020053
+          },
+          "tpot_p95_s": {
+            "p50": 0.020362,
+            "p95": 0.020499
+          },
+          "tpot_mean_s": {
+            "p50": 0.019984,
+            "p95": 0.020006
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": 32.0,
+          "n_content_chunks_median": 32.0,
+          "n_empty_text_chunks_median": 0.0,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 120,
+          "n_requests_with_token_ids": 120,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": 32.0,
+          "srv_token_ids_total_median": 32.0,
+          "srv_token_count_source_counts": {
+            "usage": 120
+          },
+          "token_interval_mean_s_median": 0.019984
+        },
+        "coverage_verdicts": {
+          "PASS": 120
+        },
+        "srv_verdicts": {
+          "PASS": 120
+        },
+        "coverage": {
+          "n_with_server_report": 120,
+          "cov_max_gap_s_max": 0.0,
+          "cov_gap_total_s_max": 0.0,
+          "cov_loo_min_gap_s_min": 0.0005037784576416016,
+          "srv_gap_max_s_max": 0.0,
+          "srv_overlap_s_median": 0.031457,
+          "sum_minus_e2e_s_median": 0.0298,
+          "sum_minus_e2e_s_max": 0.031212,
+          "sum_minus_srv_span_s_median": 0.031457,
+          "srv_outside_s_median": 0.0,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": 25165824.0,
+        "run_id": "serving_20261007T102658533Z_3740-3",
+        "requests_csv": "results\\b0_metrics\\serving_20261007T102658533Z_3740-3_requests.csv",
+        "tokens_csv": null,
+        "metrics_snapshot": {
+          "state": "not_configured",
+          "state_zh": "未配置地址（本次没有采集）",
+          "nixl_presence_zh": "未配置地址",
+          "nixl_matched_series_count": null,
+          "nixl_series_values": null,
+          "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+          "n_attempts": 0,
+          "n_ok": 0,
+          "n_failed": 0,
+          "url": "",
+          "version_url": "",
+          "interval_s": 5.0,
+          "timeout_s": 5.0,
+          "target_version": "未取到",
+          "version_source": "",
+          "version_error": "",
+          "first_snapshot": null,
+          "last_snapshot": null,
+          "scrapes_csv": null,
+          "snapshot_files": [],
+          "diff_start_end": null,
+          "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+        }
+      }
+    }
+  ],
+  "arm_emptychunks": {
+    "label": "emptychunks",
+    "run_id": "serving_20261007T102709483Z_3740-4",
+    "backend": {
+      "token_count": 32,
+      "token_interval_s": 0.02,
+      "queue_s": 0.01,
+      "prefill_s": 0.1,
+      "kv_mb": 24.0,
+      "kv_gbps": 3.2,
+      "kv_overlap_frac": 0.0,
+      "fail_rate": 0.0,
+      "fail_mode": "http_500",
+      "seed": 1,
+      "empty_text_every": 3,
+      "kv_bytes": 25165824,
+      "kv_xfer_s": 0.062915
+    },
+    "summary": {
+      "n_requests": 120,
+      "n_ok": 120,
+      "n_err": 0,
+      "error_counts": {},
+      "wall_clock_s": 10.712,
+      "throughput_qps": 11.202,
+      "inflight_peak": 10,
+      "latency": {
+        "ttft_s": {
+          "p50": 0.194595,
+          "p95": 0.216837,
+          "p99": 0.218584,
+          "max": 0.219261
+        },
+        "e2e_s": {
+          "p50": 0.794618,
+          "p95": 0.817157,
+          "p99": 0.81854,
+          "max": 0.819024
+        },
+        "chunk_interval_mean_s": {
+          "p50": 0.019986,
+          "p95": 0.020008
+        },
+        "chunk_interval_p95_s": {
+          "p50": 0.020388,
+          "p95": 0.020522
+        },
+        "tpot_p50_s": {
+          "p50": 0.030005,
+          "p95": 0.030116
+        },
+        "tpot_p95_s": {
+          "p50": 0.040255,
+          "p95": 0.04044
+        },
+        "tpot_mean_s": {
+          "p50": 0.029999,
+          "p95": 0.030021
+        }
+      },
+      "chunks": {
+        "n_output_chunks_median": 32.0,
+        "n_content_chunks_median": 21.0,
+        "n_empty_text_chunks_median": 11.0,
+        "n_empty_text_chunks_total": 1320,
+        "n_requests_with_empty_text_chunks": 120
+      },
+      "server_tokens": {
+        "n_requests_with_usage": 0,
+        "n_requests_with_token_ids": 120,
+        "n_requests_without_token_count": 0,
+        "srv_completion_tokens_median": null,
+        "srv_token_ids_total_median": 32.0,
+        "srv_token_count_source_counts": {
+          "token_ids": 120
+        },
+        "token_interval_mean_s_median": 0.019354
+      },
+      "coverage_verdicts": {
+        "PASS": 120
+      },
+      "srv_verdicts": {
+        "PASS": 120
+      },
+      "coverage": {
+        "n_with_server_report": 120,
+        "cov_max_gap_s_max": 0.0,
+        "cov_gap_total_s_max": 0.0,
+        "cov_loo_min_gap_s_min": 0.0005025863647460938,
+        "srv_gap_max_s_max": 0.0,
+        "srv_overlap_s_median": 0.0,
+        "sum_minus_e2e_s_median": -0.001704,
+        "sum_minus_e2e_s_max": -0.000259,
+        "sum_minus_srv_span_s_median": 0.0,
+        "srv_outside_s_median": 0.0,
+        "cov_tol_s": 0.005,
+        "loo_eps_s": 1e-06
+      },
+      "kv_bytes_per_request": 25165824.0,
+      "run_id": "serving_20261007T102709483Z_3740-4",
+      "requests_csv": "results\\b0_metrics\\serving_20261007T102709483Z_3740-4_requests.csv",
+      "tokens_csv": "results\\b0_metrics\\serving_20261007T102709483Z_3740-4_tokens.csv",
+      "metrics_snapshot": {
+        "state": "not_configured",
+        "state_zh": "未配置地址（本次没有采集）",
+        "nixl_presence_zh": "未配置地址",
+        "nixl_matched_series_count": null,
+        "nixl_series_values": null,
+        "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+        "n_attempts": 0,
+        "n_ok": 0,
+        "n_failed": 0,
+        "url": "",
+        "version_url": "",
+        "interval_s": 5.0,
+        "timeout_s": 5.0,
+        "target_version": "未取到",
+        "version_source": "",
+        "version_error": "",
+        "first_snapshot": null,
+        "last_snapshot": null,
+        "scrapes_csv": null,
+        "snapshot_files": [],
+        "diff_start_end": null,
+        "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+      }
+    },
+    "expected": {
+      "n_output_chunks": 32,
+      "n_content_chunks": 21,
+      "n_empty_text_chunks": 11,
+      "empty_text_every": 3
+    }
+  },
+  "failinject": [
+    {
+      "mode": "http_500",
+      "expected_class": "http_5xx",
+      "run_id": "serving_20261007T102727356Z_3740-9",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "http_5xx": 6
+        },
+        "wall_clock_s": 0.835,
+        "throughput_qps": 7.182,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "N-A": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T102727356Z_3740-9",
+        "requests_csv": "results\\b0_metrics\\serving_20261007T102727356Z_3740-9_requests.csv",
+        "tokens_csv": null,
+        "metrics_snapshot": {
+          "state": "not_configured",
+          "state_zh": "未配置地址（本次没有采集）",
+          "nixl_presence_zh": "未配置地址",
+          "nixl_matched_series_count": null,
+          "nixl_series_values": null,
+          "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+          "n_attempts": 0,
+          "n_ok": 0,
+          "n_failed": 0,
+          "url": "",
+          "version_url": "",
+          "interval_s": 5.0,
+          "timeout_s": 5.0,
+          "target_version": "未取到",
+          "version_source": "",
+          "version_error": "",
+          "first_snapshot": null,
+          "last_snapshot": null,
+          "scrapes_csv": null,
+          "snapshot_files": [],
+          "diff_start_end": null,
+          "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+        }
+      }
+    },
+    {
+      "mode": "disconnect_mid_stream",
+      "expected_class": "stream_incomplete",
+      "run_id": "serving_20261007T102728717Z_3740-10",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "stream_incomplete": 6
+        },
+        "wall_clock_s": 0.939,
+        "throughput_qps": 6.388,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "PASS": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T102728717Z_3740-10",
+        "requests_csv": "results\\b0_metrics\\serving_20261007T102728717Z_3740-10_requests.csv",
+        "tokens_csv": null,
+        "metrics_snapshot": {
+          "state": "not_configured",
+          "state_zh": "未配置地址（本次没有采集）",
+          "nixl_presence_zh": "未配置地址",
+          "nixl_matched_series_count": null,
+          "nixl_series_values": null,
+          "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+          "n_attempts": 0,
+          "n_ok": 0,
+          "n_failed": 0,
+          "url": "",
+          "version_url": "",
+          "interval_s": 5.0,
+          "timeout_s": 5.0,
+          "target_version": "未取到",
+          "version_source": "",
+          "version_error": "",
+          "first_snapshot": null,
+          "last_snapshot": null,
+          "scrapes_csv": null,
+          "snapshot_files": [],
+          "diff_start_end": null,
+          "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+        }
+      }
+    },
+    {
+      "mode": "truncate_clean",
+      "expected_class": "stream_incomplete",
+      "run_id": "serving_20261007T102730065Z_3740-11",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "stream_incomplete": 6
+        },
+        "wall_clock_s": 0.94,
+        "throughput_qps": 6.386,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "PASS": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T102730065Z_3740-11",
+        "requests_csv": "results\\b0_metrics\\serving_20261007T102730065Z_3740-11_requests.csv",
+        "tokens_csv": null,
+        "metrics_snapshot": {
+          "state": "not_configured",
+          "state_zh": "未配置地址（本次没有采集）",
+          "nixl_presence_zh": "未配置地址",
+          "nixl_matched_series_count": null,
+          "nixl_series_values": null,
+          "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+          "n_attempts": 0,
+          "n_ok": 0,
+          "n_failed": 0,
+          "url": "",
+          "version_url": "",
+          "interval_s": 5.0,
+          "timeout_s": 5.0,
+          "target_version": "未取到",
+          "version_source": "",
+          "version_error": "",
+          "first_snapshot": null,
+          "last_snapshot": null,
+          "scrapes_csv": null,
+          "snapshot_files": [],
+          "diff_start_end": null,
+          "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+        }
+      }
+    },
+    {
+      "mode": "reset_mid_stream",
+      "expected_class": "stream_broken",
+      "run_id": "serving_20261007T102731420Z_3740-12",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "stream_broken": 6
+        },
+        "wall_clock_s": 0.939,
+        "throughput_qps": 6.388,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "N-A": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T102731420Z_3740-12",
+        "requests_csv": "results\\b0_metrics\\serving_20261007T102731420Z_3740-12_requests.csv",
+        "tokens_csv": null,
+        "metrics_snapshot": {
+          "state": "not_configured",
+          "state_zh": "未配置地址（本次没有采集）",
+          "nixl_presence_zh": "未配置地址",
+          "nixl_matched_series_count": null,
+          "nixl_series_values": null,
+          "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+          "n_attempts": 0,
+          "n_ok": 0,
+          "n_failed": 0,
+          "url": "",
+          "version_url": "",
+          "interval_s": 5.0,
+          "timeout_s": 5.0,
+          "target_version": "未取到",
+          "version_source": "",
+          "version_error": "",
+          "first_snapshot": null,
+          "last_snapshot": null,
+          "scrapes_csv": null,
+          "snapshot_files": [],
+          "diff_start_end": null,
+          "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+        }
+      }
+    },
+    {
+      "mode": "hang",
+      "expected_class": "timeout",
+      "run_id": "serving_20261007T102732775Z_3740-13",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "timeout": 6
+        },
+        "wall_clock_s": 2.839,
+        "throughput_qps": 2.113,
+        "inflight_peak": 6,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "N-A": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T102732775Z_3740-13",
+        "requests_csv": "results\\b0_metrics\\serving_20261007T102732775Z_3740-13_requests.csv",
+        "tokens_csv": null,
+        "metrics_snapshot": {
+          "state": "not_configured",
+          "state_zh": "未配置地址（本次没有采集）",
+          "nixl_presence_zh": "未配置地址",
+          "nixl_matched_series_count": null,
+          "nixl_series_values": null,
+          "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+          "n_attempts": 0,
+          "n_ok": 0,
+          "n_failed": 0,
+          "url": "",
+          "version_url": "",
+          "interval_s": 5.0,
+          "timeout_s": 5.0,
+          "target_version": "未取到",
+          "version_source": "",
+          "version_error": "",
+          "first_snapshot": null,
+          "last_snapshot": null,
+          "scrapes_csv": null,
+          "snapshot_files": [],
+          "diff_start_end": null,
+          "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+        }
+      }
+    }
+  ],
+  "arm_metrics": [
+    {
+      "label": "nonixl",
+      "run_id": "serving_20261007T102720455Z_3740-5",
+      "metrics_url": "http://127.0.0.1:9530/metrics",
+      "backend": {
+        "variant": "nonixl",
+        "fail_mode": "none",
+        "version_mode": "ok",
+        "version": "fake-vllm-0.0.1-test",
+        "hang_s": 3.0
+      },
+      "expect_state": "nixl_absent",
+      "summary": {
+        "state": "nixl_absent",
+        "state_zh": "成功抓到指标但没有 NIXL 项（记作：未出现）",
+        "nixl_presence_zh": "未出现",
+        "nixl_matched_series_count": 0,
+        "nixl_series_values": null,
+        "nixl_note": "未出现：本次 /metrics 里没有任何 NIXL 相关序列。**这一项记作「未出现」，不是「0」**——没有序列时我们并不知道任何数值。",
+        "n_attempts": 4,
+        "n_ok": 4,
+        "n_failed": 0,
+        "url": "http://127.0.0.1:9530/metrics",
+        "version_url": "http://127.0.0.1:9530/version",
+        "interval_s": 0.25,
+        "timeout_s": 1.0,
+        "target_version": "fake-vllm-0.0.1-test",
+        "version_source": "GET /version（JSON 字段 version）",
+        "version_error": "",
+        "first_snapshot": {
+          "seq": 0,
+          "phase": "start",
+          "t_rel_s": 0.0,
+          "body_bytes": 1796,
+          "n_series": 11
+        },
+        "last_snapshot": {
+          "seq": 3,
+          "phase": "end",
+          "t_rel_s": 0.540674,
+          "body_bytes": 1796,
+          "n_series": 11
+        },
+        "scrapes_csv": "results\\b0_metrics\\serving_20261007T102720455Z_3740-5_metrics_scrapes.csv",
+        "snapshot_files": [
+          "results\\b0_metrics\\serving_20261007T102720455Z_3740-5_scrape_000_start.json",
+          "results\\b0_metrics\\serving_20261007T102720455Z_3740-5_scrape_001_periodic.json",
+          "results\\b0_metrics\\serving_20261007T102720455Z_3740-5_scrape_002_periodic.json",
+          "results\\b0_metrics\\serving_20261007T102720455Z_3740-5_scrape_003_end.json"
+        ],
+        "diff_start_end": {
+          "n_series_start": 11,
+          "n_series_end": 11,
+          "n_common": 11,
+          "n_only_start": 0,
+          "n_only_end": 0,
+          "n_deltas": 11,
+          "n_skipped_non_numeric": 0,
+          "top_deltas": [
+            {
+              "series": "process_cpu_seconds_total",
+              "start": 43.59,
+              "end": 43.59,
+              "delta": 0.0
+            },
+            {
+              "series": "process_resident_memory_bytes",
+              "start": 948142080.0,
+              "end": 948142080.0,
+              "delta": 0.0
+            },
+            {
+              "series": "process_start_time_seconds",
+              "start": 1791353600.62,
+              "end": 1791353600.62,
+              "delta": 0.0
+            },
+            {
+              "series": "python_gc_objects_collected_total{generation=\"0\"}",
+              "start": 4766.0,
+              "end": 4766.0,
+              "delta": 0.0
+            },
+            {
+              "series": "python_gc_objects_collected_total{generation=\"1\"}",
+              "start": 42875.0,
+              "end": 42875.0,
+              "delta": 0.0
+            },
+            {
+              "series": "python_info{implementation=\"CPython\",major=\"3\",minor=\"12\",patchlevel=\"10\",version=\"3.12.10\"}",
+              "start": 1.0,
+              "end": 1.0,
+              "delta": 0.0
+            },
+            {
+              "series": "vllm:cache_config_info{block_size=\"16\",enable_prefix_caching=\"True\",num_gpu_blocks=\"4312\",kv_cache_size_tokens=\"68992\"}",
+              "start": 1.0,
+              "end": 1.0,
+              "delta": 0.0
+            },
+            {
+              "series": "vllm:kv_cache_usage_perc{model_name=\"fake-model\"}",
+              "start": 0.13,
+              "end": 0.13,
+              "delta": 0.0
+            },
+            {
+              "series": "vllm:num_requests_running{model_name=\"fake-model\"}",
+              "start": 2.0,
+              "end": 2.0,
+              "delta": 0.0
+            },
+            {
+              "series": "vllm:prompt_tokens_by_source_total{source=\"external_kv_transfer\"}",
+              "start": 0.0,
+              "end": 0.0,
+              "delta": 0.0
+            }
+          ],
+          "only_start_examples": [],
+          "only_end_examples": [],
+          "only_in_one_snapshot_note": "只出现在一侧的序列**不计差、也不当 0**：两次抓取之间服务可能重启或新增/注销指标。",
+          "note": "这些差是**两个时间点之间的进程级累计量变化**，覆盖整段运行；**不能**拆给单个请求（见 scope_note）。"
+        },
+        "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。",
+        "error_examples": []
+      },
+      "snapshot_files": [
+        "serving_20261007T102720455Z_3740-5_scrape_000_start.json",
+        "serving_20261007T102720455Z_3740-5_scrape_001_periodic.json",
+        "serving_20261007T102720455Z_3740-5_scrape_002_periodic.json",
+        "serving_20261007T102720455Z_3740-5_scrape_003_end.json"
+      ],
+      "n_csv_rows": 4
+    },
+    {
+      "label": "nixl",
+      "run_id": "serving_20261007T102721571Z_3740-6",
+      "metrics_url": "http://127.0.0.1:9531/metrics",
+      "backend": {
+        "variant": "nixl",
+        "fail_mode": "none",
+        "version_mode": "ok",
+        "version": "fake-vllm-0.0.1-test",
+        "hang_s": 3.0
+      },
+      "expect_state": "nixl_present",
+      "summary": {
+        "state": "nixl_present",
+        "state_zh": "抓到 NIXL 项",
+        "nixl_presence_zh": "出现",
+        "nixl_matched_series_count": 7,
+        "nixl_series_values": {
+          "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"write\"}": 1250000000.0,
+          "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"read\"}": 250000000.0,
+          "vllm:nixl_xfer_time_seconds_total{model_name=\"fake-model\",transfer_type=\"write\"}": 12.5,
+          "vllm:nixl_post_time_seconds_total{model_name=\"fake-model\"}": 3.5,
+          "vllm:nixl_num_descriptors{model_name=\"fake-model\"}": 4096.0,
+          "vllm:nixl_num_failed_transfers{model_name=\"fake-model\"}": 0.0,
+          "vllm:nixl_num_failed_notifications{model_name=\"fake-model\"}": 0.0
+        },
+        "nixl_note": "出现：本次 /metrics 里有 7 条 NIXL 相关序列（数值是按传输汇总的量，原文见快照 raw_body）",
+        "n_attempts": 4,
+        "n_ok": 4,
+        "n_failed": 0,
+        "url": "http://127.0.0.1:9531/metrics",
+        "version_url": "http://127.0.0.1:9531/version",
+        "interval_s": 0.25,
+        "timeout_s": 1.0,
+        "target_version": "fake-vllm-0.0.1-test",
+        "version_source": "GET /version（JSON 字段 version）",
+        "version_error": "",
+        "first_snapshot": {
+          "seq": 0,
+          "phase": "start",
+          "t_rel_s": 0.001002,
+          "body_bytes": 2505,
+          "n_series": 18
+        },
+        "last_snapshot": {
+          "seq": 3,
+          "phase": "end",
+          "t_rel_s": 0.552833,
+          "body_bytes": 2505,
+          "n_series": 18
+        },
+        "scrapes_csv": "results\\b0_metrics\\serving_20261007T102721571Z_3740-6_metrics_scrapes.csv",
+        "snapshot_files": [
+          "results\\b0_metrics\\serving_20261007T102721571Z_3740-6_scrape_000_start.json",
+          "results\\b0_metrics\\serving_20261007T102721571Z_3740-6_scrape_001_periodic.json",
+          "results\\b0_metrics\\serving_20261007T102721571Z_3740-6_scrape_002_periodic.json",
+          "results\\b0_metrics\\serving_20261007T102721571Z_3740-6_scrape_003_end.json"
+        ],
+        "diff_start_end": {
+          "n_series_start": 18,
+          "n_series_end": 18,
+          "n_common": 18,
+          "n_only_start": 0,
+          "n_only_end": 0,
+          "n_deltas": 18,
+          "n_skipped_non_numeric": 0,
+          "top_deltas": [
+            {
+              "series": "process_cpu_seconds_total",
+              "start": 43.59,
+              "end": 43.59,
+              "delta": 0.0
+            },
+            {
+              "series": "process_resident_memory_bytes",
+              "start": 948142080.0,
+              "end": 948142080.0,
+              "delta": 0.0
+            },
+            {
+              "series": "process_start_time_seconds",
+              "start": 1791353600.62,
+              "end": 1791353600.62,
+              "delta": 0.0
+            },
+            {
+              "series": "python_gc_objects_collected_total{generation=\"0\"}",
+              "start": 4766.0,
+              "end": 4766.0,
+              "delta": 0.0
+            },
+            {
+              "series": "python_gc_objects_collected_total{generation=\"1\"}",
+              "start": 42875.0,
+              "end": 42875.0,
+              "delta": 0.0
+            },
+            {
+              "series": "python_info{implementation=\"CPython\",major=\"3\",minor=\"12\",patchlevel=\"10\",version=\"3.12.10\"}",
+              "start": 1.0,
+              "end": 1.0,
+              "delta": 0.0
+            },
+            {
+              "series": "vllm:cache_config_info{block_size=\"16\",enable_prefix_caching=\"True\",num_gpu_blocks=\"4312\",kv_cache_size_tokens=\"68992\"}",
+              "start": 1.0,
+              "end": 1.0,
+              "delta": 0.0
+            },
+            {
+              "series": "vllm:kv_cache_usage_perc{model_name=\"fake-model\"}",
+              "start": 0.13,
+              "end": 0.13,
+              "delta": 0.0
+            },
+            {
+              "series": "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"read\"}",
+              "start": 250000000.0,
+              "end": 250000000.0,
+              "delta": 0.0
+            },
+            {
+              "series": "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"write\"}",
+              "start": 1250000000.0,
+              "end": 1250000000.0,
+              "delta": 0.0
+            }
+          ],
+          "only_start_examples": [],
+          "only_end_examples": [],
+          "only_in_one_snapshot_note": "只出现在一侧的序列**不计差、也不当 0**：两次抓取之间服务可能重启或新增/注销指标。",
+          "note": "这些差是**两个时间点之间的进程级累计量变化**，覆盖整段运行；**不能**拆给单个请求（见 scope_note）。"
+        },
+        "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。",
+        "error_examples": []
+      },
+      "snapshot_files": [
+        "serving_20261007T102721571Z_3740-6_scrape_000_start.json",
+        "serving_20261007T102721571Z_3740-6_scrape_001_periodic.json",
+        "serving_20261007T102721571Z_3740-6_scrape_002_periodic.json",
+        "serving_20261007T102721571Z_3740-6_scrape_003_end.json"
+      ],
+      "n_csv_rows": 4
+    },
+    {
+      "label": "http500",
+      "run_id": "serving_20261007T102722698Z_3740-7",
+      "metrics_url": "http://127.0.0.1:9532/metrics",
+      "backend": {
+        "variant": "nonixl",
+        "fail_mode": "http_500",
+        "version_mode": "ok",
+        "version": "fake-vllm-0.0.1-test",
+        "hang_s": 3.0
+      },
+      "expect_state": "scrape_failed",
+      "summary": {
+        "state": "scrape_failed",
+        "state_zh": "抓取失败（配了地址但抓不到）",
+        "nixl_presence_zh": "抓取失败",
+        "nixl_matched_series_count": null,
+        "nixl_series_values": null,
+        "nixl_note": "抓取失败：这次没有拿到 /metrics 正文，因此**无从判断**有没有 NIXL 项。**不能写成「未出现」，更不能写成 0**——失败与缺项是两回事。",
+        "n_attempts": 4,
+        "n_ok": 0,
+        "n_failed": 4,
+        "url": "http://127.0.0.1:9532/metrics",
+        "version_url": "http://127.0.0.1:9532/version",
+        "interval_s": 0.25,
+        "timeout_s": 1.0,
+        "target_version": "fake-vllm-0.0.1-test",
+        "version_source": "GET /version（JSON 字段 version）",
+        "version_error": "",
+        "first_snapshot": null,
+        "last_snapshot": null,
+        "scrapes_csv": "results\\b0_metrics\\serving_20261007T102722698Z_3740-7_metrics_scrapes.csv",
+        "snapshot_files": [
+          "results\\b0_metrics\\serving_20261007T102722698Z_3740-7_scrape_000_start.json",
+          "results\\b0_metrics\\serving_20261007T102722698Z_3740-7_scrape_001_periodic.json",
+          "results\\b0_metrics\\serving_20261007T102722698Z_3740-7_scrape_002_periodic.json",
+          "results\\b0_metrics\\serving_20261007T102722698Z_3740-7_scrape_003_end.json"
+        ],
+        "diff_start_end": null,
+        "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。",
+        "error_examples": [
+          {
+            "seq": 0,
+            "phase": "start",
+            "error_class": "http_5xx",
+            "error_text": "HTTP 500（正文前 200 字符：'boom\\n'）"
+          },
+          {
+            "seq": 1,
+            "phase": "periodic",
+            "error_class": "http_5xx",
+            "error_text": "HTTP 500（正文前 200 字符：'boom\\n'）"
+          },
+          {
+            "seq": 2,
+            "phase": "periodic",
+            "error_class": "http_5xx",
+            "error_text": "HTTP 500（正文前 200 字符：'boom\\n'）"
+          },
+          {
+            "seq": 3,
+            "phase": "end",
+            "error_class": "http_5xx",
+            "error_text": "HTTP 500（正文前 200 字符：'boom\\n'）"
+          }
+        ]
+      },
+      "snapshot_files": [
+        "serving_20261007T102722698Z_3740-7_scrape_000_start.json",
+        "serving_20261007T102722698Z_3740-7_scrape_001_periodic.json",
+        "serving_20261007T102722698Z_3740-7_scrape_002_periodic.json",
+        "serving_20261007T102722698Z_3740-7_scrape_003_end.json"
+      ],
+      "n_csv_rows": 4
+    },
+    {
+      "label": "refused",
+      "run_id": "serving_20261007T102723810Z_3740-8",
+      "metrics_url": "http://127.0.0.1:55509/metrics",
+      "backend": null,
+      "expect_state": "scrape_failed",
+      "summary": {
+        "state": "scrape_failed",
+        "state_zh": "抓取失败（配了地址但抓不到）",
+        "nixl_presence_zh": "抓取失败",
+        "nixl_matched_series_count": null,
+        "nixl_series_values": null,
+        "nixl_note": "抓取失败：这次没有拿到 /metrics 正文，因此**无从判断**有没有 NIXL 项。**不能写成「未出现」，更不能写成 0**——失败与缺项是两回事。",
+        "n_attempts": 2,
+        "n_ok": 0,
+        "n_failed": 2,
+        "url": "http://127.0.0.1:55509/metrics",
+        "version_url": "http://127.0.0.1:55509/version",
+        "interval_s": 0.25,
+        "timeout_s": 1.0,
+        "target_version": "未取到",
+        "version_source": "",
+        "version_error": "TimeoutError: timed out",
+        "first_snapshot": null,
+        "last_snapshot": null,
+        "scrapes_csv": "results\\b0_metrics\\serving_20261007T102723810Z_3740-8_metrics_scrapes.csv",
+        "snapshot_files": [
+          "results\\b0_metrics\\serving_20261007T102723810Z_3740-8_scrape_000_start.json",
+          "results\\b0_metrics\\serving_20261007T102723810Z_3740-8_scrape_001_end.json"
+        ],
+        "diff_start_end": null,
+        "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。",
+        "error_examples": [
+          {
+            "seq": 0,
+            "phase": "start",
+            "error_class": "timeout",
+            "error_text": "TimeoutError: timed out"
+          },
+          {
+            "seq": 1,
+            "phase": "end",
+            "error_class": "timeout",
+            "error_text": "TimeoutError: timed out"
+          }
+        ]
+      },
+      "snapshot_files": [
+        "serving_20261007T102723810Z_3740-8_scrape_000_start.json",
+        "serving_20261007T102723810Z_3740-8_scrape_001_end.json"
+      ],
+      "n_csv_rows": 2
+    }
+  ],
+  "client_summaries": [
+    "serving_20261007T102647586Z_3740-2_summary.json",
+    "serving_20261007T102658533Z_3740-3_summary.json",
+    "serving_20261007T102709483Z_3740-4_summary.json",
+    "serving_20261007T102727356Z_3740-9_summary.json",
+    "serving_20261007T102728717Z_3740-10_summary.json",
+    "serving_20261007T102730065Z_3740-11_summary.json",
+    "serving_20261007T102731420Z_3740-12_summary.json",
+    "serving_20261007T102732775Z_3740-13_summary.json",
+    "serving_20261007T102720455Z_3740-5_summary.json",
+    "serving_20261007T102721571Z_3740-6_summary.json",
+    "serving_20261007T102722698Z_3740-7_summary.json",
+    "serving_20261007T102723810Z_3740-8_summary.json"
+  ]
+}

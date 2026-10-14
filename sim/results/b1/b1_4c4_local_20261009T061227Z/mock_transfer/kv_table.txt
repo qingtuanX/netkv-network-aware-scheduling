@@ -1,0 +1,63 @@
+====================================================================================================
+B1 4b 辅助表：KV 序列在四个检查点上的**原文数值**（只搬运，不判断）
+====================================================================================================
+列说明：pre_t0=拆分服务刚起来/无请求；pre_t1=冒烟后；t0=正式测量前；
+        mid=**运行中**（第一条正式请求之后、重复请求之前）；t1=正式测量结束。
+
+####################################################################################################
+### P 前处理端 A:8100
+####################################################################################################
+  vllm:nixl_bytes_transferred_count
+      pre_t0=0  pre_t1=1  t0=1  mid=2  t1=4
+  vllm:nixl_bytes_transferred_sum
+      pre_t0=0  pre_t1=327680  t0=327680  mid=655360  t1=1310720
+  vllm:nixl_num_descriptors_count
+      pre_t0=7  pre_t1=7  t0=7  mid=7  t1=7
+  vllm:nixl_num_descriptors_sum
+      pre_t0=7  pre_t1=7  t0=7  mid=7  t1=7
+  vllm:nixl_xfer_time_seconds_count: **两端快照里都没有这一项**
+  vllm:nixl_xfer_time_seconds_sum: **两端快照里都没有这一项**
+  vllm:nixl_post_time_seconds_count: **两端快照里都没有这一项**
+  vllm:nixl_post_time_seconds_sum: **两端快照里都没有这一项**
+  vllm:nixl_num_failed_transfers_total
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_failed_notifications_total
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_kv_expired_reqs_total
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+
+####################################################################################################
+### D 生成端 B:8200
+####################################################################################################
+  vllm:nixl_bytes_transferred_count
+      pre_t0=0  pre_t1=2  t0=2  mid=3  t1=6
+  vllm:nixl_bytes_transferred_sum
+      pre_t0=0  pre_t1=655360  t0=655360  mid=983040  t1=1966080
+  vllm:nixl_num_descriptors_count
+      pre_t0=7  pre_t1=7  t0=7  mid=7  t1=7
+  vllm:nixl_num_descriptors_sum
+      pre_t0=7  pre_t1=7  t0=7  mid=7  t1=7
+  vllm:nixl_xfer_time_seconds_count: **两端快照里都没有这一项**
+  vllm:nixl_xfer_time_seconds_sum: **两端快照里都没有这一项**
+  vllm:nixl_post_time_seconds_count: **两端快照里都没有这一项**
+  vllm:nixl_post_time_seconds_sum: **两端快照里都没有这一项**
+  vllm:nixl_num_failed_transfers_total
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=2
+  vllm:nixl_num_failed_notifications_total
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=1
+  vllm:nixl_num_kv_expired_reqs_total
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=1
+
+####################################################################################################
+### D 生成端：prompt token 的来源（`vllm:prompt_tokens_by_source_total`）
+####################################################################################################
+  [metrics_precheck_decode_t0_raw.txt]
+  [metrics_precheck_decode_t1_raw.txt]
+  [metrics_measure_decode_t0_raw.txt]
+  [metrics_measure_decode_mid_raw.txt]
+  [metrics_measure_decode_t1_raw.txt]
+
+怎么读：`external_kv_transfer` 变大、而 `local_compute` 保持 0 ⇒
+        生成端**没有自己重算这段 prompt**，它的 KV 是从外面收进来的。
+
+本文件只做搬运：不计算差值、不判定通过与否、不含任何性能结论。

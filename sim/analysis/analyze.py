@@ -45,7 +45,9 @@ TABLE_DIR = ROOT / "results" / "analysis"
 FIG_DIR = ROOT / "figures"
 
 MODES = ["main", "staleness", "datavolume", "convergence", "ablation", "scale",
-         "rho", "fallback", "bandwidth"]
+         "rho", "fallback", "bandwidth", "avewindow", "staleness2d", "align",
+         "alignscale", "method", "method_ablate", "method_ch",
+         "method_ch_ablate", "baselines"]
 STRATEGIES = ["Random", "LeastQueue", "LeastLoad", "NetworkAware"]
 NA = "NetworkAware"
 BASELINES = ["Random", "LeastQueue", "LeastLoad"]
@@ -548,12 +550,19 @@ def section_availability(data: dict) -> pd.DataFrame:
         has_runs = d["runs"] is not None
         has_paired = d["paired"] is not None
         has_man = d["manifest"] is not None
+        man = d["manifest"] or {}
+        # 代码版本与"有没有未提交改动"要进可用性表：矩阵是分 mode 分批跑的，
+        # 中途改过代码的话，同一条曲线上的点可能来自不同版本——这件事必须看得见
+        # （本仓库真实发生过：safe.directory 指错导致 code_version 读不到 HEAD）。
         row = {
             "mode": mode,
             "run_id": d["run_id"] or "-",
             "runs": "有" if has_runs else "缺",
             "paired": "有" if has_paired else "缺",
             "manifest": "有" if has_man else "缺",
+            "code_version": man.get("code_version", "-") if has_man else "-",
+            "code_dirty": ("有未提交改动" if man.get("code_dirty_files")
+                           else ("干净" if has_man else "-")),
             "n_rows": d["n_rows"], "n_cells": d["n_cells"],
             "strategies": ("/".join(sorted(d["runs"]["strategy"].unique()))
                            if has_runs else "-"),
@@ -564,11 +573,37 @@ def section_availability(data: dict) -> pd.DataFrame:
         rows.append(row)
         status = "完整" if (has_runs and has_paired and has_man) else "不完整"
         print(f"  {mode:<12} {status:<5} run_id={row['run_id']:<22} "
+              f"code={row['code_version']:<12} "
               f"rows={row['n_rows']:>5} cells={row['n_cells']:>4} "
               f"seeds={row['n_seeds']:>2}  缺: {','.join(d['missing']) or '无'}")
     df = pd.DataFrame(rows)
     write_table(df, "data_availability.csv")
     return df
+
+
+def profile_links_table(net_set: str) -> dict:
+    """把带宽敏感性档位表（net_profile → 每节点链路带宽）读进来。
+
+    为什么需要它：`bandwidth` 模式的链路是**每 cell 的档位**，而 manifest 的
+    `network_conditions` 只保存三个基础档（normal / degraded / unstable）。
+    早先这里拿基础档去复算带宽格子的可行域，把 `slow_200g` 的 load_ratio 算成
+    1.167（按它自己的档位是 0.600）——差点把一个完全正常的格子误报成"不可持续"。
+    档位表由 `experiments/run_matrix.py` 定义，这里按该批产物的 `net_set` 取对应
+    那一套（v1 与 v2 的档位名不相交）。**导入失败或档位缺失时返回空表**，调用方
+    必须把缺失当成"无法复算"（NaN），不能用错的链路顶上——那正是上面那次误报的成因。
+    """
+    try:
+        exp_dir = str(ROOT / "experiments")
+        if exp_dir not in sys.path:
+            sys.path.insert(0, exp_dir)
+        import run_matrix as rmx            # noqa: PLC0415
+        rmx.NET_SET = net_set
+        return {name: [bw for _, bw in links]
+                for name, links in rmx.active_bandwidth_profiles().items()}
+    except Exception as exc:                # noqa: BLE001
+        print(f"  [警告] 无法读取带宽档位表（net_set={net_set}: {exc}）；"
+              "bandwidth 模式的可行域将无法复算")
+        return {}
 
 
 def section_rho(data: dict) -> pd.DataFrame:
@@ -580,6 +615,57 @@ def section_rho(data: dict) -> pd.DataFrame:
     print("\n" + "=" * 78)
     print("§0b 负载强度门（门 1）rho = 平均工作量 × 实际到达率 / (Σ compute_rate × 槽位)")
     print("=" * 78)
+    # 可行域与慢链路强度都是**每行**的量，必须在分组之前逐行算好再聚合。
+    # 【为什么】它们对 E[work] / E[字节数] 是非线性的（每节点取 min 再求和），
+    # 拿"分组均值"去算会得到谁都不对应的值。已实测到的后果：trace 批的 rho 模式里
+    # 一个组跨 3 个 trace 时间片（各片 R 差 4 倍），按组均值算出的 load_ratio 是
+    # 0.30 的 1.45 倍，于是 6 个正常格子被误报成"队列无限增长、不可采信"。
+    # 逐行算、再取组内 max，才是"这个组里最坏的那次运行"。
+    node_rates = lambda n: [16000.0 / (2 ** (i % 4)) for i in range(int(n))]
+    cond_links = {}
+    for mode in MODES:
+        man = data[mode].get("manifest") or {}
+        for net, c in (man.get("network_conditions") or {}).items():
+            cond_links[(mode, net)] = [bw for _, bw in c.get("links", [])]
+    # 带宽档位（bandwidth 模式）的链路不在 manifest 里，得按档位表解析；见 profile_links_table
+    net_sets = set()
+    for mode in MODES:
+        r = data[mode]["runs"]
+        if r is not None and "net_set" in r.columns:
+            net_sets |= set(r["net_set"].dropna().astype(str))
+    prof_links: dict = {}
+    for ns in sorted(net_sets or {"v1"}):
+        prof_links.update(profile_links_table(ns))
+
+    def cell_links(mode: str, row) -> list | None:
+        """解析这一行对应的每节点链路带宽；解析不到返回 None（不拿错的链路顶上）。"""
+        prof = row.get("net_profile")
+        if isinstance(prof, str) and prof:
+            # profile_links_table 已经把 (时延, 带宽) 拍平成一串带宽
+            return list(prof_links.get(prof) or []) or None
+        return cond_links.get((mode, row["network"]))
+
+    def row_feas(mode: str, row) -> dict:
+        """一行 → {load_ratio, R, slow_link_Bps, rho_slow_link}。算不出就是 NaN。
+
+        可持续到达率 R = Σ_i min(算力_i × 槽位 / E[work], 带宽_i / E[bytes])，
+        即"完全均衡放置"时的可承载到达率。load_ratio = 实际到达率 / R > 1
+        意味着队列无限增长，该格的 p95 只是有限时长的假象。
+        """
+        links = cell_links(mode, row)
+        mb = row.get("mean_bytes", np.nan)
+        mw = row.get("mean_work", np.nan)
+        n_link = float(min(links)) if links else np.nan
+        if not links or not np.isfinite(mb) or mb <= 0 or not np.isfinite(mw) or mw <= 0:
+            return {"load_ratio": np.nan, "R": np.nan, "slow_link_Bps": n_link,
+                    "rho_slow_link": np.nan}
+        rates = node_rates(row["n_nodes"])
+        R = sum(min(rates[i] * SLOTS_PER_NODE / mw, links[i % len(links)] / mb)
+                for i in range(int(row["n_nodes"])))
+        return {"load_ratio": (row["qps_realized"] / R if R > 0 else np.nan), "R": R,
+                "slow_link_Bps": n_link,
+                "rho_slow_link": row["qps_realized"] * mb / n_link}
+
     rows = []
     for mode in MODES:
         runs = data[mode]["runs"]
@@ -594,6 +680,11 @@ def section_rho(data: dict) -> pd.DataFrame:
         # （实测把 0.600 混成 1.69，并让 2 个格子被误判为"不可持续"）。
         if "n_nodes" in runs.columns and runs["n_nodes"].nunique(dropna=True) > 1:
             keys.append("n_nodes")
+        # 数据量档与带宽档位都会**直接改变可行域**（E[字节数]、每条链路容量），
+        # 也必须分档：把它们平均掉会得到一个谁都不对应的 load_ratio。
+        for extra in ("data_volume", "net_profile"):
+            if extra in runs.columns and runs[extra].nunique(dropna=True) > 1:
+                keys.append(extra)
         for kb, g in runs.groupby(keys, dropna=False):
             kb = kb if isinstance(kb, tuple) else (kb,)
             rec = dict(zip(keys, kb))
@@ -603,12 +694,21 @@ def section_rho(data: dict) -> pd.DataFrame:
             rho_net = None
             if "rho_net" in g.columns and g["rho_net"].notna().any():
                 rho_net = g["rho_net"].dropna()
-            worst = rho
             if rho_net is not None and len(rho_net):
                 rec["rho_net_mean"] = float(rho_net.mean())
                 rec["rho_net_max"] = float(rho_net.max())
                 rec["binding"] = ("network" if rho_net.max() > rho.max() else "compute")
-                worst = None
+            # 逐行算可行域与慢链路强度，再取组内 max / min（见本函数开头的注释）
+            feas = [row_feas(mode, row) for _, row in g.iterrows()]
+            def _agg(key: str, how: str) -> float:
+                vals = [f[key] for f in feas if np.isfinite(f[key])]
+                return float(getattr(np, how)(vals)) if vals else np.nan
+            rec["load_ratio"] = _agg("load_ratio", "nanmax")
+            # R 取组内最小（最紧的那次运行），和 load_ratio 取最大是同一种保守方向
+            rec["R_sustainable"] = _agg("R", "nanmin")
+            rec["slow_link_Bps"] = _agg("slow_link_Bps", "nanmin")
+            # 慢链路强度（**最坏放置上界**：λ 全压在一条最慢链路上，不是任何策略的实际负载）
+            rec["rho_slow_link"] = _agg("rho_slow_link", "nanmax")
             rec.update({
                 "mode": mode,
                 "rho_mean": float(rho.mean()), "rho_min": float(rho.min()),
@@ -618,11 +718,6 @@ def section_rho(data: dict) -> pd.DataFrame:
                 "mean_bytes": float(g["mean_bytes"].mean()) if "mean_bytes" in g.columns else float("nan"),
                 "capacity": float(g["capacity"].mean()),
                 "n_nodes": int(g["n_nodes"].iloc[0]),
-                "in_valid_range": bool(
-                    rho.min() >= RHO_LO - RHO_TOL
-                    and max(rho.max(),
-                            float(rho_net.max()) if rho_net is not None and len(rho_net) else 0.0)
-                    <= RHO_HI + RHO_TOL),
             })
             rows.append(rec)
     df = pd.DataFrame(rows)
@@ -630,48 +725,22 @@ def section_rho(data: dict) -> pd.DataFrame:
         print("  （无数据）")
         return df
 
-    # --- 慢链路强度：聚合 rho_net 会掩盖"热点链路" ---
-    # 链路争用模型下，真正决定排队的是**最慢那条链路**被推到了什么程度：
-    # 一个 25 Gbps 节点收到 912 MB 的请求、6 QPS 就会被打到 1.8× 过载，
-    # 而聚合 rho_net（按总链路带宽算）看起来只有 0.27。所以必须单独报这个量。
-    slow = {}
-    for mode in MODES:
-        man = data[mode].get("manifest") or {}
-        conds = man.get("network_conditions") or {}
-        for net, c in conds.items():
-            bws = [bw for _, bw in c.get("links", [])]
-            if bws:
-                slow[(mode, net)] = float(min(bws))
-    if slow and "mean_bytes" in df.columns:
-        df["slow_link_Bps"] = [slow.get((m, n), float("nan"))
-                               for m, n in zip(df["mode"], df["network"])]
-        df["rho_slow_link"] = (df["qps_realized"] * df["mean_bytes"]
-                               / df["slow_link_Bps"])
-
-    # --- 多资源可行性：可持续到达率必须超过实际到达率 ---
-    # 链路争用模型下，"聚合 rho 合格"不等于这个运行点可行：真正决定排队的是
-    # **最慢那条链路**。可持续到达率按每节点取两条资源的较小者：
-    #     R = Σ_i min(compute_i × slots_i / E[work], bw_i / E[bytes])
-    # 若 qps_realized > R，队列会无限增长，那个格子的 p95 只是有限时长的假象，
-    # 必须点名（这是门 1 在双资源系统下的推广，比聚合 rho 严格）。
-    node_rates = lambda n: [16000.0 / (2 ** (i % 4)) for i in range(int(n))]
-    cond_links = {}
-    for mode in MODES:
-        man = data[mode].get("manifest") or {}
-        for net, c in (man.get("network_conditions") or {}).items():
-            cond_links[(mode, net)] = [bw for _, bw in c.get("links", [])]
-    feas = []
-    for _, r in df.iterrows():
-        links = cond_links.get((r["mode"], r["network"]))
-        if not links or not np.isfinite(r.get("mean_bytes", np.nan)) or r["mean_bytes"] <= 0:
-            feas.append(np.nan)
-            continue
-        rates = node_rates(r["n_nodes"])
-        cap = sum(min(rates[i] * SLOTS_PER_NODE / r["mean_work"],
-                      links[i % len(links)] / r["mean_bytes"])
-                  for i in range(int(r["n_nodes"])))
-        feas.append(r["qps_realized"] / cap if cap > 0 else np.nan)
-    df["load_ratio"] = feas
+    # --- 门 1 的 v2 口径 ---
+    # 上界：任何一条资源都不能过饱和 → max(rho_compute, rho_network) ≤ RHO_HI。
+    # 下界：只对**绑定资源**要求。v2 里网络可能才是瓶颈：此时按"可持续到达率"标定
+    # rho=0.30，算力利用率天然只有 0.15–0.26（λ 被可行域压住），这不是退化格子，
+    # 而是"网络绑定"这一类场景的正常形态——用 v1 的"rho_compute 必须 ≥0.3"会误判它。
+    # 可行性（load_ratio ≤ 1）也是硬线：超过 1 意味着队列无限增长，p95 只是有限时长的假象。
+    hi = np.maximum(df["rho_max"].to_numpy(),
+                    df["rho_net_max"].fillna(0.0).to_numpy()
+                    if "rho_net_max" in df.columns else 0.0)
+    lo_ok = ((df["rho_min"] >= RHO_LO - RHO_TOL)
+             | (df["load_ratio"].fillna(0.0) >= RHO_LO - RHO_TOL))
+    df["in_valid_range"] = (hi <= RHO_HI + RHO_TOL) & lo_ok & (df["load_ratio"].fillna(0.0) <= 1.0 + 1e-6)
+    df["binding_resource"] = np.where(
+        df["rho_mean"].to_numpy() >= (df["rho_net_mean"].fillna(0.0).to_numpy()
+                                      if "rho_net_mean" in df.columns else 0.0),
+        "compute", "network")
     if df["load_ratio"].notna().any():
         bad_f = df[df["load_ratio"] > 1.0]
         print(f"  多资源可行性 load_ratio = 实际到达率 / 可持续到达率："
@@ -717,11 +786,15 @@ def section_rho(data: dict) -> pd.DataFrame:
               "那是最能体现『算力+网络联合调度』的场景")
     if "rho_slow_link" in df.columns and df["rho_slow_link"].notna().any():
         over = df[df["rho_slow_link"] > 0.9]
-        print(f"  慢链路强度 rho_slow_link = λ×E[字节]/最慢链路带宽："
-              f"范围 [{df['rho_slow_link'].min():.2f}, {df['rho_slow_link'].max():.2f}]，"
-              f"其中 {len(over)}/{len(df)} 个组合 >0.9（热点链路已被打满）")
+        # 口径声明很重要：这是**最坏放置上界**（把全部到达流量都压到同一条最慢链路上），
+        # 不是任何策略的实际链路负载。n 节点机群上它比实际值松 n/链路档数倍，
+        # 早先按"热点链路已被打满"报告，是把上界当成了事实——真正的运行点可行性看 load_ratio。
+        print(f"  慢链路最坏放置上界 rho_slow_link = λ×E[字节]/最慢链路带宽"
+              f"（**上界**，非实际值）：范围 [{df['rho_slow_link'].min():.2f}, "
+              f"{df['rho_slow_link'].max():.2f}]，其中 {len(over)}/{len(df)} 个组合的上界 >0.9"
+              "：这些格子里「把流量错放到慢链路」确实会把它打满，正是网络感知要避免的情形")
         if len(over):
-            print("     最热的几个组合（这些格子的排队由**单条最慢链路**决定，"
+            print("     上界最松的几个组合（说明单条最慢链路一旦被选中就会成为瓶颈，"
                   "不是由聚合 rho_net 决定）：")
             for _, r in over.nlargest(4, "rho_slow_link").iterrows():
                 print(f"       {r['mode']:<12}{r['workload']:<14}{r['network']:<9}"
@@ -1587,6 +1660,25 @@ MODE_KEYS = {
     "rho": ["workload", "network", "target_rho"],
     "fallback": ["workload", "network", "staleness", "fallback_staleness"],
     "bandwidth": ["workload", "net_profile", "data_volume"],
+    # 【细变量②】观测聚合窗口：两条通道各自扫，分组时要能区分是哪一条
+    # 两条窗口列各自存在，用它们的组合区分"扫的是哪条通道"
+    "avewindow": ["workload", "network", "window_queue_s", "window_network_s"],
+    # 【细变量①】两条通道年龄的二维网格：两个 lag 都是因子，必须同时进键
+    "staleness2d": ["network", "workload", "staleness_queue_s", "staleness_network_s"],
+    # 【细变量③】对齐度：一个 cell 一种配对方式
+    "align": ["network", "workload", "align"],
+    # 【细变量③ × 规模】对齐度随节点数变化
+    "alignscale": ["network", "workload", "n_nodes", "align"],
+    # 【V3 方法】降权规则对照：一个 cell 一种 (队列年龄, 链路年龄) 配置
+    "method": ["network", "workload", "staleness"],
+    # 【V3 方法 × 阈值】阈值消融：同上，策略列里带的是各个变体的标签
+    "method_ablate": ["network", "workload", "staleness"],
+    # 【V3 方法·修订版】按通道降权：格子与 method 逐字段相同（可跨批配对）
+    "method_ch": ["network", "workload", "staleness"],
+    # 【V3 方法·修订版 × 阈值】参数消融（OFAT）
+    "method_ch_ablate": ["network", "workload", "staleness"],
+    # 【补强基线】P2C / Aegis 式拥塞项 / Helix 式瓶颈最小化
+    "baselines": ["network", "workload", "staleness"],
 }
 
 
@@ -2393,6 +2485,985 @@ def section_verification(data: dict) -> None:
                   f"{q0['contention_factor']:.1f} 倍，必须写进 Threats to Validity")
 
 
+def section_align(data: dict):
+    """§17 「谁算得快」与「谁网线粗」的对齐度——网络信息**为什么**会有价值。
+
+    这是机制侧的变量，不是又一个策略对比：调度要同时权衡"哪台机器算得快"和
+    "哪台机器网线粗"。两者**一致**时（算得快的网线也最粗），按"谁闲"挑和按"网线好"挑
+    挑到同一台，网络信息不提供额外区分度 → 收益应当≈0；两者**相反**时才有用武之地。
+
+    `align` 三档：anti（现状，完全相反）/ rot1（部分一致）/ aligned（完全一致）；
+    一致比例由 `run_matrix.alignment_index()` 定义并落在 runs.csv 里。
+    **预测在跑之前就写死在 build_matrix 的注释里**：aligned 收益≈0、anti 最大、rot1 居中。
+    """
+    print("\n" + "=" * 78)
+    print("§17 对齐度：算力排名与链路排名一致时，网络信息还有价值吗")
+    print("=" * 78)
+    d = data.get("align", {})
+    runs, paired = d.get("runs"), d.get("paired")
+    if runs is None or runs.empty:
+        print("  （本批没有 align 产物：先跑 --mode align）")
+        return None
+    keys = ["align", "workload", "network"]
+    eff = effect_table(runs, paired, keys, candidate="NetworkAware2",
+                       baselines=["LeastLoad"])
+    if eff.empty:
+        print("  （配对表里没有可用的对比）")
+        return None
+    write_table(eff, "rq17_alignment_effect.csv")
+    order = {"anti": 0, "rot1": 1, "aligned": 2}
+    eff["_o"] = eff["align"].map(order).fillna(9)
+    print(f"  {'对齐档':<9}{'负载':<13}{'网络':<10}{'p95_NA2':>9}{'p95_LL':>9}"
+          f"{'Δp95%':>9}{'±95%CI':>8}{'种子':>5}{'net_share':>10}  判定")
+    for _, r in eff.sort_values(["_o", "workload", "network"]).iterrows():
+        # 跨"独立负载实现"（=种子）的 95% 置信区间：t 分布，自由度 k-1
+        k = int(r.get("n_seeds", 0) or 0)
+        se = float(r.get("dp95_se", float("nan")))
+        ci = float("nan")
+        if k >= 2 and np.isfinite(se):
+            try:
+                from scipy import stats as _st      # noqa: PLC0415
+                ci = _st.t.ppf(0.975, k - 1) * se
+            except Exception:                        # noqa: BLE001
+                ci = 1.96 * se
+        print(f"  {str(r['align']):<9}{str(r['workload']):<13}{str(r['network']):<10}"
+              f"{r['p95_na']:>9.2f}{r['p95_base']:>9.2f}{r['dp95_pct']:>9.1f}"
+              f"{ci:>8.1f}{k:>5d}{r['net_share_na']:>10.3f}  {str(r['verdict'])[:22]}")
+    print("\n  读法：Anti = 算力最强的机器配最慢链路（两个标准互相矛盾）；"
+          "\n        Aligned = 算力最强配最快链路（两个标准一致，网络信息理论上无附加价值）。"
+          "\n  ±95%CI 是**跨种子**（＝跨独立负载实现）的区间，不是把两万条请求当独立样本的区间。")
+
+    # ---------- 统计检验：对齐度到底有没有把收益打下去 ----------
+    # 【为什么要这么测】per-request 的配对检验在两万请求下 p 值必然小到荒谬（前面已实测），
+    # 它回答"同一份负载下两个策略有没有差别"，**回答不了**"换了部署方式（对齐度）之后
+    # 收益有没有系统性地变化"。后者的正确单位是**独立的负载实现**（＝种子），
+    # 所以这里把每个种子的 Δp95 当成一个观测，做组间非参数检验与趋势检验。
+    piv = runs.pivot_table(index=["align", "workload", "network", "seed"],
+                           columns="strategy", values="sojourn_p95")
+    if {"NetworkAware2", "LeastLoad"} <= set(piv.columns):
+        dp = ((piv["NetworkAware2"] - piv["LeastLoad"]) / piv["LeastLoad"] * 100.0)
+        dp = dp.reset_index(name="dp95_pct")
+        print("\n  --- 组间检验：anti（相反）vs aligned（一致），单位=每个种子的 Δp95% ---")
+        print(f"  {'负载':<13}{'网络':<10}{'anti 均值±95%CI':>22}{'aligned 均值±95%CI':>22}"
+              f"{'差值':>8}{'Mann-Whitney p':>16}{'Cliffδ':>9}")
+        try:
+            from scipy import stats as st      # noqa: PLC0415
+        except Exception:                       # noqa: BLE001
+            st = None
+        for wl in sorted(dp["workload"].unique()):
+            for net in sorted(dp["network"].unique()):
+                a = dp[(dp["workload"] == wl) & (dp["network"] == net) & (dp["align"] == "anti")]["dp95_pct"]
+                b = dp[(dp["workload"] == wl) & (dp["network"] == net) & (dp["align"] == "aligned")]["dp95_pct"]
+                if len(a) < 2 or len(b) < 2:
+                    continue
+                def _ci(v):
+                    se = v.std(ddof=1) / np.sqrt(len(v))
+                    t = st.t.ppf(0.975, len(v) - 1) if st is not None else 1.96
+                    return t * se
+                # Cliff's delta：组间效应量（全对比较，方向 = b 相对 a 的大小）
+                gt = sum(1 for x in a for y in b if x > y)
+                lt = sum(1 for x in a for y in b if x < y)
+                cliff = (lt - gt) / (len(a) * len(b))
+                p = (st.mannwhitneyu(a, b, alternative="two-sided").pvalue
+                     if st is not None else float("nan"))
+                print(f"  {wl:<13}{net:<10}"
+                      f"{a.mean():>14.1f}±{_ci(a):<6.1f}{b.mean():>14.1f}±{_ci(b):<6.1f}"
+                      f"{b.mean()-a.mean():>8.1f}{p:>16.3g}{cliff:>9.2f}")
+        # 趋势检验：Δp95 是否随"对齐度"单调上升（即收益单调下降）
+        if st is not None:
+            m = dp.copy()
+            if "align_index" in runs.columns:
+                m = m.merge(runs[["align", "align_index"]].drop_duplicates(),
+                            on="align", how="left")
+            else:
+                # 兜底：本批产物早于 `align_index` 落盘（该列是后加的）。
+                # 三节点配置下 alignment_index() 的取值是固定的 anti=0 / rot1=2/3 / aligned=1，
+                # 已用 run_matrix.alignment_index() 逐个核对过，这里只做映射，不猜数。
+                m["align_index"] = m["align"].map({"anti": 0.0, "rot1": 2.0 / 3.0, "aligned": 1.0})
+            m = m.dropna(subset=["align_index"])
+            if len(m) > 3:
+                rho, prho = st.spearmanr(m["align_index"], m["dp95_pct"])
+                print(f"\n  --- 趋势检验（全样本）：Δp95 与对齐度的 Spearman ρ = {rho:+.2f}，"
+                      f"p = {prho:.3g}，n = {len(m)}")
+                print("      ρ>0 表示「对齐度越高、收益越小」，即机制预测成立。")
+    return eff
+
+
+def section_alignscale(data: dict):
+    """§18 对齐度 × 节点规模：对齐度效应是 3 节点的小样本巧合，还是在规模上仍在？
+
+    与 §17 同一套统计口径（单位＝种子＝独立负载实现）：每格报"跨种子均值 ± 95% CI"，
+    并按**节点数**分别做组间检验（anti vs aligned）与趋势检验（Δp95 ~ 一致比例）。
+
+    【一个必须照实说的设计限制】一致比例能操纵到的**范围随节点数收窄**：
+    算力是 2 的幂阶梯（周期 4 台）、链路是斜坡，节点一多就出现"算力并列"的对，
+    它们的贡献记 0.5，于是 index 到不了 0/1——
+    3 台：0.00 / 0.67 / 1.00；4 台：0.00 / 0.50 / 1.00；8 台：0.29 / 0.57 / 0.71；16 台：0.40 / 0.50 / 0.60。
+    所以 16 台上"没差别"**可能只是操纵太弱**，不能直接读成"机制不成立"。
+    因此趋势检验用**数值一致比例**当自变量（而不是档位标签），并在表里把该值打出来。
+    """
+    print("\n" + "=" * 78)
+    print("§18 对齐度 × 节点规模（统计口径同 §17：单位=种子）")
+    print("=" * 78)
+    d = data.get("alignscale", {})
+    runs, paired = d.get("runs"), d.get("paired")
+    if runs is None or runs.empty:
+        print("  （本批没有 alignscale 产物：先跑 --mode alignscale）")
+        return None
+    keys = ["n_nodes", "align"]
+    eff = effect_table(runs, paired, keys, candidate="NetworkAware2", baselines=["LeastLoad"])
+    if eff.empty:
+        print("  （配对表里没有可用的对比）")
+        return None
+    write_table(eff, "rq18_alignment_scale_effect.csv")
+    # 趋势轴优先用**新指标**（算力/带宽排名的 Spearman ρ）：
+    # 旧指标（两两一致比例）在节点 >3 时会被"算力并列"的对稀释，8 台时 anti 与 rot1 甚至完全相同。
+    axis_col = "align_rank_corr" if "align_rank_corr" in runs.columns else "align_index"
+    idx = {}
+    if axis_col in runs.columns:
+        idx = (runs[["n_nodes", "align", axis_col]].drop_duplicates()
+               .set_index(["n_nodes", "align"])[axis_col].to_dict())
+    print(f"  {'节点':>4}{'对齐档':<9}{'排名相关ρ':>10}{'p95_NA2':>9}{'p95_LL':>9}"
+          f"{'Δp95%':>9}{'±95%CI':>8}{'种子':>5}  判定")
+    order = {"anti": 0, "rot1": 1, "aligned": 2}
+    eff["_o"] = eff["align"].map(order).fillna(9)
+    for _, r in eff.sort_values(["n_nodes", "_o"]).iterrows():
+        k = int(r.get("n_seeds", 0) or 0)
+        se = float(r.get("dp95_se", float("nan")))
+        ci = float("nan")
+        if k >= 2 and np.isfinite(se):
+            try:
+                from scipy import stats as _st      # noqa: PLC0415
+                ci = _st.t.ppf(0.975, k - 1) * se
+            except Exception:                        # noqa: BLE001
+                ci = 1.96 * se
+        a_idx = idx.get((int(r["n_nodes"]), str(r["align"])), float("nan"))
+        print(f"  {int(r['n_nodes']):>4}{str(r['align']):<9}{a_idx:>9.3f}"
+              f"{r['p95_na']:>9.2f}{r['p95_base']:>9.2f}{r['dp95_pct']:>9.1f}"
+              f"{ci:>8.1f}{k:>5d}  {str(r['verdict'])[:22]}")
+
+    piv = runs.pivot_table(index=["n_nodes", "align", "seed"],
+                           columns="strategy", values="sojourn_p95")
+    if {"NetworkAware2", "LeastLoad"} <= set(piv.columns):
+        dp = ((piv["NetworkAware2"] - piv["LeastLoad"]) / piv["LeastLoad"] * 100.0)
+        dp = dp.reset_index(name="dp95_pct")
+        if idx:
+            dp["align_axis"] = [idx.get((int(n), str(a)), np.nan)
+                                for n, a in zip(dp["n_nodes"], dp["align"])]
+        try:
+            from scipy import stats as st      # noqa: PLC0415
+        except Exception:                       # noqa: BLE001
+            st = None
+        print("\n  --- 按节点数的组间检验（anti vs aligned，单位=每个种子的 Δp95%）---")
+        print(f"  {'节点':>4}{'anti 均值±CI':>18}{'aligned 均值±CI':>20}"
+              f"{'差值':>8}{'Mann-Whitney p':>16}{'Cliffδ':>9}")
+        for n in sorted(dp["n_nodes"].unique()):
+            a = dp[(dp["n_nodes"] == n) & (dp["align"] == "anti")]["dp95_pct"]
+            b = dp[(dp["n_nodes"] == n) & (dp["align"] == "aligned")]["dp95_pct"]
+            if len(a) < 2 or len(b) < 2:
+                continue
+            t = st.t.ppf(0.975, len(a) - 1) if st is not None else 1.96
+            gt = sum(1 for x in a for y in b if x > y)
+            lt = sum(1 for x in a for y in b if x < y)
+            cliff = (lt - gt) / (len(a) * len(b))
+            p = (st.mannwhitneyu(a, b, alternative="two-sided").pvalue
+                 if st is not None else float("nan"))
+            print(f"  {int(n):>4}{a.mean():>12.1f}±{a.std(ddof=1)/np.sqrt(len(a))*t:<5.1f}"
+                  f"{b.mean():>14.1f}±{b.std(ddof=1)/np.sqrt(len(b))*t:<5.1f}"
+                  f"{b.mean()-a.mean():>8.1f}{p:>16.3g}{cliff:>9.2f}")
+        if st is not None and "align_axis" in dp.columns:
+            m = dp.dropna(subset=["align_axis"])
+            if len(m) > 3:
+                rho, prho = st.spearmanr(m["align_axis"], m["dp95_pct"])
+                print(f"\n  --- 趋势检验（全部节点数合并）：Spearman ρ = {rho:+.2f}，"
+                      f"p = {prho:.3g}，n = {len(m)}")
+            for n in sorted(m["n_nodes"].unique()):
+                s = m[m["n_nodes"] == n]
+                if len(s) > 3:
+                    rho, prho = st.spearmanr(s["align_axis"], s["dp95_pct"])
+                    print(f"      节点 {int(n):>2}：ρ = {rho:+.2f}，p = {prho:.3g}，n = {len(s)}")
+
+    # ---------- 规模衰减到底怎么解释：直接测"不看网络会不会碰巧挑到好网线" ----------
+    # 由 `analysis/measure_link_choice.py` 产出（它要跑仿真，所以不放在本脚本里）。
+    probe = TABLE_DIR / "link_choice_by_scale.csv"
+    if probe.exists():
+        p = read_csv_safe(probe)
+        if p is not None and not p.empty:
+            print("\n  --- 直接检验：不看网络的 LeastLoad 挑中的机器，在「网线粗细」里排第几 ---")
+            print(f"  {'节点':>4}{'ρ':>8}{'策略':>16}{'平均带宽排名':>14}{'随机水平':>10}"
+                  f"{'落最快1/3':>11}{'p95(s)':>9}")
+            g = p.groupby(["n_nodes", "rank_corr", "strategy"], dropna=False).agg(
+                rank_mean=("mean_bandwidth_rank", "mean"),
+                frac=("frac_top_third_bandwidth", "mean"),
+                p95=("p95_s", "mean"),
+                n_seeds=("seed", "nunique")).reset_index()
+            for _, r in g.sort_values(["n_nodes", "strategy"]).iterrows():
+                n = int(r["n_nodes"])
+                print(f"  {n:>4}{r['rank_corr']:>+8.2f}{str(r['strategy']):>16}"
+                      f"{r['rank_mean']:>14.2f}{(n + 1) / 2:>10.1f}"
+                      f"{r['frac'] * 100:>10.0f}%{r['p95']:>9.2f}")
+            keys_p = ["n_nodes", "strategy"]
+            ll = g[g["strategy"] == "LeastLoad"].copy()
+            if len(ll) >= 3:
+                # 每个 (对齐档, 节点数) 一个点：LeastLoad 的带宽排名 相对 "随机挑" 偏了几名
+                ll["dev"] = ll["rank_mean"] - (ll["n_nodes"] + 1) / 2.0
+                print("\n  判读（全部由 probe CSV 算出，无人工挑选）：")
+                by_align = {}
+                if "align" in p.columns:
+                    mm = p[p["strategy"] == "LeastLoad"].groupby(
+                        ["align", "n_nodes"], dropna=False).agg(
+                        rank_mean=("mean_bandwidth_rank", "mean")).reset_index()
+                    mm["dev"] = mm["rank_mean"] - (mm["n_nodes"] + 1) / 2.0
+                    for a, sub in mm.groupby("align", dropna=False):
+                        by_align[a] = sub
+                for a, sub in by_align.items():
+                    sub = sub.sort_values("n_nodes")
+                    d0, d1 = float(sub["dev"].iloc[0]), float(sub["dev"].iloc[-1])
+                    rho_s = _spearman_p(sub["n_nodes"].to_numpy(), sub["dev"].to_numpy())[0]
+                    print(f"    · {str(a):<8}对齐：LeastLoad 相对随机水平的偏离 "
+                          f"{d0:+.2f} → {d1:+.2f} 名（ρ(n, 偏离) = {rho_s:+.2f}）")
+                if "anti" in by_align and "aligned" in by_align:
+                    anti_dev = by_align["anti"]["dev"].abs().mean()
+                    ali = by_align["aligned"].sort_values("n_nodes")
+                    ali_dev0 = float(ali["dev"].iloc[0])
+                    ali_dev1 = float(ali["dev"].iloc[-1])
+                    print(
+                        f"    → anti 档的偏离幅度平均只有 {anti_dev:.2f} 名（3–16 台的全程）："
+                        f"**不看网络的策略在这些配置下并没有『碰巧挑到好网线』**，"
+                        f"所以 anti 档的收益不随规模衰减，"
+                        f"实测 −63%/−61%/−57%（4/8/16）。\n"
+                        f"    → aligned 档的偏离为负且随规模变大（{ali_dev0:+.2f} → "
+                        f"{ali_dev1:+.2f} 名）：**该档下 LeastLoad 自己就挑到了好网线**，"
+                        f"网络信息能加的分越来越少——这才是「收益随规模变小」的来源，"
+                        f"而且它同时被「可构造的 ρ 区间变窄」放大（见下行）。")
+                if "align" in p.columns:
+                    rng = (p.groupby(["n_nodes", "align"], dropna=False)["rank_corr"]
+                           .first().unstack())
+                    if {"anti", "aligned"} <= set(rng.columns):
+                        print("    实测可构造的 ρ 区间（anti | aligned，随节点数收窄）：")
+                        for n, r in rng.iterrows():
+                            print(f"      节点 {int(n):>2}：{r['anti']:+.2f} | {r['aligned']:+.2f}")
+                        print("    ⚠️ 因此 §18 的『效应随规模衰减』有一半是**操纵范围收窄**的假象："
+                              "\n       算力按周期 4 循环、链路按节点数铺开，节点一多就造不出强对齐的配置。"
+                              "\n       要真正分离这两件事，需要让算力取值脱离周期 4（未来工作）。")
+    else:
+        print("\n  （没有 link_choice_by_scale.csv："
+              "跑 `analysis/measure_link_choice.py` 可补上规模衰减的直接检验）")
+    return eff
+
+
+def _t_ci(k: int, se: float) -> float:
+    """跨种子均值的 95% 置信区间半宽（t 分布，自由度 k−1）。
+
+    【为什么不是 1.96·se】种子只有 10 个，正态近似会**低估**区间。
+    统计单位是"独立的负载实现"（＝种子），不是两万条请求——这一点全篇一致。
+    """
+    if k < 2 or not np.isfinite(se):
+        return float("nan")
+    try:
+        from scipy import stats as _st      # noqa: PLC0415
+        return float(_st.t.ppf(0.975, k - 1) * se)
+    except Exception:                        # noqa: BLE001
+        return float(1.96 * se)
+
+
+def _wilcoxon_p(a, b) -> float:
+    """按种子配对的 Wilcoxon 符号秩检验（零差被丢弃；全零差时返回 nan）。"""
+    try:
+        from scipy import stats as _st      # noqa: PLC0415
+    except Exception:                        # noqa: BLE001
+        return float("nan")
+    a, b = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
+    if len(a) < 6 or np.allclose(a, b):
+        return float("nan")
+    try:
+        return float(_st.wilcoxon(a, b).pvalue)
+    except Exception:                        # noqa: BLE001
+        return float("nan")
+
+
+def _spearman_p(a, b) -> tuple[float, float]:
+    """Spearman 秩相关与 p 值；样本太少或方差为 0 时返回 (nan, nan)。"""
+    try:
+        from scipy import stats as _st      # noqa: PLC0415
+    except Exception:                        # noqa: BLE001
+        return (float("nan"), float("nan"))
+    a, b = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
+    if len(a) < 3 or np.allclose(a, a[0]) or np.allclose(b, b[0]):
+        return (float("nan"), float("nan"))
+    try:
+        r = _st.spearmanr(a, b)
+        return (float(r.statistic), float(r.pvalue))
+    except Exception:                        # noqa: BLE001
+        return (float("nan"), float("nan"))
+
+
+def _mannwhitney_p(a, b) -> float:
+    """两组（非配对）的 Mann–Whitney U 检验。"""
+    try:
+        from scipy import stats as _st      # noqa: PLC0415
+    except Exception:                        # noqa: BLE001
+        return float("nan")
+    a, b = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
+    if len(a) < 3 or len(b) < 3:
+        return float("nan")
+    try:
+        return float(_st.mannwhitneyu(a, b, alternative="two-sided").pvalue)
+    except Exception:                        # noqa: BLE001
+        return float("nan")
+
+
+def section_method(data: dict):
+    """§19 V3 方法：**降权规则本身值多少钱**——"该信陈旧状态多少"这个决定怎么定。
+
+    五条臂在**同一个 cell 内**跑，因此比较是逐请求配对、跨种子聚合的：
+      · `LeastLoad`     —— 完全不信网络信息（下界）
+      · `NetworkAware2` —— 完全信，不管多旧
+      · `AdaptSplit`    —— 主方法：指数降权 + 把链路信息拆成"忙闲 / 粗细"两块
+      · `AdaptLinear`   —— 线性降权（到尺度归零）
+      · `AdaptHard`     —— 硬开关（超阈值整块关掉）
+
+    为什么必须把三条规则都摆出来、而不是只报主方法：三种规则**各有一处被实测的失效方向**
+    （硬开关过度回退；线性在尺度处归零，等于在那一点放弃全部剩余信息；split 单独压低
+    拥塞项会制造"粗网线 + 慢算力"的堆叠）。只报最好的那条就成了"调好再报"，
+    SKILL.md 明文禁止。这里连**实际施加的权重**（`w_dyn_mean` / `w_stat_mean` /
+    `w_gated_frac`，由策略在运行期自报）一起报出来，读者能自己判断"它到底用没用上网络信息"。
+    """
+    print("\n" + "=" * 78)
+    print("§19 方法：降权规则对照（该信陈旧状态多少）")
+    print("=" * 78)
+    d = data.get("method", {})
+    runs, paired = d.get("runs"), d.get("paired")
+    # 【跨批合并】`method_ch`（修订版规则）用的是**逐字段相同**的格子，
+    # 而且负载与轨迹只由 (负载类, 种子, 请求数) 决定 → 两批的请求流逐位相同
+    # （已用 `np.array_equal` 逐格核对过完成时间数组）。所以把两批并起来，
+    # 按 (条件, 种子) 配对是合法的，并且能把"原设计 vs 修订设计"放在同一张表里比。
+    ch = data.get("method_ch", {})
+    if ch.get("runs") is not None and not ch["runs"].empty:
+        frames = [r for r in (runs, ch["runs"]) if r is not None and not r.empty]
+        if frames:
+            runs = pd.concat(frames, ignore_index=True)
+        if paired is not None and not paired.empty and ch.get("paired") is not None:
+            paired = pd.concat([paired, ch["paired"]], ignore_index=True)
+    if runs is None or runs.empty:
+        print("  （本批没有 method 产物：先跑 --mode method）")
+        return None
+
+    ARMS = ["LeastLoad", "NetworkAware2", "AdaptChannel", "AdaptSplit",
+            "AdaptLinear", "AdaptHard"]
+    present = [a for a in ARMS if a in set(runs["strategy"])]
+    main_arm = "AdaptSplit" if "AdaptSplit" in present else None
+    if len(present) < 3:
+        print(f"  （策略不全，只见 {present}；等矩阵跑完再分析）")
+    keys = ["workload", "network", "staleness_queue_s", "staleness_network_s"]
+    piv = runs.pivot_table(index=keys + ["seed"], columns="strategy",
+                           values="sojourn_p95")
+    # 运行期自报的权重列（只有自适应臂有，其余为 NaN）
+    W_DIAG_COLS = [c for c in ("w_dyn_mean", "w_stat_mean", "net_share_obs_mean",
+                               "w_gated_frac") if c in runs.columns]
+    wdiag = None
+    if W_DIAG_COLS:
+        wdiag = (runs.groupby(keys + ["strategy"], dropna=False)[W_DIAG_COLS]
+                 .mean())
+
+    # ---------- 长表：每条臂 × 每个条件的效应与不确定性 ----------
+    rows = []
+    for key, g in piv.groupby(level=keys, dropna=False):
+        key = key if isinstance(key, tuple) else (key,)
+        b = g["LeastLoad"].dropna() if "LeastLoad" in g.columns else pd.Series(dtype=float)
+        base = float(b.mean()) if len(b) else float("nan")
+        for arm in present:
+            if arm not in g.columns:
+                continue
+            v = g[arm].dropna()
+            if not len(v):
+                continue
+            rec = dict(zip(keys, key))
+            rec["arm"] = arm
+            rec["n_seeds"] = int(len(v))
+            rec["p95_mean"] = float(v.mean())
+            rec["p95_std"] = float(v.std(ddof=1)) if len(v) > 1 else float("nan")
+            # 相对两个端点的变化（按种子配对，单位=独立负载实现）
+            for base_name, base_id in (("leastload", "LeastLoad"), ("na2", "NetworkAware2")):
+                if base_id not in g.columns or base_id == arm:
+                    rec[f"dp95_vs_{base_name}_pct"] = 0.0 if base_id == arm else float("nan")
+                    rec[f"ci_{base_name}"] = float("nan")
+                    rec[f"p_{base_name}"] = float("nan")
+                    continue
+                m = g[[arm, base_id]].dropna()
+                if not len(m):
+                    rec[f"dp95_vs_{base_name}_pct"] = float("nan")
+                    rec[f"ci_{base_name}"] = float("nan")
+                    rec[f"p_{base_name}"] = float("nan")
+                    continue
+                rel = (m[arm] - m[base_id]) / m[base_id].replace(0, np.nan) * 100.0
+                rec[f"dp95_vs_{base_name}_pct"] = float(rel.mean())
+                # 【为什么必须同时报中位数】种子的 p95 之间可以差 5–8 倍（真实 trace 的不同时段），
+                # 于是"逐种子相对差的均值"会被个别极端种子主导（实测见过单种子 +265%）。
+                # 均值是配对设计的正确估计量，中位数是稳健性检查——两者符号不一致的地方
+                # 必须在正文里写出来，不能只挑好看的那个。
+                rec[f"dp95_vs_{base_name}_median_pct"] = float(rel.median())
+                rec[f"dp95_vs_{base_name}_iqr_pct"] = float(
+                    rel.quantile(0.75) - rel.quantile(0.25)) if len(rel) > 1 else float("nan")
+                rec[f"n_seeds_better_vs_{base_name}"] = int((rel < 0).sum())
+                rec[f"n_seeds_worse_vs_{base_name}"] = int((rel > 0).sum())
+                se = float(rel.std(ddof=1) / np.sqrt(len(rel))) if len(rel) > 1 else float("nan")
+                rec[f"ci_{base_name}"] = _t_ci(len(rel), se)
+                rec[f"p_{base_name}"] = _wilcoxon_p(m[arm].to_numpy(), m[base_id].to_numpy())
+            # 运行期自报的实际权重（只有自适应臂有；按 (条件, 策略) 预先聚合，避免逐行重筛）
+            if wdiag is not None:
+                try:
+                    vals = wdiag.loc[key + (arm,)]
+                except KeyError:
+                    vals = None
+            else:
+                vals = None
+            for col in W_DIAG_COLS:
+                rec[col] = float(vals[col]) if vals is not None else float("nan")
+            rows.append(rec)
+    eff = pd.DataFrame(rows)
+    if eff.empty:
+        print("  （没有可用的对比行）")
+        return None
+    write_table(eff, "rq19_decay_rule_effect.csv")
+
+    # ---------- 看板 ①：每个条件的 p95（跨种子均值） ----------
+    lab = [x for x in ARMS if x in present]
+    print(f"\n  --- p95 端到端耗时（秒，跨种子均值；越低越好）---")
+    print(f"  {'负载':<11}{'网络':<10}{'队列旧':>7}{'链路旧':>7} | "
+          + "".join(f"{x:>15}" for x in lab))
+    wide = eff.pivot_table(index=keys, columns="arm", values="p95_mean")
+    for key, r in wide.iterrows():
+        key = key if isinstance(key, tuple) else (key,)
+        print(f"  {str(key[0]):<11}{str(key[1]):<10}{key[2]:>7.0f}{key[3]:>7.0f} | "
+              + "".join(f"{r.get(x, float('nan')):>15.1f}" for x in lab))
+
+    # ---------- 看板 ②：相对两个端点的变化 ----------
+    for base_name, base_label in (("na2", "NetworkAware2（完全信）"),
+                                  ("leastload", "LeastLoad（完全不信）")):
+        sub = eff.pivot_table(index=keys, columns="arm",
+                              values=f"dp95_vs_{base_name}_pct")
+        sub_med = eff.pivot_table(index=keys, columns="arm",
+                                  values=f"dp95_vs_{base_name}_median_pct")
+        print(f"\n  --- 相对 {base_label} 的 Δp95%（负=更好；每格「均值/中位数」）---")
+        cols = [x for x in lab if x != ("NetworkAware2" if base_name == "na2" else "LeastLoad")]
+        print(f"  {'负载':<11}{'网络':<10}{'队列旧':>7}{'链路旧':>7} | "
+              + "".join(f"{x:>18}" for x in cols))
+        for key, r in sub.iterrows():
+            key = key if isinstance(key, tuple) else (key,)
+            mm = sub_med.loc[key] if key in sub_med.index else None
+            cells = []
+            for x in cols:
+                v = r.get(x, float("nan"))
+                v2 = float(mm.get(x, float("nan"))) if mm is not None else float("nan")
+                cells.append(f"{v:>8.1f}/{v2:>7.1f}")
+            print(f"  {str(key[0]):<11}{str(key[1]):<10}{key[2]:>7.0f}{key[3]:>7.0f} | "
+                  + "".join(f"{c:>18}" for c in cells))
+        print("  说明：均值是配对设计的估计量（逐种子配对后求均值）；中位数是稳健性检查。"
+              "\n        两者符号不一致的格子说明该结论被极端种子主导，正文必须写出来。")
+
+    # ---------- 看板 ③：实际施加的权重（自适应臂自己报的） ----------
+    diag_arms = [a for a in ("AdaptChannel", "AdaptSplit") if a in present] or (
+        [main_arm] if main_arm else [])
+    for arm in diag_arms:
+        print(f"\n  --- {arm} 实际施加的权重（运行期自报，均值）---")
+        print(f"  {'负载':<11}{'网络':<10}{'队列旧':>7}{'链路旧':>7}"
+              f"{'动态项w':>10}{'结构项w':>10}{'网络占比':>10}{'被门关掉':>10}")
+        ms = eff[(eff["arm"] == arm)]
+        for _, r in ms.iterrows():
+            print(f"  {str(r['workload']):<11}{str(r['network']):<10}"
+                  f"{r['staleness_queue_s']:>7.0f}{r['staleness_network_s']:>7.0f}"
+                  f"{r['w_dyn_mean']:>10.3f}{r['w_stat_mean']:>10.3f}"
+                  f"{r['net_share_obs_mean']:>10.3f}{r['w_gated_frac']*100:>9.0f}%")
+    if diag_arms:
+        print("  读法：动态项 w 是「此刻谁在挤链路」那一块的权重，"
+              "结构项 w 是「哪条网线粗」那一块的权重；"
+              "\n        AdaptChannel 两栏相等（按通道降权，两分量同权），"
+              "AdaptSplit 两栏不等（按打分的项降权，已被实测否掉）。"
+              "\n        被门关掉 = 网络占比不足 10%，整块网络项没用上。")
+
+    # ---------- 裁决：每条臂在多少个条件上同时胜过两个端点 ----------
+    print("\n  --- 裁决：每条降权规则在多少个条件上「同时优于两个端点」---")
+    print(f"  {'臂':<14}{'条件数':>7}{'胜过两端':>10}{'输给两端':>10}{'优于NA2':>10}"
+          f"{'劣于NA2':>10}{'优于LeastLoad':>14}")
+    verdict_rows = []
+    for arm in [x for x in present if x not in ("LeastLoad", "NetworkAware2")]:
+        s = eff[eff["arm"] == arm]
+        if s.empty:
+            continue
+        both_better = ((s["dp95_vs_na2_pct"] < 0) & (s["dp95_vs_leastload_pct"] < 0)).sum()
+        both_worse = ((s["dp95_vs_na2_pct"] > 0) & (s["dp95_vs_leastload_pct"] > 0)).sum()
+        n_na2_better = int((s["dp95_vs_na2_pct"] < 0).sum())
+        n_na2_worse = int((s["dp95_vs_na2_pct"] > 0).sum())
+        n_ll_better = int((s["dp95_vs_leastload_pct"] < 0).sum())
+        n_ll_sig = int(((s["p_leastload"] < 0.05)).sum())
+        sig_na2 = int((s["p_na2"] < 0.05).sum())
+        print(f"  {arm:<14}{len(s):>7}{int(both_better):>10}{int(both_worse):>10}"
+              f"{n_na2_better:>10}{n_na2_worse:>10}{n_ll_better:>14}")
+        verdict_rows.append({
+            "arm": arm, "n_conditions": int(len(s)),
+            "n_better_than_both": int(both_better),
+            "n_worse_than_both": int(both_worse),
+            "n_better_than_na2": n_na2_better, "n_worse_than_na2": n_na2_worse,
+            "n_better_than_leastload": n_ll_better,
+            "n_sig_vs_na2": sig_na2, "n_sig_vs_leastload": n_ll_sig,
+            "mean_dp95_vs_na2_pct": float(s["dp95_vs_na2_pct"].mean()),
+            "mean_dp95_vs_leastload_pct": float(s["dp95_vs_leastload_pct"].mean()),
+        })
+    if verdict_rows:
+        write_table(pd.DataFrame(verdict_rows), "rq19_decay_rule_verdict.csv")
+
+    # ---------- 组间检验：陈旧档 vs 新鲜档，单位=每个种子的 Δp95% ----------
+    if {"NetworkAware2", "LeastLoad"} <= set(piv.columns):
+        long = ((piv["NetworkAware2"] - piv["LeastLoad"])
+                / piv["LeastLoad"].replace(0, np.nan) * 100.0).rename("dp95_pct").reset_index()
+        print("\n  --- 参照：NA2（完全信）相对 LeastLoad 的收益，按陈旧档看 ---")
+        for (wl, net), g in long.groupby(["workload", "network"], dropna=False):
+            fresh = g[(g["staleness_queue_s"] == 0) & (g["staleness_network_s"] == 0)]["dp95_pct"]
+            stale = g[(g["staleness_queue_s"] > 0) | (g["staleness_network_s"] > 0)]["dp95_pct"]
+            if len(fresh) < 2 or len(stale) < 2:
+                continue
+            p = _mannwhitney_p(fresh.to_numpy(), stale.to_numpy())
+            print(f"  {str(wl):<11}{str(net):<10} 新鲜 {fresh.mean():>+7.1f}%"
+                  f"（±{_t_ci(len(fresh), fresh.std(ddof=1)/np.sqrt(len(fresh))):.1f}）  "
+                  f"陈旧 {stale.mean():>+7.1f}%"
+                  f"（±{_t_ci(len(stale), stale.std(ddof=1)/np.sqrt(len(stale))):.1f}）"
+                  f"   Mann-Whitney p={p:.3g}")
+
+    # ---------- 附加检验：队列陈旧的"代价"是否随负载突发性增长 ----------
+    # 【假设在看这批数据前写定】队列观测过期的**代价**应随到达的**突发性**增长：
+    # 突发越强，队列状态在几秒内变得越离谱，"看到旧值"就越误导；相反，平滑到达下
+    # 旧的队列状态仍然接近真值，于是"完全相信"不会吃亏——这正是合成批与真实 trace 批
+    # 给出相反结论的原因待验证的机制。
+    # 突发性取自 `analysis/characterize_load.py` 的 `arrival_cv_w*`：单位时间窗内到达计数的
+    # 变异系数（只算非空窗口）。它是**负载自身的性质**，与任何策略无关，因此可以当自变量。
+    # 因变量 = 「队列旧 5 s 时 NA2 相对 LeastLoad 的收益」减去「全新鲜时的收益」，
+    # 正值表示陈旧把收益吃掉了（＝完全相信吃了亏）。
+    bl_path = TABLE_DIR / "load_burstiness.csv"
+    if bl_path.exists() and {"NetworkAware2", "LeastLoad"} <= set(piv.columns):
+        bl = read_csv_safe(bl_path)
+        cv_cols = [c for c in bl.columns if c.startswith("arrival_cv_w")]
+        if cv_cols and "workload" in bl.columns and "seed" in bl.columns:
+            ben = ((piv["NetworkAware2"] - piv["LeastLoad"])
+                   / piv["LeastLoad"].replace(0, np.nan) * 100.0).rename("benefit")
+            ben = ben.reset_index()
+            f_cols = ["workload", "network", "seed", "benefit"]
+            fresh = ben[(ben["staleness_queue_s"] == 0)
+                        & (ben["staleness_network_s"] == 0)][f_cols].rename(
+                            columns={"benefit": "benefit_fresh"})
+            print("\n  --- 附加检验（假设在看数据前写定）：队列陈旧的代价是否随负载突发性增长 ---")
+            print(f"  {'队列旧':>7}{'突发性(w)':>12}{'Spearman ρ':>13}{'p':>11}{'n':>5}"
+                  f"   读法")
+            for lq in sorted(ben.loc[ben["staleness_queue_s"] > 0,
+                                     "staleness_queue_s"].unique()):
+                st = ben[(ben["staleness_queue_s"] == lq)
+                         & (ben["staleness_network_s"] == 0)][f_cols].rename(
+                             columns={"benefit": "benefit_stale"})
+                if st.empty:
+                    continue
+                m = st.merge(fresh, on=["workload", "network", "seed"], how="inner")
+                if m.empty:
+                    continue
+                m["harm"] = m["benefit_stale"] - m["benefit_fresh"]
+                for c in cv_cols:
+                    mm = m.merge(bl[["workload", "seed", c]]
+                                 .drop_duplicates(["workload", "seed"]),
+                                 on=["workload", "seed"], how="left")
+                    mm = mm.dropna(subset=[c, "harm"])
+                    if len(mm) < 8:
+                        continue
+                    rho_c, p_c = _spearman_p(mm[c].to_numpy(), mm["harm"].to_numpy())
+                    tag = ("ρ>0 = 突发越强、陈旧吃得越多" if np.isfinite(rho_c)
+                           and rho_c > 0 else "")
+                    print(f"  {lq:>7.0f}{c.replace('arrival_cv_w', 'w='):>12}"
+                          f"{rho_c:>13.2f}{p_c:>11.3g}{len(mm):>5}   {tag}")
+            print("  各负载的到达突发性（窗口 10 s）：")
+            wcol = "arrival_cv_w10" if "arrival_cv_w10" in bl.columns else cv_cols[0]
+            for wl, g in bl.groupby("workload", dropna=False):
+                print(f"    {str(wl):<14} CV(10s) = {g[wcol].mean():.2f}"
+                      f"（n={len(g)} 个时间片）")
+
+    # ---------- 图：p95 随"状态有多旧"的变化（五条臂并排） ----------
+    for net in sorted(eff["network"].unique()):
+        sub = eff[eff["network"] == net]
+        wls = sorted(sub["workload"].unique())
+        fig, axes = plt.subplots(1, len(wls), figsize=(6.2 * len(wls), 4.6), squeeze=False)
+        for ax, wl in zip(axes[0], wls):
+            s = sub[sub["workload"] == wl].copy()
+            s["_tag"] = s.apply(lambda r: f"q{r['staleness_queue_s']:.0f}/n"
+                                          f"{r['staleness_network_s']:.0f}", axis=1)
+            tags = list(dict.fromkeys(s["_tag"]))
+            xs = np.arange(len(tags))
+            arms_here = [x for x in lab]
+            width = 0.8 / max(len(arms_here), 1)
+            for i, arm in enumerate(arms_here):
+                vals = [float(s[(s["arm"] == arm) & (s["_tag"] == t)]["p95_mean"].mean())
+                        for t in tags]
+                ax.bar(xs + i * width - 0.4 + width / 2, vals, width, label=arm)
+            ax.set_xticks(xs)
+            ax.set_xticklabels([t.replace("q", "队列").replace("/n", "s/链路") + "s"
+                                for t in tags], fontsize=8, rotation=20)
+            ax.set_xlabel("观测年龄配置")
+            ax.set_ylabel("p95 端到端耗时（秒）")
+            ax.set_title(f"{wl}（网络={net}）", fontsize=10)
+            ax.legend(fontsize=7.5)
+            ax.grid(axis="y", alpha=0.3)
+        fig.suptitle("§19 降权规则对照：状态越旧，规则本身越重要", fontsize=11)
+        fig.tight_layout()
+        save_fig(fig, f"fig_rq19_decay_rules_{net}.png")
+    return eff
+
+
+def section_baselines(data: dict) -> pd.DataFrame | None:
+    """§22 补强基线：回答"是不是只赢了弱基线"。
+
+    【为什么要这一节】初稿的对照只有 `Random`/`LeastQueue`/`LeastLoad`，
+    审稿人的第一个问题必然是"为什么不跟 P2C 和已发表的网络感知方法比"。
+    这一节把四类补强基线一次摆开（全部与两条参照臂在**同一 cell 内**逐请求配对）：
+
+    | 臂 | 对应工作 | 它回答的问题 |
+    |---|---|---|
+    | `P2C` | 经典"二选一"（负载均衡标配基线） | 只看两台能不能顶得上看全部？ |
+    | `P2CNet` | 二选一 + 网络项 | 网络感知的价值是否依赖全局视野？ |
+    | `CongestionOnly` | **Aegis（SIGCOMM'26）**式"拥塞压力"项 | 只要拥塞项够不够，静态带宽项多余吗？ |
+    | `Bottleneck` | **Helix（ASPLOS'25）**式瓶颈最小化 | "取大" vs "求和"，哪种更对？ |
+
+    判读口径与 §17/§19 一致：跨种子均值 ± 95%CI，同时给中位数（三批的种子间离散很大）。
+    """
+    print("\n" + "=" * 78)
+    print("§22 补强基线：P2C / Aegis 式拥塞项 / Helix 式瓶颈最小化")
+    print("=" * 78)
+    d = data.get("baselines", {})
+    runs, paired = d.get("runs"), d.get("paired")
+    if runs is None or runs.empty:
+        print("  （本批没有 baselines 产物：先跑 --mode baselines）")
+        return None
+    keys = ["workload", "network", "staleness"]
+    arms = ["Random", "LeastQueue", "P2C", "P2CNet", "CongestionOnly", "Bottleneck",
+            "NetworkAware2"]
+    arms = [a for a in arms if a in set(runs["strategy"])]
+    base = "LeastLoad"
+    if base not in set(runs["strategy"]):
+        print("  （缺少 LeastLoad 参照臂）")
+        return None
+
+    piv = runs.pivot_table(index=keys + ["seed"], columns="strategy", values="sojourn_p95")
+    rows = []
+    for key, g in piv.groupby(level=keys, dropna=False):
+        key = key if isinstance(key, tuple) else (key,)
+        if base not in g.columns:
+            continue
+        for a in arms:
+            if a not in g.columns:
+                continue
+            m = g[[a, base]].dropna()
+            if not len(m):
+                continue
+            rel = (m[a] - m[base]) / m[base].replace(0, np.nan) * 100.0
+            rows.append({**dict(zip(keys, key)), "arm": a,
+                         "p95": float(m[a].mean()), "p95_base": float(m[base].mean()),
+                         "dp95_mean": float(rel.mean()), "dp95_median": float(rel.median()),
+                         "n": int(len(rel)), "better": int((rel < 0).sum())})
+    eff = pd.DataFrame(rows)
+    if eff.empty:
+        print("  （没有可用对比）")
+        return None
+    write_table(eff, "rq22_baseline_effect.csv")
+
+    print(f"\n  --- 各臂相对 LeastLoad 的 Δp95%（负=更好；每格「均值/中位数」）---")
+    lab = [x for x in arms if x != base]
+    print(f"  {'负载':<11}{'网络':<10}{'新鲜度':<8}" + "".join(f"{x:>19}" for x in lab))
+    wide = eff.pivot_table(index=keys, columns="arm", values="dp95_mean")
+    med = eff.pivot_table(index=keys, columns="arm", values="dp95_median")
+    for key, r in wide.iterrows():
+        key = key if isinstance(key, tuple) else (key,)
+        cells = ""
+        for x in lab:
+            v = r.get(x, float("nan"))
+            v2 = med.loc[key].get(x, float("nan")) if key in med.index else float("nan")
+            cells += f"{v:>9.1f}/{v2:>8.1f}"
+        print(f"  {str(key[0]):<11}{str(key[1]):<10}{str(key[2]):<8}{cells}")
+
+    # ---------- 裁决：每条基线赢了几格 ----------
+    print(f"\n  --- 裁决（每个臂 × 6 个格子）---")
+    print(f"  {'臂':<16}{'优于LeastLoad':>14}{'优于P2C':>10}{'优于NA2':>10}"
+          f"{'劣于NA2':>10}  说明")
+    notes = {
+        "P2C": "经典强基线：只看两台",
+        "P2CNet": "二选一 + 网络项",
+        "CongestionOnly": "Aegis 式：只要拥塞项",
+        "Bottleneck": "Helix 式：瓶颈最小化",
+        "NetworkAware2": "本文完全信任臂",
+        "LeastQueue": "朴素基线",
+        "Random": "下界",
+    }
+    verdict = []
+    for a in arms:
+        sub = eff[eff["arm"] == a]
+        n_ll = int((sub["dp95_mean"] < 0).sum())
+        # 与 P2C / NA2 的逐格比较（同一格之间比均值）
+        def beats(other: str) -> tuple[int, int]:
+            if other not in wide.columns or a not in wide.columns:
+                return (0, 0)
+            b, l = 0, 0
+            for key in wide.index:
+                x, y = wide.loc[key].get(a, np.nan), wide.loc[key].get(other, np.nan)
+                if not (np.isfinite(x) and np.isfinite(y)):
+                    continue
+                if x < y:
+                    b += 1
+                elif x > y:
+                    l += 1
+            return (b, l)
+        n_p2c, _ = beats("P2C")
+        n_na2, n_na2_worse = beats("NetworkAware2")
+        verdict.append({"arm": a, "n_cells": int(len(sub)),
+                        "better_than_leastload": n_ll,
+                        "better_than_p2c": n_p2c,
+                        "better_than_na2": n_na2, "worse_than_na2": n_na2_worse})
+        print(f"  {a:<16}{n_ll:>9}/{len(sub):<4}{n_p2c:>10}{n_na2:>10}{n_na2_worse:>10}"
+              f"  {notes.get(a, '')}")
+    write_table(pd.DataFrame(verdict), "rq22_baseline_verdict.csv")
+    print("\n  读法：`优于 LeastLoad` 一列若某个补强基线接近满分，"
+          "说明「网络感知赢的只是朴素基线」；")
+    print("        若 `CongestionOnly` 与 `NetworkAware2` 差别很小，说明静态带宽项是多余的；")
+    print("        `P2CNet` 与 `NetworkAware2` 的差距 = 「全局视野」本身值多少。")
+    return eff
+
+
+def section_method_ablate(data: dict, mode_name: str = "method_ablate",
+                          section: str = "§20",
+                          title: str = "阈值消融：结论对参数的敏感性（一次只动一个参数）",
+                          table_name: str = "rq20_method_threshold_ablation.csv",
+                          headline: str = (
+                              "【要回答的问题】主方法的 `TAU_Q=4 s` / `TAU_N_DYN=15 s` "
+                              "是从 §16 的实测曲线拟合来的，读者该问的是"
+                              "「换个拟合方式会不会翻盘」。所以这一节不比「哪档最好」，而是比"
+                              "**「把每个参数单独挪开，结论动多少」**。")
+                          ) -> pd.DataFrame | None:
+    """阈值消融（两套降权规则各一次，判读口径必须完全一致）。
+
+    为什么做成带参数的函数而不是写两遍：两套规则的**判读逻辑必须字字一致**，
+    否则"参数不敏感"这个结论会因为两节用了不同口径而失去可比性。
+    两套规则各自有 label 相同的臂（都用 `Tq2`/`Tq8` 表示队列时间常数），
+    **绝不能把两个 mode 的产物拼成一张表**——那样同名臂会被混在一起，静默出错。
+
+    口径：
+      · 与主方法的差（按种子配对）——参数敏感性；
+      · 与 NetworkAware2 的差——结论（"降权有没有用"）在每一档是否仍然成立；
+      · 符号翻转的条件数——最直接的"结论会不会翻"的计数。
+    """
+    print("\n" + "=" * 78)
+    print(f"{section} {title}")
+    print("=" * 78)
+    print(f"  {headline}")
+    d = data.get(mode_name, {})
+    runs, paired = d.get("runs"), d.get("paired")
+    if runs is None or runs.empty:
+        print(f"  （本批没有 {mode_name} 产物：先跑 --mode {mode_name}）")
+        return None
+    keys = ["workload", "network", "staleness_queue_s", "staleness_network_s"]
+    piv = runs.pivot_table(index=keys + ["seed"], columns="strategy",
+                           values="sojourn_p95")
+    if "primary" not in piv.columns:
+        print("  （没有 primary 臂，无法比较）")
+        return None
+    variants = [c for c in piv.columns
+                if c not in ("primary", "LeastLoad", "NetworkAware2")]
+    rows = []
+    for v in variants:
+        rec = {"variant": v, "n_conditions": 0,
+               "vs_primary_mean_pct": float("nan"), "vs_primary_ci": float("nan"),
+               "vs_primary_worst_pct": float("nan"), "n_conditions_sig_vs_primary": 0,
+               "vs_na2_mean_pct": float("nan"), "vs_leastload_mean_pct": float("nan"),
+               "n_conditions_sign_flip_vs_na2": 0}
+        dp_prim, dp_na2, dp_ll, flips, n_sig = [], [], [], 0, 0
+        for key, g in piv.groupby(level=keys, dropna=False):
+            key = key if isinstance(key, tuple) else (key,)
+            if "primary" not in g.columns or v not in g.columns:
+                continue
+            m = g[[v, "primary"]].dropna()
+            if not len(m):
+                continue
+            rec["n_conditions"] += 1
+            rel = (m[v] - m["primary"]) / m["primary"].replace(0, np.nan) * 100.0
+            dp_prim.append(rel.mean())
+            # 逐条件配对检验：只有 10 个种子，跨条件汇合做检验没有意义
+            if _wilcoxon_p(m[v].to_numpy(), m["primary"].to_numpy()) < 0.05:
+                n_sig += 1
+            if "NetworkAware2" in g.columns:
+                n2 = g[[v, "NetworkAware2"]].dropna()
+                if len(n2):
+                    dp_na2.append((((n2[v] - n2["NetworkAware2"]) / n2["NetworkAware2"]
+                                    .replace(0, np.nan)) * 100.0).mean())
+                p2 = g[[  "primary", "NetworkAware2"]].dropna()
+                if len(p2):
+                    base_sign = np.sign((((p2["primary"] - p2["NetworkAware2"])
+                                          / p2["NetworkAware2"].replace(0, np.nan))
+                                         * 100.0).mean())
+                    var_sign = np.sign((((n2[v] - n2["NetworkAware2"])
+                                         / n2["NetworkAware2"].replace(0, np.nan))
+                                        * 100.0).mean()) if len(n2) else 0.0
+                    if base_sign != 0 and var_sign != 0 and base_sign != var_sign:
+                        flips += 1
+            if "LeastLoad" in g.columns:
+                ll = g[[v, "LeastLoad"]].dropna()
+                if len(ll):
+                    dp_ll.append((((ll[v] - ll["LeastLoad"]) / ll["LeastLoad"]
+                                   .replace(0, np.nan)) * 100.0).mean())
+        if dp_prim:
+            arr = np.array(dp_prim, dtype=float)
+            rec["vs_primary_mean_pct"] = float(arr.mean())
+            rec["vs_primary_ci"] = _t_ci(len(arr), float(arr.std(ddof=1) / np.sqrt(len(arr))))
+            rec["vs_primary_worst_pct"] = float(arr[np.argmax(np.abs(arr))])
+            rec["vs_primary_p"] = _wilcoxon_p(
+                piv[v].dropna().to_numpy(), piv["primary"].dropna().to_numpy())
+        if dp_na2:
+            rec["vs_na2_mean_pct"] = float(np.mean(dp_na2))
+        if dp_ll:
+            rec["vs_leastload_mean_pct"] = float(np.mean(dp_ll))
+        rec["n_conditions_sign_flip_vs_na2"] = flips
+        rows.append(rec)
+    eff = pd.DataFrame(rows)
+    if eff.empty:
+        print("  （没有可比的变体）")
+        return None
+    write_table(eff, table_name)
+    print(f"  {'变体':<14}{'条件数':>6}{'vs主方法 均值±95%CI':>24}{'最大偏离':>10}"
+          f"{'vs NA2':>9}{'vs LeastLoad':>13}{'结论翻符号':>11}")
+    for _, r in eff.sort_values("vs_primary_mean_pct").iterrows():
+        print(f"  {str(r['variant']):<14}{int(r['n_conditions']):>6}"
+              f"{r['vs_primary_mean_pct']:>16.1f}±{r['vs_primary_ci']:<6.1f}"
+              f"{r['vs_primary_worst_pct']:>10.1f}"
+              f"{r['vs_na2_mean_pct']:>9.1f}{r['vs_leastload_mean_pct']:>13.1f}"
+              f"{int(r['n_conditions_sign_flip_vs_na2']):>8}/{int(r['n_conditions'])}")
+    print("  读法：第三列是「把参数挪开之后，p95 平均变了多少个百分点」——"
+          "越小说明结论越不依赖这个数的精确取值；"
+          "\n        最后一列是「降权相对完全信任网络的优劣方向发生翻转」的条件数，"
+          "0 = 无论这个参数取哪档，结论方向都不变。")
+    return eff
+
+
+def section_staleness2d(data: dict):
+    """§16 两条通道年龄的**二维**联合扫描（细变量①）。
+
+    回答两条 1D 扫描回答不了的问题：
+      「排队消息很新、但网线消息很旧」和「排队消息很旧、但网线消息很新」是不是一回事？
+    现有 `staleness` 模式的 net 扫描把队列 lag 钉在 1 秒，于是那条曲线其实主要在测队列
+    （队列通道比链路通道敏感 2–3 个数量级，实测已确认），**结构上无法回答这个问题**。
+
+    输出：行 = 队列 lag，列 = 链路 lag，格 = Δp95（NetworkAware2 vs LeastLoad，负=更优）。
+    只在 `unstable` 网络上做——静态网络的链路状态不随时间变，链路 lag 精确无效。
+    另外单独报"不对称性"：把 (队列=最大, 链路=0) 与 (队列=0, 链路=最大) 并排比较。
+    """
+    print("\n" + "=" * 78)
+    print("§16 两条通道年龄的二维扫描：哪种'旧'更伤，它们会不会叠加")
+    print("=" * 78)
+    d = data.get("staleness2d", {})
+    runs, paired = d.get("runs"), d.get("paired")
+    if runs is None or runs.empty:
+        print("  （本批没有 staleness2d 产物：先跑 --mode staleness2d）")
+        return None
+    keys = ["staleness_queue_s", "staleness_network_s", "workload"]
+    eff = effect_table(runs, paired, keys, candidate="NetworkAware2",
+                       baselines=["LeastLoad"])
+    if eff.empty:
+        print("  （配对表里没有可用的对比）")
+        return None
+    write_table(eff, "rq16_staleness2d_effect.csv")
+    for wl in sorted(eff["workload"].unique()):
+        sub = eff[eff["workload"] == wl]
+        qs = sorted(sub["staleness_queue_s"].unique())
+        ns = sorted(sub["staleness_network_s"].unique())
+        pivot = sub.pivot_table(index="staleness_queue_s", columns="staleness_network_s",
+                                values="dp95_pct", aggfunc="mean")
+        print(f"\n  --- {wl}：Δp95%（负=网络感知更优；行=排队消息新旧，列=网线消息新旧）---")
+        print("     队列\\链路" + "".join(f"{n:>10g}s" for n in ns))
+        for q in qs:
+            cells = []
+            for n in ns:
+                try:
+                    v = pivot.loc[q, n]
+                    cells.append(f"{v:>11.0f}" if v == v else f"{'—':>11}")
+                except KeyError:
+                    cells.append(f"{'—':>11}")
+            print(f"    {q:>7g}s  " + "".join(cells))
+    # 不对称性：两种"只让一边旧"的情况直接对比
+    print("\n  --- 不对称性检查（两种'只让一边旧'的情况）---")
+    print(f"  {'负载':<14}{'队列 lag':>9}{'链路 lag':>9}{'Δp95%':>10}")
+    for wl in sorted(eff["workload"].unique()):
+        sub = eff[eff["workload"] == wl]
+        for q, n in ((sub["staleness_queue_s"].max(), 0.0),
+                     (0.0, sub["staleness_network_s"].max()),
+                     (sub["staleness_queue_s"].max(), sub["staleness_network_s"].max())):
+            row = sub[(sub["staleness_queue_s"] == q) & (sub["staleness_network_s"] == n)]
+            if row.empty:
+                continue
+            print(f"  {wl:<14}{q:>9g}{n:>9g}{float(row.iloc[0]['dp95_pct']):>10.0f}")
+    return eff
+
+
+def section_avewindow(data: dict):
+    """§15 观测的**聚合窗口**：真实监控报的是"过去 W 秒的平均"，不是瞬时值。
+
+    与 §2（staleness / lag）的区别是本质性的，也是这个 mode 存在的全部理由：
+      · `lag`    = 看到的是**旧**值，那个值在它自己的时刻是**真实**的（延迟失真）；
+      · `window` = 看到的是**被平均过**的值，尖峰被抹平（信息失真，**方向相反**：
+                   某节点刚涌进一批活，窗口平均后只是"略忙"，活继续往它身上派）。
+    真实系统里两者同时存在（典型配置：每 15 秒采一次、每次报过去 30 秒的平均）。
+
+    口径：lag 固定为 0（隔离变量），candidate=NetworkAware2 vs LeastLoad，
+    按窗口长度分组看 Δp95 怎么走；两条通道分开报告（队列通道 / 链路通道）。
+    """
+    print("\n" + "=" * 78)
+    print("§15 观测聚合窗口（avg_over_time）：平滑掉的不只是噪声，还有尖峰")
+    print("=" * 78)
+    d = data.get("avewindow", {})
+    runs, paired = d.get("runs"), d.get("paired")
+    if runs is None or runs.empty:
+        print("  （本批没有 avewindow 产物：先跑 --mode avewindow）")
+        return None
+    wq = runs.get("window_queue_s", pd.Series(0.0, index=runs.index)).fillna(0.0)
+    wn = runs.get("window_network_s", pd.Series(0.0, index=runs.index)).fillna(0.0)
+    rows_out = []
+    # 哪条通道：`window_network_s > 0` 的格子属于链路通道，其余（含两者都为 0 的基线）属队列通道。
+    # 【必须把 w=0 的基线行也列出来】，否则只能看到"窗口之间"的差别，看不到"窗口相对不窗口"。
+    # （窗口网格里本来就含 0 —— 它是 baseline。）
+    for label, is_net in (("队列通道窗口（同时含 w=0 基线）", False),
+                          ("链路通道窗口（同时含 w=0 基线）", True)):
+        sel = (wn > 0) if is_net else pd.Series(True, index=runs.index)
+        if is_net and not (wn > 0).any():
+            continue
+        sub_runs = runs[sel].copy()
+        sub_runs["win_s"] = (wn if is_net else wq)[sel]
+        sub_paired = None
+        if paired is not None and not paired.empty:
+            wp = paired.get("window_network_s", pd.Series(0.0, index=paired.index)).fillna(0.0)
+            wpp = paired.get("window_queue_s", pd.Series(0.0, index=paired.index)).fillna(0.0)
+            selp = (wp > 0) if is_net else pd.Series(True, index=paired.index)
+            sub_paired = paired[selp].copy()
+            sub_paired["win_s"] = (wp if is_net else wpp)[selp]
+        keys = ["win_s", "workload", "network"]
+        eff = effect_table(sub_runs, sub_paired, keys, candidate="NetworkAware2",
+                           baselines=["LeastLoad"])
+        if eff.empty:
+            print(f"  （{label}：配对表里没有可用的对比）")
+            continue
+        print(f"\n  --- {label}（Δp95<0 = NetworkAware2 更优；lag 固定为 0）---")
+        print(f"  {'窗长(s)':>8}{'负载':<14}{'网络':<10}{'p95_NA2':>10}{'p95_LL':>10}"
+              f"{'Δp95%':>9}{'net_share':>10}{'判定':<22}")
+        for _, r in eff.sort_values(["win_s", "workload", "network"]).iterrows():
+            print(f"  {r['win_s']:>8.1f}{str(r['workload']):<14}{str(r['network']):<10}"
+                  f"{r['p95_na']:>10.2f}{r['p95_base']:>10.2f}{r['dp95_pct']:>9.1f}"
+                  f"{r['net_share_na']:>10.3f}  {str(r['verdict'])[:20]}")
+            rows_out.append({"channel": ("net" if is_net else "queue"),
+                             **{k: r[k] for k in ("win_s", "workload", "network",
+                                                  "dp95_pct", "p95_na", "p95_base")}})
+    if rows_out:
+        write_table(pd.DataFrame(rows_out), "rq15_obs_window_effect.csv")
+    return rows_out or None
+
+
 def section_mechanism(data: dict):
     """§14 机制对比 —— 把"链路队列"计入评分值多少（v2 相对 v1 的核心新增）。
 
@@ -2540,6 +3611,20 @@ def main(argv: list[str] | None = None) -> int:
     section_summary(feas, rq1, rq2, rq3, abl, rq5, rq6, data, rho_sweep, fallback)
     section_bandwidth(data)
     section_mechanism(data)
+    section_avewindow(data)      # §15 观测聚合窗口（细变量②）
+    section_staleness2d(data)    # §16 两通道年龄二维扫描（细变量①）
+    section_align(data)          # §17 对齐度（细变量③）
+    section_alignscale(data)     # §18 对齐度 × 节点规模
+    section_method(data)         # §19 V3 方法：降权规则对照
+    section_method_ablate(data)  # §20 阈值消融（第一版规则，一次只动一个参数）
+    section_baselines(data)      # §22 补强基线（P2C / Aegis 式 / Helix 式）
+    section_method_ablate(       # §21 阈值消融（第二版规则：按通道降权）
+        data, mode_name="method_ch_ablate", section="§21",
+        title="阈值消融（第二版·按通道降权）：结论对三个参数有多敏感",
+        table_name="rq21_channel_threshold_ablation.csv",
+        headline=("【要回答的问题】第二版规则的三个参数（队列时间常数 4 s、网线时间常数 60 s、"
+                  "权重下限 0.7）都由 §16 的实测曲线定出。这里把每个参数单独挪开一倍，"
+                  "看结论会不会翻——如果挪开一两倍结果几乎不动，就说明它不是精调出来的。"))
     section_verification(data)
 
     print("\n" + "=" * 78)

@@ -1,0 +1,891 @@
+
+# ==========================================================================
+# §4 Setup · synthetic 批
+# ==========================================================================
+synthetic.load_ratio_min_max = 0.300 .. 1.100
+synthetic.arrival_cv_w1_per_workload_mean = {'data_heavy': '0.652', 'mixed': '0.604'}
+synthetic.arrival_cv_w10_per_workload_mean = {'data_heavy': '0.565', 'mixed': '0.535'}
+synthetic.overload_frac_w10_per_workload_mean = {'data_heavy': '0.167', 'mixed': '0.192'}
+synthetic.autocorr_1s_per_workload_mean = {'data_heavy': '0.728', 'mixed': '0.851'}
+synthetic.work_rate_change_5s_per_workload_mean = {'data_heavy': '0.268', 'mixed': '0.295'}
+synthetic.fano_1s_per_workload_mean = {'data_heavy': '3.656', 'mixed': '6.957'}
+synthetic.gates_file = {"label": "synthetic_v2", "created_utc": "20261001T161153Z", "matrix_dir": "E:\\代码项目文件\\论文\\sim\\results\\matrix_v2", "source": "synthetic", "trace": null, "checks": [{"check": "门1 max(rho_compute,rho_network) ≤ 0.9 且绑定资源 ≥ 0.3 且 load_ratio ≤ 1", "passed": true, "detail": "共 2596 行 / 92 个组合，越界或不可持续 0 个（公差 0.0005）", "n_rows": 2596, "n_groups": 92, "n_out_of_range": 0, "per_mode": {"main": {"rows": 600, "groups": 12, "rho_min": 0.3085274849616421, "rho_max": 0.6000299272497817, "out_of_range": 0, "run_id": "20260922T194958Z", "rho_net_max": 0.2251294615316961, "load_ratio_max": 0.600029927249783
+
+# ==========================================================================
+# §4 Setup · azure 批
+# ==========================================================================
+azure.load_ratio_min_max = 0.300 .. 1.101
+azure.arrival_cv_w1_per_workload_mean = {'data_heavy': '0.303', 'mixed': '0.234'}
+azure.arrival_cv_w10_per_workload_mean = {'data_heavy': '0.171', 'mixed': '0.134'}
+azure.overload_frac_w10_per_workload_mean = {'data_heavy': '0.000', 'mixed': '0.003'}
+azure.autocorr_1s_per_workload_mean = {'data_heavy': '0.284', 'mixed': '0.174'}
+azure.work_rate_change_5s_per_workload_mean = {'data_heavy': '0.172', 'mixed': '0.144'}
+azure.fano_1s_per_workload_mean = {'data_heavy': '1.575', 'mixed': '1.434'}
+azure.gates_file = {"label": "azure_v2", "created_utc": "20261001T173733Z", "matrix_dir": "E:\\代码项目文件\\论文\\sim\\results\\matrix_trace_v2", "source": "trace", "trace": "data/raw/azure_code_1week.csv", "checks": [{"check": "门1 max(rho_compute,rho_network) ≤ 0.9 且绑定资源 ≥ 0.3 且 load_ratio ≤ 1", "passed": true, "detail": "共 2596 行 / 92 个组合，越界或不可持续 0 个（公差 0.0005）", "n_rows": 2596, "n_groups": 92, "n_out_of_range": 0, "per_mode": {"main": {"rows": 600, "groups": 12, "rho_min": 0.30810364153626957, "rho_max": 0.6000300015000751, "out_of_range": 0, "run_id": "20260922T210019Z", "rho_net_max": 0.2261968742283422, "load_rat
+
+# ==========================================================================
+# §4 Setup · burstgpt 批
+# ==========================================================================
+burstgpt.load_ratio_min_max = 0.300 .. 1.098
+burstgpt.arrival_cv_w1_per_workload_mean = {'data_heavy': '2.114', 'mixed': '1.296'}
+burstgpt.arrival_cv_w10_per_workload_mean = {'data_heavy': '1.132', 'mixed': '0.804'}
+burstgpt.overload_frac_w10_per_workload_mean = {'data_heavy': '0.169', 'mixed': '0.142'}
+burstgpt.autocorr_1s_per_workload_mean = {'data_heavy': '0.553', 'mixed': '0.731'}
+burstgpt.work_rate_change_5s_per_workload_mean = {'data_heavy': '0.988', 'mixed': '0.427'}
+burstgpt.fano_1s_per_workload_mean = {'data_heavy': '939.400', 'mixed': '301.841'}
+burstgpt.gates_file = {"label": "burstgpt_v2", "created_utc": "20261001T161604Z", "matrix_dir": "E:\\代码项目文件\\论文\\sim\\results\\matrix_burstgpt_v2", "source": "trace", "trace": "data/raw/burstgpt_1.csv", "checks": [{"check": "门1 max(rho_compute,rho_network) ≤ 0.9 且绑定资源 ≥ 0.3 且 load_ratio ≤ 1", "passed": true, "detail": "共 2596 行 / 92 个组合，越界或不可持续 0 个（公差 0.0005）", "n_rows": 2596, "n_groups": 92, "n_out_of_range": 0, "per_mode": {"main": {"rows": 600, "groups": 12, "rho_min": 0.309678747196619, "rho_max": 0.6000300015000752, "out_of_range": 0, "run_id": "20260922T195947Z", "rho_net_max": 0.2224125242696595, "load_ratio
+
+# ==========================================================================
+# §5 RQ1 · synthetic
+# ==========================================================================
+synthetic.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=5.6% net_share=0.801
+synthetic.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=70.1% net_share=0.801
+synthetic.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=-75.2% net_share=0.801
+synthetic.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=2.8% net_share=0.272
+synthetic.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=-2.7% net_share=0.272
+synthetic.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=-97.6% net_share=0.272
+synthetic.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=11.6% net_share=0.897
+synthetic.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=145.8% net_share=0.897
+synthetic.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=-90.7% net_share=0.897
+synthetic.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=8.7% net_share=0.859
+synthetic.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=105.8% net_share=0.859
+synthetic.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=8.0% net_share=0.859
+synthetic.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=0.6% net_share=0.000
+synthetic.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=-13.6% net_share=0.000
+synthetic.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=-98.0% net_share=0.000
+synthetic.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=0.6% net_share=0.000
+synthetic.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=-13.6% net_share=0.000
+synthetic.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=-98.0% net_share=0.000
+synthetic.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=0.6% net_share=0.000
+synthetic.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=-13.8% net_share=0.000
+synthetic.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=-98.0% net_share=0.000
+synthetic.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=0.7% net_share=0.000
+synthetic.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=-13.5% net_share=0.000
+synthetic.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=-98.0% net_share=0.000
+synthetic.bandwidth.slow_100g.kv_cache.mixed.None = dp95=-3.9% net_share=0.806
+synthetic.bandwidth.slow_100g.kv_cache.mixed.None = dp95=44.6% net_share=0.806
+synthetic.bandwidth.slow_100g.kv_cache.mixed.None = dp95=-91.6% net_share=0.806
+synthetic.bandwidth.slow_200g.kv_cache.mixed.None = dp95=3.6% net_share=0.062
+synthetic.bandwidth.slow_200g.kv_cache.mixed.None = dp95=-12.8% net_share=0.062
+synthetic.bandwidth.slow_200g.kv_cache.mixed.None = dp95=-97.6% net_share=0.062
+synthetic.bandwidth.slow_25g.kv_cache.mixed.None = dp95=-10.5% net_share=0.884
+synthetic.bandwidth.slow_25g.kv_cache.mixed.None = dp95=99.9% net_share=0.884
+synthetic.bandwidth.slow_25g.kv_cache.mixed.None = dp95=-68.7% net_share=0.884
+synthetic.bandwidth.slow_50g.kv_cache.mixed.None = dp95=-4.8% net_share=0.858
+synthetic.bandwidth.slow_50g.kv_cache.mixed.None = dp95=72.7% net_share=0.858
+synthetic.bandwidth.slow_50g.kv_cache.mixed.None = dp95=-13.9% net_share=0.858
+synthetic.bandwidth.slow_100g.prompt_only.mixed.None = dp95=-0.6% net_share=0.000
+synthetic.bandwidth.slow_100g.prompt_only.mixed.None = dp95=-13.5% net_share=0.000
+synthetic.bandwidth.slow_100g.prompt_only.mixed.None = dp95=-97.8% net_share=0.000
+synthetic.bandwidth.slow_200g.prompt_only.mixed.None = dp95=-0.6% net_share=0.000
+synthetic.bandwidth.slow_200g.prompt_only.mixed.None = dp95=-14.2% net_share=0.000
+synthetic.bandwidth.slow_200g.prompt_only.mixed.None = dp95=-97.8% net_share=0.000
+synthetic.bandwidth.slow_25g.prompt_only.mixed.None = dp95=-0.6% net_share=0.000
+synthetic.bandwidth.slow_25g.prompt_only.mixed.None = dp95=-13.7% net_share=0.000
+synthetic.bandwidth.slow_25g.prompt_only.mixed.None = dp95=-97.8% net_share=0.000
+synthetic.bandwidth.slow_50g.prompt_only.mixed.None = dp95=-0.9% net_share=0.000
+synthetic.bandwidth.slow_50g.prompt_only.mixed.None = dp95=-13.5% net_share=0.000
+synthetic.bandwidth.slow_50g.prompt_only.mixed.None = dp95=-97.8% net_share=0.000
+synthetic.rq13_zero_crossings_rows = 4
+synthetic.rho_sweep_dp95_min_max = -43.4% .. 105.9%
+
+# ==========================================================================
+# §5 RQ1 · azure
+# ==========================================================================
+azure.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=6.6% net_share=0.464
+azure.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=31.1% net_share=0.464
+azure.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=-98.2% net_share=0.464
+azure.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=1.5% net_share=0.187
+azure.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=-15.8% net_share=0.187
+azure.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=-99.7% net_share=0.187
+azure.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=-29.9% net_share=0.690
+azure.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=85.7% net_share=0.690
+azure.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=-99.2% net_share=0.690
+azure.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=-5.7% net_share=0.665
+azure.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=94.3% net_share=0.665
+azure.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=-36.9% net_share=0.665
+azure.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=-0.1% net_share=0.000
+azure.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=-12.8% net_share=0.000
+azure.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=-99.7% net_share=0.000
+azure.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=-0.1% net_share=0.000
+azure.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=-12.8% net_share=0.000
+azure.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=-99.7% net_share=0.000
+azure.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=-0.1% net_share=0.000
+azure.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=-12.8% net_share=0.000
+azure.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=-99.7% net_share=0.000
+azure.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=-0.1% net_share=0.000
+azure.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=-12.7% net_share=0.000
+azure.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=-99.7% net_share=0.000
+azure.bandwidth.slow_100g.kv_cache.mixed.None = dp95=6.1% net_share=0.518
+azure.bandwidth.slow_100g.kv_cache.mixed.None = dp95=22.9% net_share=0.518
+azure.bandwidth.slow_100g.kv_cache.mixed.None = dp95=-98.2% net_share=0.518
+azure.bandwidth.slow_200g.kv_cache.mixed.None = dp95=8.4% net_share=0.218
+azure.bandwidth.slow_200g.kv_cache.mixed.None = dp95=-6.6% net_share=0.218
+azure.bandwidth.slow_200g.kv_cache.mixed.None = dp95=-99.6% net_share=0.218
+azure.bandwidth.slow_25g.kv_cache.mixed.None = dp95=-24.4% net_share=0.800
+azure.bandwidth.slow_25g.kv_cache.mixed.None = dp95=141.1% net_share=0.800
+azure.bandwidth.slow_25g.kv_cache.mixed.None = dp95=-98.6% net_share=0.800
+azure.bandwidth.slow_50g.kv_cache.mixed.None = dp95=-2.7% net_share=0.743
+azure.bandwidth.slow_50g.kv_cache.mixed.None = dp95=104.4% net_share=0.743
+azure.bandwidth.slow_50g.kv_cache.mixed.None = dp95=-6.8% net_share=0.743
+azure.bandwidth.slow_100g.prompt_only.mixed.None = dp95=0.3% net_share=0.000
+azure.bandwidth.slow_100g.prompt_only.mixed.None = dp95=-14.2% net_share=0.000
+azure.bandwidth.slow_100g.prompt_only.mixed.None = dp95=-99.7% net_share=0.000
+azure.bandwidth.slow_200g.prompt_only.mixed.None = dp95=0.3% net_share=0.000
+azure.bandwidth.slow_200g.prompt_only.mixed.None = dp95=-14.2% net_share=0.000
+azure.bandwidth.slow_200g.prompt_only.mixed.None = dp95=-99.7% net_share=0.000
+azure.bandwidth.slow_25g.prompt_only.mixed.None = dp95=0.3% net_share=0.000
+azure.bandwidth.slow_25g.prompt_only.mixed.None = dp95=-14.1% net_share=0.000
+azure.bandwidth.slow_25g.prompt_only.mixed.None = dp95=-99.7% net_share=0.000
+azure.bandwidth.slow_50g.prompt_only.mixed.None = dp95=0.4% net_share=0.000
+azure.bandwidth.slow_50g.prompt_only.mixed.None = dp95=-14.1% net_share=0.000
+azure.bandwidth.slow_50g.prompt_only.mixed.None = dp95=-99.7% net_share=0.000
+azure.rq13_zero_crossings_rows = 4
+azure.rho_sweep_dp95_min_max = -38.5% .. 34.4%
+
+# ==========================================================================
+# §5 RQ1 · burstgpt
+# ==========================================================================
+burstgpt.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=-1.0% net_share=0.814
+burstgpt.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=17.6% net_share=0.814
+burstgpt.bandwidth.slow_100g.kv_cache.data_heavy.None = dp95=-24.3% net_share=0.814
+burstgpt.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=-0.1% net_share=0.490
+burstgpt.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=-41.0% net_share=0.490
+burstgpt.bandwidth.slow_200g.kv_cache.data_heavy.None = dp95=-63.6% net_share=0.490
+burstgpt.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=-1.7% net_share=0.938
+burstgpt.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=66.1% net_share=0.938
+burstgpt.bandwidth.slow_25g.kv_cache.data_heavy.None = dp95=15.1% net_share=0.938
+burstgpt.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=-0.9% net_share=0.911
+burstgpt.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=64.8% net_share=0.911
+burstgpt.bandwidth.slow_50g.kv_cache.data_heavy.None = dp95=46.7% net_share=0.911
+burstgpt.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=-0.0% net_share=0.000
+burstgpt.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=-47.2% net_share=0.000
+burstgpt.bandwidth.slow_100g.prompt_only.data_heavy.None = dp95=-66.4% net_share=0.000
+burstgpt.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=-0.0% net_share=0.000
+burstgpt.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=-47.2% net_share=0.000
+burstgpt.bandwidth.slow_200g.prompt_only.data_heavy.None = dp95=-66.4% net_share=0.000
+burstgpt.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=-0.0% net_share=0.000
+burstgpt.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=-47.1% net_share=0.000
+burstgpt.bandwidth.slow_25g.prompt_only.data_heavy.None = dp95=-66.4% net_share=0.000
+burstgpt.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=-0.0% net_share=0.000
+burstgpt.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=-46.9% net_share=0.000
+burstgpt.bandwidth.slow_50g.prompt_only.data_heavy.None = dp95=-66.4% net_share=0.000
+burstgpt.bandwidth.slow_100g.kv_cache.mixed.None = dp95=-0.4% net_share=0.484
+burstgpt.bandwidth.slow_100g.kv_cache.mixed.None = dp95=9.6% net_share=0.484
+burstgpt.bandwidth.slow_100g.kv_cache.mixed.None = dp95=-78.7% net_share=0.484
+burstgpt.bandwidth.slow_200g.kv_cache.mixed.None = dp95=0.2% net_share=0.095
+burstgpt.bandwidth.slow_200g.kv_cache.mixed.None = dp95=-22.4% net_share=0.095
+burstgpt.bandwidth.slow_200g.kv_cache.mixed.None = dp95=-87.9% net_share=0.095
+burstgpt.bandwidth.slow_25g.kv_cache.mixed.None = dp95=-12.0% net_share=0.812
+burstgpt.bandwidth.slow_25g.kv_cache.mixed.None = dp95=54.4% net_share=0.812
+burstgpt.bandwidth.slow_25g.kv_cache.mixed.None = dp95=-25.5% net_share=0.812
+burstgpt.bandwidth.slow_50g.kv_cache.mixed.None = dp95=-8.9% net_share=0.775
+burstgpt.bandwidth.slow_50g.kv_cache.mixed.None = dp95=31.3% net_share=0.775
+burstgpt.bandwidth.slow_50g.kv_cache.mixed.None = dp95=-40.4% net_share=0.775
+burstgpt.bandwidth.slow_100g.prompt_only.mixed.None = dp95=-0.0% net_share=0.000
+burstgpt.bandwidth.slow_100g.prompt_only.mixed.None = dp95=-22.3% net_share=0.000
+burstgpt.bandwidth.slow_100g.prompt_only.mixed.None = dp95=-88.1% net_share=0.000
+burstgpt.bandwidth.slow_200g.prompt_only.mixed.None = dp95=-0.0% net_share=0.000
+burstgpt.bandwidth.slow_200g.prompt_only.mixed.None = dp95=-22.3% net_share=0.000
+burstgpt.bandwidth.slow_200g.prompt_only.mixed.None = dp95=-88.1% net_share=0.000
+burstgpt.bandwidth.slow_25g.prompt_only.mixed.None = dp95=-0.0% net_share=0.000
+burstgpt.bandwidth.slow_25g.prompt_only.mixed.None = dp95=-22.4% net_share=0.000
+burstgpt.bandwidth.slow_25g.prompt_only.mixed.None = dp95=-88.1% net_share=0.000
+burstgpt.bandwidth.slow_50g.prompt_only.mixed.None = dp95=0.0% net_share=0.000
+burstgpt.bandwidth.slow_50g.prompt_only.mixed.None = dp95=-22.3% net_share=0.000
+burstgpt.bandwidth.slow_50g.prompt_only.mixed.None = dp95=-88.1% net_share=0.000
+burstgpt.rq13_zero_crossings_rows = 4
+burstgpt.rho_sweep_dp95_min_max = -40.8% .. 38.2%
+
+# ==========================================================================
+# §5 RQ1 主矩阵（逐策略，5 种子，按种子配对）
+# ==========================================================================
+rq1main.synthetic.compute_heavy.degraded.fresh.NetworkAware = mean=-55.1% median=-55.1% n=5 p95_LL=17.36 p95_cand=7.80 better=5/5
+rq1main.synthetic.compute_heavy.degraded.fresh.NetworkAware2 = mean=-74.2% median=-74.6% n=5 p95_LL=17.36 p95_cand=4.48 better=5/5
+rq1main.synthetic.compute_heavy.degraded.stale.NetworkAware = mean=-4.6% median=-3.7% n=5 p95_LL=20.94 p95_cand=19.96 better=5/5
+rq1main.synthetic.compute_heavy.degraded.stale.NetworkAware2 = mean=-41.9% median=-41.0% n=5 p95_LL=20.94 p95_cand=12.17 better=5/5
+rq1main.synthetic.compute_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=4.20 p95_cand=4.20 better=0/5
+rq1main.synthetic.compute_heavy.normal.fresh.NetworkAware2 = mean=0.1% median=-0.1% n=5 p95_LL=4.20 p95_cand=4.21 better=3/5
+rq1main.synthetic.compute_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=8.79 p95_cand=8.79 better=0/5
+rq1main.synthetic.compute_heavy.normal.stale.NetworkAware2 = mean=-0.5% median=-0.6% n=5 p95_LL=8.79 p95_cand=8.74 better=4/5
+rq1main.synthetic.compute_heavy.unstable.fresh.NetworkAware = mean=-9.8% median=-9.0% n=5 p95_LL=5.47 p95_cand=4.92 better=5/5
+rq1main.synthetic.compute_heavy.unstable.fresh.NetworkAware2 = mean=-11.1% median=-10.4% n=5 p95_LL=5.47 p95_cand=4.85 better=5/5
+rq1main.synthetic.compute_heavy.unstable.stale.NetworkAware = mean=3.1% median=2.4% n=5 p95_LL=10.13 p95_cand=10.43 better=2/5
+rq1main.synthetic.compute_heavy.unstable.stale.NetworkAware2 = mean=5.1% median=6.1% n=5 p95_LL=10.13 p95_cand=10.62 better=2/5
+rq1main.synthetic.data_heavy.degraded.fresh.NetworkAware = mean=12.4% median=12.8% n=5 p95_LL=140.44 p95_cand=157.99 better=0/5
+rq1main.synthetic.data_heavy.degraded.fresh.NetworkAware2 = mean=-66.7% median=-66.4% n=5 p95_LL=140.44 p95_cand=46.78 better=5/5
+rq1main.synthetic.data_heavy.degraded.stale.NetworkAware = mean=0.2% median=-0.4% n=5 p95_LL=152.41 p95_cand=152.78 better=3/5
+rq1main.synthetic.data_heavy.degraded.stale.NetworkAware2 = mean=-70.9% median=-71.3% n=5 p95_LL=152.41 p95_cand=44.39 better=5/5
+rq1main.synthetic.data_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=15.25 p95_cand=15.25 better=0/5
+rq1main.synthetic.data_heavy.normal.fresh.NetworkAware2 = mean=-0.3% median=-0.0% n=5 p95_LL=15.25 p95_cand=15.22 better=3/5
+rq1main.synthetic.data_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=17.83 p95_cand=17.83 better=0/5
+rq1main.synthetic.data_heavy.normal.stale.NetworkAware2 = mean=-0.8% median=-1.1% n=5 p95_LL=17.83 p95_cand=17.69 better=4/5
+rq1main.synthetic.data_heavy.unstable.fresh.NetworkAware = mean=2.9% median=3.0% n=5 p95_LL=27.90 p95_cand=28.51 better=1/5
+rq1main.synthetic.data_heavy.unstable.fresh.NetworkAware2 = mean=-25.5% median=-24.8% n=5 p95_LL=27.90 p95_cand=20.74 better=5/5
+rq1main.synthetic.data_heavy.unstable.stale.NetworkAware = mean=0.4% median=3.3% n=5 p95_LL=30.13 p95_cand=30.23 better=2/5
+rq1main.synthetic.data_heavy.unstable.stale.NetworkAware2 = mean=-17.3% median=-18.6% n=5 p95_LL=30.13 p95_cand=24.68 better=5/5
+rq1main.synthetic.low_latency.degraded.fresh.NetworkAware = mean=-6.3% median=-6.4% n=5 p95_LL=3.31 p95_cand=3.10 better=5/5
+rq1main.synthetic.low_latency.degraded.fresh.NetworkAware2 = mean=-70.1% median=-70.0% n=5 p95_LL=3.31 p95_cand=0.99 better=5/5
+rq1main.synthetic.low_latency.degraded.stale.NetworkAware = mean=-1.3% median=1.3% n=5 p95_LL=9.90 p95_cand=9.34 better=2/5
+rq1main.synthetic.low_latency.degraded.stale.NetworkAware2 = mean=-14.4% median=-12.3% n=5 p95_LL=9.90 p95_cand=8.02 better=4/5
+rq1main.synthetic.low_latency.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=0.42 p95_cand=0.42 better=0/5
+rq1main.synthetic.low_latency.normal.fresh.NetworkAware2 = mean=0.4% median=0.4% n=5 p95_LL=0.42 p95_cand=0.42 better=2/5
+rq1main.synthetic.low_latency.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=4.13 p95_cand=4.13 better=0/5
+rq1main.synthetic.low_latency.normal.stale.NetworkAware2 = mean=-0.3% median=-0.1% n=5 p95_LL=4.13 p95_cand=4.12 better=3/5
+rq1main.synthetic.low_latency.unstable.fresh.NetworkAware = mean=16.5% median=13.2% n=5 p95_LL=1.34 p95_cand=1.60 better=0/5
+rq1main.synthetic.low_latency.unstable.fresh.NetworkAware2 = mean=-11.5% median=-15.0% n=5 p95_LL=1.34 p95_cand=1.16 better=4/5
+rq1main.synthetic.low_latency.unstable.stale.NetworkAware = mean=30.1% median=34.3% n=5 p95_LL=6.65 p95_cand=7.36 better=2/5
+rq1main.synthetic.low_latency.unstable.stale.NetworkAware2 = mean=23.5% median=15.9% n=5 p95_LL=6.65 p95_cand=7.02 better=2/5
+rq1main.synthetic.mixed.degraded.fresh.NetworkAware = mean=-11.4% median=-10.5% n=5 p95_LL=56.48 p95_cand=50.07 better=5/5
+rq1main.synthetic.mixed.degraded.fresh.NetworkAware2 = mean=-71.5% median=-71.4% n=5 p95_LL=56.48 p95_cand=16.10 better=5/5
+rq1main.synthetic.mixed.degraded.stale.NetworkAware = mean=-9.5% median=-11.7% n=5 p95_LL=63.93 p95_cand=57.81 better=5/5
+rq1main.synthetic.mixed.degraded.stale.NetworkAware2 = mean=-66.8% median=-65.9% n=5 p95_LL=63.93 p95_cand=21.18 better=5/5
+rq1main.synthetic.mixed.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=7.32 p95_cand=7.32 better=0/5
+rq1main.synthetic.mixed.normal.fresh.NetworkAware2 = mean=-0.5% median=0.0% n=5 p95_LL=7.32 p95_cand=7.29 better=2/5
+rq1main.synthetic.mixed.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=10.20 p95_cand=10.20 better=0/5
+rq1main.synthetic.mixed.normal.stale.NetworkAware2 = mean=0.7% median=0.9% n=5 p95_LL=10.20 p95_cand=10.28 better=2/5
+rq1main.synthetic.mixed.unstable.fresh.NetworkAware = mean=-3.1% median=-2.2% n=5 p95_LL=15.21 p95_cand=14.83 better=4/5
+rq1main.synthetic.mixed.unstable.fresh.NetworkAware2 = mean=-26.2% median=-27.7% n=5 p95_LL=15.21 p95_cand=11.04 better=5/5
+rq1main.synthetic.mixed.unstable.stale.NetworkAware = mean=-4.3% median=-3.9% n=5 p95_LL=18.39 p95_cand=17.55 better=4/5
+rq1main.synthetic.mixed.unstable.stale.NetworkAware2 = mean=-8.9% median=-11.5% n=5 p95_LL=18.39 p95_cand=16.63 better=5/5
+rq1main.azure.compute_heavy.degraded.fresh.NetworkAware = mean=-35.9% median=-36.5% n=5 p95_LL=2.22 p95_cand=1.43 better=5/5
+rq1main.azure.compute_heavy.degraded.fresh.NetworkAware2 = mean=-76.0% median=-76.0% n=5 p95_LL=2.22 p95_cand=0.53 better=5/5
+rq1main.azure.compute_heavy.degraded.stale.NetworkAware = mean=-5.5% median=-2.7% n=5 p95_LL=7.73 p95_cand=7.29 better=3/5
+rq1main.azure.compute_heavy.degraded.stale.NetworkAware2 = mean=-21.7% median=-25.9% n=5 p95_LL=7.73 p95_cand=6.04 better=5/5
+rq1main.azure.compute_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=0.33 p95_cand=0.33 better=0/5
+rq1main.azure.compute_heavy.normal.fresh.NetworkAware2 = mean=-0.4% median=0.4% n=5 p95_LL=0.33 p95_cand=0.33 better=2/5
+rq1main.azure.compute_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=3.78 p95_cand=3.78 better=0/5
+rq1main.azure.compute_heavy.normal.stale.NetworkAware2 = mean=-0.6% median=-3.6% n=5 p95_LL=3.78 p95_cand=3.74 better=4/5
+rq1main.azure.compute_heavy.unstable.fresh.NetworkAware = mean=-9.6% median=-10.5% n=5 p95_LL=1.58 p95_cand=1.44 better=5/5
+rq1main.azure.compute_heavy.unstable.fresh.NetworkAware2 = mean=-44.0% median=-47.8% n=5 p95_LL=1.58 p95_cand=0.91 better=5/5
+rq1main.azure.compute_heavy.unstable.stale.NetworkAware = mean=3.4% median=3.2% n=5 p95_LL=5.10 p95_cand=5.28 better=0/5
+rq1main.azure.compute_heavy.unstable.stale.NetworkAware2 = mean=5.2% median=2.1% n=5 p95_LL=5.10 p95_cand=5.35 better=1/5
+rq1main.azure.data_heavy.degraded.fresh.NetworkAware = mean=-32.8% median=-33.0% n=5 p95_LL=8.51 p95_cand=5.72 better=5/5
+rq1main.azure.data_heavy.degraded.fresh.NetworkAware2 = mean=-77.1% median=-77.1% n=5 p95_LL=8.51 p95_cand=1.95 better=5/5
+rq1main.azure.data_heavy.degraded.stale.NetworkAware = mean=-17.7% median=-19.4% n=5 p95_LL=13.60 p95_cand=11.19 better=5/5
+rq1main.azure.data_heavy.degraded.stale.NetworkAware2 = mean=-41.7% median=-42.2% n=5 p95_LL=13.60 p95_cand=7.93 better=5/5
+rq1main.azure.data_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=1.01 p95_cand=1.01 better=0/5
+rq1main.azure.data_heavy.normal.fresh.NetworkAware2 = mean=-0.0% median=-0.0% n=5 p95_LL=1.01 p95_cand=1.01 better=3/5
+rq1main.azure.data_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=4.69 p95_cand=4.69 better=0/5
+rq1main.azure.data_heavy.normal.stale.NetworkAware2 = mean=-3.4% median=-0.4% n=5 p95_LL=4.69 p95_cand=4.53 better=4/5
+rq1main.azure.data_heavy.unstable.fresh.NetworkAware = mean=-7.1% median=-7.5% n=5 p95_LL=3.52 p95_cand=3.27 better=5/5
+rq1main.azure.data_heavy.unstable.fresh.NetworkAware2 = mean=-39.7% median=-39.3% n=5 p95_LL=3.52 p95_cand=2.11 better=5/5
+rq1main.azure.data_heavy.unstable.stale.NetworkAware = mean=-1.2% median=-0.9% n=5 p95_LL=6.67 p95_cand=6.61 better=3/5
+rq1main.azure.data_heavy.unstable.stale.NetworkAware2 = mean=-3.1% median=-3.0% n=5 p95_LL=6.67 p95_cand=6.46 better=3/5
+rq1main.azure.low_latency.degraded.fresh.NetworkAware = mean=-30.9% median=-30.3% n=5 p95_LL=1.66 p95_cand=1.15 better=5/5
+rq1main.azure.low_latency.degraded.fresh.NetworkAware2 = mean=-79.8% median=-79.7% n=5 p95_LL=1.66 p95_cand=0.34 better=5/5
+rq1main.azure.low_latency.degraded.stale.NetworkAware = mean=-3.1% median=-2.8% n=5 p95_LL=7.59 p95_cand=7.35 better=4/5
+rq1main.azure.low_latency.degraded.stale.NetworkAware2 = mean=-18.9% median=-21.6% n=5 p95_LL=7.59 p95_cand=6.12 better=5/5
+rq1main.azure.low_latency.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=0.20 p95_cand=0.20 better=0/5
+rq1main.azure.low_latency.normal.fresh.NetworkAware2 = mean=0.2% median=0.3% n=5 p95_LL=0.20 p95_cand=0.20 better=2/5
+rq1main.azure.low_latency.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=3.59 p95_cand=3.59 better=0/5
+rq1main.azure.low_latency.normal.stale.NetworkAware2 = mean=-0.3% median=-1.2% n=5 p95_LL=3.59 p95_cand=3.58 better=3/5
+rq1main.azure.low_latency.unstable.fresh.NetworkAware = mean=-2.4% median=-2.9% n=5 p95_LL=1.17 p95_cand=1.15 better=4/5
+rq1main.azure.low_latency.unstable.fresh.NetworkAware2 = mean=-44.1% median=-43.9% n=5 p95_LL=1.17 p95_cand=0.66 better=5/5
+rq1main.azure.low_latency.unstable.stale.NetworkAware = mean=5.7% median=3.1% n=5 p95_LL=4.82 p95_cand=5.09 better=1/5
+rq1main.azure.low_latency.unstable.stale.NetworkAware2 = mean=2.9% median=7.1% n=5 p95_LL=4.82 p95_cand=4.97 better=2/5
+rq1main.azure.mixed.degraded.fresh.NetworkAware = mean=-22.4% median=-23.0% n=5 p95_LL=7.21 p95_cand=5.59 better=5/5
+rq1main.azure.mixed.degraded.fresh.NetworkAware2 = mean=-77.0% median=-77.1% n=5 p95_LL=7.21 p95_cand=1.66 better=5/5
+rq1main.azure.mixed.degraded.stale.NetworkAware = mean=-18.5% median=-20.2% n=5 p95_LL=11.84 p95_cand=9.67 better=5/5
+rq1main.azure.mixed.degraded.stale.NetworkAware2 = mean=-41.6% median=-41.6% n=5 p95_LL=11.84 p95_cand=6.91 better=5/5
+rq1main.azure.mixed.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=0.85 p95_cand=0.85 better=0/5
+rq1main.azure.mixed.normal.fresh.NetworkAware2 = mean=1.4% median=1.3% n=5 p95_LL=0.85 p95_cand=0.86 better=1/5
+rq1main.azure.mixed.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=4.21 p95_cand=4.21 better=0/5
+rq1main.azure.mixed.normal.stale.NetworkAware2 = mean=-3.5% median=-2.5% n=5 p95_LL=4.21 p95_cand=4.06 better=4/5
+rq1main.azure.mixed.unstable.fresh.NetworkAware = mean=1.2% median=2.1% n=5 p95_LL=3.11 p95_cand=3.14 better=2/5
+rq1main.azure.mixed.unstable.fresh.NetworkAware2 = mean=-37.3% median=-40.0% n=5 p95_LL=3.11 p95_cand=1.94 better=5/5
+rq1main.azure.mixed.unstable.stale.NetworkAware = mean=-0.7% median=0.7% n=5 p95_LL=6.14 p95_cand=6.09 better=2/5
+rq1main.azure.mixed.unstable.stale.NetworkAware2 = mean=1.3% median=1.8% n=5 p95_LL=6.14 p95_cand=6.21 better=2/5
+rq1main.burstgpt.compute_heavy.degraded.fresh.NetworkAware = mean=-14.2% median=-1.9% n=5 p95_LL=103.40 p95_cand=99.99 better=5/5
+rq1main.burstgpt.compute_heavy.degraded.fresh.NetworkAware2 = mean=-36.8% median=-57.5% n=5 p95_LL=103.40 p95_cand=71.62 better=4/5
+rq1main.burstgpt.compute_heavy.degraded.stale.NetworkAware = mean=28.8% median=11.2% n=5 p95_LL=98.79 p95_cand=128.71 better=1/5
+rq1main.burstgpt.compute_heavy.degraded.stale.NetworkAware2 = mean=10.2% median=-4.7% n=5 p95_LL=98.79 p95_cand=113.33 better=4/5
+rq1main.burstgpt.compute_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=47.49 p95_cand=47.49 better=0/5
+rq1main.burstgpt.compute_heavy.normal.fresh.NetworkAware2 = mean=0.0% median=0.0% n=5 p95_LL=47.49 p95_cand=47.50 better=1/5
+rq1main.burstgpt.compute_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=58.87 p95_cand=58.87 better=0/5
+rq1main.burstgpt.compute_heavy.normal.stale.NetworkAware2 = mean=2.7% median=0.0% n=5 p95_LL=58.87 p95_cand=60.17 better=2/5
+rq1main.burstgpt.compute_heavy.unstable.fresh.NetworkAware = mean=-0.0% median=-0.0% n=5 p95_LL=48.52 p95_cand=48.52 better=3/5
+rq1main.burstgpt.compute_heavy.unstable.fresh.NetworkAware2 = mean=11.3% median=0.4% n=5 p95_LL=48.52 p95_cand=56.11 better=2/5
+rq1main.burstgpt.compute_heavy.unstable.stale.NetworkAware = mean=48.3% median=4.2% n=5 p95_LL=57.89 p95_cand=91.89 better=2/5
+rq1main.burstgpt.compute_heavy.unstable.stale.NetworkAware2 = mean=30.1% median=7.3% n=5 p95_LL=57.89 p95_cand=84.36 better=2/5
+rq1main.burstgpt.data_heavy.degraded.fresh.NetworkAware = mean=-1.0% median=-0.3% n=5 p95_LL=479.95 p95_cand=474.23 better=5/5
+rq1main.burstgpt.data_heavy.degraded.fresh.NetworkAware2 = mean=-66.9% median=-64.3% n=5 p95_LL=479.95 p95_cand=152.61 better=5/5
+rq1main.burstgpt.data_heavy.degraded.stale.NetworkAware = mean=0.2% median=3.5% n=5 p95_LL=439.07 p95_cand=445.59 better=2/5
+rq1main.burstgpt.data_heavy.degraded.stale.NetworkAware2 = mean=-52.2% median=-62.3% n=5 p95_LL=439.07 p95_cand=188.07 better=5/5
+rq1main.burstgpt.data_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=55.48 p95_cand=55.48 better=0/5
+rq1main.burstgpt.data_heavy.normal.fresh.NetworkAware2 = mean=3.0% median=4.1% n=5 p95_LL=55.48 p95_cand=57.62 better=1/5
+rq1main.burstgpt.data_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=111.81 p95_cand=111.81 better=0/5
+rq1main.burstgpt.data_heavy.normal.stale.NetworkAware2 = mean=13.0% median=4.3% n=5 p95_LL=111.81 p95_cand=114.73 better=2/5
+rq1main.burstgpt.data_heavy.unstable.fresh.NetworkAware = mean=-0.1% median=-0.0% n=5 p95_LL=66.01 p95_cand=65.98 better=4/5
+rq1main.burstgpt.data_heavy.unstable.fresh.NetworkAware2 = mean=6.2% median=9.0% n=5 p95_LL=66.01 p95_cand=72.88 better=2/5
+rq1main.burstgpt.data_heavy.unstable.stale.NetworkAware = mean=9.1% median=-0.2% n=5 p95_LL=77.92 p95_cand=80.66 better=3/5
+rq1main.burstgpt.data_heavy.unstable.stale.NetworkAware2 = mean=-1.5% median=-11.0% n=5 p95_LL=77.92 p95_cand=74.90 better=3/5
+rq1main.burstgpt.low_latency.degraded.fresh.NetworkAware = mean=-2.1% median=-0.3% n=5 p95_LL=98.14 p95_cand=96.03 better=5/5
+rq1main.burstgpt.low_latency.degraded.fresh.NetworkAware2 = mean=-62.2% median=-60.7% n=5 p95_LL=98.14 p95_cand=36.49 better=5/5
+rq1main.burstgpt.low_latency.degraded.stale.NetworkAware = mean=0.4% median=0.0% n=5 p95_LL=80.07 p95_cand=79.28 better=2/5
+rq1main.burstgpt.low_latency.degraded.stale.NetworkAware2 = mean=-16.3% median=-6.4% n=5 p95_LL=80.07 p95_cand=62.26 better=3/5
+rq1main.burstgpt.low_latency.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=15.55 p95_cand=15.55 better=0/5
+rq1main.burstgpt.low_latency.normal.fresh.NetworkAware2 = mean=1.2% median=-0.2% n=5 p95_LL=15.55 p95_cand=15.70 better=3/5
+rq1main.burstgpt.low_latency.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=42.43 p95_cand=42.43 better=0/5
+rq1main.burstgpt.low_latency.normal.stale.NetworkAware2 = mean=14.7% median=0.0% n=5 p95_LL=42.43 p95_cand=47.86 better=1/5
+rq1main.burstgpt.low_latency.unstable.fresh.NetworkAware = mean=-0.0% median=0.0% n=5 p95_LL=19.02 p95_cand=19.02 better=2/5
+rq1main.burstgpt.low_latency.unstable.fresh.NetworkAware2 = mean=11.2% median=21.9% n=5 p95_LL=19.02 p95_cand=20.44 better=1/5
+rq1main.burstgpt.low_latency.unstable.stale.NetworkAware = mean=52.0% median=0.0% n=5 p95_LL=43.38 p95_cand=51.02 better=2/5
+rq1main.burstgpt.low_latency.unstable.stale.NetworkAware2 = mean=68.3% median=0.0% n=5 p95_LL=43.38 p95_cand=55.21 better=2/5
+rq1main.burstgpt.mixed.degraded.fresh.NetworkAware = mean=-6.3% median=-4.7% n=5 p95_LL=80.70 p95_cand=76.41 better=3/5
+rq1main.burstgpt.mixed.degraded.fresh.NetworkAware2 = mean=-57.6% median=-58.5% n=5 p95_LL=80.70 p95_cand=38.37 better=5/5
+rq1main.burstgpt.mixed.degraded.stale.NetworkAware = mean=1.4% median=7.2% n=5 p95_LL=77.08 p95_cand=81.99 better=2/5
+rq1main.burstgpt.mixed.degraded.stale.NetworkAware2 = mean=-43.7% median=-42.6% n=5 p95_LL=77.08 p95_cand=43.75 better=5/5
+rq1main.burstgpt.mixed.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=20.24 p95_cand=20.24 better=0/5
+rq1main.burstgpt.mixed.normal.fresh.NetworkAware2 = mean=-0.6% median=0.2% n=5 p95_LL=20.24 p95_cand=20.28 better=2/5
+rq1main.burstgpt.mixed.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=33.05 p95_cand=33.05 better=0/5
+rq1main.burstgpt.mixed.normal.stale.NetworkAware2 = mean=-2.0% median=0.0% n=5 p95_LL=33.05 p95_cand=33.18 better=2/5
+rq1main.burstgpt.mixed.unstable.fresh.NetworkAware = mean=-0.6% median=0.0% n=5 p95_LL=21.52 p95_cand=21.40 better=2/5
+rq1main.burstgpt.mixed.unstable.fresh.NetworkAware2 = mean=18.7% median=1.7% n=5 p95_LL=21.52 p95_cand=25.70 better=2/5
+rq1main.burstgpt.mixed.unstable.stale.NetworkAware = mean=8.4% median=0.9% n=5 p95_LL=36.04 p95_cand=41.56 better=1/5
+rq1main.burstgpt.mixed.unstable.stale.NetworkAware2 = mean=5.5% median=8.6% n=5 p95_LL=36.04 p95_cand=40.10 better=1/5
+
+# ==========================================================================
+# §5 机制 · 对齐度（§17）+ 规模（§18）+ 直接探针
+# ==========================================================================
+align.aligned.data_heavy.degraded = dp95=-3.3% p95_NA2=12.67 p95_LL=13.10 net_share=0.367 n_seeds=10
+align.aligned.data_heavy.unstable = dp95=-9.5% p95_NA2=12.02 p95_LL=13.29 net_share=0.169 n_seeds=10
+align.aligned.mixed.degraded = dp95=-22.0% p95_NA2=4.68 p95_LL=5.99 net_share=0.183 n_seeds=10
+align.aligned.mixed.unstable = dp95=-11.7% p95_NA2=5.50 p95_LL=6.24 net_share=0.135 n_seeds=10
+align.anti.data_heavy.degraded = dp95=-68.2% p95_NA2=32.21 p95_LL=101.15 net_share=0.612 n_seeds=10
+align.anti.data_heavy.unstable = dp95=-27.0% p95_NA2=17.40 p95_LL=24.02 net_share=0.525 n_seeds=10
+align.anti.mixed.degraded = dp95=-70.3% p95_NA2=12.20 p95_LL=41.06 net_share=0.608 n_seeds=10
+align.anti.mixed.unstable = dp95=-26.3% p95_NA2=8.41 p95_LL=11.45 net_share=0.471 n_seeds=10
+align.rot1.data_heavy.degraded = dp95=-30.0% p95_NA2=21.55 p95_LL=30.77 net_share=0.717 n_seeds=10
+align.rot1.data_heavy.unstable = dp95=-26.1% p95_NA2=15.10 p95_LL=20.83 net_share=0.429 n_seeds=10
+align.rot1.mixed.degraded = dp95=-35.4% p95_NA2=8.08 p95_LL=12.47 net_share=0.656 n_seeds=10
+align.rot1.mixed.unstable = dp95=-29.7% p95_NA2=7.53 p95_LL=10.88 net_share=0.398 n_seeds=10
+alignscale.4.aligned = dp95=-11.4% CI=±0.5 p95_NA2=4.76 p95_LL=5.37
+alignscale.4.anti = dp95=-63.1% CI=±0.7 p95_NA2=15.69 p95_LL=42.47
+alignscale.4.rot1 = dp95=-51.8% CI=±1.0 p95_NA2=9.02 p95_LL=18.72
+alignscale.8.aligned = dp95=-46.8% CI=±1.0 p95_NA2=3.87 p95_LL=7.27
+alignscale.8.anti = dp95=-60.7% CI=±1.8 p95_NA2=6.58 p95_LL=16.89
+alignscale.8.rot1 = dp95=-57.3% CI=±1.0 p95_NA2=4.03 p95_LL=9.46
+alignscale.16.aligned = dp95=-48.5% CI=±1.1 p95_NA2=2.84 p95_LL=5.52
+alignscale.16.anti = dp95=-57.0% CI=±1.1 p95_NA2=3.62 p95_LL=8.44
+alignscale.16.rot1 = dp95=-54.4% CI=±0.4 p95_NA2=3.30 p95_LL=7.26
+linkchoice.aligned.n3.LeastLoad = mean_bw_rank=1.44 top_third=64% rho=1.00
+linkchoice.aligned.n3.NetworkAware2 = mean_bw_rank=1.86 top_third=40% rho=1.00
+linkchoice.aligned.n4.LeastLoad = mean_bw_rank=1.61 top_third=59% rho=1.00
+linkchoice.aligned.n4.NetworkAware2 = mean_bw_rank=2.05 top_third=40% rho=1.00
+linkchoice.aligned.n8.LeastLoad = mean_bw_rank=3.37 top_third=54% rho=0.49
+linkchoice.aligned.n8.NetworkAware2 = mean_bw_rank=4.80 top_third=26% rho=0.49
+linkchoice.aligned.n16.LeastLoad = mean_bw_rank=6.59 top_third=49% rho=0.24
+linkchoice.aligned.n16.NetworkAware2 = mean_bw_rank=10.08 top_third=19% rho=0.24
+linkchoice.anti.n3.LeastLoad = mean_bw_rank=2.08 top_third=22% rho=-1.00
+linkchoice.anti.n3.NetworkAware2 = mean_bw_rank=2.38 top_third=11% rho=-1.00
+linkchoice.anti.n4.LeastLoad = mean_bw_rank=2.88 top_third=10% rho=-1.00
+linkchoice.anti.n4.NetworkAware2 = mean_bw_rank=3.27 top_third=4% rho=-1.00
+linkchoice.anti.n8.LeastLoad = mean_bw_rank=4.57 top_third=29% rho=-0.49
+linkchoice.anti.n8.NetworkAware2 = mean_bw_rank=5.79 top_third=14% rho=-0.49
+linkchoice.anti.n16.LeastLoad = mean_bw_rank=7.93 top_third=36% rho=-0.24
+linkchoice.anti.n16.NetworkAware2 = mean_bw_rank=11.20 top_third=13% rho=-0.24
+linkchoice.rot1.n3.LeastLoad = mean_bw_rank=1.78 top_third=33% rho=0.50
+linkchoice.rot1.n3.NetworkAware2 = mean_bw_rank=2.12 top_third=17% rho=0.50
+linkchoice.rot1.n4.LeastLoad = mean_bw_rank=2.38 top_third=16% rho=0.20
+linkchoice.rot1.n4.NetworkAware2 = mean_bw_rank=2.78 top_third=8% rho=0.20
+linkchoice.rot1.n8.LeastLoad = mean_bw_rank=3.61 top_third=53% rho=0.29
+linkchoice.rot1.n8.NetworkAware2 = mean_bw_rank=5.04 top_third=25% rho=0.29
+linkchoice.rot1.n16.LeastLoad = mean_bw_rank=7.37 top_third=35% rho=0.05
+linkchoice.rot1.n16.NetworkAware2 = mean_bw_rank=10.63 top_third=12% rho=0.05
+
+# ==========================================================================
+# §6 RQ2 · 二维陈旧度（§16）
+# ==========================================================================
+s2d.data_heavy.q0_n0 = dp95=-27%
+s2d.mixed.q0_n0 = dp95=-26%
+s2d.data_heavy.q0_n1 = dp95=-25%
+s2d.mixed.q0_n1 = dp95=-22%
+s2d.data_heavy.q0_n15 = dp95=-23%
+s2d.mixed.q0_n15 = dp95=-15%
+s2d.data_heavy.q0_n60 = dp95=-24%
+s2d.mixed.q0_n60 = dp95=-17%
+s2d.data_heavy.q1_n0 = dp95=-24%
+s2d.mixed.q1_n0 = dp95=-15%
+s2d.data_heavy.q1_n1 = dp95=-22%
+s2d.mixed.q1_n1 = dp95=-16%
+s2d.data_heavy.q1_n15 = dp95=-17%
+s2d.mixed.q1_n15 = dp95=-11%
+s2d.data_heavy.q1_n60 = dp95=-19%
+s2d.mixed.q1_n60 = dp95=-8%
+s2d.data_heavy.q5_n0 = dp95=-12%
+s2d.mixed.q5_n0 = dp95=-4%
+s2d.data_heavy.q5_n1 = dp95=-9%
+s2d.mixed.q5_n1 = dp95=-7%
+s2d.data_heavy.q5_n15 = dp95=-5%
+s2d.mixed.q5_n15 = dp95=0%
+s2d.data_heavy.q5_n60 = dp95=-4%
+s2d.mixed.q5_n60 = dp95=-1%
+
+# ==========================================================================
+# §6 RQ2 · 聚合窗口（§15）
+# ==========================================================================
+window.('net', 0.5, 'data_heavy', 'unstable') = -25.1
+window.('net', 0.5, 'mixed', 'unstable') = -22.4
+window.('net', 2.0, 'data_heavy', 'unstable') = -24.7
+window.('net', 2.0, 'mixed', 'unstable') = -16.9
+window.('net', 10.0, 'data_heavy', 'unstable') = -22.8
+window.('net', 10.0, 'mixed', 'unstable') = -22.2
+window.('net', 30.0, 'data_heavy', 'unstable') = -22.5
+window.('net', 30.0, 'mixed', 'unstable') = -15.0
+window.('queue', 0.0, 'data_heavy', 'degraded') = -67.0
+window.('queue', 0.0, 'data_heavy', 'unstable') = -24.2
+window.('queue', 0.0, 'mixed', 'degraded') = -71.7
+window.('queue', 0.0, 'mixed', 'unstable') = -20.4
+window.('queue', 0.5, 'data_heavy', 'degraded') = -68.2
+window.('queue', 0.5, 'data_heavy', 'unstable') = -28.9
+window.('queue', 0.5, 'mixed', 'degraded') = -71.2
+window.('queue', 0.5, 'mixed', 'unstable') = -22.7
+window.('queue', 2.0, 'data_heavy', 'degraded') = -69.3
+window.('queue', 2.0, 'data_heavy', 'unstable') = -22.0
+window.('queue', 2.0, 'mixed', 'degraded') = -70.0
+window.('queue', 2.0, 'mixed', 'unstable') = -18.5
+window.('queue', 10.0, 'data_heavy', 'degraded') = -71.7
+window.('queue', 10.0, 'data_heavy', 'unstable') = -25.6
+window.('queue', 10.0, 'mixed', 'degraded') = -68.1
+window.('queue', 10.0, 'mixed', 'unstable') = -12.9
+window.('queue', 30.0, 'data_heavy', 'degraded') = -69.1
+window.('queue', 30.0, 'data_heavy', 'unstable') = -26.6
+window.('queue', 30.0, 'mixed', 'degraded') = -73.1
+window.('queue', 30.0, 'mixed', 'unstable') = -14.4
+window_abs.('net', 0.5, 'data_heavy', 'unstable') = p95_NA=20.40 p95_base=27.44
+window_abs.('net', 0.5, 'mixed', 'unstable') = p95_NA=10.48 p95_base=13.64
+window_abs.('net', 2.0, 'data_heavy', 'unstable') = p95_NA=20.76 p95_base=27.44
+window_abs.('net', 2.0, 'mixed', 'unstable') = p95_NA=11.21 p95_base=13.64
+window_abs.('net', 10.0, 'data_heavy', 'unstable') = p95_NA=21.14 p95_base=27.44
+window_abs.('net', 10.0, 'mixed', 'unstable') = p95_NA=10.54 p95_base=13.64
+window_abs.('net', 30.0, 'data_heavy', 'unstable') = p95_NA=21.24 p95_base=27.44
+window_abs.('net', 30.0, 'mixed', 'unstable') = p95_NA=11.49 p95_base=13.64
+window_abs.('queue', 0.0, 'data_heavy', 'degraded') = p95_NA=46.16 p95_base=139.64
+window_abs.('queue', 0.0, 'data_heavy', 'unstable') = p95_NA=20.78 p95_base=27.44
+window_abs.('queue', 0.0, 'mixed', 'degraded') = p95_NA=16.02 p95_base=56.56
+window_abs.('queue', 0.0, 'mixed', 'unstable') = p95_NA=10.75 p95_base=13.64
+window_abs.('queue', 0.5, 'data_heavy', 'degraded') = p95_NA=44.94 p95_base=141.27
+window_abs.('queue', 0.5, 'data_heavy', 'unstable') = p95_NA=20.85 p95_base=29.21
+window_abs.('queue', 0.5, 'mixed', 'degraded') = p95_NA=16.34 p95_base=56.57
+window_abs.('queue', 0.5, 'mixed', 'unstable') = p95_NA=10.90 p95_base=14.21
+window_abs.('queue', 2.0, 'data_heavy', 'degraded') = p95_NA=44.26 p95_base=144.28
+window_abs.('queue', 2.0, 'data_heavy', 'unstable') = p95_NA=21.97 p95_base=27.93
+window_abs.('queue', 2.0, 'mixed', 'degraded') = p95_NA=17.69 p95_base=58.87
+window_abs.('queue', 2.0, 'mixed', 'unstable') = p95_NA=11.34 p95_base=13.93
+window_abs.('queue', 10.0, 'data_heavy', 'degraded') = p95_NA=47.68 p95_base=168.66
+window_abs.('queue', 10.0, 'data_heavy', 'unstable') = p95_NA=25.96 p95_base=35.48
+window_abs.('queue', 10.0, 'mixed', 'degraded') = p95_NA=23.63 p95_base=74.03
+window_abs.('queue', 10.0, 'mixed', 'unstable') = p95_NA=15.35 p95_base=17.68
+window_abs.('queue', 30.0, 'data_heavy', 'degraded') = p95_NA=65.21 p95_base=211.13
+window_abs.('queue', 30.0, 'data_heavy', 'unstable') = p95_NA=32.28 p95_base=43.91
+window_abs.('queue', 30.0, 'mixed', 'degraded') = p95_NA=23.12 p95_base=85.93
+window_abs.('queue', 30.0, 'mixed', 'unstable') = p95_NA=15.72 p95_base=18.40
+
+# ==========================================================================
+# §7 方法 · synthetic
+# ==========================================================================
+m.synthetic.data_heavy.degraded.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=214.9 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.data_heavy.degraded.q0n0.NetworkAware2 = vs_LL=-68.2(med -68.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q0n0.AdaptChannel = vs_LL=-68.2(med -68.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q0n0.AdaptSplit = vs_LL=-68.2(med -68.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q0n0.AdaptLinear = vs_LL=-68.2(med -68.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q0n0.AdaptHard = vs_LL=-68.2(med -68.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=214.9 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.data_heavy.degraded.q0n60.NetworkAware2 = vs_LL=-68.2(med -68.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q0n60.AdaptChannel = vs_LL=-61.2(med -61.3) vs_NA2=22.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q0n60.AdaptSplit = vs_LL=5.5(med 4.6) vs_NA2=231.8 seeds_better/worse_vs_LL=0/10
+m.synthetic.data_heavy.degraded.q0n60.AdaptLinear = vs_LL=0.0(med 0.0) vs_NA2=214.9 seeds_better/worse_vs_LL=0/0
+m.synthetic.data_heavy.degraded.q0n60.AdaptHard = vs_LL=0.0(med 0.0) vs_NA2=214.9 seeds_better/worse_vs_LL=0/0
+m.synthetic.data_heavy.degraded.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=178.5 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.data_heavy.degraded.q5n0.NetworkAware2 = vs_LL=-63.9(med -64.1) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q5n0.AdaptChannel = vs_LL=-41.3(med -40.3) vs_NA2=63.4 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q5n0.AdaptSplit = vs_LL=-41.3(med -40.3) vs_NA2=63.4 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q5n0.AdaptLinear = vs_LL=0.6(med 0.0) vs_NA2=180.2 seeds_better/worse_vs_LL=1/4
+m.synthetic.data_heavy.degraded.q5n0.AdaptHard = vs_LL=-0.2(med 0.0) vs_NA2=178.0 seeds_better/worse_vs_LL=3/1
+m.synthetic.data_heavy.degraded.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=178.5 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.data_heavy.degraded.q5n60.NetworkAware2 = vs_LL=-63.9(med -64.1) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q5n60.AdaptChannel = vs_LL=-34.1(med -34.5) vs_NA2=83.1 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.degraded.q5n60.AdaptSplit = vs_LL=-1.0(med -1.5) vs_NA2=175.3 seeds_better/worse_vs_LL=8/2
+m.synthetic.data_heavy.degraded.q5n60.AdaptLinear = vs_LL=0.6(med 0.0) vs_NA2=180.2 seeds_better/worse_vs_LL=1/4
+m.synthetic.data_heavy.degraded.q5n60.AdaptHard = vs_LL=-0.2(med 0.0) vs_NA2=178.0 seeds_better/worse_vs_LL=3/1
+m.synthetic.data_heavy.unstable.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=37.7 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.data_heavy.unstable.q0n0.NetworkAware2 = vs_LL=-27.0(med -28.3) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.unstable.q0n0.AdaptChannel = vs_LL=-27.9(med -28.6) vs_NA2=-1.3 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.unstable.q0n0.AdaptSplit = vs_LL=-27.9(med -28.6) vs_NA2=-1.3 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.unstable.q0n0.AdaptLinear = vs_LL=-27.9(med -28.6) vs_NA2=-1.3 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.unstable.q0n0.AdaptHard = vs_LL=-27.9(med -28.6) vs_NA2=-1.3 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.unstable.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=32.2 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.data_heavy.unstable.q0n60.NetworkAware2 = vs_LL=-23.9(med -25.0) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.unstable.q0n60.AdaptChannel = vs_LL=-21.1(med -20.6) vs_NA2=4.1 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.unstable.q0n60.AdaptSplit = vs_LL=-0.3(med 0.5) vs_NA2=31.4 seeds_better/worse_vs_LL=5/5
+m.synthetic.data_heavy.unstable.q0n60.AdaptLinear = vs_LL=0.0(med 0.0) vs_NA2=32.2 seeds_better/worse_vs_LL=0/0
+m.synthetic.data_heavy.unstable.q0n60.AdaptHard = vs_LL=0.0(med 0.0) vs_NA2=32.2 seeds_better/worse_vs_LL=0/0
+m.synthetic.data_heavy.unstable.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=14.7 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.data_heavy.unstable.q5n0.NetworkAware2 = vs_LL=-11.8(med -10.1) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.data_heavy.unstable.q5n0.AdaptChannel = vs_LL=-4.6(med -3.0) vs_NA2=8.7 seeds_better/worse_vs_LL=7/3
+m.synthetic.data_heavy.unstable.q5n0.AdaptSplit = vs_LL=-4.6(med -3.0) vs_NA2=8.7 seeds_better/worse_vs_LL=7/3
+m.synthetic.data_heavy.unstable.q5n0.AdaptLinear = vs_LL=-0.6(med 0.0) vs_NA2=13.9 seeds_better/worse_vs_LL=2/3
+m.synthetic.data_heavy.unstable.q5n0.AdaptHard = vs_LL=-0.6(med 0.0) vs_NA2=13.9 seeds_better/worse_vs_LL=3/2
+m.synthetic.data_heavy.unstable.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=5.0 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.data_heavy.unstable.q5n60.NetworkAware2 = vs_LL=-3.9(med -5.5) vs_NA2=0.0 seeds_better/worse_vs_LL=6/4
+m.synthetic.data_heavy.unstable.q5n60.AdaptChannel = vs_LL=0.0(med 0.0) vs_NA2=4.4 seeds_better/worse_vs_LL=5/5
+m.synthetic.data_heavy.unstable.q5n60.AdaptSplit = vs_LL=3.2(med 4.9) vs_NA2=7.7 seeds_better/worse_vs_LL=4/6
+m.synthetic.data_heavy.unstable.q5n60.AdaptLinear = vs_LL=0.1(med 0.0) vs_NA2=5.0 seeds_better/worse_vs_LL=2/3
+m.synthetic.data_heavy.unstable.q5n60.AdaptHard = vs_LL=-0.6(med 0.0) vs_NA2=4.3 seeds_better/worse_vs_LL=3/2
+m.synthetic.mixed.degraded.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=237.4 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.mixed.degraded.q0n0.NetworkAware2 = vs_LL=-70.3(med -70.5) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q0n0.AdaptChannel = vs_LL=-72.4(med -73.2) vs_NA2=-7.3 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q0n0.AdaptSplit = vs_LL=-72.4(med -73.2) vs_NA2=-7.3 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q0n0.AdaptLinear = vs_LL=-72.4(med -73.2) vs_NA2=-7.3 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q0n0.AdaptHard = vs_LL=-72.4(med -73.2) vs_NA2=-7.3 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=237.4 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.mixed.degraded.q0n60.NetworkAware2 = vs_LL=-70.3(med -70.5) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q0n60.AdaptChannel = vs_LL=-66.2(med -67.0) vs_NA2=13.7 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q0n60.AdaptSplit = vs_LL=-16.6(med -19.0) vs_NA2=180.6 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q0n60.AdaptLinear = vs_LL=0.0(med 0.0) vs_NA2=237.4 seeds_better/worse_vs_LL=0/0
+m.synthetic.mixed.degraded.q0n60.AdaptHard = vs_LL=0.0(med 0.0) vs_NA2=237.4 seeds_better/worse_vs_LL=0/0
+m.synthetic.mixed.degraded.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=101.5 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.mixed.degraded.q5n0.NetworkAware2 = vs_LL=-49.8(med -50.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q5n0.AdaptChannel = vs_LL=-30.7(med -29.9) vs_NA2=39.1 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q5n0.AdaptSplit = vs_LL=-30.7(med -29.9) vs_NA2=39.1 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q5n0.AdaptLinear = vs_LL=-0.4(med 0.6) vs_NA2=100.9 seeds_better/worse_vs_LL=3/6
+m.synthetic.mixed.degraded.q5n0.AdaptHard = vs_LL=-1.0(med -0.1) vs_NA2=99.8 seeds_better/worse_vs_LL=5/4
+m.synthetic.mixed.degraded.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=101.5 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.mixed.degraded.q5n60.NetworkAware2 = vs_LL=-49.8(med -50.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q5n60.AdaptChannel = vs_LL=-21.9(med -20.7) vs_NA2=57.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.degraded.q5n60.AdaptSplit = vs_LL=0.5(med 2.1) vs_NA2=102.6 seeds_better/worse_vs_LL=4/6
+m.synthetic.mixed.degraded.q5n60.AdaptLinear = vs_LL=-0.4(med 0.6) vs_NA2=100.9 seeds_better/worse_vs_LL=3/6
+m.synthetic.mixed.degraded.q5n60.AdaptHard = vs_LL=-1.0(med -0.1) vs_NA2=99.8 seeds_better/worse_vs_LL=5/4
+m.synthetic.mixed.unstable.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=37.0 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.mixed.unstable.q0n0.NetworkAware2 = vs_LL=-26.3(med -24.8) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.unstable.q0n0.AdaptChannel = vs_LL=-29.2(med -28.0) vs_NA2=-3.6 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.unstable.q0n0.AdaptSplit = vs_LL=-29.2(med -28.0) vs_NA2=-3.6 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.unstable.q0n0.AdaptLinear = vs_LL=-29.2(med -28.0) vs_NA2=-3.6 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.unstable.q0n0.AdaptHard = vs_LL=-29.2(med -28.0) vs_NA2=-3.6 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.unstable.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=22.3 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.mixed.unstable.q0n60.NetworkAware2 = vs_LL=-17.3(med -13.3) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.unstable.q0n60.AdaptChannel = vs_LL=-15.8(med -15.2) vs_NA2=2.0 seeds_better/worse_vs_LL=10/0
+m.synthetic.mixed.unstable.q0n60.AdaptSplit = vs_LL=-1.5(med -0.6) vs_NA2=20.3 seeds_better/worse_vs_LL=5/5
+m.synthetic.mixed.unstable.q0n60.AdaptLinear = vs_LL=0.0(med 0.0) vs_NA2=22.3 seeds_better/worse_vs_LL=0/0
+m.synthetic.mixed.unstable.q0n60.AdaptHard = vs_LL=0.0(med 0.0) vs_NA2=22.3 seeds_better/worse_vs_LL=0/0
+m.synthetic.mixed.unstable.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=5.7 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.mixed.unstable.q5n0.NetworkAware2 = vs_LL=-3.9(med -5.6) vs_NA2=0.0 seeds_better/worse_vs_LL=6/4
+m.synthetic.mixed.unstable.q5n0.AdaptChannel = vs_LL=-4.1(med -6.6) vs_NA2=0.7 seeds_better/worse_vs_LL=7/3
+m.synthetic.mixed.unstable.q5n0.AdaptSplit = vs_LL=-4.1(med -6.6) vs_NA2=0.7 seeds_better/worse_vs_LL=7/3
+m.synthetic.mixed.unstable.q5n0.AdaptLinear = vs_LL=1.5(med 0.0) vs_NA2=7.0 seeds_better/worse_vs_LL=4/4
+m.synthetic.mixed.unstable.q5n0.AdaptHard = vs_LL=0.2(med -1.5) vs_NA2=5.5 seeds_better/worse_vs_LL=5/5
+m.synthetic.mixed.unstable.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=3.2 seeds_better/worse_vs_LL=nan/nan
+m.synthetic.mixed.unstable.q5n60.NetworkAware2 = vs_LL=-1.4(med -4.4) vs_NA2=0.0 seeds_better/worse_vs_LL=6/4
+m.synthetic.mixed.unstable.q5n60.AdaptChannel = vs_LL=-1.0(med -1.6) vs_NA2=1.9 seeds_better/worse_vs_LL=7/3
+m.synthetic.mixed.unstable.q5n60.AdaptSplit = vs_LL=-2.1(med -1.9) vs_NA2=0.8 seeds_better/worse_vs_LL=5/5
+m.synthetic.mixed.unstable.q5n60.AdaptLinear = vs_LL=0.2(med 0.0) vs_NA2=3.7 seeds_better/worse_vs_LL=4/4
+m.synthetic.mixed.unstable.q5n60.AdaptHard = vs_LL=-1.1(med -3.1) vs_NA2=2.3 seeds_better/worse_vs_LL=6/4
+verdict.synthetic.AdaptChannel = better_than_both=5/24 worse_than_both=1 better_than_na2=5 worse_than_na2=18
+verdict.synthetic.AdaptSplit = better_than_both=4/24 worse_than_both=3 better_than_na2=4 worse_than_na2=19
+verdict.synthetic.AdaptLinear = better_than_both=5/24 worse_than_both=5 better_than_na2=5 worse_than_na2=18
+verdict.synthetic.AdaptHard = better_than_both=5/24 worse_than_both=1 better_than_na2=5 worse_than_na2=17
+ablate.synthetic.Tn120 = vs_primary=-1.2±1.8 worst=-7.6 flips=1/12
+ablate.synthetic.Tn20 = vs_primary=1.3±1.7 worst=7.7 flips=0/12
+ablate.synthetic.Tq2 = vs_primary=6.3±8.4 worst=39.7 flips=0/12
+ablate.synthetic.Tq8 = vs_primary=-3.2±3.9 worst=-20.4 flips=1/12
+ablate.synthetic.floor0.5 = vs_primary=0.0±0.0 worst=0.0 flips=0/12
+ablate.synthetic.floor0.9 = vs_primary=-1.6±1.9 worst=-8.2 flips=2/12
+
+# ==========================================================================
+# §7 方法 · azure
+# ==========================================================================
+m.azure.data_heavy.degraded.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=329.0 seeds_better/worse_vs_LL=nan/nan
+m.azure.data_heavy.degraded.q0n0.NetworkAware2 = vs_LL=-76.7(med -76.7) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q0n0.AdaptChannel = vs_LL=-76.7(med -76.7) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q0n0.AdaptSplit = vs_LL=-76.7(med -76.7) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q0n0.AdaptLinear = vs_LL=-76.7(med -76.7) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q0n0.AdaptHard = vs_LL=-76.7(med -76.7) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=329.0 seeds_better/worse_vs_LL=nan/nan
+m.azure.data_heavy.degraded.q0n60.NetworkAware2 = vs_LL=-76.7(med -76.7) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q0n60.AdaptChannel = vs_LL=-76.2(med -76.4) vs_NA2=2.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q0n60.AdaptSplit = vs_LL=-40.2(med -39.8) vs_NA2=156.7 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q0n60.AdaptLinear = vs_LL=0.1(med 0.0) vs_NA2=329.3 seeds_better/worse_vs_LL=4/4
+m.azure.data_heavy.degraded.q0n60.AdaptHard = vs_LL=0.1(med 0.0) vs_NA2=329.5 seeds_better/worse_vs_LL=3/4
+m.azure.data_heavy.degraded.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=36.7 seeds_better/worse_vs_LL=nan/nan
+m.azure.data_heavy.degraded.q5n0.NetworkAware2 = vs_LL=-26.2(med -24.7) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q5n0.AdaptChannel = vs_LL=-18.5(med -18.9) vs_NA2=11.1 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q5n0.AdaptSplit = vs_LL=-18.5(med -18.9) vs_NA2=11.1 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q5n0.AdaptLinear = vs_LL=-3.4(med -5.3) vs_NA2=31.7 seeds_better/worse_vs_LL=7/3
+m.azure.data_heavy.degraded.q5n0.AdaptHard = vs_LL=1.2(med 0.6) vs_NA2=38.3 seeds_better/worse_vs_LL=3/5
+m.azure.data_heavy.degraded.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=36.7 seeds_better/worse_vs_LL=nan/nan
+m.azure.data_heavy.degraded.q5n60.NetworkAware2 = vs_LL=-26.2(med -24.7) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q5n60.AdaptChannel = vs_LL=-17.6(med -18.5) vs_NA2=12.3 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.degraded.q5n60.AdaptSplit = vs_LL=-1.8(med -1.3) vs_NA2=33.6 seeds_better/worse_vs_LL=6/4
+m.azure.data_heavy.degraded.q5n60.AdaptLinear = vs_LL=-3.4(med -5.3) vs_NA2=31.7 seeds_better/worse_vs_LL=7/3
+m.azure.data_heavy.degraded.q5n60.AdaptHard = vs_LL=1.2(med 0.6) vs_NA2=38.3 seeds_better/worse_vs_LL=3/5
+m.azure.data_heavy.unstable.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=65.0 seeds_better/worse_vs_LL=nan/nan
+m.azure.data_heavy.unstable.q0n0.NetworkAware2 = vs_LL=-39.0(med -38.2) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.unstable.q0n0.AdaptChannel = vs_LL=-38.7(med -38.7) vs_NA2=0.5 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.unstable.q0n0.AdaptSplit = vs_LL=-38.7(med -38.7) vs_NA2=0.5 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.unstable.q0n0.AdaptLinear = vs_LL=-38.7(med -38.7) vs_NA2=0.5 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.unstable.q0n0.AdaptHard = vs_LL=-38.7(med -38.7) vs_NA2=0.5 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.unstable.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=37.1 seeds_better/worse_vs_LL=nan/nan
+m.azure.data_heavy.unstable.q0n60.NetworkAware2 = vs_LL=-26.8(med -27.2) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.unstable.q0n60.AdaptChannel = vs_LL=-24.2(med -24.4) vs_NA2=3.7 seeds_better/worse_vs_LL=10/0
+m.azure.data_heavy.unstable.q0n60.AdaptSplit = vs_LL=-1.7(med -1.7) vs_NA2=34.7 seeds_better/worse_vs_LL=9/1
+m.azure.data_heavy.unstable.q0n60.AdaptLinear = vs_LL=0.1(med 0.0) vs_NA2=37.3 seeds_better/worse_vs_LL=2/2
+m.azure.data_heavy.unstable.q0n60.AdaptHard = vs_LL=0.0(med 0.0) vs_NA2=37.2 seeds_better/worse_vs_LL=0/1
+m.azure.data_heavy.unstable.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=-0.9 seeds_better/worse_vs_LL=nan/nan
+m.azure.data_heavy.unstable.q5n0.NetworkAware2 = vs_LL=1.4(med 3.8) vs_NA2=0.0 seeds_better/worse_vs_LL=4/6
+m.azure.data_heavy.unstable.q5n0.AdaptChannel = vs_LL=4.0(med 4.1) vs_NA2=2.7 seeds_better/worse_vs_LL=2/8
+m.azure.data_heavy.unstable.q5n0.AdaptSplit = vs_LL=4.0(med 4.1) vs_NA2=2.7 seeds_better/worse_vs_LL=2/8
+m.azure.data_heavy.unstable.q5n0.AdaptLinear = vs_LL=1.1(med 0.2) vs_NA2=0.1 seeds_better/worse_vs_LL=3/6
+m.azure.data_heavy.unstable.q5n0.AdaptHard = vs_LL=-1.0(med -0.1) vs_NA2=-2.1 seeds_better/worse_vs_LL=5/5
+m.azure.data_heavy.unstable.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=-4.7 seeds_better/worse_vs_LL=nan/nan
+m.azure.data_heavy.unstable.q5n60.NetworkAware2 = vs_LL=5.3(med 4.1) vs_NA2=0.0 seeds_better/worse_vs_LL=1/9
+m.azure.data_heavy.unstable.q5n60.AdaptChannel = vs_LL=6.2(med 5.9) vs_NA2=0.9 seeds_better/worse_vs_LL=2/8
+m.azure.data_heavy.unstable.q5n60.AdaptSplit = vs_LL=7.6(med 7.1) vs_NA2=2.3 seeds_better/worse_vs_LL=2/8
+m.azure.data_heavy.unstable.q5n60.AdaptLinear = vs_LL=0.8(med 2.1) vs_NA2=-4.1 seeds_better/worse_vs_LL=3/7
+m.azure.data_heavy.unstable.q5n60.AdaptHard = vs_LL=0.5(med 2.1) vs_NA2=-4.3 seeds_better/worse_vs_LL=3/7
+m.azure.mixed.degraded.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=332.4 seeds_better/worse_vs_LL=nan/nan
+m.azure.mixed.degraded.q0n0.NetworkAware2 = vs_LL=-76.8(med -77.0) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q0n0.AdaptChannel = vs_LL=-76.9(med -77.1) vs_NA2=-0.3 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q0n0.AdaptSplit = vs_LL=-76.9(med -77.1) vs_NA2=-0.3 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q0n0.AdaptLinear = vs_LL=-76.9(med -77.1) vs_NA2=-0.3 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q0n0.AdaptHard = vs_LL=-76.9(med -77.1) vs_NA2=-0.3 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=332.4 seeds_better/worse_vs_LL=nan/nan
+m.azure.mixed.degraded.q0n60.NetworkAware2 = vs_LL=-76.8(med -77.0) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q0n60.AdaptChannel = vs_LL=-74.4(med -74.5) vs_NA2=10.5 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q0n60.AdaptSplit = vs_LL=-31.1(med -32.7) vs_NA2=197.3 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q0n60.AdaptLinear = vs_LL=0.7(med 0.1) vs_NA2=335.3 seeds_better/worse_vs_LL=1/5
+m.azure.mixed.degraded.q0n60.AdaptHard = vs_LL=0.5(med 0.1) vs_NA2=334.8 seeds_better/worse_vs_LL=1/5
+m.azure.mixed.degraded.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=35.5 seeds_better/worse_vs_LL=nan/nan
+m.azure.mixed.degraded.q5n0.NetworkAware2 = vs_LL=-26.0(med -26.9) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q5n0.AdaptChannel = vs_LL=-15.6(med -15.9) vs_NA2=14.3 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q5n0.AdaptSplit = vs_LL=-15.6(med -15.9) vs_NA2=14.3 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q5n0.AdaptLinear = vs_LL=-1.6(med 0.0) vs_NA2=33.4 seeds_better/worse_vs_LL=4/3
+m.azure.mixed.degraded.q5n0.AdaptHard = vs_LL=-1.3(med 0.1) vs_NA2=33.5 seeds_better/worse_vs_LL=4/5
+m.azure.mixed.degraded.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=35.5 seeds_better/worse_vs_LL=nan/nan
+m.azure.mixed.degraded.q5n60.NetworkAware2 = vs_LL=-26.0(med -26.9) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q5n60.AdaptChannel = vs_LL=-10.1(med -10.0) vs_NA2=21.6 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.degraded.q5n60.AdaptSplit = vs_LL=2.0(med 0.5) vs_NA2=38.0 seeds_better/worse_vs_LL=4/6
+m.azure.mixed.degraded.q5n60.AdaptLinear = vs_LL=-2.6(med -1.3) vs_NA2=32.1 seeds_better/worse_vs_LL=5/2
+m.azure.mixed.degraded.q5n60.AdaptHard = vs_LL=-1.3(med 0.1) vs_NA2=33.5 seeds_better/worse_vs_LL=4/5
+m.azure.mixed.unstable.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=71.2 seeds_better/worse_vs_LL=nan/nan
+m.azure.mixed.unstable.q0n0.NetworkAware2 = vs_LL=-41.3(med -41.4) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.unstable.q0n0.AdaptChannel = vs_LL=-40.9(med -41.2) vs_NA2=0.7 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.unstable.q0n0.AdaptSplit = vs_LL=-40.9(med -41.2) vs_NA2=0.7 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.unstable.q0n0.AdaptLinear = vs_LL=-40.9(med -41.2) vs_NA2=0.7 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.unstable.q0n0.AdaptHard = vs_LL=-40.9(med -41.2) vs_NA2=0.7 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.unstable.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=43.1 seeds_better/worse_vs_LL=nan/nan
+m.azure.mixed.unstable.q0n60.NetworkAware2 = vs_LL=-29.7(med -31.1) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.unstable.q0n60.AdaptChannel = vs_LL=-26.7(med -27.3) vs_NA2=4.4 seeds_better/worse_vs_LL=10/0
+m.azure.mixed.unstable.q0n60.AdaptSplit = vs_LL=-3.2(med -4.0) vs_NA2=38.3 seeds_better/worse_vs_LL=7/3
+m.azure.mixed.unstable.q0n60.AdaptLinear = vs_LL=-0.1(med 0.0) vs_NA2=43.0 seeds_better/worse_vs_LL=2/1
+m.azure.mixed.unstable.q0n60.AdaptHard = vs_LL=0.0(med 0.0) vs_NA2=43.1 seeds_better/worse_vs_LL=0/0
+m.azure.mixed.unstable.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=-1.7 seeds_better/worse_vs_LL=nan/nan
+m.azure.mixed.unstable.q5n0.NetworkAware2 = vs_LL=2.2(med 1.9) vs_NA2=0.0 seeds_better/worse_vs_LL=4/6
+m.azure.mixed.unstable.q5n0.AdaptChannel = vs_LL=3.8(med 2.3) vs_NA2=1.7 seeds_better/worse_vs_LL=3/7
+m.azure.mixed.unstable.q5n0.AdaptSplit = vs_LL=3.8(med 2.3) vs_NA2=1.7 seeds_better/worse_vs_LL=3/7
+m.azure.mixed.unstable.q5n0.AdaptLinear = vs_LL=0.5(med 2.3) vs_NA2=-1.3 seeds_better/worse_vs_LL=3/6
+m.azure.mixed.unstable.q5n0.AdaptHard = vs_LL=0.0(med 0.8) vs_NA2=-1.8 seeds_better/worse_vs_LL=5/5
+m.azure.mixed.unstable.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=-4.7 seeds_better/worse_vs_LL=nan/nan
+m.azure.mixed.unstable.q5n60.NetworkAware2 = vs_LL=5.2(med 5.2) vs_NA2=0.0 seeds_better/worse_vs_LL=1/9
+m.azure.mixed.unstable.q5n60.AdaptChannel = vs_LL=8.3(med 7.9) vs_NA2=2.9 seeds_better/worse_vs_LL=2/8
+m.azure.mixed.unstable.q5n60.AdaptSplit = vs_LL=6.3(med 6.5) vs_NA2=1.2 seeds_better/worse_vs_LL=1/9
+m.azure.mixed.unstable.q5n60.AdaptLinear = vs_LL=-0.4(med -1.6) vs_NA2=-5.2 seeds_better/worse_vs_LL=6/4
+m.azure.mixed.unstable.q5n60.AdaptHard = vs_LL=1.2(med 1.0) vs_NA2=-3.7 seeds_better/worse_vs_LL=5/5
+verdict.azure.AdaptChannel = better_than_both=1/24 worse_than_both=4 better_than_na2=1 worse_than_na2=22
+verdict.azure.AdaptSplit = better_than_both=1/24 worse_than_both=5 better_than_na2=1 worse_than_na2=22
+verdict.azure.AdaptLinear = better_than_both=2/24 worse_than_both=4 better_than_na2=4 worse_than_na2=19
+verdict.azure.AdaptHard = better_than_both=4/24 worse_than_both=8 better_than_na2=7 worse_than_na2=15
+ablate.azure.Tn120 = vs_primary=-0.7±0.8 worst=-4.3 flips=0/12
+ablate.azure.Tn20 = vs_primary=0.4±0.6 worst=3.5 flips=0/12
+ablate.azure.Tq2 = vs_primary=2.6±2.9 worst=13.4 flips=0/12
+ablate.azure.Tq8 = vs_primary=-1.0±1.4 worst=-6.6 flips=0/12
+ablate.azure.floor0.5 = vs_primary=0.0±0.0 worst=0.0 flips=0/12
+ablate.azure.floor0.9 = vs_primary=-0.8±0.9 worst=-4.9 flips=0/12
+
+# ==========================================================================
+# §7 方法 · burstgpt
+# ==========================================================================
+m.burstgpt.data_heavy.degraded.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=198.3 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.data_heavy.degraded.q0n0.NetworkAware2 = vs_LL=-65.3(med -63.5) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.burstgpt.data_heavy.degraded.q0n0.AdaptChannel = vs_LL=-65.3(med -63.5) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.burstgpt.data_heavy.degraded.q0n0.AdaptSplit = vs_LL=-65.3(med -63.5) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.burstgpt.data_heavy.degraded.q0n0.AdaptLinear = vs_LL=-65.3(med -63.5) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.burstgpt.data_heavy.degraded.q0n0.AdaptHard = vs_LL=-65.3(med -63.5) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.burstgpt.data_heavy.degraded.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=198.3 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.data_heavy.degraded.q0n60.NetworkAware2 = vs_LL=-65.3(med -63.5) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.burstgpt.data_heavy.degraded.q0n60.AdaptChannel = vs_LL=-59.9(med -57.2) vs_NA2=15.6 seeds_better/worse_vs_LL=10/0
+m.burstgpt.data_heavy.degraded.q0n60.AdaptSplit = vs_LL=-21.4(med -12.0) vs_NA2=126.4 seeds_better/worse_vs_LL=10/0
+m.burstgpt.data_heavy.degraded.q0n60.AdaptLinear = vs_LL=-23.1(med -10.9) vs_NA2=131.9 seeds_better/worse_vs_LL=7/0
+m.burstgpt.data_heavy.degraded.q0n60.AdaptHard = vs_LL=-9.3(med 0.0) vs_NA2=170.1 seeds_better/worse_vs_LL=3/0
+m.burstgpt.data_heavy.degraded.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=82.2 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.data_heavy.degraded.q5n0.NetworkAware2 = vs_LL=-36.0(med -37.8) vs_NA2=0.0 seeds_better/worse_vs_LL=9/1
+m.burstgpt.data_heavy.degraded.q5n0.AdaptChannel = vs_LL=-31.9(med -35.4) vs_NA2=12.3 seeds_better/worse_vs_LL=9/1
+m.burstgpt.data_heavy.degraded.q5n0.AdaptSplit = vs_LL=-31.9(med -35.4) vs_NA2=12.3 seeds_better/worse_vs_LL=9/1
+m.burstgpt.data_heavy.degraded.q5n0.AdaptLinear = vs_LL=5.8(med 0.0) vs_NA2=91.3 seeds_better/worse_vs_LL=1/3
+m.burstgpt.data_heavy.degraded.q5n0.AdaptHard = vs_LL=-2.6(med 0.0) vs_NA2=71.0 seeds_better/worse_vs_LL=3/2
+m.burstgpt.data_heavy.degraded.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=82.2 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.data_heavy.degraded.q5n60.NetworkAware2 = vs_LL=-36.0(med -37.8) vs_NA2=0.0 seeds_better/worse_vs_LL=9/1
+m.burstgpt.data_heavy.degraded.q5n60.AdaptChannel = vs_LL=-31.4(med -37.3) vs_NA2=12.8 seeds_better/worse_vs_LL=8/2
+m.burstgpt.data_heavy.degraded.q5n60.AdaptSplit = vs_LL=-18.4(med -19.7) vs_NA2=33.2 seeds_better/worse_vs_LL=7/3
+m.burstgpt.data_heavy.degraded.q5n60.AdaptLinear = vs_LL=6.1(med 0.0) vs_NA2=91.6 seeds_better/worse_vs_LL=1/3
+m.burstgpt.data_heavy.degraded.q5n60.AdaptHard = vs_LL=-2.6(med 0.0) vs_NA2=71.0 seeds_better/worse_vs_LL=3/2
+m.burstgpt.data_heavy.unstable.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=9.5 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.data_heavy.unstable.q0n0.NetworkAware2 = vs_LL=-3.7(med 1.4) vs_NA2=0.0 seeds_better/worse_vs_LL=5/5
+m.burstgpt.data_heavy.unstable.q0n0.AdaptChannel = vs_LL=-4.0(med 1.3) vs_NA2=-0.5 seeds_better/worse_vs_LL=5/5
+m.burstgpt.data_heavy.unstable.q0n0.AdaptSplit = vs_LL=-4.0(med 1.3) vs_NA2=-0.5 seeds_better/worse_vs_LL=5/5
+m.burstgpt.data_heavy.unstable.q0n0.AdaptLinear = vs_LL=-4.0(med 1.3) vs_NA2=-0.5 seeds_better/worse_vs_LL=5/5
+m.burstgpt.data_heavy.unstable.q0n0.AdaptHard = vs_LL=-4.0(med 1.3) vs_NA2=-0.5 seeds_better/worse_vs_LL=5/5
+m.burstgpt.data_heavy.unstable.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=8.9 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.data_heavy.unstable.q0n60.NetworkAware2 = vs_LL=-1.1(med -2.9) vs_NA2=0.0 seeds_better/worse_vs_LL=6/4
+m.burstgpt.data_heavy.unstable.q0n60.AdaptChannel = vs_LL=-7.3(med -5.0) vs_NA2=-4.4 seeds_better/worse_vs_LL=6/4
+m.burstgpt.data_heavy.unstable.q0n60.AdaptSplit = vs_LL=-5.3(med -3.0) vs_NA2=1.8 seeds_better/worse_vs_LL=9/1
+m.burstgpt.data_heavy.unstable.q0n60.AdaptLinear = vs_LL=-5.6(med -1.7) vs_NA2=1.2 seeds_better/worse_vs_LL=5/3
+m.burstgpt.data_heavy.unstable.q0n60.AdaptHard = vs_LL=-2.4(med 0.0) vs_NA2=5.5 seeds_better/worse_vs_LL=3/0
+m.burstgpt.data_heavy.unstable.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=0.1 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.data_heavy.unstable.q5n0.NetworkAware2 = vs_LL=27.8(med -0.5) vs_NA2=0.0 seeds_better/worse_vs_LL=5/5
+m.burstgpt.data_heavy.unstable.q5n0.AdaptChannel = vs_LL=23.6(med -6.0) vs_NA2=-3.7 seeds_better/worse_vs_LL=6/4
+m.burstgpt.data_heavy.unstable.q5n0.AdaptSplit = vs_LL=23.6(med -6.0) vs_NA2=-3.7 seeds_better/worse_vs_LL=6/4
+m.burstgpt.data_heavy.unstable.q5n0.AdaptLinear = vs_LL=-11.8(med 0.0) vs_NA2=-18.1 seeds_better/worse_vs_LL=3/1
+m.burstgpt.data_heavy.unstable.q5n0.AdaptHard = vs_LL=-11.1(med 0.0) vs_NA2=-17.3 seeds_better/worse_vs_LL=3/2
+m.burstgpt.data_heavy.unstable.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=19.0 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.data_heavy.unstable.q5n60.NetworkAware2 = vs_LL=28.6(med -16.6) vs_NA2=0.0 seeds_better/worse_vs_LL=7/3
+m.burstgpt.data_heavy.unstable.q5n60.AdaptChannel = vs_LL=47.5(med -6.4) vs_NA2=35.6 seeds_better/worse_vs_LL=6/4
+m.burstgpt.data_heavy.unstable.q5n60.AdaptSplit = vs_LL=48.2(med -6.2) vs_NA2=36.6 seeds_better/worse_vs_LL=6/4
+m.burstgpt.data_heavy.unstable.q5n60.AdaptLinear = vs_LL=-12.2(med 0.0) vs_NA2=-3.4 seeds_better/worse_vs_LL=3/3
+m.burstgpt.data_heavy.unstable.q5n60.AdaptHard = vs_LL=-11.3(med 0.0) vs_NA2=-2.0 seeds_better/worse_vs_LL=3/3
+m.burstgpt.mixed.degraded.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=173.2 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.mixed.degraded.q0n0.NetworkAware2 = vs_LL=-60.1(med -62.4) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.burstgpt.mixed.degraded.q0n0.AdaptChannel = vs_LL=-62.5(med -63.3) vs_NA2=-7.9 seeds_better/worse_vs_LL=10/0
+m.burstgpt.mixed.degraded.q0n0.AdaptSplit = vs_LL=-62.5(med -63.3) vs_NA2=-7.9 seeds_better/worse_vs_LL=10/0
+m.burstgpt.mixed.degraded.q0n0.AdaptLinear = vs_LL=-62.5(med -63.3) vs_NA2=-7.9 seeds_better/worse_vs_LL=10/0
+m.burstgpt.mixed.degraded.q0n0.AdaptHard = vs_LL=-62.5(med -63.3) vs_NA2=-7.9 seeds_better/worse_vs_LL=10/0
+m.burstgpt.mixed.degraded.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=173.2 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.mixed.degraded.q0n60.NetworkAware2 = vs_LL=-60.1(med -62.4) vs_NA2=0.0 seeds_better/worse_vs_LL=10/0
+m.burstgpt.mixed.degraded.q0n60.AdaptChannel = vs_LL=-58.8(med -58.7) vs_NA2=3.2 seeds_better/worse_vs_LL=10/0
+m.burstgpt.mixed.degraded.q0n60.AdaptSplit = vs_LL=-28.7(med -33.6) vs_NA2=88.7 seeds_better/worse_vs_LL=9/1
+m.burstgpt.mixed.degraded.q0n60.AdaptLinear = vs_LL=-20.7(med -9.5) vs_NA2=113.8 seeds_better/worse_vs_LL=7/1
+m.burstgpt.mixed.degraded.q0n60.AdaptHard = vs_LL=-10.6(med 0.0) vs_NA2=145.9 seeds_better/worse_vs_LL=4/0
+m.burstgpt.mixed.degraded.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=72.0 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.mixed.degraded.q5n0.NetworkAware2 = vs_LL=-28.9(med -34.9) vs_NA2=0.0 seeds_better/worse_vs_LL=8/2
+m.burstgpt.mixed.degraded.q5n0.AdaptChannel = vs_LL=-15.7(med -12.6) vs_NA2=31.9 seeds_better/worse_vs_LL=7/3
+m.burstgpt.mixed.degraded.q5n0.AdaptSplit = vs_LL=-15.7(med -12.6) vs_NA2=31.9 seeds_better/worse_vs_LL=7/3
+m.burstgpt.mixed.degraded.q5n0.AdaptLinear = vs_LL=2.9(med -0.8) vs_NA2=70.1 seeds_better/worse_vs_LL=5/2
+m.burstgpt.mixed.degraded.q5n0.AdaptHard = vs_LL=0.5(med -0.2) vs_NA2=75.2 seeds_better/worse_vs_LL=5/3
+m.burstgpt.mixed.degraded.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=72.0 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.mixed.degraded.q5n60.NetworkAware2 = vs_LL=-28.9(med -34.9) vs_NA2=0.0 seeds_better/worse_vs_LL=8/2
+m.burstgpt.mixed.degraded.q5n60.AdaptChannel = vs_LL=-14.8(med -11.1) vs_NA2=33.8 seeds_better/worse_vs_LL=7/3
+m.burstgpt.mixed.degraded.q5n60.AdaptSplit = vs_LL=-1.2(med -2.7) vs_NA2=59.1 seeds_better/worse_vs_LL=6/4
+m.burstgpt.mixed.degraded.q5n60.AdaptLinear = vs_LL=2.3(med -1.1) vs_NA2=70.0 seeds_better/worse_vs_LL=5/2
+m.burstgpt.mixed.degraded.q5n60.AdaptHard = vs_LL=0.5(med -0.2) vs_NA2=75.2 seeds_better/worse_vs_LL=5/3
+m.burstgpt.mixed.unstable.q0n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=30.6 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.mixed.unstable.q0n0.NetworkAware2 = vs_LL=-20.9(med -26.1) vs_NA2=0.0 seeds_better/worse_vs_LL=8/2
+m.burstgpt.mixed.unstable.q0n0.AdaptChannel = vs_LL=-22.8(med -27.6) vs_NA2=-2.5 seeds_better/worse_vs_LL=9/1
+m.burstgpt.mixed.unstable.q0n0.AdaptSplit = vs_LL=-22.8(med -27.6) vs_NA2=-2.5 seeds_better/worse_vs_LL=9/1
+m.burstgpt.mixed.unstable.q0n0.AdaptLinear = vs_LL=-22.8(med -27.6) vs_NA2=-2.5 seeds_better/worse_vs_LL=9/1
+m.burstgpt.mixed.unstable.q0n0.AdaptHard = vs_LL=-22.8(med -27.6) vs_NA2=-2.5 seeds_better/worse_vs_LL=9/1
+m.burstgpt.mixed.unstable.q0n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=21.1 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.mixed.unstable.q0n60.NetworkAware2 = vs_LL=-14.8(med -19.5) vs_NA2=0.0 seeds_better/worse_vs_LL=9/1
+m.burstgpt.mixed.unstable.q0n60.AdaptChannel = vs_LL=-15.1(med -18.4) vs_NA2=-0.1 seeds_better/worse_vs_LL=9/1
+m.burstgpt.mixed.unstable.q0n60.AdaptSplit = vs_LL=-6.9(med -3.3) vs_NA2=11.4 seeds_better/worse_vs_LL=9/1
+m.burstgpt.mixed.unstable.q0n60.AdaptLinear = vs_LL=-8.0(med -4.4) vs_NA2=10.2 seeds_better/worse_vs_LL=8/2
+m.burstgpt.mixed.unstable.q0n60.AdaptHard = vs_LL=-6.1(med -0.1) vs_NA2=12.6 seeds_better/worse_vs_LL=5/2
+m.burstgpt.mixed.unstable.q5n0.LeastLoad = vs_LL=0.0(med nan) vs_NA2=2.1 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.mixed.unstable.q5n0.NetworkAware2 = vs_LL=2.9(med -6.8) vs_NA2=0.0 seeds_better/worse_vs_LL=7/3
+m.burstgpt.mixed.unstable.q5n0.AdaptChannel = vs_LL=0.2(med -5.4) vs_NA2=1.1 seeds_better/worse_vs_LL=7/3
+m.burstgpt.mixed.unstable.q5n0.AdaptSplit = vs_LL=0.2(med -5.4) vs_NA2=1.1 seeds_better/worse_vs_LL=7/3
+m.burstgpt.mixed.unstable.q5n0.AdaptLinear = vs_LL=-3.5(med -6.3) vs_NA2=-2.6 seeds_better/worse_vs_LL=6/3
+m.burstgpt.mixed.unstable.q5n0.AdaptHard = vs_LL=3.5(med -0.2) vs_NA2=3.8 seeds_better/worse_vs_LL=5/3
+m.burstgpt.mixed.unstable.q5n60.LeastLoad = vs_LL=0.0(med nan) vs_NA2=-17.5 seeds_better/worse_vs_LL=nan/nan
+m.burstgpt.mixed.unstable.q5n60.NetworkAware2 = vs_LL=32.5(med 23.4) vs_NA2=0.0 seeds_better/worse_vs_LL=4/6
+m.burstgpt.mixed.unstable.q5n60.AdaptChannel = vs_LL=3.0(med -0.1) vs_NA2=-16.1 seeds_better/worse_vs_LL=6/4
+m.burstgpt.mixed.unstable.q5n60.AdaptSplit = vs_LL=1.7(med -0.1) vs_NA2=-17.4 seeds_better/worse_vs_LL=6/4
+m.burstgpt.mixed.unstable.q5n60.AdaptLinear = vs_LL=-3.3(med -2.1) vs_NA2=-20.5 seeds_better/worse_vs_LL=7/2
+m.burstgpt.mixed.unstable.q5n60.AdaptHard = vs_LL=2.5(med 0.0) vs_NA2=-15.6 seeds_better/worse_vs_LL=4/4
+verdict.burstgpt.AdaptChannel = better_than_both=8/24 worse_than_both=2 better_than_na2=10 worse_than_na2=13
+verdict.burstgpt.AdaptSplit = better_than_both=6/24 worse_than_both=2 better_than_na2=8 worse_than_na2=15
+verdict.burstgpt.AdaptLinear = better_than_both=10/24 worse_than_both=4 better_than_na2=10 worse_than_na2=13
+verdict.burstgpt.AdaptHard = better_than_both=7/24 worse_than_both=3 better_than_na2=8 worse_than_na2=14
+ablate.burstgpt.Tn120 = vs_primary=-0.8±1.1 worst=-5.1 flips=2/12
+ablate.burstgpt.Tn20 = vs_primary=1.0±1.5 worst=6.5 flips=0/12
+ablate.burstgpt.Tq2 = vs_primary=1.9±3.4 worst=13.8 flips=1/12
+ablate.burstgpt.Tq8 = vs_primary=-0.9±1.4 worst=-7.5 flips=0/12
+ablate.burstgpt.floor0.5 = vs_primary=0.0±0.0 worst=0.0 flips=0/12
+ablate.burstgpt.floor0.9 = vs_primary=-0.9±1.2 worst=-5.5 flips=2/12
+
+# ==========================================================================
+# §9 退化与门记录
+# ==========================================================================
+degeneracy.verdict_counts = {'有信号': 260, '策略不全(数据未跑完)': 48, '部分退化：NA 与 LeastLoad 逐位相同(网络项无信号)': 35, '弱区分度(极差<5%)': 11, '退化：四策略逐位相同': 4}
+degeneracy.n_rows = 358
+
+# ==========================================================================
+# §8R 真实系统锚点 · B2 同云基线（n=4 配对轮）+ C 跨云（n=2 方向）· 描述性
+# ==========================================================================
+B2.unit = "4 paired rounds, descriptive system baseline"
+B2.request_account = {'formal': 800, 'warmup': 80, 'smoke': 8, 'note': '4 个配对轮 × 每轮两形态 × 2 并发档 × 5 题 × 10 重复 = 800（每形态每档 200）'}
+B2.serial_c1.TTFT.rounds_pct = [212.5, 202.7, 189.0, 211.9]
+B2.serial_c1.TTFT.typical_pct = 207.3
+B2.serial_c1.TTFT.range_pct = [189.0, 212.5]
+B2.serial_c1.avg_token_gap.rounds_pct = [0.9, 0.0, 1.6, 2.5]
+B2.serial_c1.avg_token_gap.typical_pct = 1.3
+B2.serial_c1.avg_token_gap.range_pct = [0.0, 2.5]
+B2.serial_c1.total.rounds_pct = [15.7, 14.9, 16.3, 17.3]
+B2.serial_c1.total.typical_pct = 16.0
+B2.serial_c1.total.range_pct = [14.9, 17.3]
+B2.conc4_c4.TTFT.rounds_pct = [47.7, 98.5, 136.7, 95.7]
+B2.conc4_c4.TTFT.typical_pct = 97.1
+B2.conc4_c4.TTFT.range_pct = [47.7, 136.7]
+B2.conc4_c4.avg_token_gap.rounds_pct = [-2.2, -2.7, -0.8, -0.4]
+B2.conc4_c4.avg_token_gap.typical_pct = -1.5
+B2.conc4_c4.avg_token_gap.range_pct = [-2.7, -0.4]
+B2.conc4_c4.total.rounds_pct = [7.3, 7.7, 13.6, 11.8]
+B2.conc4_c4.total.typical_pct = 9.8
+B2.conc4_c4.total.range_pct = [7.3, 13.6]
+B2.descriptive.base_c1 = {'ttft_p50': 0.068, 'ttft_p95': 0.122, 'tok_gap_p50': 0.0141, 'total_p50': 0.953, 'total_p95': 1.02}
+B2.descriptive.disagg_c1 = {'ttft_p50': 0.211, 'ttft_p95': 0.321, 'tok_gap_p50': 0.0142, 'total_p50': 1.111, 'total_p95': 1.229}
+B2.descriptive.base_c4 = {'ttft_p50': 0.144, 'ttft_p95': 0.309, 'tok_gap_p50': 0.0164, 'total_p50': 1.204, 'total_p95': 1.318}
+B2.descriptive.disagg_c4 = {'ttft_p50': 0.28, 'ttft_p95': 0.648, 'tok_gap_p50': 0.0162, 'total_p50': 1.301, 'total_p95': 1.623}
+B2.kv = {'transfers': 100, 'bytes': 4290000000, 'bytes_exact': 4290000000, 'failed': 0, 'external_kv_tokens': 149100, 'local_compute_tokens': 0, 'bytes_per_token_measured': 28799, 'bytes_per_token_theory': 28796}
+C.unit = "2 directions, descriptive feasibility measurement"
+C.D1.serial = {'ttft_p50_s': 4.16, 'ttft_p95_s': 7.1, 'tok_gap_p50_s': 0.0177, 'total_p50_s': 5.26, 'total_p95_s': 8.21}
+C.D1.conc4 = {'ttft_p50_s': 15.09, 'ttft_p95_s': 18.46, 'tok_gap_p50_s': 0.0191, 'total_p50_s': 16.25, 'total_p95_s': 19.64}
+C.D2.serial = {'ttft_p50_s': 3.84, 'ttft_p95_s': 6.39, 'tok_gap_p50_s': 0.0144, 'total_p50_s': 4.78, 'total_p95_s': 7.32}
+C.D2.conc4 = {'ttft_p50_s': 14.87, 'ttft_p95_s': 21.3, 'tok_gap_p50_s': 0.0171, 'total_p50_s': 15.95, 'total_p95_s': 22.27}
+C.Q1.D1.bytes_per_token = 28798.9
+C.Q1.D1.transfers = 100
+C.Q1.D1.failed = 0
+C.Q1.D1.local_recompute = 0
+C.Q1.D1.bytes_GB = 4.294
+C.Q1.D1.external_kv_tokens = 149100
+C.Q1.D2.bytes_per_token = 28798.9
+C.Q1.D2.transfers = 100
+C.Q1.D2.failed = 0
+C.Q1.D2.local_recompute = 0
+C.Q1.D2.bytes_GB = 4.294
+C.Q1.D2.external_kv_tokens = 149100
+C.vs_B2.D1.serial.ttft_pct = 1872
+C.vs_B2.D1.serial.total_pct = 373
+C.vs_B2.D1.serial.tok_gap_pct = 25
+C.vs_B2.D2.serial.ttft_pct = 1720
+C.vs_B2.D2.serial.total_pct = 330
+C.vs_B2.D2.serial.tok_gap_pct = 1
+C.vs_B2.D1.conc4.ttft_pct = 5289
+C.vs_B2.D1.conc4.total_pct = 1149
+C.vs_B2.D1.conc4.tok_gap_pct = 18
+C.vs_B2.D2.conc4.ttft_pct = 5211
+C.vs_B2.D2.conc4.total_pct = 1126
+C.vs_B2.D2.conc4.tok_gap_pct = 6
+C.bandwidth.MBps.A_to_T = 8.6
+C.bandwidth.MBps.T_to_A = 1.7
+C.bandwidth.MBps.T_to_B = 11.7
+C.bg.D1.q01_rep6 = ttft_p50=2.16 chars=3191 est_KV_MB=18.8
+C.bg.D1.q02_rep10 = ttft_p50=2.60 chars=5255 est_KV_MB=30.9
+C.bg.D1.q03_rep14 = ttft_p50=4.13 chars=7319 est_KV_MB=43.0
+C.bg.D1.q04_rep18 = ttft_p50=5.63 chars=9383 est_KV_MB=55.1
+C.bg.D1.q05_rep22 = ttft_p50=5.52 chars=11447 est_KV_MB=67.3
+C.bg.D2.q01_rep6 = ttft_p50=2.10 chars=3191 est_KV_MB=18.8
+C.bg.D2.q02_rep10 = ttft_p50=3.00 chars=5255 est_KV_MB=30.9
+C.bg.D2.q03_rep14 = ttft_p50=3.84 chars=7319 est_KV_MB=43.0
+C.bg.D2.q04_rep18 = ttft_p50=4.83 chars=9383 est_KV_MB=55.1
+C.bg.D2.q05_rep22 = ttft_p50=6.06 chars=11447 est_KV_MB=67.3
+D.status = "planned not executed (D-mini); see k8s_test/D_MINI_PREREG.md"

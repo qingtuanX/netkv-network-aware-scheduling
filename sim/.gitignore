@@ -8,9 +8,7 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/
 
-# 结果：可重新生成，不进版本库；但 manifest 和汇总要人工归档留存
-results/raw/*.csv
-figures/*.png
+# 结果：2026-10-15 起入库（含每请求明细与图），归档口径见仓库根 .gitignore
 
 # 编辑器
 .vscode/

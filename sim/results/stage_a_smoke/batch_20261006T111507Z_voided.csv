@@ -1,0 +1,4 @@
+phase,round_idx,tag,run_id,attempt,reason
+down,1,down01,20261006T111544Z,attempt1,"工具 A2 无有效读数（请求失败或 CSV 缺行）"
+down,1,down01,20261006T111635Z,attempt2,"工具 A2 无有效读数（请求失败或 CSV 缺行）"
+down,1,down01,20261006T111726Z,attempt3,"工具 A2 无有效读数（请求失败或 CSV 缺行）"

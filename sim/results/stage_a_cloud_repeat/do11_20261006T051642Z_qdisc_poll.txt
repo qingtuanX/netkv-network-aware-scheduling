@@ -1,0 +1,5 @@
+05:16:44 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+05:16:47 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+05:16:50 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+05:16:53 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000
+05:16:56 qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000

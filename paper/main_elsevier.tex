@@ -1,0 +1,96 @@
+% ===========================================================================
+%  Elsevier 版入口（elsarticle）—— 与 IEEE 版共用同一批 sections/ 与 refs.bib
+%
+%  什么时候用这个：目标期刊是 Elsevier 系（Computer Networks、Journal of Systems
+%  Architecture、Future Generation Computer Systems、JPDC …）时用本文件编译；
+%  目标期刊是 IEEE 系（TPDS、ToN、TSC …）时用 `main.tex`。
+%
+%  编译：bash build_elsevier.sh
+%
+%  【两个版本的实际差别】只有三处，正文节文件完全共用：
+%    1) 文档类与「标题/作者/摘要/关键词」的写法（elsarticle 用 frontmatter 环境）；
+%    2) 参考文献样式：elsarticle-num（编号制）；IEEE 版用 IEEEtran.bst；
+%    3) 版面：elsarticle 的 preprint 模式是单栏、12pt，适合投稿时"内容优先"。
+% ===========================================================================
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{figures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\setlength{\emergencystretch}{3em}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+% 期刊名（投稿系统里一般要求填；换成你的目标期刊）
+\journal{Computer Networks}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{The Price of Stale State: When Does Network Awareness Pay in
+       LLM Inference Serving?}
+
+% ★★★ 署名占位符：把方括号里的内容换成你自己的信息 ★★★
+\author[inst1]{[Author Name]}
+\address[inst1]{[Affiliation], [City], [Country]. [email@example.org]}
+% 多作者写法：
+%   \author[inst1]{First Author\corref{cor1}}
+%   \ead{first@example.org}
+%   \cortext[cor1]{Corresponding author.}
+
+\begin{abstract}
+Network-aware request scheduling for LLM inference---routing each request to the worker
+jointly best in compute backlog and link state---is widely reported to improve tail latency, yet
+reported gains range from negligible to over 70\%, and one published system reports that its gains
+persist under telemetry delayed by \SI{60}{\second}. We ask the prior question: \textbf{when does
+network awareness pay, and when does trusting it hurt?} Using a discrete-event simulator with up to
+ten independent workload realizations per cell across three sources (synthetic, the Azure LLM
+trace, and BurstGPT), plus a real single-node \texttt{k3s} cluster, we report four findings.
+(1)~Under our controlled configurations, the benefit tracks compute--bandwidth rank
+disagreement more than link speed: it is $-3.3\%$ when the
+fastest-computing worker also has the widest link and $-68.2\%$ when the two rankings disagree
+(Cliff's $\delta=1.00$, $p=1.8\times10^{-4}$), persisting at 4, 8 and 16 workers.
+(2)~The two observed channels expire an order of magnitude apart: queue state loses $56$--$85\%$ of
+its value within \SI{5}{\second}, while link state retains $65$--$89\%$ at \SI{60}{\second}. This
+explains the published ``\SI{60}{\second} does not matter'' observation, which swept only the
+slow-expiring channel. (3)~Per-channel discounting retains $90$--$99\%$ of the benefit under
+\SI{60}{\second}-old link state, where uniform discounting destroys all of it; our own first
+design is falsified by our own experiments. (4)~On real containers, a state read costs
+\SIrange{56}{876}{\milli\second} against \SI{12}{\micro\second} for an in-cluster round trip,
+grows with load, and staleness hurts in a threshold-like manner. We also report what did
+\emph{not} work, including two refuted hypotheses. We additionally report a \emph{descriptive}
+two-cloud deployment anchor: bidirectional KV transfer works, at a substantially higher
+first-token cost than the same-cloud split---no scaling law is claimed.
+\end{abstract}
+
+\begin{keyword}
+LLM inference serving \sep network-aware scheduling \sep state staleness \sep telemetry \sep
+measurement study \sep tail latency \sep negative results \sep reproducibility
+\end{keyword}
+
+\end{frontmatter}
+
+\input{sections/01_intro}
+\input{sections/02_related}
+\input{sections/03_model}
+\input{sections/04_setup}
+\input{sections/05_rq1}
+\input{sections/06_rq2}
+\input{sections/07_discount}
+\input{sections/08_real}
+\input{sections/09_threats}
+\input{sections/10_conclusion}
+
+\bibliographystyle{elsarticle-num}
+\bibliography{refs}
+
+\end{document}

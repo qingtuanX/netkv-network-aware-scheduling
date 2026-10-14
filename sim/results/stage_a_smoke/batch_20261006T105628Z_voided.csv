@@ -1,0 +1,5 @@
+phase,round_idx,tag,run_id,attempt,reason
+up,1,up01,20261006T105701Z,attempt1,"iperf3 无有效读数"
+up,1,up01,20261006T105809Z,attempt2,"iperf3 无有效读数"
+up,1,up01,20261006T105915Z,attempt3,"iperf3 无有效读数"
+up,1,up01,20261006T110017Z,attempt4,"本轮 overlimits 增量为 -337"

@@ -1,0 +1,6 @@
+--only-ids=['q01_rep6', 'q02_rep10', 'q03_rep14'] → 保留 3 条
+target=http://127.0.0.1:8300  /version={'version': '0.31.0'}
+  q01_rep6: http=200 prompt_tokens=651 completion_tokens=64 finish=length tok_ids=yes 2.1264s
+  q02_rep10: http=200 prompt_tokens=1071 completion_tokens=46 finish=stop tok_ids=yes 1.5654s
+  q03_rep14: http=200 prompt_tokens=1491 completion_tokens=44 finish=stop tok_ids=yes 1.4189s
+wrote /mnt/e/代码项目文件/论文/sim/results/b1/b1_4c3_local_20261008T130152Z/smoke_baseline.json  (3 requests)

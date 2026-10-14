@@ -1,0 +1,2 @@
+# 等待 baseline4c：curl http://<172.29.31.51|127.0.0.1>:8300/v1/models 直到 200（最多 240 s）
+READY baseline4c after 56s (http://172.29.31.51:8300/v1/models)

@@ -1,0 +1,72 @@
+{
+  "tool": "手工誊写（冻结工具输出的转录，不是新分析；PREREG_4 §11）",
+  "run_id": "b1_4c4_20261009T080426Z",
+  "prereg": "B1_4C_PREREG_4.md（冻结版）",
+  "utc_decided": "2026-10-09T08:35:00Z",
+  "model": "Qwen2.5-1.5B-Instruct (revision 989aa798...)",
+  "env": "vLLM 0.31.0 / nixl 1.4.1 / 两台 A10 同 VPC（A=172.29.31.52 前处理，B=172.29.31.51 生成+对照）",
+  "units": {
+    "base_bf16": {
+      "fixed_prefix": "320/320 A（明显一致）；B=0 C=0 D=0 弃用=0",
+      "delta_gap": {"median": 5.62e-07, "p95_reference_upper": 0.0006092933162600324, "max": 0.05108075883760216},
+      "free_gen_old_criterion": "15/15 逐 token 相同（3 遍 × 5 题）",
+      "calib_delta_cal": {"n_pairs": 2250, "median": 0.0, "p95_reference_upper": 0.0, "max": 0.0}
+    },
+    "i1_batch_invariant": {
+      "fixed_prefix": "320/320 A（明显一致）；B=0 C=0 D=0 弃用=0",
+      "delta_gap": {"median": 0.0, "p95_reference_upper": 0.0, "max": 0.0},
+      "free_gen_old_criterion": "15/15 逐 token 相同（3 遍 × 5 题）",
+      "calib_delta_cal": {"n_pairs": 2250, "median": 0.0, "p95_reference_upper": 0.0, "max": 0.0}
+    }
+  },
+  "gates": {
+    "1_kv_intact": {
+      "pass": true,
+      "evidence": "两轮（基线/I1）生成端 t0→t1 各：nixl 传输 848 次、42,129,031,168 字节、失败传输/失败通知/KV 过期全 0；prompt_tokens_by_source{external_kv_transfer}=1,462,988（本地重算=0）。字节÷token=28,796 ≈ Qwen2.5-1.5B KV 大小 28,672（差 0.4%），账目自洽。"
+    },
+    "2_C_zero": {
+      "pass": true,
+      "evidence": "两单元 C=0；Δ_gap_max 重判与 p95 判定零翻转（敏感性检查过）。"
+    },
+    "3_all_divergences_B": {
+      "pass": true,
+      "evidence": "两单元分歧步 = 0（零分歧，条件空真成立）；D=0，竞争 token 全部在两臂 top-20 内。"
+    },
+    "4_smoke_e3": {
+      "pass": true,
+      "evidence": "C1 冒烟 4 次（base/disagg/base_i1/disagg_i1）全过，各 192 步零违例（吐词==processed 第一名）；E3 同臂同前缀逐位相同；四轮校准 Δ_cal=0.0（各 2250 对）。"
+    },
+    "5_gap_estimable": {
+      "pass": true,
+      "evidence": "同词步 320（基线）+320（I1）≥ 30；每步 top-20 交集候选对充足（合计 58,848 + 60,800 对）。"
+    },
+    "6_params_effective": {
+      "pass": true,
+      "evidence": "服务侧：启动日志 non-default args 含 generation_config='vllm' / dtype='bfloat16' / logprobs_mode='processed_logprobs' / enable_prefix_caching=False；请求侧：request_params_actual 含 temperature=0/top_p=1/top_k=-1/repetition_penalty=1（从实发 payload 采集）；top-20 非退化 640/640。"
+    }
+  },
+  "gate_result": "6/6 PASS",
+  "decision": "B2 放行",
+  "wording_frozen_verbatim": "原始逐 token 一致性检查仍为 6/15；本轮新增的固定前文测试未发现明显状态传输错误，因此允许进入 B2。",
+  "interventions": {
+    "I1_batch_invariant": "已执行。分歧为零（无可归因对象）；Δ_gap=0.0（两条路径逐位同分布）。开关经本机单跑 vs 混批对照验证生效（0.0069→0.0）；『批不变性 + nixl KV 传输』组合本轮为首测，可正常工作。",
+    "I2_fp32": "未执行（砍臂）。依据 PREREG_4 §7 优先级规则（I2 最先砍）+ 作者提速指令 + 基线与 I1 均零分歧使其价值边际。如实记录，不补测。"
+  },
+  "additional_observations": [
+    "生成参数钉死后，自由生成（旧 4c 口径）两轮各 15/15 逐字相同。旧记录 6/15 不改写（发生在模型文件 generation_config.json 继承配置下）；此为新数据事实。机制假说（未证）：继承的 top_k/repetition_penalty/top_p 重塑分数、放大近并列处跨路径噪声。",
+    "bf16 基线的跨路径数值差真实存在但极小：Δ_gap p95=6.1e-4，远小于旧 q04 竞争差距 0.011–0.026；最大 0.051 出现在某步候选对上但未翻转 top1。",
+    "I1 批不变性把跨路径数值差压到精确 0。"
+  ],
+  "old_records_unchanged": {
+    "B1_first_round_4c": "6/15（未通过）——保留",
+    "PREREG_3": "12/15 ——保留",
+    "note": "本轮是新口径（固定前缀）下的收口验证 + 新配置（参数钉死）下的自由生成观察；不追溯改写任何旧判定。"
+  },
+  "honest_boundaries": [
+    "样本小：5 条诊断题 × 320 步 + 10 条校准题；不是统计意义上的等价性证明。",
+    "q04 是已知分歧的重复验证题；本轮结果只说明该类分歧的机制，不代表所有提示词上的普遍等价性。",
+    "1.5B 单一模型、同 VPC 两台 A10；跨云（C 阶段）尚未测。",
+    "旧 6/15 与本轮 15/15 的配置差异（生成参数继承 vs 钉死）未做单因子消融，机制归因是假说。"
+  ],
+  "next": "B2 同云性能基线（作者安排；本轮不跑性能）"
+}

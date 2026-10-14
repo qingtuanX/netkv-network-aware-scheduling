@@ -1,0 +1,58 @@
+[11:23:08Z] 批次 20261006T112308Z 开始：phase=both up=10 down=10 payload=8MB
+[11:23:08Z] == 部署：tc 只读仪表 + iperf3 服务端 + worker + WSL 软链 ==
+保活 PID=6667
+[11:23:27Z] 部署完成（仪表 / worker / iperf3 三项自检都通过）
+[11:23:37Z] 起手不限速基线（上传 4 MB）：6.907835 Mbit/s
+[11:23:37Z] ===== 阶段 up：目标 10 轮有效 =====
+[11:23:44Z] 阶段 up 限速已装并通过断言
+[11:23:54Z] up01/20261006T112344Z 开始（第 1 次尝试）：本轮不限速基线 15.734750 Mbit/s（发送端 16.766000）；限速=在位，overlimits 基线 376，filter success 基线 422
+[11:25:55Z] up01/20261006T112344Z 有效：不限速基线 15.734750 Mbit/s | 工具 5.519 Mbit/s（偏差 -8.02%）| iperf3 发送 5.592103 / 接收 5.429811（差 -1.31% / 1.64%）| overlimits +36753，dropped +0，filter success +42722 | A4 比值 2.94 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[11:26:08Z] up02/20261006T112555Z 开始（第 1 次尝试）：本轮不限速基线 7.470172 Mbit/s（发送端 11.179836）；限速=在位，overlimits 基线 375，filter success 基线 420
+[11:28:08Z] up02/20261006T112555Z 有效：不限速基线 7.470172 Mbit/s | 工具 5.431 Mbit/s（偏差 -9.48%）| iperf3 发送 5.591799 / 接收 5.536487（差 -2.88% / -1.91%）| overlimits +36791，dropped +0，filter success +42918 | A4 比值 2.96 | 判据 ①PASS ②发MARGINAL/收PASS ③PASS
+[11:28:27Z] up03/20261006T112808Z 开始（第 1 次尝试）：本轮不限速基线 3.846369 Mbit/s（发送端 4.193643）；限速=在位，overlimits 基线 323，filter success 基线 364
+[11:30:27Z] up03/20261006T112808Z 有效：不限速基线 3.846369 Mbit/s | 工具 5.595 Mbit/s（偏差 -6.76%）| iperf3 发送 5.592187 / 接收 5.425508（差 0.05% / 3.12%）| overlimits +36751，dropped +0，filter success +42280 | A4 比值 2.97 | 判据 ①PASS ②发PASS/收MARGINAL ③PASS
+[11:30:38Z] up04/20261006T113027Z 开始（第 1 次尝试）：本轮不限速基线 13.311926 Mbit/s（发送端 16.765790）；限速=在位，overlimits 基线 376，filter success 基线 420
+[11:32:38Z] up04/20261006T113027Z 有效：不限速基线 13.311926 Mbit/s | 工具 5.608 Mbit/s（偏差 -6.54%）| iperf3 发送 5.591295 / 接收 5.445706（差 0.30% / 2.98%）| overlimits +36595，dropped +0，filter success +42784 | A4 比值 2.85 | 判据 ①PASS ②发PASS/收MARGINAL ③PASS
+[11:32:53Z] up05/20261006T113239Z 开始（第 1 次尝试）：本轮不限速基线 10.595971 Mbit/s（发送端 11.179806）；限速=在位，overlimits 基线 363，filter success 基线 478
+[11:34:54Z] up05/20261006T113239Z 有效：不限速基线 10.595971 Mbit/s | 工具 5.651 Mbit/s（偏差 -5.81%）| iperf3 发送 5.591302 / 接收 5.542647（差 1.07% / 1.95%）| overlimits +36711，dropped +0，filter success +42570 | A4 比值 2.86 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[11:35:09Z] up06/20261006T113454Z 开始（第 1 次尝试）：本轮不限速基线 6.454022 Mbit/s（发送端 6.709161）；限速=在位，overlimits 基线 348，filter success 基线 390
+[11:37:09Z] up06/20261006T113454Z 有效：不限速基线 6.454022 Mbit/s | 工具 5.595 Mbit/s（偏差 -6.76%）| iperf3 发送 5.161369 / 接收 5.088019（差 8.40% / 9.96%）| overlimits +36597，dropped +0，filter success +43052 | A4 比值 2.60 | 判据 ①PASS ②发FAIL/收FAIL ③PASS
+[11:37:21Z] up07/20261006T113709Z 开始（第 1 次尝试）：本轮不限速基线 10.614487 Mbit/s（发送端 11.179918）；限速=在位，overlimits 基线 375，filter success 基线 420
+[11:39:21Z] up07/20261006T113709Z 有效：不限速基线 10.614487 Mbit/s | 工具 5.416 Mbit/s（偏差 -9.73%）| iperf3 发送 5.592223 / 接收 5.429806（差 -3.15% / -0.25%）| overlimits +36675，dropped +0，filter success +42674 | A4 比值 2.82 | 判据 ①PASS ②发MARGINAL/收PASS ③PASS
+[11:39:33Z] up08/20261006T113921Z 开始（第 1 次尝试）：本轮不限速基线 10.726818 Mbit/s（发送端 11.179702）；限速=在位，overlimits 基线 376，filter success 基线 422
+[11:41:33Z] up08/20261006T113921Z 有效：不限速基线 10.726818 Mbit/s | 工具 5.370 Mbit/s（偏差 -10.51%）| iperf3 发送 5.589946 / 接收 5.525499（差 -3.93% / -2.81%）| overlimits +36685，dropped +0，filter success +42630 | A4 比值 2.96 | 判据 ①PASS ②发MARGINAL/收MARGINAL ③PASS
+[11:41:48Z] up09/20261006T114133Z 开始（第 1 次尝试）：本轮不限速基线 8.014005 Mbit/s（发送端 8.386006）；限速=在位，overlimits 基线 373，filter success 基线 426
+[11:43:48Z] up09/20261006T114133Z 有效：不限速基线 8.014005 Mbit/s | 工具 5.644 Mbit/s（偏差 -5.94%）| iperf3 发送 5.591709 / 接收 5.436815（差 0.94% / 3.81%）| overlimits +36731，dropped +0，filter success +42952 | A4 比值 2.94 | 判据 ①PASS ②发PASS/收MARGINAL ③PASS
+[11:43:56Z] up10/20261006T114348Z 开始（第 1 次尝试）：本轮不限速基线 32.728208 Mbit/s（发送端 33.509161）；限速=在位，overlimits 基线 377，filter success 基线 422
+[11:45:46Z] up10/20261006T114348Z 有效：不限速基线 32.728208 Mbit/s | 工具 5.727 Mbit/s（偏差 -4.56%）| iperf3 发送 5.591783 / 接收 5.581381（差 2.42% / 2.61%）| overlimits +36811，dropped +0，filter success +42402 | A4 比值 3.00 | 判据 ①PASS ②发MARGINAL/收MARGINAL ③PASS
+[11:45:47Z] ===== 阶段 up 完成：10 轮有效 =====
+[11:45:47Z] ===== 阶段 down：目标 10 轮有效 =====
+[11:45:51Z] 阶段 down 限速已装并通过断言
+[11:46:14Z] down01/20261006T114552Z 开始（第 1 次尝试）：本轮不限速基线 2.795947 Mbit/s（发送端 2.790714）；限速=在位，overlimits 基线 380，filter success 基线 0
+[11:51:11Z] down01/20261006T114552Z 有效：不限速基线 2.795947 Mbit/s | 工具 1.432 Mbit/s（偏差 -4.52%）| iperf3 发送 1.427186 / 接收 1.427814（差 0.34% / 0.29%）| overlimits +38549，dropped +0，filter success +0 | A4 比值 3.01 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[11:51:32Z] down02/20261006T115111Z 开始（第 1 次尝试）：本轮不限速基线 3.050093 Mbit/s（发送端 3.043938）；限速=在位，overlimits 基线 380，filter success 基线 0
+[11:56:25Z] down02/20261006T115111Z 有效：不限速基线 3.050093 Mbit/s | 工具 1.432 Mbit/s（偏差 -4.51%）| iperf3 发送 1.426792 / 接收 1.427815（差 0.37% / 0.29%）| overlimits +38046，dropped +0，filter success +0 | A4 比值 3.00 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[11:56:47Z] down03/20261006T115625Z 开始（第 1 次尝试）：本轮不限速基线 2.795938 Mbit/s（发送端 2.790522）；限速=在位，overlimits 基线 382，filter success 基线 0
+[12:01:39Z] down03/20261006T115625Z 有效：不限速基线 2.795938 Mbit/s | 工具 1.432 Mbit/s（偏差 -4.52%）| iperf3 发送 1.427185 / 接收 1.427814（差 0.34% / 0.29%）| overlimits +38912，dropped +0，filter success +0 | A4 比值 3.00 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[12:02:01Z] down04/20261006T120139Z 开始（第 1 次尝试）：本轮不限速基线 2.795927 Mbit/s（发送端 2.790517）；限速=在位，overlimits 基线 382，filter success 基线 0
+[12:06:54Z] down04/20261006T120139Z 有效：不限速基线 2.795927 Mbit/s | 工具 1.432 Mbit/s（偏差 -4.51%）| iperf3 发送 1.427183 / 接收 1.427815（差 0.34% / 0.29%）| overlimits +38203，dropped +0，filter success +0 | A4 比值 3.00 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[12:07:15Z] down05/20261006T120654Z 开始（第 1 次尝试）：本轮不限速基线 2.795908 Mbit/s（发送端 2.789755）；限速=在位，overlimits 基线 382，filter success 基线 0
+[12:12:12Z] down05/20261006T120654Z 有效：不限速基线 2.795908 Mbit/s | 工具 1.432 Mbit/s（偏差 -4.52%）| iperf3 发送 1.427137 / 接收 1.427813（差 0.34% / 0.29%）| overlimits +37555，dropped +0，filter success +0 | A4 比值 3.00 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[12:12:34Z] down06/20261006T121212Z 开始（第 1 次尝试）：本轮不限速基线 2.796135 Mbit/s（发送端 2.790643）；限速=在位，overlimits 基线 380，filter success 基线 0
+[12:17:31Z] down06/20261006T121212Z 有效：不限速基线 2.796135 Mbit/s | 工具 1.432 Mbit/s（偏差 -4.52%）| iperf3 发送 1.427146 / 接收 1.427812（差 0.34% / 0.29%）| overlimits +38077，dropped +0，filter success +0 | A4 比值 2.92 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[12:17:53Z] down07/20261006T121731Z 开始（第 1 次尝试）：本轮不限速基线 2.795945 Mbit/s（发送端 2.790761）；限速=在位，overlimits 基线 382，filter success 基线 0
+[12:22:50Z] down07/20261006T121731Z 有效：不限速基线 2.795945 Mbit/s | 工具 1.401 Mbit/s（偏差 -6.58%）| iperf3 发送 1.427126 / 接收 1.427813（差 -1.83% / -1.88%）| overlimits +38409，dropped +0，filter success +0 | A4 比值 3.00 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[12:23:12Z] down08/20261006T122250Z 开始（第 1 次尝试）：本轮不限速基线 2.795904 Mbit/s（发送端 2.789600）；限速=在位，overlimits 基线 382，filter success 基线 0
+[12:28:09Z] down08/20261006T122250Z 有效：不限速基线 2.795904 Mbit/s | 工具 1.432 Mbit/s（偏差 -4.51%）| iperf3 发送 1.427151 / 接收 1.427812（差 0.34% / 0.29%）| overlimits +38351，dropped +0，filter success +0 | A4 比值 3.00 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[12:28:31Z] down09/20261006T122809Z 开始（第 1 次尝试）：本轮不限速基线 2.795947 Mbit/s（发送端 2.790410）；限速=在位，overlimits 基线 381，filter success 基线 0
+[12:33:28Z] down09/20261006T122809Z 有效：不限速基线 2.795947 Mbit/s | 工具 1.432 Mbit/s（偏差 -4.51%）| iperf3 发送 1.427177 / 接收 1.427807（差 0.34% / 0.29%）| overlimits +38252，dropped +0，filter success +0 | A4 比值 3.00 | 判据 ①PASS ②发PASS/收PASS ③PASS
+[12:33:50Z] down10/20261006T123328Z 开始（第 1 次尝试）：本轮不限速基线 2.795925 Mbit/s（发送端 2.790779）；限速=在位，overlimits 基线 386，filter success 基线 0
+[12:40:29Z] down10/20261006T123328Z 有效：不限速基线 2.795925 Mbit/s | 工具 1.422 Mbit/s（偏差 -5.22%）| iperf3 发送 1.427156 / 接收 1.427814（差 -0.36% / -0.41%）| overlimits +35698，dropped +0，filter success +0 | A4 比值 1.12 | 判据 ①PASS ②发PASS/收PASS ③FAIL
+[12:40:29Z] ===== 阶段 down 完成：10 轮有效 =====
+[12:40:29Z] 批次完成。有效轮 20，作废轮 0
+[12:40:29Z] 逐轮判定表：/e/代码项目文件/论文/sim/results/stage_a_cloud_clean/batch_20261006T112308Z_rounds.csv
+[12:40:29Z] == 清理：拆两边限速 + 停云上进程（显式拆除，不依赖任何定时器）==
+残余进程：iperf3=[] worker=[]
+云上根队列：qdisc mq 0: root 
+云上监听：
+[12:40:32Z] 本机 WSL 根队列：qdisc mq 0: root 

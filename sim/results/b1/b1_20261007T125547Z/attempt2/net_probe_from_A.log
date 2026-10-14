@@ -1,0 +1,9 @@
+# ---- net_probe_from_A @ A (8.130.72.109)  start=2026-10-07T13:00:19Z  cmd: for p in 5600 8200 8300 9101; do timeout 5 bash -c "echo > /dev/tcp/172.16.206.252/$p" 2>/dev/null && echo "$p 内网可达" || echo "$p 不可达"; done;     echo '--- 同一台 A 通过公网 IP 连同样的端口（应不可达，证明 KV 只能走内网） ---';     for p in 5600 9101; do timeout 5 bash -c "echo > /dev/tcp/8.130.179.201/$p" 2>/dev/null && echo "公网 $p 可达" || echo "公网 $p 不可达"; done ----
+5600 内网可达
+8200 内网可达
+8300 内网可达
+9101 内网可达
+--- 同一台 A 通过公网 IP 连同样的端口（应不可达，证明 KV 只能走内网） ---
+公网 5600 不可达
+公网 9101 不可达
+# ---- exit=0 end=2026-10-07T13:00:30Z ----

@@ -1,0 +1,8 @@
+# arm=disagg_r1 url=http://127.0.0.1:8192 extra='--only-ids p01_rep8' start=2026-10-07T17:17:43Z
+# 客户端跑在 A 上（chost=A），目标 127.0.0.1:8192
+--only-ids=['p01_rep8'] → 保留 1 条
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 0.6245s
+wrote /root/b1/out/disagg_r1.json  (1 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-07T17:17:46Z ----

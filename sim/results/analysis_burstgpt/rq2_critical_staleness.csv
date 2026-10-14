@@ -1,0 +1,4 @@
+﻿network,lag0_dp95_vs_naive,lag_max_dp95_vs_naive,critical_lag_s,lag_range_s
+degraded,5.282821596026892,2.826521961095519,,"[0, 60]"
+normal,0.0,0.0,0.25,"[0, 60]"
+unstable,-2.0345051154918816,0.056828623366257006,1.9140709870565378,"[0, 60]"

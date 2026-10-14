@@ -1,0 +1,2 @@
+phase,round_idx,tag,run_id,attempt,reason
+up,1,up01,20261006T110708Z,attempt1,"并发段 3 路合计 5.595 是单路 3.203 的 1.75× → 并发期间限速不在位"

@@ -1,0 +1,55 @@
+{
+  "n_requests": 120,
+  "n_ok": 120,
+  "n_err": 0,
+  "error_counts": {},
+  "wall_clock_s": 10.681,
+  "throughput_qps": 11.235,
+  "inflight_peak": 10,
+  "latency": {
+    "ttft_s": {
+      "p50": 0.14257,
+      "p95": 0.142935,
+      "p99": 0.14308,
+      "max": 0.14326
+    },
+    "tpot_p50_s": {
+      "p50": 0.020002,
+      "p95": 0.020012
+    },
+    "tpot_p95_s": {
+      "p50": 0.020142,
+      "p95": 0.020283
+    },
+    "e2e_s": {
+      "p50": 0.762863,
+      "p95": 0.763205,
+      "p99": 0.763462,
+      "max": 0.76375
+    }
+  },
+  "coverage_verdicts": {
+    "PASS": 120
+  },
+  "srv_verdicts": {
+    "PASS": 120
+  },
+  "coverage": {
+    "n_with_server_report": 120,
+    "cov_max_gap_s_max": 0.0,
+    "cov_gap_total_s_max": 0.0,
+    "cov_loo_min_gap_s_min": 5.602836608886719e-05,
+    "srv_gap_max_s_max": 0.0,
+    "srv_overlap_s_median": 0.031457,
+    "sum_minus_e2e_s_median": 0.030051,
+    "sum_minus_e2e_s_max": 0.030359,
+    "sum_minus_srv_span_s_median": 0.031457,
+    "srv_outside_s_median": 0.0,
+    "cov_tol_s": 0.005,
+    "loo_eps_s": 1e-06
+  },
+  "kv_bytes_per_request": 25165824.0,
+  "run_id": "serving_20261007T034442544Z_4394-3",
+  "requests_csv": "/mnt/e/代码项目文件/论文/sim/results/b0_linux/serving_20261007T034442544Z_4394-3_requests.csv",
+  "tokens_csv": null
+}

@@ -1,0 +1,127 @@
+{
+  "label": "synthetic",
+  "created_utc": "20260922T074315Z",
+  "matrix_dir": "E:\\代码项目文件\\论文\\sim\\results\\matrix",
+  "source": "synthetic",
+  "trace": null,
+  "checks": [
+    {
+      "check": "门1 rho 全部落在 [0.3, 0.9]",
+      "passed": true,
+      "detail": "共 2024 行，越界 0 行（公差 0.0005）",
+      "n_rows": 2024,
+      "n_out_of_range": 0,
+      "per_mode": {
+        "main": {
+          "runs": 480,
+          "rho_min": 0.6000094079552539,
+          "rho_max": 0.6000299272497817,
+          "out_of_range": 0,
+          "run_id": "20260922T072905Z"
+        },
+        "staleness": {
+          "runs": 384,
+          "rho_min": 0.6000094079552591,
+          "rho_max": 0.600025763300008,
+          "out_of_range": 0,
+          "run_id": "20260922T070409Z"
+        },
+        "datavolume": {
+          "runs": 192,
+          "rho_min": 0.6000094079552539,
+          "rho_max": 0.6000257633000116,
+          "out_of_range": 0,
+          "run_id": "20260922T071244Z"
+        },
+        "ablation": {
+          "runs": 240,
+          "rho_min": 0.600009407955257,
+          "rho_max": 0.60002576330001,
+          "out_of_range": 0,
+          "run_id": "20260922T073848Z"
+        },
+        "scale": {
+          "runs": 72,
+          "rho_min": 0.6000094079552596,
+          "rho_max": 0.6000257633000059,
+          "out_of_range": 0,
+          "run_id": "20260922T071752Z"
+        },
+        "convergence": {
+          "runs": 80,
+          "rho_min": 0.599979144282697,
+          "rho_max": 0.6000299272497804,
+          "out_of_range": 0,
+          "run_id": "20260922T071904Z"
+        },
+        "rho": {
+          "runs": 360,
+          "rho_min": 0.3000047039776285,
+          "rho_max": 0.900038644950012,
+          "out_of_range": 0,
+          "run_id": "20260922T072107Z"
+        },
+        "fallback": {
+          "runs": 216,
+          "rho_min": 0.600009407955257,
+          "rho_max": 0.60002576330001,
+          "out_of_range": 0,
+          "run_id": "20260922T072531Z"
+        }
+      }
+    },
+    {
+      "check": "门2 产物层（ablation 逐指标）",
+      "passed": true,
+      "detail": "12 个 cell × 13 个指标：13/13 逐位相同",
+      "run_id": "20260922T073848Z",
+      "n_cells": 12,
+      "n_metrics": 13
+    },
+    {
+      "check": "门2 请求层 mixed(w=0 == LeastLoad)",
+      "passed": true,
+      "detail": "(node_id, finish) 逐位相同=True；对照：w_net=1 时 86.2% 请求不同",
+      "workload": "mixed",
+      "frac_diff_w1": 0.86205
+    },
+    {
+      "check": "门2 请求层 data_heavy(w=0 == LeastLoad)",
+      "passed": true,
+      "detail": "(node_id, finish) 逐位相同=True；对照：w_net=1 时 84.8% 请求不同",
+      "workload": "data_heavy",
+      "frac_diff_w1": 0.8478
+    },
+    {
+      "check": "门3 同种子可复现",
+      "passed": true,
+      "detail": "同一配置同一负载跑两次，(node_id, finish) 逐位相同=True",
+      "n_requests": 20000
+    },
+    {
+      "check": "白盒 时间分解精确性",
+      "passed": true,
+      "detail": "静态网络下单请求：|finish − (arrival+net_in+service+net_out)| = 0.000e+00",
+      "finish": 83.29382006843664,
+      "expected": 83.29382006843664
+    },
+    {
+      "check": "黑盒 p95 随 rho 单调不减",
+      "passed": true,
+      "detail": "p95 = 26.62 → 30.50 → 34.81 → 37.90 → 42.61",
+      "p95_by_rho": [
+        26.621711827195295,
+        30.502602210169297,
+        34.80549890308425,
+        37.900651443217605,
+        42.606662240006514
+      ]
+    },
+    {
+      "check": "产物完整性 runs+paired+manifest",
+      "passed": true,
+      "detail": "全部完整",
+      "incomplete": []
+    }
+  ]
+}

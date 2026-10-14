@@ -1,0 +1,316 @@
+==============================================================================
+4b 判据：KV 传输指标（直方图口径 —— 比样本数与字节总和的变化）
+==============================================================================
+对象    : D（生成端，单请求后） B（measure_decode_t0 → measure_decode_mid）
+t0 快照 : metrics_measure_decode_t0_raw.txt  (67654 字节, 509 条样本)
+t1 快照 : metrics_measure_decode_mid_raw.txt  (67667 字节, 509 条样本)
+匹配正则: nixl|kv_transfer|kv_connector|kv_cache|prompt_tokens_by_source
+
+读法：_count = 这段时间里发生了几次「KV 传输通知」（**不是请求数**）；
+      _sum   = 这段时间里一共搬了多少字节（**这才是「传没传到」的证据**）。
+      分桶 _bucket 的增量说明这次传输落在哪个大小档，属于辅助证据。
+
+命中 80 条样本序列，归并为 17 个指标族：
+
+族名                                                     kind标签                                                    t0              t1              增量
+--------------------------------------------------------------------------------------------------------------------------------------------
+vllm:kv_cache_usage_perc                              plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="+Inf",model_name="Qwen                 1               2               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="1.34217728e+08",model_                 1               2               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="131072.0",model_name="                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="2.097152e+06",model_na                 0               1               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="2.147483648e+09",model                 1               2               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="2048.0",model_name="Qw                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="3.3554432e+07",model_n                 1               2               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="32768.0",model_name="Q                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="5.36870912e+08",model_                 1               2               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="524288.0",model_name="                 0               1               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="8.388608e+06",model_na                 0               1               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="8.589934592e+09",model                 1               2               1
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="8192.0",model_name="Qw                 0               0               0
+vllm:nixl_bytes_transferred                           count{engine="0",model_name="Qwen/Qwen2.5-1                 1               2               1
+vllm:nixl_bytes_transferred                             sum{engine="0",model_name="Qwen/Qwen2.5-1          18350080        18808832          458752
+vllm:nixl_bytes_transferred_created                   plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:nixl_num_descriptors                            bucket{engine="0",le="+Inf",model_name="Qwen                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="10.0",model_name="Qwen                 0               0               0
+vllm:nixl_num_descriptors                            bucket{engine="0",le="100.0",model_name="Qwe                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="1000.0",model_name="Qw                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="10000.0",model_name="Q                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="20.0",model_name="Qwen                 0               0               0
+vllm:nixl_num_descriptors                            bucket{engine="0",le="200.0",model_name="Qwe                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="2000.0",model_name="Qw                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="20000.0",model_name="Q                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="30.0",model_name="Qwen                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="400.0",model_name="Qwe                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="4000.0",model_name="Qw                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="50.0",model_name="Qwen                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="50000.0",model_name="Q                 1               2               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="75.0",model_name="Qwen                 1               2               1
+vllm:nixl_num_descriptors                             count{engine="0",model_name="Qwen/Qwen2.5-1                 1               2               1
+vllm:nixl_num_descriptors                               sum{engine="0",model_name="Qwen/Qwen2.5-1                28              56              28
+vllm:nixl_num_descriptors_created                     plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:nixl_num_failed_notifications_created            plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:nixl_num_failed_notifications_total              plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:nixl_num_failed_transfers_created                plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:nixl_num_failed_transfers_total                  plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:nixl_num_kv_expired_reqs_created                 plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:nixl_num_kv_expired_reqs_total                   plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="+Inf",model_name="Qwen                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.001",model_name="Qwe                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.005",model_name="Qwe                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.01",model_name="Qwen                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.025",model_name="Qwe                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.05",model_name="Qwen                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.075",model_name="Qwe                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.1",model_name="Qwen/                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.2",model_name="Qwen/                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.3",model_name="Qwen/                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.5",model_name="Qwen/                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.75",model_name="Qwen                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="1.0",model_name="Qwen/                 1               2               1
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="5.0",model_name="Qwen/                 1               2               1
+vllm:nixl_post_time_seconds                           count{engine="0",model_name="Qwen/Qwen2.5-1                 1               2               1
+vllm:nixl_post_time_seconds                             sum{engine="0",model_name="Qwen/Qwen2.5-1           0.00031        0.000382         7.2e-05
+vllm:nixl_post_time_seconds_created                   plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="+Inf",model_name="Qwen                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.005",model_name="Qwe                 0               1               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.01",model_name="Qwen                 0               1               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.025",model_name="Qwe                 0               1               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.05",model_name="Qwen                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.075",model_name="Qwe                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.1",model_name="Qwen/                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.2",model_name="Qwen/                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.3",model_name="Qwen/                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.5",model_name="Qwen/                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.75",model_name="Qwen                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="1.0",model_name="Qwen/                 1               2               1
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="5.0",model_name="Qwen/                 1               2               1
+vllm:nixl_xfer_time_seconds                           count{engine="0",model_name="Qwen/Qwen2.5-1                 1               2               1
+vllm:nixl_xfer_time_seconds                             sum{engine="0",model_name="Qwen/Qwen2.5-1           0.04591        0.047464        0.001554
+vllm:nixl_xfer_time_seconds_created                   plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:prompt_tokens_by_source_created                  plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:prompt_tokens_by_source_created                  plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:prompt_tokens_by_source_created                  plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79139e+09     1.79139e+09               0
+vllm:prompt_tokens_by_source_total                    plain{engine="0",model_name="Qwen/Qwen2.5-1               636             648              12
+vllm:prompt_tokens_by_source_total                    plain{engine="0",model_name="Qwen/Qwen2.5-1                 0             624             624
+vllm:prompt_tokens_by_source_total                    plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+
+【完整标签原文，不截断】逐条原样列出（上面那张表为了对齐会截断标签，本段不截断）：
+    vllm:kv_cache_usage_perc{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="+Inf",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="1.34217728e+08",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="131072.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="2.097152e+06",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="2.147483648e+09",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="2048.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="3.3554432e+07",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="32768.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="5.36870912e+08",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="524288.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="8.388608e+06",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="8.589934592e+09",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="8192.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="+Inf",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="10.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="100.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="1000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="10000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="20.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="200.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="2000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="20000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="30.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="400.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="4000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="50.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="50000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="75.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_failed_notifications_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_failed_notifications_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_failed_transfers_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_failed_transfers_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_kv_expired_reqs_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_kv_expired_reqs_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="+Inf",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.001",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.005",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.01",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.025",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.05",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.075",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.1",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.2",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.3",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.5",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.75",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="1.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="5.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="+Inf",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.005",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.01",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.025",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.05",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.075",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.1",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.2",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.3",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.5",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.75",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="1.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="5.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:prompt_tokens_by_source_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"}
+    vllm:prompt_tokens_by_source_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"}
+    vllm:prompt_tokens_by_source_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"}
+    vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"}
+    vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"}
+    vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"}
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+逐族判读（只看 sum 与 count；plain 族（无 _sum/_count 的普通计数器）单独看）：
+
+族名                                                      kind      _count增量          _sum增量                      判读
+--------------------------------------------------------------------------------------------------------------------------------------------
+vllm:kv_cache_usage_perc                               plain             —               0                   出现但未动
+vllm:nixl_bytes_transferred                             hist             1          458752                     有增量
+vllm:nixl_bytes_transferred_created                    plain             —               0                   出现但未动
+vllm:nixl_num_descriptors                               hist             1              28                     有增量
+vllm:nixl_num_descriptors_created                      plain             —               0                   出现但未动
+vllm:nixl_num_failed_notifications_created             plain             —               0                   出现但未动
+vllm:nixl_num_failed_notifications_total               plain             —               0                   出现但未动
+vllm:nixl_num_failed_transfers_created                 plain             —               0                   出现但未动
+vllm:nixl_num_failed_transfers_total                   plain             —               0                   出现但未动
+vllm:nixl_num_kv_expired_reqs_created                  plain             —               0                   出现但未动
+vllm:nixl_num_kv_expired_reqs_total                    plain             —               0                   出现但未动
+vllm:nixl_post_time_seconds                             hist             1         7.2e-05                     有增量
+vllm:nixl_post_time_seconds_created                    plain             —               0                   出现但未动
+vllm:nixl_xfer_time_seconds                             hist             1        0.001554                     有增量
+vllm:nixl_xfer_time_seconds_created                    plain             —               0                   出现但未动
+vllm:prompt_tokens_by_source_created                   plain             —               0                   出现但未动
+vllm:prompt_tokens_by_source_total                     plain             —             636                     有增量
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+总体判读：**有增量** —— 下列族的数值在 t0→t1 之间变大了，传输确实发生过：
+    · vllm:nixl_bytes_transferred
+    · vllm:nixl_num_descriptors
+    · vllm:nixl_post_time_seconds
+    · vllm:nixl_xfer_time_seconds
+    · vllm:prompt_tokens_by_source_total
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+附：/metrics 里全部族名（t1 快照，按名字排序；查「是不是改名了」用）
+    http_request_duration_highr_seconds
+    http_request_duration_highr_seconds_created
+    http_request_duration_seconds
+    http_request_duration_seconds_created
+    http_request_size_bytes
+    http_request_size_bytes_created
+    http_requests_created
+    http_requests_total
+    http_response_size_bytes
+    http_response_size_bytes_created
+    process_cpu_seconds_total
+    process_max_fds
+    process_open_fds
+    process_resident_memory_bytes
+    process_start_time_seconds
+    process_virtual_memory_bytes
+    python_gc_collections_total
+    python_gc_objects_collected_total
+    python_gc_objects_uncollectable_total
+    python_info
+    vllm:cache_config_info
+    vllm:e2e_request_latency_seconds
+    vllm:e2e_request_latency_seconds_created
+    vllm:engine_sleep_state
+    vllm:estimated_flops_per_gpu_created
+    vllm:estimated_flops_per_gpu_total
+    vllm:estimated_read_bytes_per_gpu_created
+    vllm:estimated_read_bytes_per_gpu_total
+    vllm:estimated_write_bytes_per_gpu_created
+    vllm:estimated_write_bytes_per_gpu_total
+    vllm:external_prefix_cache_hits_created
+    vllm:external_prefix_cache_hits_total
+    vllm:external_prefix_cache_queries_created
+    vllm:external_prefix_cache_queries_total
+    vllm:generation_tokens_created
+    vllm:generation_tokens_total
+    vllm:inter_token_latency_seconds
+    vllm:inter_token_latency_seconds_created
+    vllm:iteration_tokens_total
+    vllm:iteration_tokens_total_created
+    vllm:kv_cache_usage_perc  <=命中
+    vllm:mm_cache_hits_created
+    vllm:mm_cache_hits_total
+    vllm:mm_cache_queries_created
+    vllm:mm_cache_queries_total
+    vllm:nixl_bytes_transferred  <=命中
+    vllm:nixl_bytes_transferred_created  <=命中
+    vllm:nixl_num_descriptors  <=命中
+    vllm:nixl_num_descriptors_created  <=命中
+    vllm:nixl_num_failed_notifications_created  <=命中
+    vllm:nixl_num_failed_notifications_total  <=命中
+    vllm:nixl_num_failed_transfers_created  <=命中
+    vllm:nixl_num_failed_transfers_total  <=命中
+    vllm:nixl_num_kv_expired_reqs_created  <=命中
+    vllm:nixl_num_kv_expired_reqs_total  <=命中
+    vllm:nixl_post_time_seconds  <=命中
+    vllm:nixl_post_time_seconds_created  <=命中
+    vllm:nixl_xfer_time_seconds  <=命中
+    vllm:nixl_xfer_time_seconds_created  <=命中
+    vllm:num_preemptions_created
+    vllm:num_preemptions_total
+    vllm:num_requests_running
+    vllm:num_requests_waiting
+    vllm:num_requests_waiting_by_reason
+    vllm:prefix_cache_hits_created
+    vllm:prefix_cache_hits_total
+    vllm:prefix_cache_queries_created
+    vllm:prefix_cache_queries_total
+    vllm:prompt_tokens_by_source_created  <=命中
+    vllm:prompt_tokens_by_source_total  <=命中
+    vllm:prompt_tokens_cached_created
+    vllm:prompt_tokens_cached_total
+    vllm:prompt_tokens_created
+    vllm:prompt_tokens_total
+    vllm:request_decode_time_seconds
+    vllm:request_decode_time_seconds_created
+    vllm:request_generation_tokens
+    vllm:request_generation_tokens_created
+    vllm:request_inference_time_seconds
+    vllm:request_inference_time_seconds_created
+    vllm:request_max_num_generation_tokens
+    vllm:request_max_num_generation_tokens_created
+    vllm:request_num_preemptions
+    vllm:request_num_preemptions_created
+    vllm:request_params_max_tokens
+    vllm:request_params_max_tokens_created
+    vllm:request_params_n
+    vllm:request_params_n_created
+    vllm:request_prefill_kv_computed_tokens
+    vllm:request_prefill_kv_computed_tokens_created
+    vllm:request_prefill_time_seconds
+    vllm:request_prefill_time_seconds_created
+    vllm:request_prompt_tokens
+    vllm:request_prompt_tokens_created
+    vllm:request_queue_time_seconds
+    vllm:request_queue_time_seconds_created
+    vllm:request_success_created
+    vllm:request_success_total
+    vllm:request_time_per_output_token_seconds
+    vllm:request_time_per_output_token_seconds_created
+    vllm:time_to_first_token_seconds
+    vllm:time_to_first_token_seconds_created
+
+备注：本文件只做「传输有没有发生」的判读，**不含任何性能结论**。

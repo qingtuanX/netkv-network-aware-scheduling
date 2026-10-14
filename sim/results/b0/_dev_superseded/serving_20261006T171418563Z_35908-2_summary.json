@@ -1,0 +1,55 @@
+{
+  "n_requests": 120,
+  "n_ok": 0,
+  "n_err": 120,
+  "error_counts": {
+    "stream_broken": 120
+  },
+  "wall_clock_s": 10.712,
+  "throughput_qps": 11.202,
+  "inflight_peak": 10,
+  "latency": {
+    "ttft_s": {
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "tpot_p50_s": {
+      "p50": null,
+      "p95": null
+    },
+    "tpot_p95_s": {
+      "p50": null,
+      "p95": null
+    },
+    "e2e_s": {
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    }
+  },
+  "coverage_verdicts": {
+    "PASS": 120
+  },
+  "srv_verdicts": {},
+  "coverage": {
+    "n_with_server_report": 0,
+    "cov_max_gap_s_max": null,
+    "cov_gap_total_s_max": null,
+    "cov_loo_min_gap_s_min": null,
+    "srv_gap_max_s_max": null,
+    "srv_overlap_s_median": null,
+    "sum_minus_e2e_s_median": null,
+    "sum_minus_e2e_s_max": null,
+    "sum_minus_srv_span_s_median": null,
+    "srv_outside_s_median": null,
+    "cov_tol_s": 0.0207,
+    "loo_eps_s": 1e-06
+  },
+  "kv_bytes_per_request": null,
+  "run_id": "serving_20261006T171418563Z_35908-2",
+  "requests_csv": "results\\b0\\serving_20261006T171418563Z_35908-2_requests.csv",
+  "tokens_csv": null
+}

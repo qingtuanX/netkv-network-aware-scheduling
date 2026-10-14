@@ -58,12 +58,22 @@ TREE_ROOTS = [
     ("code", ROOT / "sim/experiments"),
     ("code", ROOT / "sim/analysis"),
     ("code", ROOT / "sim/configs"),
+    # ⚠️ 2026-10-08 补：下面两项原来**完全不在清单里**，而它们是本次会话的**全部工作**。
+    #   `k8s_test/` 里是真实系统实测（阶段 A / B0 / B1 / 4c）的全部脚本、预注册、报告与产物；
+    #   `paper/` 是论文 LaTeX 工程。少了它们，备份里就只剩"数字"而没有"产生数字的程序与结论记录"。
+    ("code", ROOT / "sim/k8s_test"),
+    ("code", ROOT / "paper"),
 ]
 EXTRA_FILES = [
     "AGENTS.md", "论文规划.md", "sim/RESUME.md", "sim/README.md",
     "sim/requirements.txt", "sim/run_min.py", "sim/inspect_trace.py",
-    "sim/probe_rq1.py", "sim/backup_artifacts.py",
+    "sim/probe_rq1.py", "sim/backup_artifacts.py", "sim/rerun_missing_v2.sh",
     ".kimi-code/skills/research-experiment/SKILL.md",
+    # 2026-10-08 补：根目录的规划/证据文档，以及真实系统实测那份计划书。
+    # 它们不在 `sim/` 下，所以原来一条都没被备份。
+    "论文草稿.md", "论文证据索引.md", "论文写作与从零学习规划.md",
+    "学习什么.md", "真实跨云LLM服务研究计划书.md",
+    "文献/MANIFEST.md", "文献/08-竞争定位（2025-2026）.md",
 ]
 FIELDS = ["group", "rel_path", "bytes", "mtime", "sha256", "in_progress"]
 

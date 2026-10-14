@@ -111,6 +111,11 @@ def main() -> int:
     ap.add_argument("--target-rho", type=float, default=TARGET_RHO_DEFAULT)
     ap.add_argument("--windows", type=float, nargs="*", default=WINDOWS_S_DEFAULT,
                     help="局部 rho 的统计窗口（秒），可给多档")
+    ap.add_argument("--workloads", nargs="*", default=None,
+                    help="只刻画这些负载类（默认为全部）。"
+                         "存在的理由：不同类的可切出请求数差很多，短 trace 上按全部类跑会"
+                         "因为某一类切不够而整轮失败——而主实验可能只用其中两类，"
+                         "切多切的那些类既费时又碍事。")
     ap.add_argument("--table-dir", default=str(ROOT / "results/analysis"))
     args = ap.parse_args()
 
@@ -134,7 +139,12 @@ def main() -> int:
     print(f"来源={args.source}  容量={capacity:,.0f}  目标 rho={args.target_rho}  "
           f"窗口={args.windows}s")
     rows = []
-    for name, spec in WORKLOAD_CLASSES.items():
+    classes = {k: v for k, v in WORKLOAD_CLASSES.items()
+               if args.workloads is None or k in args.workloads}
+    if not classes:
+        print(f"  --workloads 里没有一个已知的负载类；可选：{list(WORKLOAD_CLASSES)}")
+        return 2
+    for name, spec in classes.items():
         for seed in args.seeds:
             if args.source == "trace":
                 workload, qps, mean_work = rmx.build_trace_cell_workload(

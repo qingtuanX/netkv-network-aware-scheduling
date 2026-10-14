@@ -1,0 +1,1007 @@
+{
+  "run_id": "battery_20261007T091602434Z_25784-1",
+  "utc": "2026-10-07T09:16:44.116927+00:00",
+  "kind": "measure_serving/battery",
+  "host": {
+    "hostname": "青山",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "cpu_count": 16,
+    "time_time_resolution_s": 0.0010006427764892578
+  },
+  "code_version": "uncommitted",
+  "note": "本仓库无 git 提交时恒为 uncommitted（预期）",
+  "cov_tol_s": 0.005,
+  "loo_eps_s": 1e-06,
+  "checks": [
+    {
+      "check": "S0",
+      "item": "selftest（判据自身）",
+      "measured": "返回码 0（0=全通过）",
+      "verdict": "PASS",
+      "note": "只验通过路径等于没验，所以自检里必须含负对照"
+    },
+    {
+      "check": "B1",
+      "item": "overlap0 成功率",
+      "measured": "120/120",
+      "verdict": "PASS",
+      "note": "假后端不应丢请求；丢了说明心跳/连接复用有问题"
+    },
+    {
+      "check": "B2",
+      "item": "overlap0 TTFT 可测",
+      "measured": "p50=0.174789 s  p95=0.195747 s",
+      "verdict": "PASS",
+      "note": "TTFT = 请求开始 → 第一个内容片段"
+    },
+    {
+      "check": "B3",
+      "item": "overlap0 TPOT 可测",
+      "measured": "单请求p50口径：中位=0.019999 s  p95=0.020058 s",
+      "verdict": "PASS",
+      "note": "逐片段间隔的全量分位在 tokens.csv（--save-tokens）"
+    },
+    {
+      "check": "B4",
+      "item": "overlap0 覆盖：客户端分解最大空档",
+      "measured": "0.0 s（容差 0.005 s）",
+      "verdict": "PASS",
+      "note": "并集必须铺满 [请求开始, 请求结束]"
+    },
+    {
+      "check": "B5",
+      "item": "overlap0 leave-one-out 最小空档",
+      "measured": "0.0005042552947998047 s（下限 1e-06）",
+      "verdict": "PASS",
+      "note": "每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）"
+    },
+    {
+      "check": "B6",
+      "item": "overlap0 服务端语义阶段覆盖",
+      "measured": "最大空档 0.0 s，判定 {\"PASS\": 120}",
+      "verdict": "PASS",
+      "note": "queue→prefill→kv→decode 在服务端窗口内也要铺满"
+    },
+    {
+      "check": "B7",
+      "item": "overlap0 KV 字节数可取",
+      "measured": "25165824.0 B/请求（配方 25165824 B）",
+      "verdict": "PASS",
+      "note": "假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）"
+    },
+    {
+      "check": "B1",
+      "item": "overlap50 成功率",
+      "measured": "120/120",
+      "verdict": "PASS",
+      "note": "假后端不应丢请求；丢了说明心跳/连接复用有问题"
+    },
+    {
+      "check": "B2",
+      "item": "overlap50 TTFT 可测",
+      "measured": "p50=0.143328 s  p95=0.144699 s",
+      "verdict": "PASS",
+      "note": "TTFT = 请求开始 → 第一个内容片段"
+    },
+    {
+      "check": "B3",
+      "item": "overlap50 TPOT 可测",
+      "measured": "单请求p50口径：中位=0.019991 s  p95=0.020047 s",
+      "verdict": "PASS",
+      "note": "逐片段间隔的全量分位在 tokens.csv（--save-tokens）"
+    },
+    {
+      "check": "B4",
+      "item": "overlap50 覆盖：客户端分解最大空档",
+      "measured": "0.0 s（容差 0.005 s）",
+      "verdict": "PASS",
+      "note": "并集必须铺满 [请求开始, 请求结束]"
+    },
+    {
+      "check": "B5",
+      "item": "overlap50 leave-one-out 最小空档",
+      "measured": "0.0005061626434326172 s（下限 1e-06）",
+      "verdict": "PASS",
+      "note": "每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）"
+    },
+    {
+      "check": "B6",
+      "item": "overlap50 服务端语义阶段覆盖",
+      "measured": "最大空档 0.0 s，判定 {\"PASS\": 120}",
+      "verdict": "PASS",
+      "note": "queue→prefill→kv→decode 在服务端窗口内也要铺满"
+    },
+    {
+      "check": "B7",
+      "item": "overlap50 KV 字节数可取",
+      "measured": "25165824.0 B/请求（配方 25165824 B）",
+      "verdict": "PASS",
+      "note": "假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）"
+    },
+    {
+      "check": "B8",
+      "item": "对照①：无重叠臂 Σ语义阶段 − 服务端窗口",
+      "measured": "0.0 s",
+      "verdict": "PASS",
+      "note": "无重叠时它本来就该接近 0（这是对照臂，不是验收判据）"
+    },
+    {
+      "check": "B9",
+      "item": "对照②：50% 重叠臂 Σ语义阶段 − 服务端窗口",
+      "measured": "实测中位 0.031457 s，配方预期 0.031457 s",
+      "verdict": "PASS",
+      "note": "★ 关键对照：实测重叠量必须**对得上配方**（预期 0.031457 s）。重叠存在时'加总'必然大于窗口，所以阶段 A 的'加总等于端到端'在阶段 B 会**误判**——这正是本工具换判据的理由"
+    },
+    {
+      "check": "B10",
+      "item": "对照③：两臂的覆盖结论都通过（与重叠无关）",
+      "measured": "臂A {'PASS': 120} / 臂B {'PASS': 120}",
+      "verdict": "PASS",
+      "note": "重叠只改变'之和'，不破坏'覆盖'——两类判据成功分离"
+    },
+    {
+      "check": "B11",
+      "item": "对照④：Σ阶段 − 端到端（朴素口径，只报不判）",
+      "measured": "臂A 中位 -0.001483 s / 臂B 中位 0.029981 s",
+      "verdict": "INFO",
+      "note": "同一个量在两个臂上不同：说明它就是被重叠污染的，不能当判据"
+    },
+    {
+      "check": "B12",
+      "item": "服务端语义阶段重叠量（臂 B）",
+      "measured": "中位 0.031457 s",
+      "verdict": "PASS",
+      "note": "重叠确实发生了（否则 B9 的对照无意义）"
+    },
+    {
+      "check": "C1",
+      "item": "emptychunks 成功率与覆盖",
+      "measured": "成功 120/120，覆盖 {\"PASS\": 120}",
+      "verdict": "PASS",
+      "note": "空文本块必须被当成正常输出块：既不能丢，也不能破坏覆盖判据"
+    },
+    {
+      "check": "C2",
+      "item": "★ 块数 ≠ token 数（块口径数得全）",
+      "measured": "输出块中位 32.0（预期 32）、内容块中位 21.0（预期 21）、空文本块中位 11.0（预期 11）",
+      "verdict": "PASS",
+      "note": "输出块 = 内容块 + 空文本块；旧口径只数后者，所以连'块数'都会数小"
+    },
+    {
+      "check": "C3",
+      "item": "块序列落盘（tokens.csv 每块一行）",
+      "measured": "行数 3840（预期 3840），其中 text_empty=1 的 1320 行（预期 1320）",
+      "verdict": "PASS",
+      "note": "块序列必须与 chunk_interval_* 对得上；空文本块也要留痕，否则事后没法核"
+    },
+    {
+      "check": "C4",
+      "item": "★ 块间隔 vs 历史 tpot（两种口径必须不同）",
+      "measured": "块间隔中位 0.019986 s（配方 0.02 s）；历史 tpot 中位 0.029999 s",
+      "verdict": "PASS",
+      "note": "块口径数全部输出块 ⇒ 接近配方间隔；历史口径跳过空文本块 ⇒ 把两个间隔并成一个，偏大"
+    },
+    {
+      "check": "C5",
+      "item": "★ 服务端不给 token 数时必须留空（不拿块数冒充）",
+      "measured": "有 usage 的请求 0/120，srv_completion_tokens 中位 None，srv_token_ids_total 中位 32.0，来源 {\"token_ids\": 120}",
+      "verdict": "PASS",
+      "note": "这一臂故意不发 stream_options.include_usage：usage 路径必须为空，而逐块 token_ids（服务端真的给了）照常可用"
+    },
+    {
+      "check": "C6",
+      "item": "臂 A：请求了 usage 就必须取到，且收尾片不算输出块",
+      "measured": "有 usage 的请求 120/120，srv_completion_tokens 中位 32.0（配方 token 数 32），空文本块合计 0",
+      "verdict": "PASS",
+      "note": "只有 usage 的收尾片带 choices=[]，**不是**输出块；把它算成'空文本块'就会凭空多 1"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（http_500 → 期望 http_5xx）",
+      "measured": "失败 6/6，分类={\"http_5xx\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（disconnect_mid_stream → 期望 stream_incomplete）",
+      "measured": "失败 6/6，分类={\"stream_incomplete\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（truncate_clean → 期望 stream_incomplete）",
+      "measured": "失败 6/6，分类={\"stream_incomplete\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（reset_mid_stream → 期望 stream_broken）",
+      "measured": "失败 6/6，分类={\"stream_broken\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    },
+    {
+      "check": "B13",
+      "item": "错误分类（hang → 期望 timeout）",
+      "measured": "失败 6/6，分类={\"timeout\": 6}",
+      "verdict": "PASS",
+      "note": "必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效"
+    }
+  ],
+  "arms": [
+    {
+      "label": "overlap0",
+      "run_id": "serving_20261007T091602455Z_25784-2",
+      "backend": {
+        "token_count": 32,
+        "token_interval_s": 0.02,
+        "queue_s": 0.01,
+        "prefill_s": 0.1,
+        "kv_mb": 24.0,
+        "kv_gbps": 3.2,
+        "kv_overlap_frac": 0.0,
+        "fail_rate": 0.0,
+        "fail_mode": "http_500",
+        "seed": 1,
+        "empty_text_every": 0,
+        "kv_bytes": 25165824,
+        "kv_xfer_s": 0.062915
+      },
+      "summary": {
+        "n_requests": 120,
+        "n_ok": 120,
+        "n_err": 0,
+        "error_counts": {},
+        "wall_clock_s": 10.712,
+        "throughput_qps": 11.202,
+        "inflight_peak": 10,
+        "latency": {
+          "ttft_s": {
+            "p50": 0.174789,
+            "p95": 0.195747,
+            "p99": 0.197557,
+            "max": 0.199099
+          },
+          "e2e_s": {
+            "p50": 0.794397,
+            "p95": 0.815421,
+            "p99": 0.818046,
+            "max": 0.818647
+          },
+          "chunk_interval_mean_s": {
+            "p50": 0.019987,
+            "p95": 0.020005
+          },
+          "chunk_interval_p95_s": {
+            "p50": 0.020351,
+            "p95": 0.020475
+          },
+          "tpot_p50_s": {
+            "p50": 0.019999,
+            "p95": 0.020058
+          },
+          "tpot_p95_s": {
+            "p50": 0.020351,
+            "p95": 0.020475
+          },
+          "tpot_mean_s": {
+            "p50": 0.019987,
+            "p95": 0.020005
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": 32.0,
+          "n_content_chunks_median": 32.0,
+          "n_empty_text_chunks_median": 0.0,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 120,
+          "n_requests_with_token_ids": 120,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": 32.0,
+          "srv_token_ids_total_median": 32.0,
+          "srv_token_count_source_counts": {
+            "usage": 120
+          },
+          "token_interval_mean_s_median": 0.019987
+        },
+        "coverage_verdicts": {
+          "PASS": 120
+        },
+        "srv_verdicts": {
+          "PASS": 120
+        },
+        "coverage": {
+          "n_with_server_report": 120,
+          "cov_max_gap_s_max": 0.0,
+          "cov_gap_total_s_max": 0.0,
+          "cov_loo_min_gap_s_min": 0.0005042552947998047,
+          "srv_gap_max_s_max": 0.0,
+          "srv_overlap_s_median": 0.0,
+          "sum_minus_e2e_s_median": -0.001483,
+          "sum_minus_e2e_s_max": -9.6e-05,
+          "sum_minus_srv_span_s_median": 0.0,
+          "srv_outside_s_median": 0.0,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": 25165824.0,
+        "run_id": "serving_20261007T091602455Z_25784-2",
+        "requests_csv": "results\\b0_vllm\\serving_20261007T091602455Z_25784-2_requests.csv",
+        "tokens_csv": null
+      }
+    },
+    {
+      "label": "overlap50",
+      "run_id": "serving_20261007T091613904Z_25784-3",
+      "backend": {
+        "token_count": 32,
+        "token_interval_s": 0.02,
+        "queue_s": 0.01,
+        "prefill_s": 0.1,
+        "kv_mb": 24.0,
+        "kv_gbps": 3.2,
+        "kv_overlap_frac": 0.5,
+        "fail_rate": 0.0,
+        "fail_mode": "http_500",
+        "seed": 1,
+        "empty_text_every": 0,
+        "kv_bytes": 25165824,
+        "kv_xfer_s": 0.062915
+      },
+      "summary": {
+        "n_requests": 120,
+        "n_ok": 120,
+        "n_err": 0,
+        "error_counts": {},
+        "wall_clock_s": 10.681,
+        "throughput_qps": 11.235,
+        "inflight_peak": 10,
+        "latency": {
+          "ttft_s": {
+            "p50": 0.143328,
+            "p95": 0.144699,
+            "p99": 0.165259,
+            "max": 0.165423
+          },
+          "e2e_s": {
+            "p50": 0.762934,
+            "p95": 0.764179,
+            "p99": 0.784571,
+            "max": 0.784721
+          },
+          "chunk_interval_mean_s": {
+            "p50": 0.019984,
+            "p95": 0.020003
+          },
+          "chunk_interval_p95_s": {
+            "p50": 0.020366,
+            "p95": 0.020468
+          },
+          "tpot_p50_s": {
+            "p50": 0.019991,
+            "p95": 0.020047
+          },
+          "tpot_p95_s": {
+            "p50": 0.020366,
+            "p95": 0.020468
+          },
+          "tpot_mean_s": {
+            "p50": 0.019984,
+            "p95": 0.020003
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": 32.0,
+          "n_content_chunks_median": 32.0,
+          "n_empty_text_chunks_median": 0.0,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 120,
+          "n_requests_with_token_ids": 120,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": 32.0,
+          "srv_token_ids_total_median": 32.0,
+          "srv_token_count_source_counts": {
+            "usage": 120
+          },
+          "token_interval_mean_s_median": 0.019984
+        },
+        "coverage_verdicts": {
+          "PASS": 120
+        },
+        "srv_verdicts": {
+          "PASS": 120
+        },
+        "coverage": {
+          "n_with_server_report": 120,
+          "cov_max_gap_s_max": 0.0,
+          "cov_gap_total_s_max": 0.0,
+          "cov_loo_min_gap_s_min": 0.0005061626434326172,
+          "srv_gap_max_s_max": 0.0,
+          "srv_overlap_s_median": 0.031457,
+          "sum_minus_e2e_s_median": 0.029981,
+          "sum_minus_e2e_s_max": 0.031345,
+          "sum_minus_srv_span_s_median": 0.031457,
+          "srv_outside_s_median": 0.0,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": 25165824.0,
+        "run_id": "serving_20261007T091613904Z_25784-3",
+        "requests_csv": "results\\b0_vllm\\serving_20261007T091613904Z_25784-3_requests.csv",
+        "tokens_csv": null
+      }
+    }
+  ],
+  "arm_emptychunks": {
+    "label": "emptychunks",
+    "run_id": "serving_20261007T091624854Z_25784-4",
+    "backend": {
+      "token_count": 32,
+      "token_interval_s": 0.02,
+      "queue_s": 0.01,
+      "prefill_s": 0.1,
+      "kv_mb": 24.0,
+      "kv_gbps": 3.2,
+      "kv_overlap_frac": 0.0,
+      "fail_rate": 0.0,
+      "fail_mode": "http_500",
+      "seed": 1,
+      "empty_text_every": 3,
+      "kv_bytes": 25165824,
+      "kv_xfer_s": 0.062915
+    },
+    "summary": {
+      "n_requests": 120,
+      "n_ok": 120,
+      "n_err": 0,
+      "error_counts": {},
+      "wall_clock_s": 10.711,
+      "throughput_qps": 11.203,
+      "inflight_peak": 10,
+      "latency": {
+        "ttft_s": {
+          "p50": 0.19444,
+          "p95": 0.203997,
+          "p99": 0.215848,
+          "max": 0.22043
+        },
+        "e2e_s": {
+          "p50": 0.794352,
+          "p95": 0.803991,
+          "p99": 0.816039,
+          "max": 0.820518
+        },
+        "chunk_interval_mean_s": {
+          "p50": 0.019986,
+          "p95": 0.020006
+        },
+        "chunk_interval_p95_s": {
+          "p50": 0.02036,
+          "p95": 0.020478
+        },
+        "tpot_p50_s": {
+          "p50": 0.030005,
+          "p95": 0.030109
+        },
+        "tpot_p95_s": {
+          "p50": 0.040261,
+          "p95": 0.040429
+        },
+        "tpot_mean_s": {
+          "p50": 0.029999,
+          "p95": 0.030022
+        }
+      },
+      "chunks": {
+        "n_output_chunks_median": 32.0,
+        "n_content_chunks_median": 21.0,
+        "n_empty_text_chunks_median": 11.0,
+        "n_empty_text_chunks_total": 1320,
+        "n_requests_with_empty_text_chunks": 120
+      },
+      "server_tokens": {
+        "n_requests_with_usage": 0,
+        "n_requests_with_token_ids": 120,
+        "n_requests_without_token_count": 0,
+        "srv_completion_tokens_median": null,
+        "srv_token_ids_total_median": 32.0,
+        "srv_token_count_source_counts": {
+          "token_ids": 120
+        },
+        "token_interval_mean_s_median": 0.019354
+      },
+      "coverage_verdicts": {
+        "PASS": 120
+      },
+      "srv_verdicts": {
+        "PASS": 120
+      },
+      "coverage": {
+        "n_with_server_report": 120,
+        "cov_max_gap_s_max": 0.0,
+        "cov_gap_total_s_max": 0.0,
+        "cov_loo_min_gap_s_min": 0.0005035400390625,
+        "srv_gap_max_s_max": 0.0,
+        "srv_overlap_s_median": 0.0,
+        "sum_minus_e2e_s_median": -0.001437,
+        "sum_minus_e2e_s_max": -0.000137,
+        "sum_minus_srv_span_s_median": 0.0,
+        "srv_outside_s_median": 0.0,
+        "cov_tol_s": 0.005,
+        "loo_eps_s": 1e-06
+      },
+      "kv_bytes_per_request": 25165824.0,
+      "run_id": "serving_20261007T091624854Z_25784-4",
+      "requests_csv": "results\\b0_vllm\\serving_20261007T091624854Z_25784-4_requests.csv",
+      "tokens_csv": "results\\b0_vllm\\serving_20261007T091624854Z_25784-4_tokens.csv"
+    },
+    "expected": {
+      "n_output_chunks": 32,
+      "n_content_chunks": 21,
+      "n_empty_text_chunks": 11,
+      "empty_text_every": 3
+    }
+  },
+  "failinject": [
+    {
+      "mode": "http_500",
+      "expected_class": "http_5xx",
+      "run_id": "serving_20261007T091635804Z_25784-5",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "http_5xx": 6
+        },
+        "wall_clock_s": 0.836,
+        "throughput_qps": 7.174,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "N-A": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T091635804Z_25784-5",
+        "requests_csv": "results\\b0_vllm\\serving_20261007T091635804Z_25784-5_requests.csv",
+        "tokens_csv": null
+      }
+    },
+    {
+      "mode": "disconnect_mid_stream",
+      "expected_class": "stream_incomplete",
+      "run_id": "serving_20261007T091637162Z_25784-6",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "stream_incomplete": 6
+        },
+        "wall_clock_s": 0.939,
+        "throughput_qps": 6.391,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "PASS": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T091637162Z_25784-6",
+        "requests_csv": "results\\b0_vllm\\serving_20261007T091637162Z_25784-6_requests.csv",
+        "tokens_csv": null
+      }
+    },
+    {
+      "mode": "truncate_clean",
+      "expected_class": "stream_incomplete",
+      "run_id": "serving_20261007T091638523Z_25784-7",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "stream_incomplete": 6
+        },
+        "wall_clock_s": 0.939,
+        "throughput_qps": 6.388,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "PASS": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T091638523Z_25784-7",
+        "requests_csv": "results\\b0_vllm\\serving_20261007T091638523Z_25784-7_requests.csv",
+        "tokens_csv": null
+      }
+    },
+    {
+      "mode": "reset_mid_stream",
+      "expected_class": "stream_broken",
+      "run_id": "serving_20261007T091639866Z_25784-8",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "stream_broken": 6
+        },
+        "wall_clock_s": 0.939,
+        "throughput_qps": 6.39,
+        "inflight_peak": 1,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "N-A": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T091639866Z_25784-8",
+        "requests_csv": "results\\b0_vllm\\serving_20261007T091639866Z_25784-8_requests.csv",
+        "tokens_csv": null
+      }
+    },
+    {
+      "mode": "hang",
+      "expected_class": "timeout",
+      "run_id": "serving_20261007T091641222Z_25784-9",
+      "summary": {
+        "n_requests": 6,
+        "n_ok": 0,
+        "n_err": 6,
+        "error_counts": {
+          "timeout": 6
+        },
+        "wall_clock_s": 2.838,
+        "throughput_qps": 2.114,
+        "inflight_peak": 6,
+        "latency": {
+          "ttft_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "e2e_s": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "chunk_interval_mean_s": {
+            "p50": null,
+            "p95": null
+          },
+          "chunk_interval_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p50_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_p95_s": {
+            "p50": null,
+            "p95": null
+          },
+          "tpot_mean_s": {
+            "p50": null,
+            "p95": null
+          }
+        },
+        "chunks": {
+          "n_output_chunks_median": null,
+          "n_content_chunks_median": null,
+          "n_empty_text_chunks_median": null,
+          "n_empty_text_chunks_total": 0,
+          "n_requests_with_empty_text_chunks": 0
+        },
+        "server_tokens": {
+          "n_requests_with_usage": 0,
+          "n_requests_with_token_ids": 0,
+          "n_requests_without_token_count": 0,
+          "srv_completion_tokens_median": null,
+          "srv_token_ids_total_median": null,
+          "srv_token_count_source_counts": {},
+          "token_interval_mean_s_median": null
+        },
+        "coverage_verdicts": {
+          "N-A": 6
+        },
+        "srv_verdicts": {},
+        "coverage": {
+          "n_with_server_report": 0,
+          "cov_max_gap_s_max": null,
+          "cov_gap_total_s_max": null,
+          "cov_loo_min_gap_s_min": null,
+          "srv_gap_max_s_max": null,
+          "srv_overlap_s_median": null,
+          "sum_minus_e2e_s_median": null,
+          "sum_minus_e2e_s_max": null,
+          "sum_minus_srv_span_s_median": null,
+          "srv_outside_s_median": null,
+          "cov_tol_s": 0.005,
+          "loo_eps_s": 1e-06
+        },
+        "kv_bytes_per_request": null,
+        "run_id": "serving_20261007T091641222Z_25784-9",
+        "requests_csv": "results\\b0_vllm\\serving_20261007T091641222Z_25784-9_requests.csv",
+        "tokens_csv": null
+      }
+    }
+  ],
+  "client_summaries": [
+    "serving_20261007T091602455Z_25784-2_summary.json",
+    "serving_20261007T091613904Z_25784-3_summary.json",
+    "serving_20261007T091624854Z_25784-4_summary.json",
+    "serving_20261007T091635804Z_25784-5_summary.json",
+    "serving_20261007T091637162Z_25784-6_summary.json",
+    "serving_20261007T091638523Z_25784-7_summary.json",
+    "serving_20261007T091639866Z_25784-8_summary.json",
+    "serving_20261007T091641222Z_25784-9_summary.json"
+  ]
+}

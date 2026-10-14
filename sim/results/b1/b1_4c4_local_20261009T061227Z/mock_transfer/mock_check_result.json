@@ -1,0 +1,53 @@
+{
+  "tool": "b1_mock_transfer_check.py",
+  "checks": [
+    {
+      "name": "decode precheck 传输次数 = 2",
+      "pass": true,
+      "detail": "解析到 2"
+    },
+    {
+      "name": "decode precheck 传输字节 = 655360",
+      "pass": true,
+      "detail": "解析到 655360"
+    },
+    {
+      "name": "decode measure 传输次数 = 4",
+      "pass": true,
+      "detail": "解析到 4"
+    },
+    {
+      "name": "decode measure 传输字节 = 1310720",
+      "pass": true,
+      "detail": "解析到 1310720"
+    },
+    {
+      "name": "decode measure 失败传输 = 2",
+      "pass": true,
+      "detail": "解析到 2"
+    },
+    {
+      "name": "num_descriptors 被正确判为『出现但未动』",
+      "pass": true,
+      "detail": "判读列含该词"
+    },
+    {
+      "name": "kv_table 生成且含 decode 终值（次数）",
+      "pass": true,
+      "detail": "终值应为 6"
+    },
+    {
+      "name": "kv_table 生成且含 decode 终值（字节）",
+      "pass": true,
+      "detail": "终值应为 1966080"
+    },
+    {
+      "name": "kv_table 覆盖五个检查点",
+      "pass": true,
+      "detail": "检查点列齐全"
+    }
+  ],
+  "n_pass": 9,
+  "n_total": 9,
+  "all_pass": true
+}

@@ -1,0 +1,573 @@
+[2026-10-08T00:22:32Z] ===============================================================
+[2026-10-08T00:22:32Z] 4c ä¸“é¡¹è¯Šæ–­ â€”â€” å‰ç¼€ç¼“å­˜ off + å…ˆé¢„çƒ­ + logprobs
+[2026-10-08T00:22:32Z] è§„åˆ™è§ B1_4C_PREREG.mdï¼ˆé‡‡æ•°ä¹‹å‰å†»ç»“ï¼‰ï¼›**ä¸æ›¿æ¢** B1 ç¬¬äºŒè½®çš„è®°å½•ã€‚
+[2026-10-08T00:22:32Z] ===============================================================
+[2026-10-08T00:22:32Z] == æ¨æœ€æ–°çš„æœåŠ¡è„šæœ¬ä¸å®¢æˆ·ç«¯ï¼ˆä¸‰æ¡è‡‚å…±ç”¨åŒä¸€ä»½ï¼Œå‚æ•°é€å­—ç›¸åŒï¼‰ ==
+[2026-10-08T00:22:37Z] == ç”Ÿæˆæç¤ºè¯ï¼ˆç¡®å®šæ€§åˆæˆæ–‡æœ¬ï¼›æ–‡ä»¶é¡ºåºå³è¯·æ±‚é¡ºåº p01â†’p05ï¼‰ ==
+# ---- gen_prompts_4c @ A (8.155.133.216)  start=2026-10-08T00:22:37Z ----
+wrote 5 prompts -> /root/b1/official/b1_prompts.json
+  p01_rep8: 3534 chars
+  p02_rep12: 5250 chars
+  p03_rep16: 6966 chars
+  p04_rep20: 8682 chars
+  p05_rep24: 10398 chars
+# ---- exit=0 end=2026-10-08T00:22:38Z ----
+[2026-10-08T00:22:39Z] == è‡‚ 1/2ï¼šèµ· B ä¸Šçš„å•æœºå®Œæ•´æœåŠ¡ï¼Œ**å…³æ‰å‰ç¼€ç¼“å­˜** ==
+# ---- start_baseline_4c @ B (8.155.131.183)  start=2026-10-08T00:22:39Z ----
+== å¯¹ç…§è‡‚ï¼šå•æœºå®Œæ•´æœåŠ¡ï¼ˆ**ä¸å¸¦** --kv-transfer-configï¼‰ port=8300
+--- launching baseline
+  env: UCX_NET_DEVICES=eth0
+  env: VLLM_USE_FLASHINFER_SAMPLER=0
+  env: HF_HUB_OFFLINE=1
+  env: CUDA_HOME=/usr/local/cuda-13.0
+  env: PATH=/usr/local/cuda-13.0/bin:/usr/local/bin:/usr/bin:/bin
+  cmd: /root/b1/venv/bin/vllm serve /root/b1/models/Qwen2.5-1.5B-Instruct --port 8300 --served-model-name Qwen/Qwen2.5-1.5B-Instruct --host 172.29.31.51 --max-model-len 8192 --gpu-memory-utilization 0.85 --enforce-eager --no-enable-prefix-caching
+  pid=2442
+  state=running
+# ---- exit=0 end=2026-10-08T00:22:41Z ----
+# ç­‰å¾… baseline4cï¼šcurl http://<172.29.31.51|127.0.0.1>:8300/v1/models ç›´åˆ° 200ï¼ˆæœ€å¤š 240 sï¼‰
+READY baseline4c after 56s (http://172.29.31.51:8300/v1/models)
+[2026-10-08T00:23:39Z] metrics[diag4c_baseline_t0] B:8300 -> metrics_diag4c_baseline_t0_raw.txt (56268 bytes)
+[2026-10-08T00:23:39Z] -- å‰ç½®æ¡ä»¶ï¼šè¯æ˜å‰ç¼€ç¼“å­˜çœŸçš„å…³äº†ï¼ˆçœ‹ /metricsï¼Œä¸çœ‹å‘½ä»¤è¡Œï¼‰ --
+[2026-10-08T00:23:40Z]   -- é¢„çƒ­ã€baselineã€‘ç¬¬ 1/3 éï¼ˆp01â†’p05ï¼Œä¸²è¡Œï¼‰ --
+# arm=warmup_baseline_w1 url=http://172.29.31.51:8300 extra='--logprobs 5' start=2026-10-08T00:23:40Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 172.29.31.51:8300
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 1.0499s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=24 finish=stop tok_ids=yes 0.4073s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.3918s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.4982s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.0524s
+wrote /root/b1/out/warmup_baseline_w1.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:23:46Z ----
+[2026-10-08T00:23:47Z]   -- é¢„çƒ­ã€baselineã€‘ç¬¬ 2/3 éï¼ˆp01â†’p05ï¼Œä¸²è¡Œï¼‰ --
+# arm=warmup_baseline_w2 url=http://172.29.31.51:8300 extra='--logprobs 5' start=2026-10-08T00:23:47Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 172.29.31.51:8300
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 0.5639s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=24 finish=stop tok_ids=yes 0.4077s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.3834s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.4964s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.0546s
+wrote /root/b1/out/warmup_baseline_w2.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:23:53Z ----
+[2026-10-08T00:23:53Z]   -- é¢„çƒ­ã€baselineã€‘ç¬¬ 3/3 éï¼ˆp01â†’p05ï¼Œä¸²è¡Œï¼‰ --
+# arm=warmup_baseline_w3 url=http://172.29.31.51:8300 extra='--logprobs 5' start=2026-10-08T00:23:53Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 172.29.31.51:8300
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 0.5642s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=24 finish=stop tok_ids=yes 0.4088s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.3879s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.4974s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.0655s
+wrote /root/b1/out/warmup_baseline_w3.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:23:59Z ----
+[2026-10-08T00:23:59Z] == è‡‚ 1ï¼šæ­£å¼æµ‹é‡ r1..r3ï¼ˆä¸²è¡Œï¼Œæ¯æ¡ç‹¬ç«‹ç¼–å·ï¼‰ ==
+# arm=baseline4c_r1 url=http://172.29.31.51:8300 extra='--logprobs 5' start=2026-10-08T00:23:59Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 172.29.31.51:8300
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 0.5681s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=24 finish=stop tok_ids=yes 0.4075s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.3915s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.5017s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.0547s
+wrote /root/b1/out/baseline4c_r1.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:24:05Z ----
+# arm=baseline4c_r2 url=http://172.29.31.51:8300 extra='--logprobs 5' start=2026-10-08T00:24:05Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 172.29.31.51:8300
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 0.5647s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=24 finish=stop tok_ids=yes 0.4072s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.3892s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.4969s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.0549s
+wrote /root/b1/out/baseline4c_r2.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:24:11Z ----
+# arm=baseline4c_r3 url=http://172.29.31.51:8300 extra='--logprobs 5' start=2026-10-08T00:24:11Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 172.29.31.51:8300
+target=http://172.29.31.51:8300  /version={'version': '0.31.0'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=35 finish=stop tok_ids=yes 0.5663s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=24 finish=stop tok_ids=yes 0.4057s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.3899s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.498s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.0539s
+wrote /root/b1/out/baseline4c_r3.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:24:17Z ----
+[2026-10-08T00:24:19Z] metrics[diag4c_baseline_t1] B:8300 -> metrics_diag4c_baseline_t1_raw.txt (57991 bytes)
+[2026-10-08T00:24:19Z] == åœæ‰è‡‚ 1ï¼ŒæŠŠ B çš„æ˜¾å­˜è…¾ç»™ç”Ÿæˆå®ä¾‹ ==
+# ---- stop_baseline_4c @ B (8.155.131.183)  start=2026-10-08T00:24:19Z ----
+== åœ baseline
+  SIGTERM è¿›ç¨‹ç»„ -2442
+  å·²é€€å‡º
+--- æ˜¾å­˜ç°çŠ¶ï¼š
+0 MiB
+# ---- exit=0 end=2026-10-08T00:24:20Z ----
+[2026-10-08T00:24:29Z] == è‡‚ 2/2ï¼šèµ·å‰å¤„ç†ï¼ˆAï¼‰ä¸ç”Ÿæˆï¼ˆBï¼‰ï¼Œ**ä¸¤æ¡éƒ½å…³æ‰å‰ç¼€ç¼“å­˜** ==
+# ---- start_prefill_4c @ A (8.155.133.216)  start=2026-10-08T00:24:29Z ----
+== å‰å¤„ç†å®ä¾‹ï¼ˆkv_producerï¼‰ port=8100 side=172.29.31.52:5600
+--- launching prefill
+  env: UCX_NET_DEVICES=eth0
+  env: VLLM_USE_FLASHINFER_SAMPLER=0
+  env: HF_HUB_OFFLINE=1
+  env: CUDA_HOME=/usr/local/cuda-13.0
+  env: PATH=/usr/local/cuda-13.0/bin:/usr/local/bin:/usr/bin:/bin
+  env: VLLM_NIXL_SIDE_CHANNEL_HOST=172.29.31.52
+  env: VLLM_NIXL_SIDE_CHANNEL_PORT=5600
+  cmd: /root/b1/venv/bin/vllm serve /root/b1/models/Qwen2.5-1.5B-Instruct --port 8100 --served-model-name Qwen/Qwen2.5-1.5B-Instruct --kv-transfer-config {"kv_connector":"NixlConnector","kv_role":"kv_producer","kv_load_failure_policy":"fail"} --host 172.29.31.52 --max-model-len 8192 --gpu-memory-utilization 0.85 --enforce-eager --no-enable-prefix-caching
+  pid=4002
+  state=running
+# ---- exit=0 end=2026-10-08T00:24:31Z ----
+# ---- start_decode_4c @ B (8.155.131.183)  start=2026-10-08T00:24:31Z ----
+== ç”Ÿæˆå®ä¾‹ï¼ˆkv_consumerï¼‰ port=8200 side=172.29.31.51:5600
+--- launching decode
+  env: UCX_NET_DEVICES=eth0
+  env: VLLM_USE_FLASHINFER_SAMPLER=0
+  env: HF_HUB_OFFLINE=1
+  env: CUDA_HOME=/usr/local/cuda-13.0
+  env: PATH=/usr/local/cuda-13.0/bin:/usr/local/bin:/usr/bin:/bin
+  env: VLLM_NIXL_SIDE_CHANNEL_HOST=172.29.31.51
+  env: VLLM_NIXL_SIDE_CHANNEL_PORT=5600
+  cmd: /root/b1/venv/bin/vllm serve /root/b1/models/Qwen2.5-1.5B-Instruct --port 8200 --served-model-name Qwen/Qwen2.5-1.5B-Instruct --kv-transfer-config {"kv_connector":"NixlConnector","kv_role":"kv_consumer","kv_load_failure_policy":"fail"} --host 172.29.31.51 --max-model-len 8192 --gpu-memory-utilization 0.85 --enforce-eager --no-enable-prefix-caching
+  pid=3215
+  state=running
+# ---- exit=0 end=2026-10-08T00:24:33Z ----
+# ç­‰å¾… prefill4cï¼šcurl http://<172.29.31.52|127.0.0.1>:8100/v1/models ç›´åˆ° 200ï¼ˆæœ€å¤š 240 sï¼‰
+READY prefill4c after 55s (http://172.29.31.52:8100/v1/models)
+# ç­‰å¾… decode4cï¼šcurl http://<172.29.31.51|127.0.0.1>:8200/v1/models ç›´åˆ° 200ï¼ˆæœ€å¤š 240 sï¼‰
+READY decode4c after 1s (http://172.29.31.51:8200/v1/models)
+[2026-10-08T00:25:31Z] metrics[diag4c_prefill_t0] A:8100 -> metrics_diag4c_prefill_t0_raw.txt (66219 bytes)
+[2026-10-08T00:25:32Z] metrics[diag4c_decode_t0] B:8200 -> metrics_diag4c_decode_t0_raw.txt (66223 bytes)
+[2026-10-08T00:25:32Z] -- å‰ç½®æ¡ä»¶ï¼šå‰å¤„ç†ç«¯ä¸ç”Ÿæˆç«¯å„è‡ªè¯æ˜ --
+[2026-10-08T00:25:33Z] == èµ·ä»£ç†ï¼ˆAï¼Œåªç»‘ 127.0.0.1ï¼›å®¢æˆ·ç«¯ä¹Ÿåœ¨ A ä¸Šè·‘ï¼‰ ==
+# ---- start_proxy_4c @ A (8.155.133.216)  start=2026-10-08T00:25:33Z ----
+== ä»£ç†ï¼šæŠŠè¯·æ±‚å…ˆå‘ç»™å‰å¤„ç†ã€å†å‘ç»™ç”Ÿæˆ port=8192ï¼ˆåªç»‘ 127.0.0.1ï¼‰  P=172.29.31.52:8100  D=172.29.31.51:8200
+--- launching proxy
+  env: PATH=/usr/local/bin:/usr/bin:/bin
+  cmd: /root/b1/venv/bin/python /root/b1/official/toy_proxy_server.py --host 127.0.0.1 --port 8192 --prefiller-hosts 172.29.31.52 --prefiller-ports 8100 --decoder-hosts 172.29.31.51 --decoder-ports 8200
+  pid=4623
+  state=running
+# ---- exit=0 end=2026-10-08T00:25:35Z ----
+# ç­‰å¾… proxy4cï¼šcurl http://<172.29.31.52|127.0.0.1>:8192/healthcheck ç›´åˆ° 200ï¼ˆæœ€å¤š 240 sï¼‰
+READY proxy4c after 1s (http://127.0.0.1:8192/healthcheck)
+[2026-10-08T00:25:36Z]   -- é¢„çƒ­ã€disaggã€‘ç¬¬ 1/3 éï¼ˆp01â†’p05ï¼Œä¸²è¡Œï¼‰ --
+# arm=warmup_disagg_w1 url=http://127.0.0.1:8192 extra='--logprobs 5' start=2026-10-08T00:25:36Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 127.0.0.1:8192
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=64 finish=length tok_ids=yes 1.9176s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=22 finish=stop tok_ids=yes 0.4908s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.5058s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.6549s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.2183s
+wrote /root/b1/out/warmup_disagg_w1.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:25:44Z ----
+[2026-10-08T00:25:44Z]   -- é¢„çƒ­ã€disaggã€‘ç¬¬ 2/3 éï¼ˆp01â†’p05ï¼Œä¸²è¡Œï¼‰ --
+# arm=warmup_disagg_w2 url=http://127.0.0.1:8192 extra='--logprobs 5' start=2026-10-08T00:25:44Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 127.0.0.1:8192
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=64 finish=length tok_ids=yes 1.123s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=22 finish=stop tok_ids=yes 0.4803s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.5143s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.6235s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.2392s
+wrote /root/b1/out/warmup_disagg_w2.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:25:52Z ----
+[2026-10-08T00:25:52Z]   -- é¢„çƒ­ã€disaggã€‘ç¬¬ 3/3 éï¼ˆp01â†’p05ï¼Œä¸²è¡Œï¼‰ --
+# arm=warmup_disagg_w3 url=http://127.0.0.1:8192 extra='--logprobs 5' start=2026-10-08T00:25:52Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 127.0.0.1:8192
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=64 finish=length tok_ids=yes 1.1068s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=22 finish=stop tok_ids=yes 0.4725s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.5147s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.6299s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.2062s
+wrote /root/b1/out/warmup_disagg_w3.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:25:59Z ----
+[2026-10-08T00:25:59Z] == è‡‚ 2ï¼šæ­£å¼æµ‹é‡ r1..r3 ==
+# arm=disagg4c_r1 url=http://127.0.0.1:8192 extra='--logprobs 5' start=2026-10-08T00:25:59Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 127.0.0.1:8192
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=64 finish=length tok_ids=yes 1.0881s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=22 finish=stop tok_ids=yes 0.4686s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.5063s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.6344s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.1972s
+wrote /root/b1/out/disagg4c_r1.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:26:06Z ----
+# arm=disagg4c_r2 url=http://127.0.0.1:8192 extra='--logprobs 5' start=2026-10-08T00:26:06Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 127.0.0.1:8192
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=64 finish=length tok_ids=yes 1.0866s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=22 finish=stop tok_ids=yes 0.4744s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.506s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.6294s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.2306s
+wrote /root/b1/out/disagg4c_r2.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:26:13Z ----
+# arm=disagg4c_r3 url=http://127.0.0.1:8192 extra='--logprobs 5' start=2026-10-08T00:26:13Z
+# å®¢æˆ·ç«¯è·‘åœ¨ A ä¸Šï¼ˆchost=Aï¼‰ï¼Œç›®æ ‡ 127.0.0.1:8192
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=64 finish=length tok_ids=yes 1.0835s
+  p02_rep12: http=200 prompt_tokens=944 completion_tokens=22 finish=stop tok_ids=yes 0.4671s
+  p03_rep16: http=200 prompt_tokens=1252 completion_tokens=22 finish=stop tok_ids=yes 0.5134s
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.6193s
+  p05_rep24: http=200 prompt_tokens=1868 completion_tokens=64 finish=length tok_ids=yes 1.2157s
+wrote /root/b1/out/disagg4c_r3.json  (5 requests)
+client_exit=0
+# ---- exit=0 end=2026-10-08T00:26:21Z ----
+[2026-10-08T00:26:22Z] metrics[diag4c_prefill_t1] A:8100 -> metrics_diag4c_prefill_t1_raw.txt (67814 bytes)
+[2026-10-08T00:26:23Z] metrics[diag4c_decode_t1] B:8200 -> metrics_diag4c_decode_t1_raw.txt (68049 bytes)
+[2026-10-08T00:26:23Z] == å‰ç½®æ¡ä»¶æ€»åˆ¤å®š ==
+  âœ… å‰ç¼€ç¼“å­˜å·²å…³ï¼ˆåˆ¤æ®æ»¡è¶³ï¼‰
+
+== æœ¬è½®å‰ç½®æ¡ä»¶æ€»åˆ¤å®š ==
+  âœ… ä¸‰æ¡è‡‚çš„ enable_prefix_caching å‡ä¸º False â†’ æœ¬è½® 4c çš„å‰ç½®æ¡ä»¶**æˆç«‹**
+[2026-10-08T00:26:23Z] == é¡ºå¸¦å¤æ ¸ï¼šå‰ç¼€ç¼“å­˜å…³æ‰åï¼ŒKV è¿˜çœŸçš„åœ¨ä¼ å—ï¼ˆç”Ÿæˆç«¯ç›´æ–¹å›¾å¢é‡ï¼‰ ==
+==============================================================================
+4b ÅĞ¾İ£ºKV ´«ÊäÖ¸±ê£¨Ö±·½Í¼¿Ú¾¶ ¡ª¡ª ±ÈÑù±¾ÊıÓë×Ö½Ú×ÜºÍµÄ±ä»¯£©
+==============================================================================
+¶ÔÏó    : D£¨Éú³É¶Ë£© B£¨diag4c_decode_t0 ¡ú diag4c_decode_t1£©
+t0 ¿ìÕÕ : metrics_diag4c_decode_t0_raw.txt  (66223 ×Ö½Ú, 494 ÌõÑù±¾)
+t1 ¿ìÕÕ : metrics_diag4c_decode_t1_raw.txt  (68049 ×Ö½Ú, 509 ÌõÑù±¾)
+Æ¥ÅäÕıÔò: nixl|kv_transfer|kv_connector|kv_cache|prompt_tokens_by_source
+
+¶Á·¨£º_count = Õâ¶ÎÊ±¼äÀï·¢ÉúÁË¼¸´Î¡¸KV ´«ÊäÍ¨Öª¡¹£¨**²»ÊÇÇëÇóÊı**£©£»
+      _sum   = Õâ¶ÎÊ±¼äÀïÒ»¹²°áÁË¶àÉÙ×Ö½Ú£¨**Õâ²ÅÊÇ¡¸´«Ã»´«µ½¡¹µÄÖ¤¾İ**£©¡£
+      ·ÖÍ° _bucket µÄÔöÁ¿ËµÃ÷Õâ´Î´«ÊäÂäÔÚÄÄ¸ö´óĞ¡µµ£¬ÊôÓÚ¸¨ÖúÖ¤¾İ¡£
+
+ÃüÖĞ 80 ÌõÑù±¾ĞòÁĞ£¬¹é²¢Îª 17 ¸öÖ¸±ê×å£º
+
+×åÃû                                                     kind±êÇ©                                                    t0              t1              ÔöÁ¿
+--------------------------------------------------------------------------------------------------------------------------------------------
+vllm:kv_cache_usage_perc                              plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="+Inf",model_name="Qwen                 0              30              30
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="1.34217728e+08",model_                 0              30              30
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="131072.0",model_name="                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="2.097152e+06",model_na                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="2.147483648e+09",model                 0              30              30
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="2048.0",model_name="Qw                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="3.3554432e+07",model_n                 0              12              12
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="32768.0",model_name="Q                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="5.36870912e+08",model_                 0              30              30
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="524288.0",model_name="                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="8.388608e+06",model_na                 0               0               0
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="8.589934592e+09",model                 0              30              30
+vllm:nixl_bytes_transferred                          bucket{engine="0",le="8192.0",model_name="Qw                 0               0               0
+vllm:nixl_bytes_transferred                           count{engine="0",model_name="Qwen/Qwen2.5-1                 0              30              30
+vllm:nixl_bytes_transferred                             sum{engine="0",model_name="Qwen/Qwen2.5-1                 0      1081737216      1081737216
+vllm:nixl_bytes_transferred_created                   plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:nixl_num_descriptors                            bucket{engine="0",le="+Inf",model_name="Qwen                 0              30              30
+vllm:nixl_num_descriptors                            bucket{engine="0",le="10.0",model_name="Qwen                 0               0               0
+vllm:nixl_num_descriptors                            bucket{engine="0",le="100.0",model_name="Qwe                 0               1               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="1000.0",model_name="Qw                 0              11              11
+vllm:nixl_num_descriptors                            bucket{engine="0",le="10000.0",model_name="Q                 0              30              30
+vllm:nixl_num_descriptors                            bucket{engine="0",le="20.0",model_name="Qwen                 0               0               0
+vllm:nixl_num_descriptors                            bucket{engine="0",le="200.0",model_name="Qwe                 0               1               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="2000.0",model_name="Qw                 0              26              26
+vllm:nixl_num_descriptors                            bucket{engine="0",le="20000.0",model_name="Q                 0              30              30
+vllm:nixl_num_descriptors                            bucket{engine="0",le="30.0",model_name="Qwen                 0               1               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="400.0",model_name="Qwe                 0               1               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="4000.0",model_name="Qw                 0              30              30
+vllm:nixl_num_descriptors                            bucket{engine="0",le="50.0",model_name="Qwen                 0               1               1
+vllm:nixl_num_descriptors                            bucket{engine="0",le="50000.0",model_name="Q                 0              30              30
+vllm:nixl_num_descriptors                            bucket{engine="0",le="75.0",model_name="Qwen                 0               1               1
+vllm:nixl_num_descriptors                             count{engine="0",model_name="Qwen/Qwen2.5-1                 0              30              30
+vllm:nixl_num_descriptors                               sum{engine="0",model_name="Qwen/Qwen2.5-1                 0           40152           40152
+vllm:nixl_num_descriptors_created                     plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:nixl_num_failed_notifications_created            plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:nixl_num_failed_notifications_total              plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:nixl_num_failed_transfers_created                plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:nixl_num_failed_transfers_total                  plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:nixl_num_kv_expired_reqs_created                 plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:nixl_num_kv_expired_reqs_total                   plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="+Inf",model_name="Qwen                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.001",model_name="Qwe                 0              15              15
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.005",model_name="Qwe                 0              20              20
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.01",model_name="Qwen                 0              25              25
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.025",model_name="Qwe                 0              29              29
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.05",model_name="Qwen                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.075",model_name="Qwe                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.1",model_name="Qwen/                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.2",model_name="Qwen/                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.3",model_name="Qwen/                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.5",model_name="Qwen/                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="0.75",model_name="Qwen                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="1.0",model_name="Qwen/                 0              30              30
+vllm:nixl_post_time_seconds                          bucket{engine="0",le="5.0",model_name="Qwen/                 0              30              30
+vllm:nixl_post_time_seconds                           count{engine="0",model_name="Qwen/Qwen2.5-1                 0              30              30
+vllm:nixl_post_time_seconds                             sum{engine="0",model_name="Qwen/Qwen2.5-1                 0        0.146244        0.146244
+vllm:nixl_post_time_seconds_created                   plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="+Inf",model_name="Qwen                 0              30              30
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.005",model_name="Qwe                 0               0               0
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.01",model_name="Qwen                 0               0               0
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.025",model_name="Qwe                 0               0               0
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.05",model_name="Qwen                 0              10              10
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.075",model_name="Qwe                 0              19              19
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.1",model_name="Qwen/                 0              26              26
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.2",model_name="Qwen/                 0              30              30
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.3",model_name="Qwen/                 0              30              30
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.5",model_name="Qwen/                 0              30              30
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="0.75",model_name="Qwen                 0              30              30
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="1.0",model_name="Qwen/                 0              30              30
+vllm:nixl_xfer_time_seconds                          bucket{engine="0",le="5.0",model_name="Qwen/                 0              30              30
+vllm:nixl_xfer_time_seconds                           count{engine="0",model_name="Qwen/Qwen2.5-1                 0              30              30
+vllm:nixl_xfer_time_seconds                             sum{engine="0",model_name="Qwen/Qwen2.5-1                 0         2.06103         2.06103
+vllm:nixl_xfer_time_seconds_created                   plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:prompt_tokens_by_source_created                  plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:prompt_tokens_by_source_created                  plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:prompt_tokens_by_source_created                  plain{engine="0",model_name="Qwen/Qwen2.5-1       1.79142e+09     1.79142e+09               0
+vllm:prompt_tokens_by_source_total                    plain{engine="0",model_name="Qwen/Qwen2.5-1                 0           37560           37560
+vllm:prompt_tokens_by_source_total                    plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+vllm:prompt_tokens_by_source_total                    plain{engine="0",model_name="Qwen/Qwen2.5-1                 0               0               0
+
+¡¾ÍêÕû±êÇ©Ô­ÎÄ£¬²»½Ø¶Ï¡¿ÖğÌõÔ­ÑùÁĞ³ö£¨ÉÏÃæÄÇÕÅ±íÎªÁË¶ÔÆë»á½Ø¶Ï±êÇ©£¬±¾¶Î²»½Ø¶Ï£©£º
+    vllm:kv_cache_usage_perc{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="+Inf",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="1.34217728e+08",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="131072.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="2.097152e+06",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="2.147483648e+09",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="2048.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="3.3554432e+07",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="32768.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="5.36870912e+08",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="524288.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="8.388608e+06",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="8.589934592e+09",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_bucket{engine="0",le="8192.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_bytes_transferred_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="+Inf",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="10.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="100.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="1000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="10000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="20.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="200.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="2000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="20000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="30.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="400.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="4000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="50.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="50000.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_bucket{engine="0",le="75.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_descriptors_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_failed_notifications_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_failed_notifications_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_failed_transfers_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_failed_transfers_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_kv_expired_reqs_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_num_kv_expired_reqs_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="+Inf",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.001",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.005",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.01",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.025",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.05",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.075",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.1",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.2",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.3",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.5",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="0.75",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="1.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_bucket{engine="0",le="5.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_post_time_seconds_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="+Inf",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.005",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.01",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.025",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.05",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.075",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.1",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.2",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.3",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.5",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.75",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="1.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_bucket{engine="0",le="5.0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:nixl_xfer_time_seconds_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+    vllm:prompt_tokens_by_source_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"}
+    vllm:prompt_tokens_by_source_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"}
+    vllm:prompt_tokens_by_source_created{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"}
+    vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"}
+    vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"}
+    vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"}
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Öğ×åÅĞ¶Á£¨Ö»¿´ sum Óë count£»plain ×å£¨ÎŞ _sum/_count µÄÆÕÍ¨¼ÆÊıÆ÷£©µ¥¶À¿´£©£º
+
+×åÃû                                                      kind      _countÔöÁ¿          _sumÔöÁ¿                      ÅĞ¶Á
+--------------------------------------------------------------------------------------------------------------------------------------------
+vllm:kv_cache_usage_perc                               plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_bytes_transferred                             hist            30      1081737216                     ÓĞÔöÁ¿
+vllm:nixl_bytes_transferred_created                    plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_num_descriptors                               hist            30           40152                     ÓĞÔöÁ¿
+vllm:nixl_num_descriptors_created                      plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_num_failed_notifications_created             plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_num_failed_notifications_total               plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_num_failed_transfers_created                 plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_num_failed_transfers_total                   plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_num_kv_expired_reqs_created                  plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_num_kv_expired_reqs_total                    plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_post_time_seconds                             hist            30        0.146244                     ÓĞÔöÁ¿
+vllm:nixl_post_time_seconds_created                    plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:nixl_xfer_time_seconds                             hist            30         2.06103                     ÓĞÔöÁ¿
+vllm:nixl_xfer_time_seconds_created                    plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:prompt_tokens_by_source_created                   plain             ¡ª               0                   ³öÏÖµ«Î´¶¯
+vllm:prompt_tokens_by_source_total                     plain             ¡ª           37560                     ÓĞÔöÁ¿
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+×ÜÌåÅĞ¶Á£º**ÓĞÔöÁ¿** ¡ª¡ª ÏÂÁĞ×åµÄÊıÖµÔÚ t0¡út1 Ö®¼ä±ä´óÁË£¬´«ÊäÈ·Êµ·¢Éú¹ı£º
+    ¡¤ vllm:nixl_bytes_transferred
+    ¡¤ vllm:nixl_num_descriptors
+    ¡¤ vllm:nixl_post_time_seconds
+    ¡¤ vllm:nixl_xfer_time_seconds
+    ¡¤ vllm:prompt_tokens_by_source_total
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+¸½£º/metrics ÀïÈ«²¿×åÃû£¨t1 ¿ìÕÕ£¬°´Ãû×ÖÅÅĞò£»²é¡¸ÊÇ²»ÊÇ¸ÄÃûÁË¡¹ÓÃ£©
+    http_request_duration_highr_seconds
+    http_request_duration_highr_seconds_created
+    http_request_duration_seconds
+    http_request_duration_seconds_created
+    http_request_size_bytes
+    http_request_size_bytes_created
+    http_requests_created
+    http_requests_total
+    http_response_size_bytes
+    http_response_size_bytes_created
+    process_cpu_seconds_total
+    process_max_fds
+    process_open_fds
+    process_resident_memory_bytes
+    process_start_time_seconds
+    process_virtual_memory_bytes
+    python_gc_collections_total
+    python_gc_objects_collected_total
+    python_gc_objects_uncollectable_total
+    python_info
+    vllm:cache_config_info
+    vllm:e2e_request_latency_seconds
+    vllm:e2e_request_latency_seconds_created
+    vllm:engine_sleep_state
+    vllm:estimated_flops_per_gpu_created
+    vllm:estimated_flops_per_gpu_total
+    vllm:estimated_read_bytes_per_gpu_created
+    vllm:estimated_read_bytes_per_gpu_total
+    vllm:estimated_write_bytes_per_gpu_created
+    vllm:estimated_write_bytes_per_gpu_total
+    vllm:external_prefix_cache_hits_created
+    vllm:external_prefix_cache_hits_total
+    vllm:external_prefix_cache_queries_created
+    vllm:external_prefix_cache_queries_total
+    vllm:generation_tokens_created
+    vllm:generation_tokens_total
+    vllm:inter_token_latency_seconds
+    vllm:inter_token_latency_seconds_created
+    vllm:iteration_tokens_total
+    vllm:iteration_tokens_total_created
+    vllm:kv_cache_usage_perc  <=ÃüÖĞ
+    vllm:mm_cache_hits_created
+    vllm:mm_cache_hits_total
+    vllm:mm_cache_queries_created
+    vllm:mm_cache_queries_total
+    vllm:nixl_bytes_transferred  <=ÃüÖĞ
+    vllm:nixl_bytes_transferred_created  <=ÃüÖĞ
+    vllm:nixl_num_descriptors  <=ÃüÖĞ
+    vllm:nixl_num_descriptors_created  <=ÃüÖĞ
+    vllm:nixl_num_failed_notifications_created  <=ÃüÖĞ
+    vllm:nixl_num_failed_notifications_total  <=ÃüÖĞ
+    vllm:nixl_num_failed_transfers_created  <=ÃüÖĞ
+    vllm:nixl_num_failed_transfers_total  <=ÃüÖĞ
+    vllm:nixl_num_kv_expired_reqs_created  <=ÃüÖĞ
+    vllm:nixl_num_kv_expired_reqs_total  <=ÃüÖĞ
+    vllm:nixl_post_time_seconds  <=ÃüÖĞ
+    vllm:nixl_post_time_seconds_created  <=ÃüÖĞ
+    vllm:nixl_xfer_time_seconds  <=ÃüÖĞ
+    vllm:nixl_xfer_time_seconds_created  <=ÃüÖĞ
+    vllm:num_preemptions_created
+    vllm:num_preemptions_total
+    vllm:num_requests_running
+    vllm:num_requests_waiting
+    vllm:num_requests_waiting_by_reason
+    vllm:prefix_cache_hits_created
+    vllm:prefix_cache_hits_total
+    vllm:prefix_cache_queries_created
+    vllm:prefix_cache_queries_total
+    vllm:prompt_tokens_by_source_created  <=ÃüÖĞ
+    vllm:prompt_tokens_by_source_total  <=ÃüÖĞ
+    vllm:prompt_tokens_cached_created
+    vllm:prompt_tokens_cached_total
+    vllm:prompt_tokens_created
+    vllm:prompt_tokens_total
+    vllm:request_decode_time_seconds
+    vllm:request_decode_time_seconds_created
+    vllm:request_generation_tokens
+    vllm:request_generation_tokens_created
+    vllm:request_inference_time_seconds
+    vllm:request_inference_time_seconds_created
+    vllm:request_max_num_generation_tokens
+    vllm:request_max_num_generation_tokens_created
+    vllm:request_num_preemptions
+    vllm:request_num_preemptions_created
+    vllm:request_params_max_tokens
+    vllm:request_params_max_tokens_created
+    vllm:request_params_n
+    vllm:request_params_n_created
+    vllm:request_prefill_kv_computed_tokens
+    vllm:request_prefill_kv_computed_tokens_created
+    vllm:request_prefill_time_seconds
+    vllm:request_prefill_time_seconds_created
+    vllm:request_prompt_tokens
+    vllm:request_prompt_tokens_created
+    vllm:request_queue_time_seconds
+    vllm:request_queue_time_seconds_created
+    vllm:request_success_created
+    vllm:request_success_total
+    vllm:request_time_per_output_token_seconds
+    vllm:request_time_per_output_token_seconds_created
+    vllm:time_to_first_token_seconds
+    vllm:time_to_first_token_seconds_created
+
+±¸×¢£º±¾ÎÄ¼şÖ»×ö¡¸´«ÊäÓĞÃ»ÓĞ·¢Éú¡¹µÄÅĞ¶Á£¬**²»º¬ÈÎºÎĞÔÄÜ½áÂÛ**¡£
+ï¼ˆå®Œæ•´æŠ¥å‘Šè§ kv_delta_diag4c_B.txtï¼‰
+[2026-10-08T00:26:24Z] == ä¸‰æ¡è‡‚çš„å¯åŠ¨å‘½ä»¤è¡ŒåŸæ–‡ï¼ˆ**è¾…åŠ©è¯æ®**ï¼Œä¸æ›¿ä»£ä¸Šé¢çš„æŒ‡æ ‡åˆ¤æ®ï¼‰ ==
+== B1 æ—¶é—´/è´¹ç”¨å°è´¦ï¼ˆæœ¬æ¬¡ run=b1_4c_20261008T002222Z attempt=1ï¼‰ ==
+è®¡é‡èµ·ç‚¹ï¼ˆrecord.csv é‡Œæœ€æ—©çš„ utc_startï¼‰: 2026-10-08T00:26:24Z
+å½“å‰ UTC                                : 2026-10-08T00:26:24Z
+å·²å†æ—¶                                  : 0.00 å°æ—¶ï¼ˆå¢™é’Ÿï¼‰
+æŠ˜ç®—å¡æ—¶ï¼ˆ2 å° Ã— å¢™é’Ÿï¼‰                  : 0.00 å¡æ—¶
+
+-- å•ä»·å£å¾„ï¼ˆ**å¿…é¡»ç…§å®å†™ï¼Œä¸è®¸ç¼–**ï¼‰ --
+è®¡è´¹æ–¹å¼ï¼ˆæŒ‰é‡/åŒ…æœˆï¼‰: **æœªæŸ¥åˆ°**ï¼ˆäº‘å…ƒæ•°æ®æœåŠ¡ä¸æš´éœ²ï¼›æ§åˆ¶å°éœ€ç™»å½•ï¼›æœ¬æœºæ—  aliyun CLIã€æ—  RAM è§’è‰²ï¼‰
+å®æ—¶è´¦å•ä½™é¢/å·²å‡ºè´¦é‡‘é¢: **æœªæŸ¥åˆ°**ï¼ˆåŒä¸Šï¼›æœ¬è½®åœ¨å®ä¾‹å†…å†æ¬¡åå¤å°è¯•è¿‡å…ƒæ•°æ®ä¸æœ¬åœ°æ¥å£ï¼Œå‡æ— æ­¤å­—æ®µï¼‰
+å•ä»·: **æœªæŸ¥åˆ°**ï¼Œå› æ­¤ **é‡‘é¢æ— æ³•è®¡ç®—**ã€‚
+      â†’ åœ¨å•ä»·æœªçŸ¥çš„å‰æä¸‹ï¼Œå¯å¼ºåˆ¶æ‰§è¡Œçš„æ­¢æŸçº¿åªèƒ½æ˜¯ã€Œæ—¶é—´ã€ï¼ˆè§ä¸‹ï¼‰ã€‚
+      â†’ ä¸€æ—¦ä½œè€…åœ¨æ§åˆ¶å°çœ‹åˆ°å•ä»· Pï¼ˆå…ƒ/å¡/å°æ—¶ï¼‰ï¼Œå‡¡è¶…å‡ºä¸Šé™å³åœï¼ˆåœæ­¢æ¡ä»¶ S4ï¼‰ã€‚
+
+-- ä¸Šé™ï¼ˆç¡¬çº¦æŸï¼‰ --
+å•æ¬¡è¿ç»­è¿è¡Œä¸Šé™ : 1.5 å°æ—¶/å°
+ç´¯è®¡ä¸Šé™         : 3 å¡æ—¶ï¼ˆ= 2 å° Ã— 1 å°æ—¶ï¼‰
+æ˜¯å¦å·²è¶…ç´¯è®¡ä¸Šé™ : å¦
+
+âš ï¸ å£å¾„æé†’ï¼š**ã€Œæœºå™¨å·²ç§Ÿ â‡’ å¢é‡æˆæœ¬ä¸º 0ã€æ˜¯é”™çš„**â€”â€”ä¸¤å°ä¸€ç›´åœ¨è®¡è´¹ï¼Œç»§ç»­è·‘å°±æ˜¯ç»§ç»­èŠ±é’±ã€‚
+âš ï¸ æ–¹æ¡ˆé‡Œçš„ Â¥400 æ˜¯**ç”¨æˆ·ç»™å‡ºçš„å»ºè®®é€‰é¡¹**ï¼Œæœ¬æ–‡ä»¶**æ²¡æœ‰**æŠŠå®ƒå½“ä½œå·²ç¡®è®¤é¢„ç®—æ¥å™è¿°ã€‚

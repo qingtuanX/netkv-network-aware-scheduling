@@ -1,0 +1,13 @@
+# 在 A 上起后台下载
+# 为什么必须关 Xet：hf-mirror 不代理 Xet，走 Xet 会报
+#   RuntimeError: CAS Client Error: HTTP 401 Unauthorized, domain: https://cas-server.xethub.hf.co/...
+# 实测发生过一次（B 端），所以显式 HF_HUB_DISABLE_XET=1。
+started
+   5355    5294 bash -c mkdir -p /root/b1/models /root/b1/logs; cd /root/b1/models; export HF_ENDPOINT=https://hf-mirror.com; export HF_HUB_DISABLE_XET=1; export HF_HUB_DOWNLOAD_TIMEOUT=120; setsid nohup /root/b1/venv/bin/hf download Qwen/Qwen2.5-1.5B-Instruct --local-dir /root/b1/models/Qwen2.5-1.5B-Instruct > /root/b1/logs/model_download.log 2>&1 </dev/null & sleep 12; echo started; ps -eo pid,ppid,args --no-headers | grep '[h]f download' | tee /root/b1/logs/model_download.ps; ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}' | paste -sd, - > /root/b1/logs/model_download.pid; echo "pids=$(cat /root/b1/logs/model_download.pid 2>/dev/null)"; du -sb /root/b1/models | cut -f1
+   5357    5355 /root/b1/venv/bin/python /root/b1/venv/bin/hf download Qwen/Qwen2.5-1.5B-Instruct --local-dir /root/b1/models/Qwen2.5-1.5B-Instruct
+pids=5355,5357
+53451693
+# A 的 hf download 进程 PID（收尾时按这些 PID 精确停，不用宽泛 pkill）
+5355,5357
+   5357       1 /root/b1/venv/bin/python /root/b1/venv/bin/hf download Qwen/Qwen2.5-1.5B-Instruct --local-dir /root/b1/models/Qwen2.5-1.5B-Instruct
+# ---- exit=0 end=2026-10-07T16:49:14Z ----

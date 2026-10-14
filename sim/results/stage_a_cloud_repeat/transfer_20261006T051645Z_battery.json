@@ -1,0 +1,309 @@
+{
+  "run_id": "transfer_20261006T051645Z",
+  "utc": "2026-10-06T05:16:45.911375+00:00",
+  "host": {
+    "python": "3.14.4",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "system": "Linux",
+    "uname": "Linux localhost 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 ",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2",
+    "os_version": "#1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026"
+  },
+  "source": "外部 worker（http://49.235.115.164:8000），电池跑在客户端这一侧",
+  "target": "http://49.235.115.164:8000",
+  "iface": "eth0",
+  "tc_cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+  "tc_rate_mbps": 1.5,
+  "shaped_direction": "download",
+  "sizes_mb": [
+    0.2,
+    2.0
+  ],
+  "rate_test_mb": 8.0,
+  "concurrency": 3,
+  "rate_load_on": "download",
+  "transfers": [
+    {
+      "sub": "A1",
+      "size_mb": 0.2,
+      "ok": false,
+      "t0": 4144.914433089,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 0.05889894599931722,
+      "error": "ConnectionRefusedError: [Errno 111] Connection refused",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 592562103,
+        "tx_bytes": 702363452
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 592567581,
+        "tx_bytes": 702368884
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 8,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 21861 bytes 80 pkt (dropped 0, overlimits 8 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 12,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 32310 bytes 109 pkt (dropped 0, overlimits 12 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A1",
+      "size_mb": 2.0,
+      "ok": false,
+      "t0": 4146.686039491,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 0.052154556000459706,
+      "error": "ConnectionRefusedError: [Errno 111] Connection refused",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 592572971,
+        "tx_bytes": 702374334
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 592583877,
+        "tx_bytes": 702385050
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 15,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 43270 bytes 153 pkt (dropped 0, overlimits 15 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 17,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 49784 bytes 175 pkt (dropped 0, overlimits 17 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A2_upload",
+      "ok": false,
+      "t0": 4149.957146201,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 0.06771042099990154,
+      "error": "ConnectionRefusedError: [Errno 111] Connection refused",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 592590295,
+        "tx_bytes": 702390622
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 592601659,
+        "tx_bytes": 702401676
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 20,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 60678 bytes 218 pkt (dropped 0, overlimits 20 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 24,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 72146 bytes 251 pkt (dropped 0, overlimits 24 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A2_download",
+      "ok": false,
+      "t0": 4151.727032801,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 0.09504845500032388,
+      "error": "ConnectionRefusedError: [Errno 111] Connection refused",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 592606875,
+        "tx_bytes": 702407034
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 592612253,
+        "tx_bytes": 702412466
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 26,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 78374 bytes 276 pkt (dropped 0, overlimits 26 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 30,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 89978 bytes 320 pkt (dropped 0, overlimits 30 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A4_single",
+      "ok": false,
+      "t0": 4153.578005436,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 0.06551172699982999,
+      "error": "ConnectionRefusedError: [Errno 111] Connection refused",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 592623761,
+        "tx_bytes": 702422936
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 592629967,
+        "tx_bytes": 702428842
+      },
+      "tc_before": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 32,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 96642 bytes 349 pkt (dropped 0, overlimits 32 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "ssh -i /mnt/d/Documents/API/123.pem -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_new -o LogLevel=ERROR -o ConnectTimeout=10 ubuntu@49.235.115.164 sudo tc -s qdisc show dev eth0",
+        "overlimits": 34,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc htb 1: root refcnt 3 r2q 1000 default 0x20 direct_packets_stat 0 direct_qlen 1000\n Sent 103367 bytes 377 pkt (dropped 0, overlimits 34 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A4_multi",
+      "flows": [
+        {
+          "ok": false,
+          "t0": 4154.619648585,
+          "upload_bytes": 0,
+          "download_bytes": 0,
+          "latency_s": 0.09663364200059732,
+          "error": "ConnectionRefusedError: [Errno 111] Connection refused"
+        },
+        {
+          "ok": false,
+          "t0": 4154.619710556,
+          "upload_bytes": 0,
+          "download_bytes": 0,
+          "latency_s": 0.09676191999915318,
+          "error": "ConnectionRefusedError: [Errno 111] Connection refused"
+        },
+        {
+          "ok": false,
+          "t0": 4154.619557569,
+          "upload_bytes": 0,
+          "download_bytes": 0,
+          "latency_s": 0.09685636399990472,
+          "error": "ConnectionRefusedError: [Errno 111] Connection refused"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "check": "A1",
+      "item": "0.2 MB",
+      "measured": "请求失败：ConnectionRefusedError: [Errno 111] Connection refused",
+      "verdict": "FAIL",
+      "note": ""
+    },
+    {
+      "check": "A1",
+      "item": "2.0 MB",
+      "measured": "请求失败：ConnectionRefusedError: [Errno 111] Connection refused",
+      "verdict": "FAIL",
+      "note": ""
+    },
+    {
+      "check": "A2",
+      "item": "载荷方向自证",
+      "measured": "--shaped-direction=download ⇒ 期望大载荷在【下传】侧；实际 上=500000 B / 下=8000000 B、A2/A4 判定方向=【下传】",
+      "verdict": "PASS",
+      "note": "方向由 --shaped-direction 唯一决定（both 沿用原口径＝大上传）；不一致会让 A4 去量没被限速的那条路，把'设计不匹配'报成 FAIL"
+    },
+    {
+      "check": "A2",
+      "item": "上传吞吐",
+      "measured": "n/a（请求失败：ConnectionRefusedError: [Errno 111] Connection refused）",
+      "verdict": "INFO",
+      "note": "这次传输根本没成功，先查错误再谈吞吐"
+    },
+    {
+      "check": "A2",
+      "item": "下传吞吐",
+      "measured": "n/a（请求失败：ConnectionRefusedError: [Errno 111] Connection refused）",
+      "verdict": "INFO",
+      "note": "这次传输根本没成功，先查错误再谈吞吐"
+    },
+    {
+      "check": "A3",
+      "item": "overlimits 增量",
+      "measured": "overlimits +10，dropped +0",
+      "verdict": "PASS",
+      "note": "只看 `tc qdisc show` 有输出不算生效，必须这个增量 > 0"
+    },
+    {
+      "check": "A4",
+      "item": "载荷方向（单路 vs 3 路实测的就是这一侧）",
+      "measured": "大载荷 8000000 字节走在【下传】方向，吞吐用 down_thr_mbps（客户端收到字节/耗时）",
+      "verdict": "INFO",
+      "note": "--shaped-direction=download ⇒ 必须测【下传】方向；只限速其中一个方向时，测错方向必然得到接近 1 的比值并误判 FAIL"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 单路吞吐",
+      "measured": "1 路 n/a → 3 路时每路 n/a（比值 n/a；3 路合计 0.000 Mbit/s）",
+      "verdict": "FAIL",
+      "note": "共享瓶颈下理想比值≈3；判据 ≥1.5"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 每请求端到端",
+      "measured": "1 路 0.066 s → 3 路时每路 0.097 s（比值 1.48×）",
+      "verdict": "INFO",
+      "note": "老协议下这个比值会≈1：它把'带宽'建模成一个与并发无关的睡眠时间，没有共享的物理瓶颈可瓜分"
+    },
+    {
+      "check": "A5",
+      "item": "网卡 tx 增量 / 上传字节",
+      "measured": "0.0014×",
+      "verdict": "INFO",
+      "note": "网卡 tx +11054 字节，应用层发 8000000 字节；超出部分是 TCP/IP 头（20+20+12 字节/段）"
+    },
+    {
+      "check": "A5",
+      "item": "网卡 rx 增量 / 下传字节",
+      "measured": "0.0007×",
+      "verdict": "INFO",
+      "note": "网卡 rx +5378 字节，应用层收 8000000 字节"
+    },
+    {
+      "check": "A1-summary",
+      "item": "全部档位字节一致",
+      "measured": "见上",
+      "verdict": "PASS",
+      "note": ""
+    }
+  ]
+}

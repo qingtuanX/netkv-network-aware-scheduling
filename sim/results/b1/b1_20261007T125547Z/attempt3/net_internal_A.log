@@ -1,0 +1,16 @@
+# ---- net_internal_A @ A (8.130.72.109)  start=2026-10-07T13:19:43Z ----
+--- ping B ---
+PING 172.16.206.252 (172.16.206.252) 56(84) bytes of data.
+64 bytes from 172.16.206.252: icmp_seq=1 ttl=64 time=0.195 ms
+64 bytes from 172.16.206.252: icmp_seq=2 ttl=64 time=0.131 ms
+64 bytes from 172.16.206.252: icmp_seq=3 ttl=64 time=0.137 ms
+64 bytes from 172.16.206.252: icmp_seq=4 ttl=64 time=0.139 ms
+64 bytes from 172.16.206.252: icmp_seq=5 ttl=64 time=0.112 ms
+
+--- 172.16.206.252 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4108ms
+rtt min/avg/max/mdev = 0.112/0.142/0.195/0.027 ms
+--- 内网到 B 的路由 ---
+172.16.206.252 dev eth0 src 172.16.206.251 uid 0 
+    cache 
+# ---- exit=0 end=2026-10-07T13:19:48Z ----

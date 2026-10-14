@@ -1,0 +1,7 @@
+﻿network,baseline,net_share_zero_crossing,net_share_range,n_points
+degraded,Random,,"[0.00002, 0.79999]",8
+degraded,LeastQueue,0.00013307027109112375,"[0.00002, 0.79999]",8
+degraded,LeastLoad,1.774432522934192e-05,"[0.00002, 0.79999]",8
+normal,Random,,"[0.00001, 0.09222]",8
+normal,LeastQueue,,"[0.00001, 0.09222]",8
+normal,LeastLoad,5.457441273495981e-06,"[0.00001, 0.09222]",8

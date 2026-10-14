@@ -1,0 +1,24 @@
+run_id,attempt,host,step,utc_start,utc_end,exit_code,status,note
+b1_20261007T125547Z,1,-,init,2026-10-07T12:55:48Z,2026-10-07T12:55:48Z,0,OK,"建立 run/attempt 目录；run_id=b1_20261007T125547Z attempt=1"
+b1_20261007T125547Z,1,A,inventory_A,2026-10-07T12:55:58Z,2026-10-07T12:55:59Z,0,OK,"cmd=set -x
+hostname; date -u; uptime
+nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+nvidia-smi -q -d ECC 2>/dev/null | head -3
+nproc; free -g | head -2; df -h /
+python3 --version; pip3 --version
+docker --version 2>/dev/null; which docker
+ip -4 addr show | grep "
+b1_20261007T125547Z,1,B,inventory_B,2026-10-07T12:56:00Z,2026-10-07T12:56:01Z,0,OK,"cmd=set -x
+hostname; date -u; uptime
+nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+nproc; free -g | head -2; df -h /
+python3 --version; pip3 --version
+docker --version 2>/dev/null
+ip -4 addr show | grep -E ""inet ""
+ls -d /usr/local/cuda* 2>/dev/null
+which nvcc "
+b1_20261007T125547Z,1,A,net_internal_A,2026-10-07T12:56:01Z,2026-10-07T12:56:06Z,0,OK,"cmd=echo '--- ping B ---'; ping -c 5 -W 2 172.16.206.252;     echo '--- TCP 到 B:5600/8200 ---';     for p in 5600 8200 8300; do timeout 5 bash -c ""echo > /dev/tcp/172.16.206.252/$p"" 2>/dev/null && echo ""$p OPEN"" || echo ""$p BLOCKED""; done"
+b1_20261007T125547Z,1,B,net_internal_B,2026-10-07T12:56:07Z,2026-10-07T12:56:11Z,0,OK,"cmd=echo '--- ping A ---'; ping -c 5 -W 2 172.16.206.251;     for p in 5600 8100 8192; do timeout 5 bash -c ""echo > /dev/tcp/172.16.206.251/$p"" 2>/dev/null && echo ""$p OPEN"" || echo ""$p BLOCKED""; done"
+b1_20261007T125547Z,1,A,clock_A,2026-10-07T12:56:12Z,2026-10-07T12:56:13Z,0,OK,"cmd=timedatectl 2>/dev/null | head -8; echo '--- chrony/timesyncd ---'; systemctl is-active chrony chronyd systemd-timesyncd 2>/dev/null; chronyc tracking 2>/dev/null | head -6 || true; date -u +%s.%N"
+b1_20261007T125547Z,1,B,clock_B,2026-10-07T12:56:13Z,2026-10-07T12:56:14Z,0,OK,"cmd=timedatectl 2>/dev/null | head -8; echo '--- chrony/timesyncd ---'; systemctl is-active chrony chronyd systemd-timesyncd 2>/dev/null; chronyc tracking 2>/dev/null | head -6 || true; date -u +%s.%N"
+b1_20261007T125547Z,1,A,setup_install,2026-10-07T12:56:16Z,2026-10-07T12:56:16Z,1,FAIL,"script=/tmp/b1_remote_setup.sh args=install"

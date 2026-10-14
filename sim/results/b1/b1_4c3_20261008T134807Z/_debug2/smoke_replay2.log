@@ -1,0 +1,9 @@
++ local h=8.155.133.216
++ shift
++ ssh -i '/mnt/d/Documents/API/_网络感应 (1).pem' -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_net -o BatchMode=yes -o ConnectTimeout=20 -o LogLevel=ERROR root@8.155.133.216 'mkdir -p /root/b1/prereg3_out && cd /root/b1 && ./venv/bin/python b1_client.py --url '\''http://172.29.31.51:8300'\'' --model '\''Qwen/Qwen2.5-1.5B-Instruct'\''     --prompts-file /root/b1/prereg3_prompts.json --logprobs 20 --only-ids q01_rep6 q02_rep10 q03_rep14     --out /root/b1/prereg3_out/smoke_replay2.json'
+--only-ids=['q01_rep6', 'q02_rep10', 'q03_rep14'] → 保留 3 条
+target=http://172.29.31.51:8300  /version={'unavailable': 'URLError: <urlopen error [Errno 111] Connection refused>'}
+  q01_rep6: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q02_rep10: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q03_rep14: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+wrote /root/b1/prereg3_out/smoke_replay2.json  (3 requests)

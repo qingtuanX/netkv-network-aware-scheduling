@@ -1,0 +1,8 @@
+﻿arm,n_cells,better_than_leastload,better_than_p2c,better_than_na2,worse_than_na2
+Random,8,0,0,0,8
+LeastQueue,8,8,6,1,7
+P2C,8,5,0,2,6
+P2CNet,8,8,8,4,4
+CongestionOnly,8,8,6,1,7
+Bottleneck,8,7,6,4,4
+NetworkAware2,8,8,6,0,0

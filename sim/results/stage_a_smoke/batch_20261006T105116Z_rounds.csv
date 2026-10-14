@@ -1,0 +1,1 @@
+phase,round_idx,tag,run_id,attempt,tool_a2_mbps,tool_dev_pct,ipf_sent_mbps,ipf_recv_mbps,diff_vs_sent_pct,diff_vs_recv_pct,oc_delta,dropped_delta,tool_a3_oc,tool_a3_dropped,filter_success_delta,a4_single_mbps,a4_multi_each_mbps,a4_ratio,a4_agg_mbps,a1_verdict,a1_fails,c1_shaper_valid,c2_vs_sent,c2_vs_recv,c3_separable,tool_csv,note

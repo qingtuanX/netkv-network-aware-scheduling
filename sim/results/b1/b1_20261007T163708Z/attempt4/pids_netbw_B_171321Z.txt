@@ -1,0 +1,8 @@
+# 机器 B（内网 8.155.131.183）的 B1 相关进程台账   快照时刻 2026-10-07T17:13:21Z
+# 判据：本文件里出现的每个 PID 都必须是**本会话起的**；收尾时按 PID 精停。
+--- 我起的后台任务 PID 文件（/root/b1/logs/*.pid）
+baseline       pid=10455 alive=no
+model_download pid=4911,4913 alive=no
+netbw_recv     pid=12803 alive=yes
+--- 当前匹配到的进程（vllm serve / toy_proxy_server / b1_client / hf download）
+(无)

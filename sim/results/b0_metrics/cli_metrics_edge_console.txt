@@ -1,0 +1,21 @@
+=== ②'抓取失败'的第三种成因：/metrics 挂住不回应（假服务 --metrics-fail hang，客户端超时 0.8 s）===
+[metrics] 采集已开启：http://127.0.0.1:9721/metrics  间隔 0.3 s  超时 0.8 s  版本地址 http://127.0.0.1:9721/version
+  [metrics] seq=0 phase=start t=0.001388s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=fake-vllm-0.0.1-test  错误：TimeoutError: timed out
+  [metrics] seq=1 phase=end t=0.84267s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=fake-vllm-0.0.1-test  错误：TimeoutError: timed out
+metrics 快照  抓取失败（配了地址但抓不到）
+  NIXL 项：抓取失败（这一格**没有**数值可言）
+  目标版本：fake-vllm-0.0.1-test（来源 GET /version（JSON 字段 version））
+  抓取 2 次（成功 0 / 失败 2）
+产物 -> results\b0_metrics
+
+=== 版本形态二：/version 回的是 JSON 但**没有 version 字段** → 必须记'未取到' ===
+  [metrics] seq=0 phase=start t=0.0s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=未取到
+  [metrics] seq=1 phase=periodic t=0.31187s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=未取到
+  [metrics] seq=2 phase=end t=0.445742s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=未取到
+  目标版本：未取到  取不到的原因：HTTP 200，但 JSON 里没有 version/vllm_version/build_version 字段（字段名：['detail']）；/metrics 里有 1 个 version 标签候选，但它们不是服务构建信息（例如 python_info 的 version 是解释器版本），**未采用**
+
+=== 版本形态三：/version 回纯文本单行 → 正文原样就是版本 ===
+  [metrics] seq=0 phase=start t=0.001001s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=plain-text-v9.9.9
+  [metrics] seq=1 phase=periodic t=0.314802s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=plain-text-v9.9.9
+  [metrics] seq=2 phase=end t=0.44834s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=plain-text-v9.9.9
+  目标版本：plain-text-v9.9.9（来源 GET /version（正文原样，单行短文本））

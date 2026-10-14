@@ -1,0 +1,2 @@
+# 等待 prefill4c：curl http://<172.29.31.52|127.0.0.1>:8100/v1/models 直到 200（最多 240 s）
+READY prefill4c after 55s (http://172.29.31.52:8100/v1/models)

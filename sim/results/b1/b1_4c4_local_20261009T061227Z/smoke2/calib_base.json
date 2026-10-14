@@ -1,0 +1,77 @@
+{
+ "tool": "b1_prefix_4c.py calib",
+ "utc_started": "2026-10-09T07:53:34.865331Z",
+ "arm": "base",
+ "target_url": "http://127.0.0.1:8300",
+ "model": "Qwen/Qwen2.5-1.5B-Instruct",
+ "positions": [
+  1,
+  3,
+  8,
+  15,
+  30
+ ],
+ "reps": 3,
+ "prefix_mode": "tokenids",
+ "request_params_actual": {
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "top_k": -1,
+  "repetition_penalty": 1.0,
+  "seed": 0,
+  "stream": false,
+  "return_token_ids": true,
+  "logprobs": 20
+ },
+ "per_prompt": [
+  {
+   "id": "c01_rep4",
+   "ref_len": 5,
+   "positions": [
+    {
+     "k": 1,
+     "n_reps": 3,
+     "n_pairs": 3,
+     "median": 0.0,
+     "max": 0.0,
+     "non_degenerate_reps": 3
+    },
+    {
+     "k": 3,
+     "n_reps": 3,
+     "n_pairs": 3,
+     "median": 0.0,
+     "max": 0.0,
+     "non_degenerate_reps": 3
+    },
+    {
+     "k": 8,
+     "skipped": "beyond_ref_len"
+    },
+    {
+     "k": 15,
+     "skipped": "beyond_ref_len"
+    },
+    {
+     "k": 30,
+     "skipped": "beyond_ref_len"
+    }
+   ]
+  }
+ ],
+ "pool_diffs": [
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0
+ ],
+ "delta_cal": {
+  "n_pairs": 6,
+  "median": 0.0,
+  "p95_reference_upper": 0.0,
+  "max": 0.0
+ },
+ "utc_written": "2026-10-09T07:53:35.775168Z"
+}

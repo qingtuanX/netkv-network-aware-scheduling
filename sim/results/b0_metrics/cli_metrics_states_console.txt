@@ -1,0 +1,57 @@
+=== ④ 抓到 NIXL 项：--metrics-url 指向假指标服务（--metrics-variant nixl）===
+[metrics] 采集已开启：http://127.0.0.1:9712/metrics  间隔 0.4 s  超时 1.0 s  版本地址 http://127.0.0.1:9712/version
+  [metrics] seq=0 phase=start t=0.000993s state=抓到 NIXL 项 NIXL=出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=1 phase=periodic t=0.402926s state=抓到 NIXL 项 NIXL=出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=2 phase=periodic t=0.81119s state=抓到 NIXL 项 NIXL=出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=3 phase=end t=0.851478s state=抓到 NIXL 项 NIXL=出现 version=fake-vllm-0.0.1-test
+
+=== serving_20261007T101526450Z_13964-1 ===
+请求 8  成功 8  失败 0  墙钟 0.851 s  吞吐 9.395 req/s  在途峰值 2
+TTFT(s)   p50=0.13599  p95=0.142358  p99=0.142376  max=0.142381
+端到端(s) p50=0.150353  p95=0.15691  p99=0.157059  max=0.157097
+输出块    每请求中位 4.0 块（其中有文本 4.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.004788  p95=0.004894   p95 口径 p50=0.005  p95=0.00517
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.004788  p95=0.004894   p95 口径 p50=0.005  p95=0.00517
+服务端 token 数  有 usage 的请求 8 个，有 token_ids 的请求 8 个，一个都拿不到的请求 0 个  来源={"usage": 8}
+  srv_completion_tokens 中位 4.0，srv_token_ids_total 中位 4.0，逐 token 平均间隔中位 0.004788 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 8}
+覆盖判定（服务端阶段）{"PASS": 8}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0010819435119628906 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.016964 s，最大 -0.00884 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  抓到 NIXL 项
+  NIXL 项：出现（7 条序列；数值是按传输汇总的，见快照 raw_body）
+  目标版本：fake-vllm-0.0.1-test（来源 GET /version（JSON 字段 version））
+  抓取 4 次（成功 4 / 失败 0），首末快照 0.000993 s → 0.851478 s
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+
+=== ② 抓取失败（连接被拒）：地址指向一个没人监听的端口 ===
+[metrics] 采集已开启：http://127.0.0.1:9799/metrics  间隔 0.4 s  超时 1.0 s  版本地址 http://127.0.0.1:9799/version
+  [metrics] seq=0 phase=start t=0.001359s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=未取到  错误：TimeoutError: timed out
+  [metrics] seq=1 phase=end t=2.015142s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=未取到  错误：TimeoutError: timed out
+
+=== serving_20261007T101527749Z_39488-1 ===
+请求 6  成功 6  失败 0  墙钟 0.636 s  吞吐 9.431 req/s  在途峰值 2
+TTFT(s)   p50=0.136959  p95=0.143476  p99=0.144297  max=0.144502
+端到端(s) p50=0.151552  p95=0.157713  p99=0.158417  max=0.158593
+输出块    每请求中位 4.0 块（其中有文本 4.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.004844  p95=0.004899   p95 口径 p50=0.005004  p95=0.005382
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.004844  p95=0.004899   p95 口径 p50=0.005004  p95=0.005382
+服务端 token 数  有 usage 的请求 6 个，有 token_ids 的请求 6 个，一个都拿不到的请求 0 个  来源={"usage": 6}
+  srv_completion_tokens 中位 4.0，srv_token_ids_total 中位 4.0，逐 token 平均间隔中位 0.004844 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+覆盖判定（服务端阶段）{"PASS": 6}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005078315734863281 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.018163 s，最大 -0.002003 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  抓取失败（配了地址但抓不到）
+  NIXL 项：抓取失败（这一格**没有**数值可言）
+  目标版本：未取到  取不到的原因：TimeoutError: timed out
+  抓取 2 次（成功 0 / 失败 2）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics

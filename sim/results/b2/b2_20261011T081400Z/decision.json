@@ -1,0 +1,61 @@
+{
+  "tool": "手工誊写（协议 §5 冻结算法的输出转录 + §7 有效性检查逐条勾选；不写新分析代码）",
+  "run_id": "b2_20261011T081400Z",
+  "protocol": "B2_PREREG.md v2（冻结于 2026-10-11 UTC+8）；执行依据 B2_RUNBOOK.md + b2_perf_client.py v2.1",
+  "utc_decided": "2026-10-11T09:40:00Z",
+  "env": "阿里云 cn-heyuan 两台 A10：A=172.29.31.52（前处理+代理+客户端）、B=172.29.31.51（对照臂/生成）；Qwen2.5-1.5B-Instruct / bfloat16 / vLLM + nixl",
+  "request_account": {
+    "formal": 800,
+    "warmup": 80,
+    "smoke": 8,
+    "note": "4 个配对轮 × 每轮两形态 × 2 并发档 × 5 题 × 10 重复 = 800（每形态每档 200）"
+  },
+  "validity_checks": {
+    "1_params_effective": {
+      "pass": true,
+      "evidence": "服务两臂同一参数（启动日志：--generation-config vllm --dtype bfloat16 --no-enable-prefix-caching，无任何 logprobs 设置）；请求侧 request_params_actual=temperature 0/top_p 1/top_k -1/repetition_penalty 1.0/seed 0/max_tokens 64/ignore_eos true/logprobs 0/stream true（800 条产物逐份留证）"
+    },
+    "2_warmup_excluded": {"pass": true, "evidence": "热身 80 条单独落盘 warm_*，不进统计"},
+    "3_smoke_passed": {"pass": true, "evidence": "8 个形态会话的冒烟全过（64/64、logprobs_tokens、退出码 0）"},
+    "4_min_requests_per_cell": {"pass": true, "evidence": "每格 50 条有效请求（≥30）"},
+    "5_length_check": {"pass": true, "evidence": "800/800 恰好 64 token；n_length_mismatch=0 全部格子"},
+    "6_token_id_source": {"pass": true, "evidence": "800/800 token_count_source=logprobs_tokens；n_token_source_fallback=0、n_token_source_invalid=0；严格拦截逻辑经 mock 测试验证（b2_mock_tokenid_test.py）"},
+    "7_order_executed": {"pass": true, "evidence": "形态 ABBA（轮 1/4 base 先、2/3 disagg 先）+ 档序（轮 1/3 串行先、2/4 并发先）+ 题序（r1-r4 冻结文件，种子 101-104）逐条按 B2_RUNBOOK.md 执行；R4 因 infra 中断按 §7 规则整轮重跑（见 deviations）"},
+    "8_kv_accounting": {"pass": true, "evidence": "4 个拆分轮各 100 次传输（=采数请求数）/4.29 GB/失败 0/失败通知 0/KV 过期 0；external_kv_transfer=149,100 token、local_compute=0（零本地重算）；字节÷token=28,799 vs 理论 28,796（差 0.01%）；base 4 轮 nixl 增量=0"}
+  },
+  "gate_result": "8/8 PASS",
+  "results_per_round": {
+    "metric_rel_diff_pct": "拆分相对单机的配对中位差（%；正=拆分更慢）",
+    "serial_c1": {
+      "TTFT":      {"rounds": [212.5, 202.7, 189.0, 211.9], "typical": 207.3, "range": [189.0, 212.5]},
+      "avg_token_gap": {"rounds": [0.9, 0.0, 1.6, 2.5], "typical": 1.3, "range": [0.0, 2.5]},
+      "total":     {"rounds": [15.7, 14.9, 16.3, 17.3], "typical": 16.0, "range": [14.9, 17.3]}
+    },
+    "conc4_c4": {
+      "TTFT":      {"rounds": [47.7, 98.5, 136.7, 95.7], "typical": 97.1, "range": [47.7, 136.7]},
+      "avg_token_gap": {"rounds": [-2.2, -2.7, -0.8, -0.4], "typical": -1.5, "range": [-2.7, -0.4]},
+      "total":     {"rounds": [7.3, 7.7, 13.6, 11.8], "typical": 9.8, "range": [7.3, 13.6]}
+    },
+    "note": "独立重复单位=轮（n=4）；不作 95% 置信区间宣称；每请求 p50/p95 只作描述"
+  },
+  "descriptive_per_request": {
+    "base_c1":   {"ttft_p50": 0.068, "ttft_p95": 0.122, "tok_gap_p50": 0.0141, "total_p50": 0.953, "total_p95": 1.020},
+    "disagg_c1": {"ttft_p50": 0.211, "ttft_p95": 0.321, "tok_gap_p50": 0.0142, "total_p50": 1.111, "total_p95": 1.229},
+    "base_c4":   {"ttft_p50": 0.144, "ttft_p95": 0.309, "tok_gap_p50": 0.0164, "total_p50": 1.204, "total_p95": 1.318},
+    "disagg_c4": {"ttft_p50": 0.280, "ttft_p95": 0.648, "tok_gap_p50": 0.0162, "total_p50": 1.301, "total_p95": 1.623},
+    "note": "秒；每形态每档 200 条；描述性，非推断"
+  },
+  "conclusion_frozen_wording": "在同云、同模型、同请求参数、同输出长度下，拆分部署相对单机部署的整体开销为：首字等待 +207%（串行）/+97%（低并发 4），每请求平均 token 间隔 +1.3%/−1.5%（≈无差别），总耗时 +16.0%/+9.8%（四轮逐轮配对差见 results_per_round，一般差与波动范围并报）；KV 传输量（直接传输度量）每轮 4.29 GB / 100 次 / 失败 0；失败率两臂均 0。",
+  "interpretation_boundary": "base 臂 1 张 GPU、拆分臂 2 张 GPU——以上为『部署方式整体开销』（含算力配置不同、流水线并行、KV 传输、代理跳数），不得称为『传输成本』；KV 字节数/次数/失败单独报，才是传输的直接度量。chunk_gap_s 只是文字块间隔；avg_token_gap_s 只解释为『整段输出时间跨度除以 token 数』；服务端 vllm:request_time_per_output_token_seconds 只作整体交叉核对。",
+  "kv_per_disagg_round": {"transfers": 100, "bytes": 4290000000, "bytes_exact": 4290000000, "failed": 0, "external_kv_tokens": 149100, "local_compute_tokens": 0, "bytes_per_token_measured": 28799, "bytes_per_token_theory": 28796},
+  "deviations_and_incidents": [
+    "【已按规则处置】R4 首轮 base 会话因 SSH 连接复用套接字未含主机名（ControlPath 无 %h，所有主机共用一条连接），命令误落 B 机（客户端跑在 B 而非 A）——发现后按 runbook §7 infra 规则整轮 R4 重跑（两形态），误路由产物保留归档于 pull_B/out/*.misrouted.json；重跑后客户端全部在 A。",
+    "【基础设施事件】执行中 SSH 遭 ss hd 限流断连约 5 次（短连接过多）；均按重试规则处置（无 target= 未产生测量 ⇒ 重试；有测量绝不重试）；后续改用每主机独立连接套接字后稳定。",
+    "【基础设施事件】toy_proxy_server.py 在云端 A 的 /root/b1/official/ 一度查无（实为误路由查看了 B 机目录）；恢复用的本地副本 sha256=1210e552…，与 vLLM 官方 tests/v1/kv_connector/nixl_integration/toy_proxy_server.py 同源（Apache-2.0 头、kv_transfer_params 转发逻辑）。",
+    "【冒烟失败留档】R1 base 首次冒烟因服务漏 B1_BIND_IP 只绑回环被拒（修正启动命令后过）；R4 disagg 两次冒烟失败均系命令误落 B 机所致（见第一条），产物留档不删。"
+  ],
+  "not_done": [
+    "I2 类干预：B2 无干预臂（协议未设）；跨云（C 阶段）未测；多输入规模（D 阶段）未测"
+  ],
+  "next": "B2 完成，作为 C（跨云双向 KV 连通）/D（正式比较）的同云对照锚点；C 需第二家云的 GPU 机器（作者定厂商与预算）"
+}

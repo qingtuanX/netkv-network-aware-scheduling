@@ -1,0 +1,24 @@
+# ---- model_hash_B @ B (8.155.131.183)  start=2026-10-07T17:09:57Z ----
+--- 目录：/root/b1/models/Qwen2.5-1.5B-Instruct
+--- 文件数 / 总字节
+33
+3098975923
+--- 逐文件 sha256（按名字排序，拼起来再取一次总哈希）
+0ee375c91c0e1d424eba4369a39addbfa21150cd566b67035d469e60bc4e1c45  -
+--- 关键文件单独列出
+98d2ff8cc47488d08a2b0b3acf4eb99ef210779b42bd48605f6b8e36acdbf670  /root/b1/models/Qwen2.5-1.5B-Instruct/config.json
+e558847a8b4402616f1273797b015104dc266fe4b520056fca88823ba8f8ebe6  /root/b1/models/Qwen2.5-1.5B-Instruct/generation_config.json
+5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583  /root/b1/models/Qwen2.5-1.5B-Instruct/tokenizer_config.json
+absent model.safetensors.index.json
+--- config.json 里的精度字段
+"torch_dtype": "bfloat16"
+config.json
+generation_config.json
+LICENSE
+merges.txt
+model.safetensors
+README.md
+tokenizer_config.json
+tokenizer.json
+vocab.json
+# ---- exit=0 end=2026-10-07T17:10:00Z ----

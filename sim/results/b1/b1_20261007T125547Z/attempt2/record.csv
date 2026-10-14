@@ -1,0 +1,39 @@
+run_id,attempt,host,step,utc_start,utc_end,exit_code,status,note
+b1_20261007T125547Z,2,-,init,2026-10-07T12:59:59Z,2026-10-07T12:59:59Z,0,OK,"建立 run/attempt 目录；run_id=b1_20261007T125547Z attempt=2"
+b1_20261007T125547Z,2,A,inventory_A,2026-10-07T13:00:06Z,2026-10-07T13:00:08Z,0,OK,"cmd=set -x
+hostname; date -u; uptime
+nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+nvidia-smi -q -d ECC 2>/dev/null | head -3
+nproc; free -g | head -2; df -h /
+python3 --version; pip3 --version
+docker --version 2>/dev/null; which docker
+ip -4 addr show | grep "
+b1_20261007T125547Z,2,B,inventory_B,2026-10-07T13:00:08Z,2026-10-07T13:00:09Z,0,OK,"cmd=set -x
+hostname; date -u; uptime
+nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+nproc; free -g | head -2; df -h /
+python3 --version; pip3 --version
+docker --version 2>/dev/null
+ip -4 addr show | grep -E ""inet ""
+ls -d /usr/local/cuda* 2>/dev/null
+which nvcc "
+b1_20261007T125547Z,2,A,net_internal_A,2026-10-07T13:00:10Z,2026-10-07T13:00:15Z,0,OK,"cmd=echo '--- ping B ---'; ping -c 5 -W 2 172.16.206.252;     echo '--- TCP 探测 B 的 5600/8200/8300（此刻还没有服务在听，""BLOCKED"" 是预期的，不能当成防火墙结论） ---';     for p in 5600 8200 8300; do timeout 5 bash -c ""echo > /dev/tcp/172.16.206.252/$p"" 2>/dev/null && echo "
+b1_20261007T125547Z,2,B,net_probe_listen,2026-10-07T13:00:15Z,2026-10-07T13:00:19Z,0,OK,"cmd=setsid nohup python3 -c ""
+import socket,time
+socks=[]
+for p in (5600,8200,8300,9101):
+    s=socket.socket(); s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+    s.bind(('0.0.0.0',p)); s.listen(4); socks.append(s)
+print('listening 5600 8200 8300 9101', flush=True)
+time.sleep(90)
+"" >/tmp/b1_port"
+b1_20261007T125547Z,2,A,net_probe_from_A,2026-10-07T13:00:19Z,2026-10-07T13:00:30Z,0,OK,"cmd=for p in 5600 8200 8300 9101; do timeout 5 bash -c ""echo > /dev/tcp/172.16.206.252/$p"" 2>/dev/null && echo ""$p 内网可达"" || echo ""$p 不可达""; done;     echo '--- 同一台 A 通过公网 IP 连同样的端口（应不可达，证明 KV 只能走内网） ---';     for p in 5600 9101; do timeo"
+b1_20261007T125547Z,2,B,net_probe_cleanup,2026-10-07T13:00:30Z,2026-10-07T13:00:32Z,0,OK,"cmd=ss -ltnp | grep -E ':(5600|8200|8300|9101)' | grep -o 'pid=[0-9]*' | cut -d= -f2 | sort -u | while read x; do kill $x 2>/dev/null && echo killed $x; done; sleep 1; ss -ltn | grep -E ':(5600|8200|8300|9101)' || echo '探测端口已全部释放'"
+b1_20261007T125547Z,2,A,clock_A,2026-10-07T13:00:32Z,2026-10-07T13:00:33Z,0,OK,"cmd=timedatectl 2>/dev/null | head -8; echo '--- chrony/timesyncd ---'; systemctl is-active chrony chronyd systemd-timesyncd 2>/dev/null; chronyc tracking 2>/dev/null | head -6 || true; date -u +%s.%N"
+b1_20261007T125547Z,2,B,clock_B,2026-10-07T13:00:33Z,2026-10-07T13:00:34Z,0,OK,"cmd=timedatectl 2>/dev/null | head -8; echo '--- chrony/timesyncd ---'; systemctl is-active chrony chronyd systemd-timesyncd 2>/dev/null; chronyc tracking 2>/dev/null | head -6 || true; date -u +%s.%N"
+b1_20261007T125547Z,2,A,setup_install,2026-10-07T13:00:34Z,2026-10-07T13:04:21Z,0,OK,"script=/e/代码项目文件/论文/sim/k8s_test/b1_remote_setup.sh args=install"
+b1_20261007T125547Z,2,B,setup_install,2026-10-07T13:04:22Z,2026-10-07T13:08:24Z,0,OK,"script=/e/代码项目文件/论文/sim/k8s_test/b1_remote_setup.sh args=install"
+b1_20261007T125547Z,2,A,fetch_official,2026-10-07T13:08:24Z,2026-10-07T13:08:30Z,0,OK,"cmd=mkdir -p /root/b1/official && cd /root/b1/official
+BASE=https://gh-proxy.com/https://raw.githubusercontent.com/vllm-project/vllm/v0.31.0
+for f in tests/v1/kv_connector/nixl_integration/toy_proxy_server.py          tests/v1/kv_connector/nixl_integration/run_accuracy_test.sh          tests/v1/kv_conne"
+b1_20261007T125547Z,2,A,model_download,2026-10-07T13:09:08Z,2026-10-07T13:18:27Z,1,FAIL,"script=/e/代码项目文件/论文/sim/k8s_test/b1_remote_setup.sh args=model-download"

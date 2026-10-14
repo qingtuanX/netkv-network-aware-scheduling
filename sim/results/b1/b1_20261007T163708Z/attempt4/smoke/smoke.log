@@ -1,0 +1,11 @@
+# 安装冒烟检查：拆分服务起来后的**第一条**请求
+# 定位：它属于「前置检查」而不是「正式测量」。
+#   - 通过 → 说明服务链路装起来了，可以进入 measure（开测）
+#   - 失败 → 按 R3 算「还没开测」，可以修完重来（但本次记录保留）
+# 它**不**计入正式测量数据，measure 阶段的请求才计入。
+# 请求：只发 1 条（p01_rep8），temperature=0，max_tokens=64
+--only-ids=['p01_rep8'] → 保留 1 条
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p01_rep8: http=200 prompt_tokens=636 completion_tokens=64 finish=length tok_ids=yes 2.3414s
+wrote /root/b1/out/smoke_disagg.json  (1 requests)
+# ---- exit=0 end=2026-10-07T17:15:33Z ----

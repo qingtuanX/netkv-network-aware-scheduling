@@ -1,0 +1,458 @@
+=== B0 验收电池 battery_20261007T101312172Z_11964-1 ===
+
+--- S0：先自检判据本身（含会 FAIL 的负对照）
+== selftest 1/5：区间并集 / 空档 / 重叠 / 分位数 ==
+  [PASS] 并集：重叠两段: got=3.0 want=3.0
+  [PASS] 并集：相接两段: got=2.0 want=2.0
+  [PASS] 并集：分离两段: got=2.0 want=2.0
+  [PASS] 空档：中间一段: got=1.0 want=1.0
+  [PASS] 空档：合计（[0,1]+[2,4] 在窗口 [0,4] 内）: got=1.0 want=1.0
+  [PASS] 空档：完全覆盖时无空档: got=0 want=0
+  [PASS] 重叠：两段重叠 1: got=1.0 want=1.0
+  [PASS] 重叠：按两两计: got=2.0 want=2.0
+  [PASS] 分位数：中位: got=2.5 want=2.5
+  [PASS] 分位数：单值: got=7.0 want=7.0
+  [PASS] 裁剪：越界部分被切掉: got=3.0 want=3.0
+== selftest 2/5：覆盖判据的正确路径 ==
+  [PASS] 铺满、无重叠 => PASS: got=PASS want=PASS
+  [PASS] 铺满、无重叠：空档 0: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：Σ≈窗口: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：重叠 0: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：LOO 最小空档 = 最小段长 0.1: got=0.1 want=0.1
+  [PASS] 铺满、无重叠：窗口外部分 0: got=0.0 want=0.0
+== selftest 3/5：负对照（判据必须抓得住错）==
+  [PASS] 漏记 wait_first_byte => FAIL: got=FAIL want=FAIL
+  [PASS] 漏记 wait_first_byte：露出空档 0.2: got=0.2 want=0.2
+  [PASS] 有重叠 => 仍 PASS: got=PASS want=PASS
+  [PASS] 有重叠：Σ − 窗口 = 0.15（>0）: got=0.15 want=0.15
+  [PASS] 有重叠：重叠量 = 0.15: got=0.15 want=0.15
+  [PASS] 有重叠：LOO 最小空档 > eps: got=True want=True
+  [PASS] 区间伸到窗口外 => outside > 0: got=True want=True
+  [PASS] 区间伸到窗口外 => FAIL: got=FAIL want=FAIL
+  [PASS] 空集 => 空档 = 全窗: got=1.0 want=1.0
+  [PASS] 空集 => FAIL: got=FAIL want=FAIL
+  [PASS] 无空档时 gap_total_s 仍是 float: got=True want=True
+  [PASS] 空集时 gap_total_s 仍是 float: got=True want=True
+  [PASS] sum_stage_s 是 float: got=True want=True
+== selftest 4/5：输出块口径（块 ≠ token）==
+  [PASS] 分类：普通内容块 => output: got=output want=output
+  [PASS] 分类：普通内容块的文本: got=tok  want=tok 
+  [PASS] 分类：有 choices 但文本为空 => 仍是 output: got=output want=output
+  [PASS] 分类：空文本块的 token_ids 个数: got=1 want=1
+  [PASS] 分类：只有 usage 的收尾块 => usage_only（**不算输出块**）: got=usage_only want=usage_only
+  [PASS] 分类：只有 usage 的收尾块带出 usage: got=32 want=32
+  [PASS] 分类：阶段报告片 => other: got=other want=other
+  [PASS] 分类：chat 形状的 delta 也能取到文本: got=hi want=hi
+  [PASS] 间隔：没有空文本块时，两种口径逐位相同: got=True want=True
+  [PASS] 间隔：5 个块 => 4 个间隔，均值 0.02: got=0.02 want=0.02
+  [PASS] 间隔：块口径仍数全部块（4 个间隔，均值 0.02）: got=0.02 want=0.02
+  [PASS] 间隔：历史口径跳过空文本块 => 把两个间隔并成一个（0.04 = 2×0.02）: got=0.04 want=0.04
+  [PASS] 间隔：只有一个块时不给数（返回 nan，不是 0.0）: got=True want=True
+  [PASS] 间隔：零个块时不给数: got=True want=True
+== selftest 5/5：metrics 四态与解析（缺项 ≠ 0）==
+  [PASS] 缺项：状态 = nixl_absent: got=nixl_absent want=nixl_absent
+  [PASS] 缺项：字面值就是「未出现」: got=未出现 want=未出现
+  [PASS] 缺项：序列字典是 None（**不是 {} 也不是 0**）: got=True want=True
+  [PASS] 缺项：匹配到的序列条数为 0（这是**条数**，不是任何指标的值）: got=0 want=0
+  [PASS] 缺项：沾边的 kv_transfer 序列被单独计数、且**没被算成 NIXL**: got=(1, 0) want=(1, 0)
+  [PASS] 有项：状态 = nixl_present: got=nixl_present want=nixl_present
+  [PASS] 有项：字面值 = 出现: got=出现 want=出现
+  [PASS] 有项：序列数 > 0: got=True want=True
+  [PASS] 有项：**真 0 照实记成 0.0**（序列存在时 0 就是'一次都没失败'）: got=0.0 want=0.0
+  [PASS] 有项：字节数是解析出来的数（不是 0）: got=1250000000.0 want=1250000000.0
+  [PASS] 只在注释里提 NIXL：仍按'未出现'记: got=nixl_absent want=nixl_absent
+  [PASS] 只在注释里提 NIXL：注释命中数 > 0: got=True want=True
+  [PASS] 只在注释里提 NIXL：说明里点出了这件事（不静默）: got=True want=True
+  [PASS] 解析：无标签行: got=43.59 want=43.59
+  [PASS] 解析：带标签行的键含标签原文: got=True want=True
+  [PASS] 解析：NaN 留 None（不填 0）: got=True want=True
+  [PASS] 解析：不带标签的普通行: got=3.5 want=3.5
+  [PASS] 解析：解不开的行计入 n_unparsable（不静默丢）: got=1 want=1
+  [PASS] 版本：python_info 的 version 只进候选、不被采用: got=(None, 1) want=(None, 1)
+  [PASS] 版本：解释器版本确实在候选里（3.12.10）: got=3.12.10 want=3.12.10
+  [PASS] 版本：build_info 的 version 被采用: got=0.31.0 want=0.31.0
+  [PASS] 版本：来源写明是 /metrics 的哪条指标: got=True want=True
+  [PASS] 版本地址推导：/metrics → /version: got=http://127.0.0.1:8090/version want=http://127.0.0.1:8090/version
+  [PASS] 版本地址推导：非法地址 → 空串（**不瞎猜路径**）: got= want=
+  [PASS] 抓取失败时版本也必须给字面值'未取到'（用空地址直接验）: got=True want=True
+  [PASS] 对比：a 的差 = 3: got=3.0 want=3.0
+  [PASS] 对比：b 的差 = 0（真 0 照实报）: got=0.0 want=0.0
+  [PASS] 对比：消失的 c 进 only_start、**不被当成 -3**: got=(1, True) want=(1, True)
+  [PASS] 对比：新增的 d 进 only_end、**不被当成 +9**: got=(1, True) want=(1, True)
+  [PASS] 对比：有一侧解不出数值 ⇒ 跳过、不拿 0 顶替: got=(1, 1) want=(1, 1)
+  [PASS] 未配置：状态 = not_configured（**不是 nixl_absent**）: got=not_configured want=not_configured
+  [PASS] 未配置：NIXL 字段字面值 = 未配置地址（**不是'未出现'、更不是 0**）: got=未配置地址 want=未配置地址
+  [PASS] 未配置：NIXL 序列值 None、尝试次数 0: got=(None, 0) want=(None, 0)
+  [PASS] 未配置：scope 限制写进了 summary（不只在文档里）: got=True want=True
+  [PASS] 未配置：采样器不会自己启动: got=True want=True
+  [PASS] 未配置：列表为空（没有产生任何快照文件）: got=(0, 0) want=(0, 0)
+  [PASS] 抓取失败：ok=False、状态归到抓取失败那一类: got=(False, True) want=(False, True)
+  [PASS] 抓取失败：留下错误原文（不是空串）: got=True want=True
+  [PASS] 空正文：解析不炸，且按'未出现'处理（调用方另按 200+空 归为抓取失败）: got=(0, 'nixl_absent') want=(0, 'nixl_absent')
+
+selftest 全部通过
+  [PASS] S0 / selftest（判据自身）: 返回码 0（0=全通过）  (只验通过路径等于没验，所以自检里必须含负对照)
+
+--- 臂 overlap0：假后端 :9500  配方={"token_count": 32, "token_interval_s": 0.02, "queue_s": 0.01, "prefill_s": 0.1, "kv_mb": 24.0, "kv_gbps": 3.2, "kv_overlap_frac": 0.0, "fail_rate": 0.0, "fail_mode": "http_500", "seed": 1, "empty_text_every": 0, "kv_bytes": 25165824, "kv_xfer_s": 0.062915}
+
+=== serving_20261007T101313002Z_11964-2 ===
+请求 120  成功 120  失败 0  墙钟 10.713 s  吞吐 11.202 req/s  在途峰值 10
+TTFT(s)   p50=0.174921  p95=0.196554  p99=0.198023  max=0.198189
+端到端(s) p50=0.794518  p95=0.81587  p99=0.817483  max=0.817918
+输出块    每请求中位 32.0 块（其中有文本 32.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.019984  p95=0.020008   p95 口径 p50=0.020363  p95=0.020481
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.019984  p95=0.020008   p95 口径 p50=0.020363  p95=0.020481
+服务端 token 数  有 usage 的请求 120 个，有 token_ids 的请求 120 个，一个都拿不到的请求 0 个  来源={"usage": 120}
+  srv_completion_tokens 中位 32.0，srv_token_ids_total 中位 32.0，逐 token 平均间隔中位 0.019984 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 120}
+覆盖判定（服务端阶段）{"PASS": 120}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005030632019042969 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.001604 s，最大 -0.000115 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  未配置地址（本次没有采集）
+  NIXL 项：未配置地址（这一格**没有**数值可言）
+  目标版本：未取到
+  抓取 0 次（成功 0 / 失败 0）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+
+--- 臂 overlap50：假后端 :9501  配方={"token_count": 32, "token_interval_s": 0.02, "queue_s": 0.01, "prefill_s": 0.1, "kv_mb": 24.0, "kv_gbps": 3.2, "kv_overlap_frac": 0.5, "fail_rate": 0.0, "fail_mode": "http_500", "seed": 1, "empty_text_every": 0, "kv_bytes": 25165824, "kv_xfer_s": 0.062915}
+
+=== serving_20261007T101324467Z_11964-3 ===
+请求 120  成功 120  失败 0  墙钟 10.68 s  吞吐 11.236 req/s  在途峰值 10
+TTFT(s)   p50=0.143472  p95=0.165338  p99=0.166876  max=0.167528
+端到端(s) p50=0.763121  p95=0.784686  p99=0.786747  max=0.787261
+输出块    每请求中位 32.0 块（其中有文本 32.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.019987  p95=0.020006   p95 口径 p50=0.020376  p95=0.020497
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.019987  p95=0.020006   p95 口径 p50=0.020376  p95=0.020497
+服务端 token 数  有 usage 的请求 120 个，有 token_ids 的请求 120 个，一个都拿不到的请求 0 个  来源={"usage": 120}
+  srv_completion_tokens 中位 32.0，srv_token_ids_total 中位 32.0，逐 token 平均间隔中位 0.019987 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 120}
+覆盖判定（服务端阶段）{"PASS": 120}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005056858062744141 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.031457 s
+        (Σ语义阶段 − 端到端) 中位 0.029793 s，最大 0.031322 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  未配置地址（本次没有采集）
+  NIXL 项：未配置地址（这一格**没有**数值可言）
+  目标版本：未取到
+  抓取 0 次（成功 0 / 失败 0）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+
+=== 判定 ===
+  [PASS] B1 / overlap0 成功率: 120/120  (假后端不应丢请求；丢了说明心跳/连接复用有问题)
+  [PASS] B2 / overlap0 TTFT 可测: p50=0.174921 s  p95=0.196554 s  (TTFT = 请求开始 → 第一个内容片段)
+  [PASS] B3 / overlap0 TPOT 可测: 单请求p50口径：中位=0.019991 s  p95=0.020028 s  (逐片段间隔的全量分位在 tokens.csv（--save-tokens）)
+  [PASS] B4 / overlap0 覆盖：客户端分解最大空档: 0.0 s（容差 0.005 s）  (并集必须铺满 [请求开始, 请求结束])
+  [PASS] B5 / overlap0 leave-one-out 最小空档: 0.0005030632019042969 s（下限 1e-06）  (每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）)
+  [PASS] B6 / overlap0 服务端语义阶段覆盖: 最大空档 0.0 s，判定 {"PASS": 120}  (queue→prefill→kv→decode 在服务端窗口内也要铺满)
+  [PASS] B7 / overlap0 KV 字节数可取: 25165824.0 B/请求（配方 25165824 B）  (假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）)
+  [PASS] B1 / overlap50 成功率: 120/120  (假后端不应丢请求；丢了说明心跳/连接复用有问题)
+  [PASS] B2 / overlap50 TTFT 可测: p50=0.143472 s  p95=0.165338 s  (TTFT = 请求开始 → 第一个内容片段)
+  [PASS] B3 / overlap50 TPOT 可测: 单请求p50口径：中位=0.019993 s  p95=0.020045 s  (逐片段间隔的全量分位在 tokens.csv（--save-tokens）)
+  [PASS] B4 / overlap50 覆盖：客户端分解最大空档: 0.0 s（容差 0.005 s）  (并集必须铺满 [请求开始, 请求结束])
+  [PASS] B5 / overlap50 leave-one-out 最小空档: 0.0005056858062744141 s（下限 1e-06）  (每拿掉一段都应立刻露空档 ⇒ 每一段都真的被记了（判据不是空判据）)
+  [PASS] B6 / overlap50 服务端语义阶段覆盖: 最大空档 0.0 s，判定 {"PASS": 120}  (queue→prefill→kv→decode 在服务端窗口内也要铺满)
+  [PASS] B7 / overlap50 KV 字节数可取: 25165824.0 B/请求（配方 25165824 B）  (假后端自报；真机要换成 vLLM 的 NIXL 指标（阶段 B1 待做）)
+  [PASS] B8 / 对照①：无重叠臂 Σ语义阶段 − 服务端窗口: 0.0 s  (无重叠时它本来就该接近 0（这是对照臂，不是验收判据）)
+  [PASS] B9 / 对照②：50% 重叠臂 Σ语义阶段 − 服务端窗口: 实测中位 0.031457 s，配方预期 0.031457 s  (★ 关键对照：实测重叠量必须**对得上配方**（预期 0.031457 s）。重叠存在时'加总'必然大于窗口，所以阶段 A 的'加总等于端到端'在阶段 B 会**误判**——这正是本工具换判据的理由)
+  [PASS] B10 / 对照③：两臂的覆盖结论都通过（与重叠无关）: 臂A {'PASS': 120} / 臂B {'PASS': 120}  (重叠只改变'之和'，不破坏'覆盖'——两类判据成功分离)
+  [INFO] B11 / 对照④：Σ阶段 − 端到端（朴素口径，只报不判）: 臂A 中位 -0.001604 s / 臂B 中位 0.029793 s  (同一个量在两个臂上不同：说明它就是被重叠污染的，不能当判据)
+  [PASS] B12 / 服务端语义阶段重叠量（臂 B）: 中位 0.031457 s  (重叠确实发生了（否则 B9 的对照无意义）)
+
+--- 臂 emptychunks：假后端 :9510  每 3 个内容块掺 1 个空文本块（预期：输出块 32 个 = 内容块 21 + 空文本块 11）
+
+=== serving_20261007T101335430Z_11964-4 ===
+请求 120  成功 120  失败 0  墙钟 10.711 s  吞吐 11.203 req/s  在途峰值 10
+TTFT(s)   p50=0.194548  p95=0.217879  p99=0.218675  max=0.218915
+端到端(s) p50=0.794632  p95=0.817942  p99=0.818683  max=0.818732
+输出块    每请求中位 32.0 块（其中有文本 21.0 块、文本为空 11.0 块）；空文本块合计 1320 个，涉及 120 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.019985  p95=0.020005   p95 口径 p50=0.020375  p95=0.020487
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.030003  p95=0.030021   p95 口径 p50=0.040263  p95=0.04046
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 120 个，一个都拿不到的请求 0 个  来源={"token_ids": 120}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 32.0，逐 token 平均间隔中位 0.019357 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 120}
+覆盖判定（服务端阶段）{"PASS": 120}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005037784576416016 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.001718 s，最大 -0.00027 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  未配置地址（本次没有采集）
+  NIXL 项：未配置地址（这一格**没有**数值可言）
+  目标版本：未取到
+  抓取 0 次（成功 0 / 失败 0）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] C1 / emptychunks 成功率与覆盖: 成功 120/120，覆盖 {"PASS": 120}  (空文本块必须被当成正常输出块：既不能丢，也不能破坏覆盖判据)
+  [PASS] C2 / ★ 块数 ≠ token 数（块口径数得全）: 输出块中位 32.0（预期 32）、内容块中位 21.0（预期 21）、空文本块中位 11.0（预期 11）  (输出块 = 内容块 + 空文本块；旧口径只数后者，所以连'块数'都会数小)
+  [PASS] C3 / 块序列落盘（tokens.csv 每块一行）: 行数 3840（预期 3840），其中 text_empty=1 的 1320 行（预期 1320）  (块序列必须与 chunk_interval_* 对得上；空文本块也要留痕，否则事后没法核)
+  [PASS] C4 / ★ 块间隔 vs 历史 tpot（两种口径必须不同）: 块间隔中位 0.019985 s（配方 0.02 s）；历史 tpot 中位 0.030003 s  (块口径数全部输出块 ⇒ 接近配方间隔；历史口径跳过空文本块 ⇒ 把两个间隔并成一个，偏大)
+  [PASS] C5 / ★ 服务端不给 token 数时必须留空（不拿块数冒充）: 有 usage 的请求 0/120，srv_completion_tokens 中位 None，srv_token_ids_total 中位 32.0，来源 {"token_ids": 120}  (这一臂故意不发 stream_options.include_usage：usage 路径必须为空，而逐块 token_ids（服务端真的给了）照常可用)
+  [PASS] C6 / 臂 A：请求了 usage 就必须取到，且收尾片不算输出块: 有 usage 的请求 120/120，srv_completion_tokens 中位 32.0（配方 token 数 32），空文本块合计 0  (只有 usage 的收尾片带 choices=[]，**不是**输出块；把它算成'空文本块'就会凭空多 1)
+  [PASS] M1 / ①未配置 --metrics-url：状态=未配置地址，且不多产任何文件: state=not_configured / NIXL=未配置地址 / 额外文件 0 个  (★ 缺项不写成 0 的第一层：连'未出现'都不能写——**没采集就说'未配置地址'**；这条同时是'不配就不生效'的机械证据（一个文件都没多）)
+
+--- 臂 metrics[nonixl]：metrics-url=http://127.0.0.1:9530/metrics  配方={"variant": "nonixl", "fail_mode": "none", "version_mode": "ok", "version": "fake-vllm-0.0.1-test", "hang_s": 3.0}
+[metrics] 采集已开启：http://127.0.0.1:9530/metrics  间隔 0.25 s  超时 1.0 s  版本地址 http://127.0.0.1:9530/version
+  [metrics] seq=0 phase=start t=0.0s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=1 phase=periodic t=0.252968s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=2 phase=periodic t=0.503148s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=3 phase=end t=0.540758s state=成功抓到指标但没有 NIXL 项（记作：未出现） NIXL=未出现 version=fake-vllm-0.0.1-test
+
+=== serving_20261007T101346388Z_11964-5 ===
+请求 6  成功 6  失败 0  墙钟 0.541 s  吞吐 11.096 req/s  在途峰值 1
+TTFT(s)   p50=0.025118  p95=0.025507  p99=0.025551  max=0.025562
+端到端(s) p50=0.039687  p95=0.039969  p99=0.039994  max=0.04
+输出块    每请求中位 4.0 块（其中有文本 4.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.004901  p95=0.005025   p95 口径 p50=0.005092  p95=0.005216
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.004901  p95=0.005025   p95 口径 p50=0.005092  p95=0.005216
+服务端 token 数  有 usage 的请求 6 个，有 token_ids 的请求 6 个，一个都拿不到的请求 0 个  来源={"usage": 6}
+  srv_completion_tokens 中位 4.0，srv_token_ids_total 中位 4.0，逐 token 平均间隔中位 0.004901 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+覆盖判定（服务端阶段）{"PASS": 6}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005068778991699219 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.001299 s，最大 -0.000478 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  成功抓到指标但没有 NIXL 项（记作：未出现）
+  NIXL 项：未出现 ← **不是「传输量为 0」**：本次 /metrics 里没有 NIXL 相关序列（这是状态，不是数值）
+  目标版本：fake-vllm-0.0.1-test（来源 GET /version（JSON 字段 version））
+  抓取 4 次（成功 4 / 失败 0），首末快照 0.0 s → 0.540758 s
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] M2 / ③抓到指标但没有 NIXL 项 → 记「未出现」（不是 0）: state=nixl_absent / NIXL=未出现 / 序列值=null  (★ 本任务最关键的一条：假服务正文里**一条 NIXL 序列都没有**，此时任何数字（尤其 0）都是编的)
+  [PASS] M3 / 抓取是**按固定间隔**做的、带时间戳（含 start 与 end）: 尝试 4 次（成功 4 / 失败 0），phase=['start', 'periodic', 'periodic', 'end']，t_rel=[0.0, 0.252968, 0.503148, 0.540758]  (开局基线 + 收尾各一次 —— '整次运行前后'的对比靠的就是首末两点；CSV 行数必须与快照文件数一致)
+  [PASS] M4 / 目标版本被记进快照元数据，且**没把解释器版本当服务版本**: target_version=fake-vllm-0.0.1-test 来源=GET /version（JSON 字段 version）  (假正文里故意放了一条 python_info{version="3.12.10"}——那是**解释器版本**，拿它当服务版本就是编数，实现里只记成候选)
+  [PASS] M5 / 原始正文与指纹都落了盘（可事后复核）: 首快照 1796 字节，sha256 复核一致；n_series=11，nixl_note=未出现：本次 /metrics 里没有任何 NI…  (快照存的是**原样正文**＋指纹：以后谁都可以重算一遍，不用信我们的转述)
+  [PASS] M6 / ★「快照不能分摊给单个请求」这条限制写进了产物: summary 与快照 JSON 都带 scope_note（243 字符），CSV 列里也有 nixl_note  (写在文档里会被忘掉；写进产物，读数的人绕不过去)
+
+--- 臂 metrics[nixl]：metrics-url=http://127.0.0.1:9531/metrics  配方={"variant": "nixl", "fail_mode": "none", "version_mode": "ok", "version": "fake-vllm-0.0.1-test", "hang_s": 3.0}
+[metrics] 采集已开启：http://127.0.0.1:9531/metrics  间隔 0.25 s  超时 1.0 s  版本地址 http://127.0.0.1:9531/version
+  [metrics] seq=0 phase=start t=0.0s state=抓到 NIXL 项 NIXL=出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=1 phase=periodic t=0.256503s state=抓到 NIXL 项 NIXL=出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=2 phase=periodic t=0.504325s state=抓到 NIXL 项 NIXL=出现 version=fake-vllm-0.0.1-test
+  [metrics] seq=3 phase=end t=0.541045s state=抓到 NIXL 项 NIXL=出现 version=fake-vllm-0.0.1-test
+
+=== serving_20261007T101347489Z_11964-6 ===
+请求 6  成功 6  失败 0  墙钟 0.541 s  吞吐 11.09 req/s  在途峰值 1
+TTFT(s)   p50=0.025378  p95=0.035706  p99=0.038373  max=0.03904
+端到端(s) p50=0.040049  p95=0.050245  p99=0.052915  max=0.053583
+输出块    每请求中位 4.0 块（其中有文本 4.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.004862  p95=0.004953   p95 口径 p50=0.005013  p95=0.005236
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.004862  p95=0.004953   p95 口径 p50=0.005013  p95=0.005236
+服务端 token 数  有 usage 的请求 6 个，有 token_ids 的请求 6 个，一个都拿不到的请求 0 个  来源={"usage": 6}
+  srv_completion_tokens 中位 4.0，srv_token_ids_total 中位 4.0，逐 token 平均间隔中位 0.004862 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+覆盖判定（服务端阶段）{"PASS": 6}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005068778991699219 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.00166 s，最大 -0.00069 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  抓到 NIXL 项
+  NIXL 项：出现（7 条序列；数值是按传输汇总的，见快照 raw_body）
+  目标版本：fake-vllm-0.0.1-test（来源 GET /version（JSON 字段 version））
+  抓取 4 次（成功 4 / 失败 0），首末快照 0.0 s → 0.541045 s
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] M7 / ④抓到 NIXL 项 → 记「出现」，且**真 0 照实记成 0**: state=nixl_present / NIXL=出现 / 7 条序列，其中 num_failed_transfers=0.0  (★ 与 M2 正好成对照：序列**存在**时 0 就是'确实一次都没失败'；序列**不存在**时只能写'未出现'。两种 0 含义完全不同，所以必须分开记)
+
+--- 臂 metrics[http500]：metrics-url=http://127.0.0.1:9532/metrics  配方={"variant": "nonixl", "fail_mode": "http_500", "version_mode": "ok", "version": "fake-vllm-0.0.1-test", "hang_s": 3.0}
+[metrics] 采集已开启：http://127.0.0.1:9532/metrics  间隔 0.25 s  超时 1.0 s  版本地址 http://127.0.0.1:9532/version
+  [metrics] seq=0 phase=start t=0.0s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=fake-vllm-0.0.1-test  错误：HTTP 500（正文前 200 字符：'boom\n'）
+  [metrics] seq=1 phase=periodic t=0.25411s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=fake-vllm-0.0.1-test  错误：HTTP 500（正文前 200 字符：'boom\n'）
+  [metrics] seq=2 phase=periodic t=0.503068s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=fake-vllm-0.0.1-test  错误：HTTP 500（正文前 200 字符：'boom\n'）
+  [metrics] seq=3 phase=end t=0.540906s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=fake-vllm-0.0.1-test  错误：HTTP 500（正文前 200 字符：'boom\n'）
+
+=== serving_20261007T101348595Z_11964-7 ===
+请求 6  成功 6  失败 0  墙钟 0.541 s  吞吐 11.093 req/s  在途峰值 1
+TTFT(s)   p50=0.025476  p95=0.043924  p99=0.04535  max=0.045707
+端到端(s) p50=0.040213  p95=0.05836  p99=0.059887  max=0.060269
+输出块    每请求中位 4.0 块（其中有文本 4.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.004875  p95=0.00497   p95 口径 p50=0.00512  p95=0.005329
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.004875  p95=0.00497   p95 口径 p50=0.00512  p95=0.005329
+服务端 token 数  有 usage 的请求 6 个，有 token_ids 的请求 6 个，一个都拿不到的请求 0 个  来源={"usage": 6}
+  srv_completion_tokens 中位 4.0，srv_token_ids_total 中位 4.0，逐 token 平均间隔中位 0.004875 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+覆盖判定（服务端阶段）{"PASS": 6}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005075931549072266 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.001824 s，最大 -0.001337 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  抓取失败（配了地址但抓不到）
+  NIXL 项：抓取失败（这一格**没有**数值可言）
+  目标版本：fake-vllm-0.0.1-test（来源 GET /version（JSON 字段 version））
+  抓取 4 次（成功 0 / 失败 4）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] M8 / ②抓取失败（HTTP 500）→ 状态=抓取失败，记下错误原文: state=scrape_failed，错误原文="HTTP 500（正文前 200 字符：'boom\\n'）"  (★ 失败**不等于**'未出现'：没抓到正文时我们根本无从判断有没有 NIXL 项。原文必须留下，否则事后只能猜是超时还是 5xx)
+  [PASS] M9 / 采集失败**不影响测量**（请求照常全成功）: 成功 6/6，覆盖 {"PASS": 6}  (采集是旁路：抓不到指标是服务端的事，不该让测量跟着失败)
+
+--- 臂 metrics[refused]：metrics-url=http://127.0.0.1:61608/metrics  配方=(无服务)
+[metrics] 采集已开启：http://127.0.0.1:61608/metrics  间隔 0.25 s  超时 1.0 s  版本地址 http://127.0.0.1:61608/version
+  [metrics] seq=0 phase=start t=0.001005s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=未取到  错误：TimeoutError: timed out
+  [metrics] seq=1 phase=end t=2.01977s state=抓取失败（配了地址但抓不到） NIXL=抓取失败 version=未取到  错误：TimeoutError: timed out
+
+=== serving_20261007T101349696Z_11964-8 ===
+请求 6  成功 6  失败 0  墙钟 0.541 s  吞吐 11.086 req/s  在途峰值 1
+TTFT(s)   p50=0.04099  p95=0.047302  p99=0.047353  max=0.047366
+端到端(s) p50=0.055807  p95=0.061671  p99=0.06171  max=0.06172
+输出块    每请求中位 4.0 块（其中有文本 4.0 块、文本为空 0.0 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径 p50=0.004855  p95=0.004873   p95 口径 p50=0.005117  p95=0.005169
+  tpot(s)  【历史命名，只按内容块算】均值口径 p50=0.004855  p95=0.004873   p95 口径 p50=0.005117  p95=0.005169
+服务端 token 数  有 usage 的请求 6 个，有 token_ids 的请求 6 个，一个都拿不到的请求 0 个  来源={"usage": 6}
+  srv_completion_tokens 中位 4.0，srv_token_ids_total 中位 4.0，逐 token 平均间隔中位 0.004855 s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+覆盖判定（服务端阶段）{"PASS": 6}
+  空档：客户端单段最大 0.0 s，合计最大 0.0 s (容差 0.005 s)
+        leave-one-out 最小空档 0.0005059242248535156 s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 0.0 s
+        (Σ语义阶段 − 端到端) 中位 -0.017418 s，最大 -0.001364 s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 0.0 s
+metrics 快照  抓取失败（配了地址但抓不到）
+  NIXL 项：抓取失败（这一格**没有**数值可言）
+  目标版本：未取到  取不到的原因：TimeoutError: timed out
+  抓取 2 次（成功 0 / 失败 2）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] M10 / ②抓取失败（连接被拒）→ 状态=抓取失败，错误原文非空: state=scrape_failed / [{"seq": 0, "phase": "start", "error_class": "timeout", "error_text": "TimeoutError: timed  (连不上与 5xx 都归'抓取失败'，但原文不同——原文比分类更能定位问题)
+  [PASS] M11 / 版本取不到 → 记「未取到」＋原因（**不编**）: target_version='未取到' 原因='TimeoutError: timed out'  (这条路径在真机上会遇到（/version 不存在、被网关挡掉），所以宁可记'未取到'也不许拿别的字段顶替)
+
+--- 臂 failinject[http_500]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T101353238Z_11964-9 ===
+请求 6  成功 0  失败 6  墙钟 0.836 s  吞吐 7.181 req/s  在途峰值 1
+错误分类：{"http_5xx": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+metrics 快照  未配置地址（本次没有采集）
+  NIXL 项：未配置地址（这一格**没有**数值可言）
+  目标版本：未取到
+  抓取 0 次（成功 0 / 失败 0）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] B13 / 错误分类（http_500 → 期望 http_5xx）: 失败 6/6，分类={"http_5xx": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[disconnect_mid_stream]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T101354596Z_11964-10 ===
+请求 6  成功 0  失败 6  墙钟 0.939 s  吞吐 6.391 req/s  在途峰值 1
+错误分类：{"stream_incomplete": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+metrics 快照  未配置地址（本次没有采集）
+  NIXL 项：未配置地址（这一格**没有**数值可言）
+  目标版本：未取到
+  抓取 0 次（成功 0 / 失败 0）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] B13 / 错误分类（disconnect_mid_stream → 期望 stream_incomplete）: 失败 6/6，分类={"stream_incomplete": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[truncate_clean]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T101355945Z_11964-11 ===
+请求 6  成功 0  失败 6  墙钟 0.96 s  吞吐 6.247 req/s  在途峰值 1
+错误分类：{"stream_incomplete": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"PASS": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+metrics 快照  未配置地址（本次没有采集）
+  NIXL 项：未配置地址（这一格**没有**数值可言）
+  目标版本：未取到
+  抓取 0 次（成功 0 / 失败 0）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] B13 / 错误分类（truncate_clean → 期望 stream_incomplete）: 失败 6/6，分类={"stream_incomplete": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[reset_mid_stream]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T101357293Z_11964-12 ===
+请求 6  成功 0  失败 6  墙钟 0.96 s  吞吐 6.252 req/s  在途峰值 1
+错误分类：{"stream_broken": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+metrics 快照  未配置地址（本次没有采集）
+  NIXL 项：未配置地址（这一格**没有**数值可言）
+  目标版本：未取到
+  抓取 0 次（成功 0 / 失败 0）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] B13 / 错误分类（reset_mid_stream → 期望 stream_broken）: 失败 6/6，分类={"stream_broken": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+--- 臂 failinject[hang]：故障注入（只验错误分类，不参与覆盖判定）
+
+=== serving_20261007T101358643Z_11964-13 ===
+请求 6  成功 0  失败 6  墙钟 2.85 s  吞吐 2.105 req/s  在途峰值 6
+错误分类：{"timeout": 6}
+TTFT(s)   
+端到端(s) 
+输出块    每请求中位 None 块（其中有文本 None 块、文本为空 None 块）；空文本块合计 0 个，涉及 0 个请求
+  块间隔(s)【正确名字，含空文本块】均值口径    p95 口径 
+  tpot(s)  【历史命名，只按内容块算】均值口径    p95 口径 
+服务端 token 数  有 usage 的请求 0 个，有 token_ids 的请求 0 个，一个都拿不到的请求 0 个  来源={}
+  srv_completion_tokens 中位 None，srv_token_ids_total 中位 None，逐 token 平均间隔中位 None s（**代理量**，不是逐 token 时间戳的分位数）
+覆盖判定（客户端分解）{"N-A": 6}
+  空档：客户端单段最大 None s，合计最大 None s (容差 0.005 s)
+        leave-one-out 最小空档 None s (> 1e-06 才说明每段都真的被记了)
+  重叠：服务端语义阶段重叠中位 None s
+        (Σ语义阶段 − 端到端) 中位 None s，最大 None s  ← **不参与判定**，有重叠时它本来就该 > 0
+  时钟对齐体检：服务端区间伸出客户端窗口的中位 None s
+metrics 快照  未配置地址（本次没有采集）
+  NIXL 项：未配置地址（这一格**没有**数值可言）
+  目标版本：未取到
+  抓取 0 次（成功 0 / 失败 0）
+  ⚠️ 快照只用于比较**整次运行前后**的汇总变化，**不能分摊给单个请求**
+产物 -> results\b0_metrics
+  [PASS] B13 / 错误分类（hang → 期望 timeout）: 失败 6/6，分类={"timeout": 6}  (必须全部失败且归到期望类别；空类别或串类说明分类逻辑没生效)
+
+=== 电池结果：PASS 41 / FAIL 0 / INFO 1 ===
+产物 -> results\b0_metrics\battery_20261007T101312172Z_11964-1_checks.csv

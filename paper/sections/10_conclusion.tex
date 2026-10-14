@@ -1,0 +1,80 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+Network-aware routing of LLM inference requests is usually reported as a benefit. We asked a
+narrower question --- when does that benefit exist, and when does acting on network state make
+things worse? --- and answered it with a boundary rather than a speedup.
+
+\paragraph{What we found.}
+\begin{itemize}
+  \item \textbf{A configuration variable explains much of the magnitude under our controls.}
+        When the fastest-computing
+        worker also has the widest link, a network term has nothing to add ($-3.3\%$); when the
+        two rankings conflict it is worth $-68.2\%$. The effect separates completely across seeds
+        and persists from 3 to 16 workers. Within the experimental controls of this paper, a
+        network term's value tracks the \emph{disagreement} between the two rankings more closely
+        than link speed alone; absolute capacity ratios, topology, and payload size remain
+        co-determinants.
+  \item \textbf{The two observable channels expire at rates that differ by roughly an order of
+        magnitude.} Link state retains $65$--$89\%$ of its value at a \SI{60}{\second} age; queue
+        state loses $56$--$85\%$ within \SI{5}{\second}. This makes the published observation
+        that \SI{60}{\second} telemetry delay does not matter reproducible \emph{and} incomplete:
+        it was measured on the slow-expiring channel.
+  \item \textbf{Averaging is not the same defect as lateness.} Smoothing the reported state over
+        a \SI{30}{\second} window inflates absolute tail latency by $35$--$52\%$ on both policies,
+        yet changes the \emph{relative} advantage far less than the same amount of pure lag does.
+        Degrading freshness and degrading resolution are different problems.
+  \item \textbf{Discounting must be applied at the level of the information source.} Discounting
+        within the link term (keeping ``how wide'' and muting ``how busy'') is worse than not
+        discounting at all: it re-creates the ``fat link, slow compute'' pile-up. Discounting per
+        channel retains $90$--$99\%$ of the benefit under a \SI{60}{\second}-old link snapshot,
+        where uniform and threshold discounting destroy all of it.
+  \item \textbf{The regime where discounting is necessary is one cell wide}: a stale queue on a
+        volatile network. Elsewhere full trust wins in 9--10 of 10 seeds and discounting is a net
+        loss. Our rule is therefore insurance, and we say so.
+  \item \textbf{Reading state is not free.} On real containers, a state read costs
+        \SIrange{56}{876}{\milli\second} against \SI{12}{\micro\second} for an in-cluster round
+        trip, grows with load (an observation feedback loop absent from simulation), and polling
+        imposes a floor of half a period to a full period on achievable freshness. The latency
+        impact of staleness is threshold-like, with a knee between \SI{1}{\second} and
+        \SI{5}{\second}.
+\end{itemize}
+
+\paragraph{What did not work.}
+We report three failures of our own, because they are the part of this study most likely to save
+someone else time. The first discounting design (term-level splitting) was falsified by our own
+experiments. No discounting rule dominates the two extremes; the corrected rule is a net loss in
+most conditions on one of the three sources. And two pre-registered explanations for ``when does
+discounting pay'' --- arrival burstiness and rate persistence --- were both refuted by the same
+data that motivated them, so we leave the mechanism open rather than fitting a story to it. On
+the real cluster, a promising observation (that stale state makes the network-aware policy
+\emph{more variable}) failed to replicate on an idle machine and was withdrawn.
+
+\paragraph{What we would do next.}
+Four concrete experiments follow directly from the gaps above. (i) Sweep the corrected rule along
+the load-intensity axis, which is the largest hole in our coverage. (ii) Test the scale-matching
+hypothesis for discounting value: does harm track the ratio between the staleness window and the
+queue's own drain time? The literature's report that a controller whose timescale mismatches the
+machine's fails to generalize \cite{dlfp} makes this concrete. (iii) Extend the testbed to
+multiple hosts with kernel-level shaping, which is what would turn our direction-level cluster
+evidence into magnitudes. (iv) Add an observation-error model --- sampled, load-dependent age,
+with timeouts and fallbacks --- since the real cluster shows that both the variance of age and
+the cost of measuring it are first-order effects that a constant-lag simulator cannot represent.
+
+\paragraph{A closing observation.}
+The literature's disagreement about how much network-aware scheduling is worth is not a
+contradiction to be resolved by a better scheduler; it is a consequence of measuring the same
+idea under different configuration alignments, different payload regimes, and different
+observable channels. Reporting a benefit without stating which regime it was measured in is
+precisely what makes those numbers incomparable --- and it is the omission that this paper tries
+to repair.
+
+\paragraph{Real-cloud anchor.}
+The separate real-LLM measurements close the gap between the simulator and a deployed serving
+path without changing the paper's main claim. Same-cloud disaggregation increased median TTFT by
+$207.3\%$ in serial execution and $97.1\%$ at concurrency four, while total median latency
+increased by $16.0\%$ and $9.8\%$. The two-cloud feasibility run completed both directions with
+zero failed formal requests, but its median TTFT was several times larger than the same-cloud
+split baseline. These are descriptive anchors from four service rounds and two directions, not
+universal statistical estimates; the dominant conclusion is that the KV path is feasible but its
+network cost can overwhelm decode-stage gains.

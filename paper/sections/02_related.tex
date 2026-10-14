@@ -1,0 +1,123 @@
+\section{Background and Related Work}
+\label{sec:related}
+
+\subsection{Disaggregated LLM serving and KV movement}
+Prefill/decode disaggregation has become a standard abstraction: compute-intensive prefill and
+memory-bound decode are placed on separate workers, and KV cache is moved between them over the
+cluster network \cite{distserve,splitwise,mooncake}. Production systems push this further with
+cache-centric global schedulers \cite{mooncake}, dynamic rescheduling and migration
+\cite{llumnix}, phase-aware placement \cite{splitwise}, chunked prefill to smooth the
+throughput--latency tradeoff \cite{sarathi}, and locality-aware loading \cite{serverlessllm}.
+Because KV cache is large and its transfer sits on the critical path, the network side of this
+architecture has become its own research area: KV compression and streaming \cite{cachegen},
+compression and routing-collision avoidance, and network-aware placement of the two phases
+\cite{helix,flowkv}. Recent position papers argue that the scarce resource has shifted from raw
+FLOPs toward \emph{managed state, placement, network movement, and decision quality}
+\cite{cloudabstractions,controlplane}. This paper takes that shift as given and studies the
+\emph{decision quality} part: what the router must know, how fresh that knowledge must be, and
+when acting on it is worse than ignoring it.
+
+\subsection{Network-aware scheduling}
+Network-aware scheduling has a published history, mostly outside LLM serving. CASSINI places
+training jobs using periodically refreshed communication-pattern measurements \cite{cassini};
+VClos isolates tenants to avoid ECMP hash collisions in multi-tenant GPU clusters \cite{vclos};
+TopoOpt co-optimizes topology and parallelization \cite{topoopt}. For LLM serving specifically,
+Helix solves a max-flow placement problem over heterogeneous GPUs and links \cite{helix}, and
+GenSched jointly selects servers and allocates resources for prefill/decode stages in
+heterogeneous edge networks \cite{gensched}. Concurrent work closest to ours is NetKV, which
+selects decode instances using a network-cost oracle over a modeled dynamic congestion field
+\cite{netkv}, and Aegis, which places work on an accelerator cluster using per-second switch
+queue and ECN telemetry \cite{aegis}. Two observations motivate our study. First, all of these
+works evaluate a specific mechanism in a specific configuration; none characterizes the
+\emph{boundary} at which the network term stops carrying information. Second, none of them treats
+the correlation between the compute ranking and the bandwidth ranking as an experimental
+variable---Helix, for instance, solves for a placement directly rather than studying how much the
+answer depends on the two rankings agreeing.
+
+\subsection{Stale and delayed state information}
+That stale state degrades load balancing is old knowledge: stale load data leads to wrong server
+selection \cite{staleloadold}, delayed-information load balancing was formally listed as an open
+problem \cite{delayedopen}, and stale link state causes routing to oscillate
+\cite{stalelinkqos}. ParSync turned admissible staleness into a design variable by relaxing
+freshness to gain scalability \cite{parsync}. The Age-of-Information literature, however, warns
+against treating age itself as the objective: no universal staleness threshold exists, and the
+mapping from age to harm is application-specific \cite{aoisurvey,timelyremote}. Telemetry-side
+work optimizes freshness directly \cite{freshint}, and recent systems report that
+freshness-based guards can be far too conservative---blocking $92$--$95\%$ of harmless cases in a
+different domain \cite{staleguard}.
+
+Within LLM serving, NetKV derives a bound under which a stale estimate does not change the
+ranking, and reports a refresh-interval sweep whose conclusion is that the benefit is
+insensitive \cite{netkv}; Aegis reports that gains hold under telemetry delays up to
+\SI{60}{\second} \cite{aegis}. Our results are consistent with both, and explain them: both
+sweeps vary only the link-side observable, which our measurements show is the slow-expiring
+channel (\S\ref{sec:rq2}). We additionally (i) vary the queue-side observable, which expires
+roughly an order of magnitude faster, (ii) sweep the two jointly rather than one at a time, and
+(iii) separate \emph{latency} from \emph{time-averaging}, which are different distortions with
+different consequences. Finally, our own first attempt at adapting to staleness---discounting
+\emph{within} the link term---was falsified by our experiments (\S\ref{sec:discount}); we report
+it because the failure mode (muting the congestion penalty makes ``fat link, slow compute''
+workers look attractive) is easy to reproduce.
+
+\subsection{Positioning}
+Before positioning, we note the serving and fabric context our measurements sit inside. The
+engines that disaggregated systems build on---PagedAttention/vLLM \cite{vllm}, SGLang
+\cite{sglang}, Orca \cite{orca}---and the multiplexing strategies layered above them
+\cite{alpaserve} define what ``a worker's queue'' means; industrial frameworks such as Dynamo
+\cite{dynamo} and llm-d \cite{llmd} expose exactly the placement decisions we study; recent
+systems push on KV locality and imprecise request metadata \cite{jitserve}, stale-state
+handling in packet-level load balancing \cite{psp}, cross-region balancing \cite{gorgo}, and
+freshness of RAG-side data \cite{churnbench}. The fabric itself is the standard one---Clos
+topologies \cite{fattree} with congestion control \cite{dctcp,dcqcn,hpcc}---and published
+inference throughput ceilings \cite{mlperf} set the scale at which queueing matters. Our study
+does not modify any of these; it measures when a scheduler should include a network term at all.
+
+Table~\ref{tab:positioning} summarizes the gap. Relative to prior work we (a) introduce a
+configuration variable that predicts the magnitude of the benefit, (b) characterize staleness as
+two channels with different expiry plus an averaging dimension, (c) evaluate \emph{conditional}
+use of network information against both of its extremes and report where it loses, and (d)
+measure the cost of \emph{obtaining} state on real containers, which simulation omits. Honest
+negative results and boundary studies now have precedent in adjacent areas---self-described
+negative results in KV caching \cite{elastickv}, design-space studies asking when each
+disaggregation level pays off \cite{howfar}, equilibria that switch regime at saturation
+\cite{poa}; we follow that template rather than the ``system plus headline speedup'' one.
+
+Two scope clarifications close the positioning. First, what the reference scheduler
+\emph{deliberately omits}: continuous batching, prefix-cache locality, KV-aware routing, and
+prefill--decode phase scheduling are orthogonal mechanisms that real engines already implement
+\cite{vllm,orca,alpaserve}, and shared-fabric effects (oversubscribed uplinks, switch queues,
+incast) and concurrency-dependent service rates lie outside the model; the exact boundaries are
+stated in \S\ref{sec:setup} and \S\ref{sec:threats}. We omit them because the question here is
+whether a scheduler should include a network term \emph{at all}, and bundling them in would
+entangle that question with mechanisms this study does not measure. Second, why
+\textsc{Random}, \textsc{LeastQueue}, and \textsc{LeastLoad} suffice as base comparisons: they
+span the three information regimes a scheduler can occupy---no state, queue state only, and
+load state only---so any network term is evaluated as a strictly nested increment over the
+third; our strengthened baselines (\S\ref{sec:rq1}) additionally compare against
+power-of-two-choices, congestion-only, and bottleneck-minimizing scoring styles drawn from
+recent practice. We characterize a boundary; we do not propose a scheduler that dominates
+existing ones.
+
+\begin{table}[t]
+\centering
+\caption{Positioning against the closest prior work. ``Channels'' = how many observed quantities
+are swept for freshness; ``Boundary'' = whether the paper characterizes where the benefit
+disappears or reverses; ``Align.'' = whether compute--bandwidth rank agreement is an experimental
+variable.}
+\label{tab:positioning}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Work & Venue & Serving & Chan. & Bound. & Align. \\
+\midrule
+CASSINI \cite{cassini}          & NSDI'24     & no  & 1 & no     & no \\
+VClos \cite{vclos}              & ComNet'25   & no & 1 & no  & no \\
+Helix \cite{helix}              & ASPLOS'25   & yes & 1 & no     & no \\
+GenSched \cite{gensched}        & INFOCOM'26  & yes & 1 & no     & no \\
+NetKV \cite{netkv}              & preprint    & yes & 1 & partial & no \\
+Aegis \cite{aegis}              & SIGCOMM'26  & no  & 1 & no     & no \\
+\textbf{this paper}             & ---         & yes & \textbf{2+win.} & \textbf{yes} & \textbf{yes} \\
+\bottomrule
+\end{tabular}
+\end{table}

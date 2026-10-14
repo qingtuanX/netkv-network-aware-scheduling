@@ -1,0 +1,14 @@
+﻿metric,n_cells,bitwise_identical,max_abs_diff
+n_requests,12,True,0.0
+sojourn_mean,12,True,0.0
+sojourn_p50,12,True,0.0
+sojourn_p95,12,True,0.0
+sojourn_p99,12,True,0.0
+sojourn_max,12,True,0.0
+wait_mean,12,True,0.0
+wait_p95,12,True,0.0
+net_mean,12,True,0.0
+net_share,12,True,0.0
+slo_miss_rate,12,True,0.0
+throughput_qps,12,True,0.0
+node_utilization,12,True,0.0

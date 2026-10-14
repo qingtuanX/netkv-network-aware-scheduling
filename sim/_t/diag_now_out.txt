@@ -1,0 +1,54 @@
+=== B: decode 进程 / 健康 / 日志 ===
+--- vllm 进程 ---
+15511 /root/b1/venv/bin/python /root/b1/venv/bin/vllm serve /root/b1/models/Qwen2.5-1.5B-Instruct --port 8200 --served-model-name Qwen/Qwen2.5-1.5B-Instruct --kv-transfer-config {"kv_connector":"NixlConnector","kv_role":"kv_consumer","kv_load_failure_policy":"fail"} --host 172.29.31.51 --max-model-len 8192 --gpu-memory-utilization 0.85 --enforce-eager --no-enable-prefix-caching --logprobs-mode processed_logprobs
+--- 本机探 health ---
+http_code=000
+curl失败
+--- GPU ---
+20605 MiB
+--- decode.log 尾部 30 行 ---
+2026-10-08 23:11:29 NIXL INFO    _api.py:285 Initialized NIXL agent: 47bcf499-4c9c-4fc0-89aa-627ea34bdbd0
+(EngineCore pid=15543) INFO 10-08 23:11:29 [base_worker.py:887] Detected attention backend(s) ['FLASH_ATTN']
+(EngineCore pid=15543) INFO 10-08 23:11:29 [base_worker.py:891] Detected kv cache layout LBHNC
+(EngineCore pid=15543) INFO 10-08 23:11:29 [base_worker.py:1437] Registering KV_Caches. use_mla: False, kv_buffer_device: cuda, use_host_buffer: False
+(EngineCore pid=15543) INFO 10-08 23:11:29 [gpu_worker.py:955] Free memory on device (23.32/23.55 GiB) on startup. Desired GPU memory utilization is (0.85, 20.02 GiB). Actual usage is 3.27 GiB for consumed memory (weights + non-torch), 0.13 GiB for peak activation, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=17688764724` (16.47 GiB) to fit into requested memory, or `--kv-cache-memory=21233921536` (19.78 GiB) to fully utilize gpu memory. Current kv cache memory in use is 16.62 GiB.
+(EngineCore pid=15543) INFO 10-08 23:11:30 [core.py:380] init engine (profile, create kv cache, warmup model) took 2.72 s
+(EngineCore pid=15543) INFO 10-08 23:11:30 [factory.py:62] Creating v1 connector with name: NixlPullConnector and engine_id: e2d7d813-e7de-4a7f-9b11-cc39c422ddb2
+(EngineCore pid=15543) WARNING 10-08 23:11:30 [base.py:209] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+(EngineCore pid=15543) INFO 10-08 23:11:30 [base_scheduler.py:104] Initializing NIXL Scheduler e2d7d813-e7de-4a7f-9b11-cc39c422ddb2
+Exception in thread nixl_handshake_listener:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/distributed/kv_transfer/kv_connector/v1/nixl/base_scheduler.py", line 357, in _nixl_handshake_listener
+    with zmq_ctx(zmq.ROUTER, path) as sock:
+  File "/usr/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/distributed/kv_transfer/kv_connector/v1/nixl/utils.py", line 44, in zmq_ctx
+    yield make_zmq_socket(
+          ^^^^^^^^^^^^^^^^
+  File "/root/b1/venv/lib/python3.12/site-packages/vllm/utils/network_utils.py", line 363, in make_zmq_socket
+    socket.bind(path)
+  File "/root/b1/venv/lib/python3.12/site-packages/zmq/sugar/socket.py", line 322, in bind
+    super().bind(addr)
+  File "zmq/backend/cython/_zmq.py", line 1009, in zmq.backend.cython._zmq.Socket.bind
+  File "zmq/backend/cython/_zmq.py", line 190, in zmq.backend.cython._zmq._check_rc
+zmq.error.ZMQError: Cannot assign requested address (addr='tcp://172.29.31.52:5600')
+
+=== A: prefill 进程 / 健康 ===
+--- vllm 进程 ---
+7253 /root/b1/venv/bin/python /root/b1/venv/bin/vllm serve /root/b1/models/Qwen2.5-1.5B-Instruct --port 8100 --served-model-name Qwen/Qwen2.5-1.5B-Instruct --kv-transfer-config {"kv_connector":"NixlConnector","kv_role":"kv_producer","kv_load_failure_policy":"fail"} --host 172.29.31.52 --max-model-len 8192 --gpu-memory-utilization 0.85 --enforce-eager --no-enable-prefix-caching --logprobs-mode processed_logprobs
+--- health ---
+http_code=200
+--- GPU ---
+19307 MiB
+
+=== 后台输出尾部 10 行（有没有新进展） ===
+[2026-10-08T15:10:33Z] === 拆分臂 P=A:8100 D=B:8200 代理=A:8192 ===
+[2026-10-08T15:11:58Z] [prefill] 启动后 20s 进程存活 ✓
+[2026-10-08T15:12:56Z] [decode] 启动后 20s 进程存活 ✓
+[2026-10-08T15:13:04Z] prefill 就绪（第 1 次探测）
+现在 UTC: 15:25:54Z

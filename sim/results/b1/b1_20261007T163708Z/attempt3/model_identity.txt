@@ -1,0 +1,35 @@
+== 两端模型目录一致性 ==
+判据：整目录（按文件名排序后逐个 sha256，再取一次总哈希）必须两端相同。
+不一致的后果：形状对得上但权重不同 ⇒ vLLM **不报错**，KV 按字节搬运 ⇒ 结果静默算错。
+期望 revision（hf-mirror API）: 989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+
+--- A 的总哈希 / 文件数 / 总字节
+--- 逐文件 sha256（按名字排序，拼起来再取一次总哈希）
+0ee375c91c0e1d424eba4369a39addbfa21150cd566b67035d469e60bc4e1c45  -
+--- 关键文件单独列出
+98d2ff8cc47488d08a2b0b3acf4eb99ef210779b42bd48605f6b8e36acdbf670  /root/b1/models/Qwen2.5-1.5B-Instruct/config.json
+--- 文件数 / 总字节
+33
+3098975922
+
+--- B 的总哈希 / 文件数 / 总字节
+--- 逐文件 sha256（按名字排序，拼起来再取一次总哈希）
+0ee375c91c0e1d424eba4369a39addbfa21150cd566b67035d469e60bc4e1c45  -
+--- 关键文件单独列出
+98d2ff8cc47488d08a2b0b3acf4eb99ef210779b42bd48605f6b8e36acdbf670  /root/b1/models/Qwen2.5-1.5B-Instruct/config.json
+--- 文件数 / 总字节
+33
+3098975923
+
+A 总哈希 = 0ee375c91c0e1d424eba4369a39addbfa21150cd566b67035d469e60bc4e1c45
+B 总哈希 = 0ee375c91c0e1d424eba4369a39addbfa21150cd566b67035d469e60bc4e1c45
+结论：**两端模型逐文件一致** ✓
+
+--- 权重文件原始精度 vs 实际运行精度（必须分开写，别混） ---
+[A] config.json 的 torch_dtype / dtype:
+    "torch_dtype": "bfloat16"
+[B] config.json 的 torch_dtype / dtype:
+    "torch_dtype": "bfloat16"
+（原始精度 = 权重文件里写的；实际运行精度 = 服务启动日志里 vLLM 报的。
+  官方 Qwen/Qwen2.5-1.5B-Instruct 配置标 **bfloat16**；若运行时选了 FP16，
+  必须在报告里把这两个分开写。启动日志见 prefill_server.log / decode_server.log。）

@@ -1,0 +1,6 @@
+# ---- netbw_recv_result @ B (8.155.131.183)  start=2026-10-07T17:13:26Z ----
+listening on 172.29.31.51:9102, expecting 536870912 bytes
+peer ('172.29.31.52', 48814)
+recv_first_byte_epoch=1791393204.080382
+received 536870912 bytes in 0.2135 s -> 2398.1 MiB/s (20.12 Gbit/s)
+# ---- exit=0 end=2026-10-07T17:13:29Z ----

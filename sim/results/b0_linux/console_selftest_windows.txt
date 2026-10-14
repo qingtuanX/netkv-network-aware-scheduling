@@ -1,0 +1,35 @@
+== selftest 1/3：区间并集 / 空档 / 重叠 / 分位数 ==
+  [PASS] 并集：重叠两段: got=3.0 want=3.0
+  [PASS] 并集：相接两段: got=2.0 want=2.0
+  [PASS] 并集：分离两段: got=2.0 want=2.0
+  [PASS] 空档：中间一段: got=1.0 want=1.0
+  [PASS] 空档：合计（[0,1]+[2,4] 在窗口 [0,4] 内）: got=1.0 want=1.0
+  [PASS] 空档：完全覆盖时无空档: got=0 want=0
+  [PASS] 重叠：两段重叠 1: got=1.0 want=1.0
+  [PASS] 重叠：按两两计: got=2.0 want=2.0
+  [PASS] 分位数：中位: got=2.5 want=2.5
+  [PASS] 分位数：单值: got=7.0 want=7.0
+  [PASS] 裁剪：越界部分被切掉: got=3.0 want=3.0
+== selftest 2/3：覆盖判据的正确路径 ==
+  [PASS] 铺满、无重叠 => PASS: got=PASS want=PASS
+  [PASS] 铺满、无重叠：空档 0: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：Σ≈窗口: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：重叠 0: got=0.0 want=0.0
+  [PASS] 铺满、无重叠：LOO 最小空档 = 最小段长 0.1: got=0.1 want=0.1
+  [PASS] 铺满、无重叠：窗口外部分 0: got=0.0 want=0.0
+== selftest 3/3：负对照（判据必须抓得住错）==
+  [PASS] 漏记 wait_first_byte => FAIL: got=FAIL want=FAIL
+  [PASS] 漏记 wait_first_byte：露出空档 0.2: got=0.2 want=0.2
+  [PASS] 有重叠 => 仍 PASS: got=PASS want=PASS
+  [PASS] 有重叠：Σ − 窗口 = 0.15（>0）: got=0.15 want=0.15
+  [PASS] 有重叠：重叠量 = 0.15: got=0.15 want=0.15
+  [PASS] 有重叠：LOO 最小空档 > eps: got=True want=True
+  [PASS] 区间伸到窗口外 => outside > 0: got=True want=True
+  [PASS] 区间伸到窗口外 => FAIL: got=FAIL want=FAIL
+  [PASS] 空集 => 空档 = 全窗: got=1.0 want=1.0
+  [PASS] 空集 => FAIL: got=FAIL want=FAIL
+  [PASS] 无空档时 gap_total_s 仍是 float: got=True want=True
+  [PASS] 空集时 gap_total_s 仍是 float: got=True want=True
+  [PASS] sum_stage_s 是 float: got=True want=True
+
+selftest 全部通过

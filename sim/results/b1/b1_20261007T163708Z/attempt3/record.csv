@@ -1,0 +1,123 @@
+run_id,attempt,host,step,utc_start,utc_end,exit_code,status,note
+b1_20261007T163708Z,3,A,stop_all_A,2026-10-07T17:07:23Z,2026-10-07T17:07:24Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop-all"
+b1_20261007T163708Z,3,B,stop_all_B,2026-10-07T17:07:24Z,2026-10-07T17:07:26Z,0,OK,"cmd=bash /tmp/b1_remote_serve.sh stop-all"
+b1_20261007T163708Z,3,A,stop_model_download_A,2026-10-07T17:07:27Z,2026-10-07T17:07:27Z,255,FAIL,"cmd=pids=$(ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}')
+if [[ -z ""$pids"" ]]; then echo ""  A: 没有 hf download 进程（无需停）""; else
+  for p in $pids; do echo ""  A: SIGTERM $(ps -o args= -p $p | head -c 80)""; kill -TERM ""$p"" 2>/dev/null; done
+  sleep 3
+  for p in $pids"
+b1_20261007T163708Z,3,B,stop_model_download_B,2026-10-07T17:07:28Z,2026-10-07T17:07:28Z,255,FAIL,"cmd=pids=$(ps -eo pid,args --no-headers | grep '[h]f download' | awk '{print $1}')
+if [[ -z ""$pids"" ]]; then echo ""  B: 没有 hf download 进程（无需停）""; else
+  for p in $pids; do echo ""  B: SIGTERM $(ps -o args= -p $p | head -c 80)""; kill -TERM ""$p"" 2>/dev/null; done
+  sleep 3
+  for p in $pids"
+b1_20261007T163708Z,3,A,inventory_A,2026-10-07T17:08:05Z,2026-10-07T17:08:06Z,0,OK,"cmd=set -x
+hostname; date -u; uptime
+nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+nproc; free -g | head -2; df -h /
+python3 --version; pip3 --version
+docker --version 2>/dev/null; which docker
+ip -4 addr show | grep -E ""inet ""
+ls -d /usr/local/cuda* 2>/dev/nu"
+b1_20261007T163708Z,3,B,inventory_B,2026-10-07T17:08:07Z,2026-10-07T17:08:08Z,0,OK,"cmd=set -x
+hostname; date -u; uptime
+nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+nproc; free -g | head -2; df -h /
+python3 --version; pip3 --version
+docker --version 2>/dev/null
+ip -4 addr show | grep -E ""inet ""
+ls -d /usr/local/cuda* 2>/dev/null
+which nvcc "
+b1_20261007T163708Z,3,A,cloud_meta_A,2026-10-07T17:08:08Z,2026-10-07T17:08:09Z,0,OK,"cmd=M=http://100.100.100.200/latest/meta-data
+echo ""--- 云元数据服务可达性（阿里云专用地址 100.100.100.200）""
+for k in instance-id region-id zone-id instance/instance-type private-ipv4 eipv4 \
+         vpc-id vswitch-id vswitch-cidr-block vpc-cidr-block image-id owner-account-id \
+    "
+b1_20261007T163708Z,3,B,cloud_meta_B,2026-10-07T17:08:09Z,2026-10-07T17:08:10Z,0,OK,"cmd=M=http://100.100.100.200/latest/meta-data
+echo ""--- 云元数据服务可达性（阿里云专用地址 100.100.100.200）""
+for k in instance-id region-id zone-id instance/instance-type private-ipv4 eipv4 \
+         vpc-id vswitch-id vswitch-cidr-block vpc-cidr-block image-id owner-account-id \
+    "
+b1_20261007T163708Z,3,A,net_internal_A,2026-10-07T17:08:11Z,2026-10-07T17:08:16Z,0,OK,"cmd=echo '--- ping B ---'; ping -c 5 -W 2 172.29.31.51;     echo '--- 内网到 B 的路由 ---'; ip route get 172.29.31.51"
+b1_20261007T163708Z,3,B,net_probe_listen,2026-10-07T17:08:16Z,2026-10-07T17:08:20Z,0,OK,"cmd=setsid nohup python3 -c ""
+import socket,time
+socks=[]
+for p in (5600,8200,8300,9101):
+    s=socket.socket(); s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+    s.bind(('0.0.0.0',p)); s.listen(4); socks.append(s)
+print('listening 5600 8200 8300 9101', flush=True)
+time.sleep(90)
+"" >/tmp/b1_port"
+b1_20261007T163708Z,3,A,net_probe_from_A,2026-10-07T17:08:20Z,2026-10-07T17:08:31Z,0,OK,"cmd=for p in 5600 8200 8300 9101; do timeout 5 bash -c ""echo > /dev/tcp/172.29.31.51/$p"" 2>/dev/null && echo ""$p 内网可达"" || echo ""$p 不可达""; done;     echo '--- 同一台 A 通过 B 的公网 IP 连同样的端口（应不可达） ---';     for p in 5600 9101; do timeout 5 bash -c ""echo > /de"
+b1_20261007T163708Z,3,B,net_probe_cleanup,2026-10-07T17:08:31Z,2026-10-07T17:08:33Z,0,OK,"cmd=ss -ltnp | grep -E ':(5600|8200|8300|9101)' | grep -o 'pid=[0-9]*' | cut -d= -f2 | sort -u | while read x; do kill $x 2>/dev/null && echo killed $x; done; sleep 1; ss -ltn | grep -E ':(5600|8200|8300|9101)' || echo '探测端口已全部释放'"
+b1_20261007T163708Z,3,A,clock_A,2026-10-07T17:08:33Z,2026-10-07T17:08:34Z,0,OK,"cmd=timedatectl 2>/dev/null | head -8; systemctl is-active chrony chronyd systemd-timesyncd 2>/dev/null; chronyc tracking 2>/dev/null | head -6 || true; date -u +%s.%N"
+b1_20261007T163708Z,3,B,clock_B,2026-10-07T17:08:35Z,2026-10-07T17:08:35Z,0,OK,"cmd=timedatectl 2>/dev/null | head -8; systemctl is-active chrony chronyd systemd-timesyncd 2>/dev/null; chronyc tracking 2>/dev/null | head -6 || true; date -u +%s.%N"
+b1_20261007T163708Z,3,A,setup_install_A,2026-10-07T17:08:36Z,2026-10-07T17:09:01Z,0,OK,"script=/e/代码项目文件/论文/sim/k8s_test/b1_remote_setup.sh args=install"
+b1_20261007T163708Z,3,B,setup_install_B,2026-10-07T17:09:01Z,2026-10-07T17:09:29Z,0,OK,"script=/e/代码项目文件/论文/sim/k8s_test/b1_remote_setup.sh args=install"
+b1_20261007T163708Z,3,A,fetch_official,2026-10-07T17:09:29Z,2026-10-07T17:09:33Z,0,OK,"cmd=mkdir -p /root/b1/official && cd /root/b1/official
+BASE=https://gh-proxy.com/https://raw.githubusercontent.com/vllm-project/vllm/v0.31.0
+for f in tests/v1/kv_connector/nixl_integration/toy_proxy_server.py          tests/v1/kv_connector/nixl_integration/run_accuracy_test.sh          tests/v1/kv_conne"
+b1_20261007T163708Z,3,A,model_revision,2026-10-07T17:09:39Z,2026-10-07T17:09:43Z,0,OK,"cmd=curl -sS --max-time 30 https://hf-mirror.com/api/models/Qwen/Qwen2.5-1.5B-Instruct | tr ',' '\n' | grep -E '""(sha|lastModified|id)""'"
+b1_20261007T163708Z,3,A,dep_digests_A,2026-10-07T17:09:43Z,2026-10-07T17:09:45Z,0,OK,"cmd=set -x
+V=/root/b1/venv/bin
+W=/root/b1/_wheelcheck
+rm -rf ""$W""; mkdir -p ""$W""
+$V/pip download --no-deps -q -i http://mirrors.cloud.aliyuncs.com/pypi/simple/     --trusted-host mirrors.cloud.aliyuncs.com -d ""$W"" vllm==0.31.0 nixl==1.4.1
+echo ""pip download rc=$?""
+sha256sum ""$W""/*.whl 2>/dev/null || tru"
+b1_20261007T163708Z,3,B,dep_digests_B,2026-10-07T17:09:46Z,2026-10-07T17:09:48Z,0,OK,"cmd=set -x
+V=/root/b1/venv/bin
+W=/root/b1/_wheelcheck
+rm -rf ""$W""; mkdir -p ""$W""
+$V/pip download --no-deps -q -i http://mirrors.cloud.aliyuncs.com/pypi/simple/     --trusted-host mirrors.cloud.aliyuncs.com -d ""$W"" vllm==0.31.0 nixl==1.4.1
+echo ""pip download rc=$?""
+sha256sum ""$W""/*.whl 2>/dev/null || tru"
+b1_20261007T163708Z,3,A,model_hash_A,2026-10-07T17:09:53Z,2026-10-07T17:09:56Z,0,OK,"cmd=set -e
+D=/root/b1/models/Qwen2.5-1.5B-Instruct
+if [[ ! -d ""$D"" ]]; then echo ""MISSING $D""; exit 1; fi
+echo ""--- 目录：$D""
+echo ""--- 文件数 / 总字节""
+find ""$D"" -type f | wc -l
+du -sb ""$D"" | cut -f1
+echo ""--- 逐文件 sha256（按名字排序，拼起来再取一次总哈希）""
+find ""$D"" -t"
+b1_20261007T163708Z,3,B,model_hash_B,2026-10-07T17:09:57Z,2026-10-07T17:10:00Z,0,OK,"cmd=set -e
+D=/root/b1/models/Qwen2.5-1.5B-Instruct
+if [[ ! -d ""$D"" ]]; then echo ""MISSING $D""; exit 1; fi
+echo ""--- 目录：$D""
+echo ""--- 文件数 / 总字节""
+find ""$D"" -type f | wc -l
+du -sb ""$D"" | cut -f1
+echo ""--- 逐文件 sha256（按名字排序，拼起来再取一次总哈希）""
+find ""$D"" -t"
+b1_20261007T163708Z,3,B,netbw_recv,2026-10-07T17:10:01Z,2026-10-07T17:10:04Z,0,OK,"cmd=pidfile=/root/b1/logs/netbw_recv.pid
+cat > /tmp/b1_netbw_recv.py <<'PY'
+import socket, sys, time
+port = int(sys.argv[1]); total = int(sys.argv[2])
+s = socket.socket(); s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind(('172.29.31.51', port)); s.listen(1)
+print('listening on 172.29.31.51"
+b1_20261007T163708Z,3,A,netbw_send,2026-10-07T17:10:06Z,2026-10-07T17:10:09Z,0,OK,"cmd=python3 - <<'PY'
+import socket, time
+total = 536870912
+buf = b'0' * (1 << 20)
+s = socket.create_connection(('172.29.31.51', 9102), timeout=20)
+print('connected to 172.29.31.51:9102')
+t0 = time.perf_counter(); t0_epoch = time.time()
+sent = 0
+while sent < total:
+    n = s.send(buf if total - sent >= l"
+b1_20261007T163708Z,3,B,netbw_recv_result,2026-10-07T17:10:09Z,2026-10-07T17:10:12Z,0,OK,"cmd=sleep 2; cat /root/b1/logs/netbw_recv.log"
+b1_20261007T163708Z,3,B,netbw_cleanup,2026-10-07T17:10:12Z,2026-10-07T17:10:13Z,0,OK,"cmd=pidfile=/root/b1/logs/netbw_recv.pid
+if [[ -f ""$pidfile"" ]]; then
+  pid=$(cat ""$pidfile"")
+  if kill -0 ""$pid"" 2>/dev/null; then echo ""接收端 pid=$pid 还在 → SIGTERM""; kill -TERM ""$pid"" 2>/dev/null; sleep 2
+    kill -0 ""$pid"" 2>/dev/null && { echo ""还在 → SIGKILL""; kill -KILL ""$pid"" 2>/dev"
+b1_20261007T163708Z,3,A,gen_prompts,2026-10-07T17:10:17Z,2026-10-07T17:10:18Z,0,OK,"cmd=/root/b1/venv/bin/python /tmp/b1_client.py gen-prompts --out /root/b1/official/b1_prompts.json"
+b1_20261007T163708Z,3,B,start_baseline,2026-10-07T17:10:19Z,2026-10-07T17:10:21Z,0,OK,"cmd=B1_BIND_IP=172.29.31.51 bash /tmp/b1_remote_serve.sh start-baseline 8300 /root/b1/venv/bin/vllm /root/b1/models/Qwen2.5-1.5B-Instruct Qwen/Qwen2.5-1.5B-Instruct"
+b1_20261007T163708Z,3,B,waitready_baseline,2026-10-07T17:10:21Z,2026-10-07T17:10:44Z,0,OK,"port=8300 path=/v1/models"
+b1_20261007T163708Z,3,B,metrics_baseline_idle_t0,2026-10-07T17:10:44Z,2026-10-07T17:10:45Z,0,OK,"port=8300 bytes=56268"
+b1_20261007T163708Z,3,B,arm_baseline_r1,2026-10-07T17:10:46Z,2026-10-07T17:10:49Z,0,OK,"url=http://172.29.31.51:8300 extra="
+b1_20261007T163708Z,3,B,arm_baseline_r2,2026-10-07T17:10:49Z,2026-10-07T17:10:51Z,0,OK,"url=http://172.29.31.51:8300 extra="
+b1_20261007T163708Z,3,B,arm_baseline_r3,2026-10-07T17:10:51Z,2026-10-07T17:10:54Z,0,OK,"url=http://172.29.31.51:8300 extra="
+b1_20261007T163708Z,3,B,metrics_baseline_after,2026-10-07T17:10:54Z,2026-10-07T17:10:55Z,0,OK,"port=8300 bytes=56268"

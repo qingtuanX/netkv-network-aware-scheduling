@@ -1,0 +1,13 @@
+== 前处理实例（kv_producer） port=8100 side=172.29.31.52:5600
+--- launching prefill
+  env: UCX_NET_DEVICES=eth0
+  env: VLLM_USE_FLASHINFER_SAMPLER=0
+  env: HF_HUB_OFFLINE=1
+  env: CUDA_HOME=/usr/local/cuda-13.0
+  env: PATH=/usr/local/cuda-13.0/bin:/usr/local/bin:/usr/bin:/bin
+  env: VLLM_BATCH_INVARIANT=1
+  env: VLLM_NIXL_SIDE_CHANNEL_HOST=172.29.31.52
+  env: VLLM_NIXL_SIDE_CHANNEL_PORT=5600
+  cmd: /root/b1/venv/bin/vllm serve /root/b1/models/Qwen2.5-1.5B-Instruct --port 8100 --served-model-name Qwen/Qwen2.5-1.5B-Instruct --kv-transfer-config {"kv_connector":"NixlConnector","kv_role":"kv_producer","kv_load_failure_policy":"fail"} --host 172.29.31.52 --max-model-len 8192 --gpu-memory-utilization 0.85 --enforce-eager --generation-config vllm --dtype bfloat16 --no-enable-prefix-caching --logprobs-mode processed_logprobs
+  pid=7783
+  state=running

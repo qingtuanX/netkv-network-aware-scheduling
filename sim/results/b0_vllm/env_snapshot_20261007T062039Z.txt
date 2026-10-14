@@ -1,0 +1,21 @@
+# B0 真 vLLM 环境快照（UTC 20261007T062039Z）
+## 宿主/WSL
+WSL:   NAME      STATE           VERSION
+OS: Ubuntu 26.04.1 LTS
+Kernel: 6.18.33.2-microsoft-standard-WSL2
+## GPU（WSL 内 nvidia-smi）
+name, driver_version, memory.total [MiB], memory.used [MiB], compute_cap
+NVIDIA GeForce RTX 4060 Laptop GPU, 617.42, 8188 MiB, 6049 MiB, 8.9
+## Python 与关键包
+python 3.14.4
+torch 2.13.0+cu130 | torch.version.cuda 13.0
+vllm 0.31.0
+transformers 5.17.0
+huggingface_hub 1.33.0
+cuda available True | device NVIDIA GeForce RTX 4060 Laptop GPU
+## 系统编译器（vLLM 的 triton/flashinfer JIT 需要）
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+## 关键环境变量（服务端启动用）
+HF_HOME=/root/hf-cache  HF_HUB_OFFLINE=1  VLLM_USE_FLASHINFER_SAMPLER=0
+## 服务端命令行
+/root/vllm-env/bin/python /root/vllm-env/bin/vllm serve Qwen/Qwen2.5-1.5B-Instruct --host 127.0.0.1 --port 8090 --max-model-len 4096 --dtype float16 --gpu-memory-utilization 0.70

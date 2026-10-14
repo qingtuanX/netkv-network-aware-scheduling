@@ -1,0 +1,14 @@
+Connecting to host 49.235.115.164, port 5173
+Reverse mode, remote host 49.235.115.164 is sending
+[  5] local 172.24.198.206 port 38458 connected to 49.235.115.164 port 5173
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-1.00   sec   128 KBytes  1.05 Mbits/sec                  
+[  5]   1.00-2.00   sec   128 KBytes  1.05 Mbits/sec                  
+[  5]   2.00-3.00   sec   256 KBytes  2.10 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-3.03   sec   512 KBytes  1.39 Mbits/sec    0            sender
+[  5]   0.00-3.00   sec   512 KBytes  1.40 Mbits/sec                  receiver
+
+iperf Done.
+探测：iperf3 rc=0，overlimits 0 → 382（增量 382）

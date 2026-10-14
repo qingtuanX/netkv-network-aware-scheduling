@@ -1,0 +1,107 @@
+{
+  "n_requests": 6,
+  "n_ok": 0,
+  "n_err": 6,
+  "error_counts": {
+    "stream_broken": 6
+  },
+  "wall_clock_s": 0.951,
+  "throughput_qps": 6.312,
+  "inflight_peak": 1,
+  "latency": {
+    "ttft_s": {
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "e2e_s": {
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "chunk_interval_mean_s": {
+      "p50": null,
+      "p95": null
+    },
+    "chunk_interval_p95_s": {
+      "p50": null,
+      "p95": null
+    },
+    "tpot_p50_s": {
+      "p50": null,
+      "p95": null
+    },
+    "tpot_p95_s": {
+      "p50": null,
+      "p95": null
+    },
+    "tpot_mean_s": {
+      "p50": null,
+      "p95": null
+    }
+  },
+  "chunks": {
+    "n_output_chunks_median": null,
+    "n_content_chunks_median": null,
+    "n_empty_text_chunks_median": null,
+    "n_empty_text_chunks_total": 0,
+    "n_requests_with_empty_text_chunks": 0
+  },
+  "server_tokens": {
+    "n_requests_with_usage": 0,
+    "n_requests_with_token_ids": 0,
+    "n_requests_without_token_count": 0,
+    "srv_completion_tokens_median": null,
+    "srv_token_ids_total_median": null,
+    "srv_token_count_source_counts": {},
+    "token_interval_mean_s_median": null
+  },
+  "coverage_verdicts": {
+    "N-A": 6
+  },
+  "srv_verdicts": {},
+  "coverage": {
+    "n_with_server_report": 0,
+    "cov_max_gap_s_max": null,
+    "cov_gap_total_s_max": null,
+    "cov_loo_min_gap_s_min": null,
+    "srv_gap_max_s_max": null,
+    "srv_overlap_s_median": null,
+    "sum_minus_e2e_s_median": null,
+    "sum_minus_e2e_s_max": null,
+    "sum_minus_srv_span_s_median": null,
+    "srv_outside_s_median": null,
+    "cov_tol_s": 0.005,
+    "loo_eps_s": 1e-06
+  },
+  "kv_bytes_per_request": null,
+  "run_id": "serving_20261007T101132228Z_25308-12",
+  "requests_csv": "results\\b0_metrics\\serving_20261007T101132228Z_25308-12_requests.csv",
+  "tokens_csv": null,
+  "metrics_snapshot": {
+    "state": "not_configured",
+    "state_zh": "未配置地址（本次没有采集）",
+    "nixl_presence_zh": "未配置地址",
+    "nixl_matched_series_count": null,
+    "nixl_series_values": null,
+    "nixl_note": "未采集：本次没有给 --metrics-url，整条采集路径没有生效。**这一项记作「未配置地址」，不是「服务端没有 NIXL 指标」，也不是 0。**",
+    "n_attempts": 0,
+    "n_ok": 0,
+    "n_failed": 0,
+    "url": "",
+    "version_url": "",
+    "interval_s": 5.0,
+    "timeout_s": 5.0,
+    "target_version": "未取到",
+    "version_source": "",
+    "version_error": "",
+    "first_snapshot": null,
+    "last_snapshot": null,
+    "scrapes_csv": null,
+    "snapshot_files": [],
+    "diff_start_end": null,
+    "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+  }
+}

@@ -1,0 +1,17 @@
+[11:19:23Z] 批次 20261006T111922Z 开始：phase=down up=10 down=1 payload=2MB
+[11:19:23Z] == 部署：tc 只读仪表 + iperf3 服务端 + worker + WSL 软链 ==
+保活 PID=6144
+[11:19:42Z] 部署完成（仪表 / worker / iperf3 三项自检都通过）
+[11:19:53Z] 起手不限速基线（上传 4 MB）：6.181264 Mbit/s
+[11:19:53Z] ===== 阶段 down：目标 1 轮有效 =====
+[11:20:03Z] 阶段 down 限速已装并通过断言
+[11:20:36Z] down01/20261006T112003Z 开始（第 1 次尝试）：本轮不限速基线 2.580887 Mbit/s（发送端 2.531095）；限速=在位，overlimits 基线 378，filter success 基线 0
+[11:22:22Z] down01/20261006T112003Z 有效：不限速基线 2.580887 Mbit/s | 工具 1.407 Mbit/s（偏差 -6.22%）| iperf3 发送 1.370232 / 接收 1.397980（差 2.68% / 0.65%）| overlimits +10753，dropped +0，filter success +0 | A4 比值 2.92 | 判据 ①PASS ②发MARGINAL/收PASS ③PASS
+[11:22:22Z] ===== 阶段 down 完成：1 轮有效 =====
+[11:22:22Z] 批次完成。有效轮 1，作废轮 0
+[11:22:22Z] 逐轮判定表：/e/代码项目文件/论文/sim/results/stage_a_smoke/batch_20261006T111922Z_rounds.csv
+[11:22:22Z] == 清理：拆两边限速 + 停云上进程（显式拆除，不依赖任何定时器）==
+残余进程：iperf3=[] worker=[]
+云上根队列：qdisc mq 0: root 
+云上监听：
+[11:22:29Z] 本机 WSL 根队列：qdisc mq 0: root 

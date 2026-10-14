@@ -62,6 +62,14 @@ BATCHES = {
                   trace="data/raw/azure_code_1week.csv"),
     "burstgpt": dict(matrix_dir="results/matrix_burstgpt", source="trace",
                      trace="data/raw/burstgpt_1.csv"),
+    # v2 = 链路 FIFO 争用模型 + NetworkAware2 的那一批（产物目录带 _v2 后缀）。
+    # net_set 必须跟着批次走：拿 v1 档位去复算 v2 产物会得到错误的容量与 rho。
+    "synthetic_v2": dict(matrix_dir="results/matrix_v2", source="synthetic",
+                         trace=None, net_set="v2"),
+    "azure_v2": dict(matrix_dir="results/matrix_trace_v2", source="trace",
+                     trace="data/raw/azure_code_1week.csv", net_set="v2"),
+    "burstgpt_v2": dict(matrix_dir="results/matrix_burstgpt_v2", source="trace",
+                        trace="data/raw/burstgpt_1.csv", net_set="v2"),
 }
 
 # 门 4：模型关键假设 vs 已核对的公开实测值。**这是参数来源档案，不是实验结果**，
@@ -175,6 +183,9 @@ def main() -> int:
     if args.batch:
         cfg = BATCHES[args.batch]
         label = args.batch
+        # 批次自带档位（v2 批次必须配 v2 档位）；显式传 --net-set 仍可覆盖
+        if cfg.get("net_set") and args.net_set == ap.get_default("net_set"):
+            args.net_set = cfg["net_set"]
     else:
         cfg = dict(matrix_dir=args.matrix_dir, source=args.source, trace=args.trace)
         label = args.label or "custom"
@@ -197,59 +208,89 @@ def main() -> int:
              "convergence", "rho", "fallback", "bandwidth"]
     total_n = total_bad = 0
     per_mode = {}
-    # v2：链路争用模型下还要查两条资源与可行域，判据是
-    #   max(rho_compute, rho_network) ≤ 0.9   且   load_ratio = λ / R ≤ 0.9
-    # R = Σ_i min(算力_i/E[work], 带宽_i/E[bytes])，即"完全均衡放置"的可承载到达率。
+    # v2：链路争用模型下链路容量也是硬约束。判据必须与 analyze.py §0b **逐字一致**，
+    # 否则会出现"analyze 说全部有效、gates 说越界"的自相矛盾（改前就是这样）。
+    #   上界：max(rho_compute, rho_network) ≤ 0.9 —— 任何一条资源都不许过饱和；
+    #   下界：只对**绑定资源**要求，用 load_ratio = λ / R 表达，
+    #         R = Σ_i min(算力_i×槽位/E[work], 带宽_i/E[bytes])。
+    # 为什么下界要放宽：v2 里网络可能先饱和，此时按可持续到达率标定 rho=0.30，
+    # 算力利用率天然只有 0.15–0.26（λ 被可行域压住）——这是"网络绑定"场景的正常
+    # 形态，不是退化格子。用 v1 的"rho_compute 必须 ≥0.3"会把它整片误判掉。
+    # 可行性另有一条硬线：load_ratio > 1 意味着队列无限增长，该格子不能采信。
     def node_rates(n: int) -> list[float]:
         return [NODE_RATE_BASE / (2 ** (i % 4)) for i in range(int(n))]
 
+    prof_links = rmx.active_bandwidth_profiles()      # 带宽档位表（随 NET_SET 切换）
+    total_rows = 0
     for mode in modes:
         df, rid = latest_runs(matrix_dir, mode)
         if df is None or df.empty:
             continue
-        cap = df["n_nodes"].map(node_capacity)
-        rho = df["mean_work"] * df["qps_realized"] / cap
-        worst = rho.copy()
-        detail = {}
-        if "rho_net" in df.columns and df["rho_net"].notna().any():
-            detail["rho_net_max"] = float(df["rho_net"].max())
-            worst = np.maximum(worst, df["rho_net"].fillna(0.0))
-            # 可行域：需要每节点带宽（取自 manifest 的网络条件）与每节点算力
-            man = json.loads((matrix_dir / f"{mode}_{rid}_manifest.json")
-                             .read_text(encoding="utf-8")) if (
-                matrix_dir / f"{mode}_{rid}_manifest.json").exists() else {}
-            conds = man.get("network_conditions") or {}
-            loads = []
-            for _, r in df.iterrows():
-                c = conds.get(r["network"]) or {}
-                links = [bw for _, bw in c.get("links", [])]
-                if not links or not np.isfinite(r.get("mean_bytes", np.nan)) or r["mean_bytes"] <= 0:
-                    continue
-                rates = node_rates(r["n_nodes"])
-                R = sum(min(rates[i] * SLOTS_PER_NODE / r["mean_work"],
-                            links[i % len(links)] / r["mean_bytes"])
-                        for i in range(int(r["n_nodes"])))
-                loads.append(r["qps_realized"] / R if R > 0 else np.nan)
-            if loads:
-                detail["load_ratio_max"] = float(np.nanmax(loads))
-        bad = int((worst > RHO_HI + RHO_TOL).sum()) + int((rho < RHO_LO - RHO_TOL).sum())
-        if detail.get("load_ratio_max", 0) > 1.0 + 1e-6:
-            bad += 1
-        total_n += len(rho)
+        total_rows += len(df)
+        # 分组键与 analyze.py §0b 对齐：到达压力档 / 节点规模本身是因子时必须分档，
+        # 否则跨档次的 min/max 会互相平均掉。
+        keys = [k for k in ("workload", "network") if k in df.columns]
+        if "target_rho" in df.columns and df["target_rho"].nunique(dropna=True) > 1:
+            keys.append("target_rho")
+        if "n_nodes" in df.columns and df["n_nodes"].nunique(dropna=True) > 1:
+            keys.append("n_nodes")
+        # 数据量档与带宽档位直接改变可行域（E[字节数]、每条链路容量），也必须分档
+        for extra in ("data_volume", "net_profile"):
+            if extra in df.columns and df[extra].nunique(dropna=True) > 1:
+                keys.append(extra)
+        rho_row = df["mean_work"] * df["qps_realized"] / df["n_nodes"].map(node_capacity)
+        net_row = df["rho_net"] if "rho_net" in df.columns else pd.Series(np.nan, index=df.index)
+        # 行级可行域：需要每节点带宽（manifest 的网络条件）与每节点算力
+        man = json.loads((matrix_dir / f"{mode}_{rid}_manifest.json").read_text(encoding="utf-8")) \
+            if (matrix_dir / f"{mode}_{rid}_manifest.json").exists() else {}
+        conds = man.get("network_conditions") or {}
+        loads = []
+        for _, r in df.iterrows():
+            prof = r.get("net_profile")
+            if isinstance(prof, str) and prof:
+                # 带宽档位格：只认它自己的档位。以前这里退回基础档，把 slow_200g 的
+                # load_ratio 算成 1.167（按自己的档位是 0.600）→ 正常格子被误报越界。
+                links = [bw for _, bw in (prof_links.get(prof) or [])]
+            else:
+                links = [bw for _, bw in (conds.get(r["network"]) or {}).get("links", [])]
+            if not links or not np.isfinite(r.get("mean_bytes", np.nan)) or r["mean_bytes"] <= 0:
+                loads.append(np.nan)
+                continue
+            rates = node_rates(r["n_nodes"])
+            R = sum(min(rates[i] * SLOTS_PER_NODE / r["mean_work"],
+                        links[i % len(links)] / r["mean_bytes"])
+                    for i in range(int(r["n_nodes"])))
+            loads.append(r["qps_realized"] / R if R > 0 else np.nan)
+        agg = pd.DataFrame({"rho": rho_row, "net": net_row,
+                            "lr": np.asarray(loads, dtype=float)}, index=df.index).groupby(
+            [df[k] for k in keys], dropna=False).agg(
+            rho_min=("rho", "min"), rho_max=("rho", "max"),
+            rho_net_max=("net", "max"), lr_max=("lr", "max"))
+        hi = np.maximum(agg["rho_max"].to_numpy(), agg["rho_net_max"].fillna(0.0).to_numpy())
+        lo_ok = ((agg["rho_min"] >= RHO_LO - RHO_TOL)
+                 | (agg["lr_max"].fillna(0.0) >= RHO_LO - RHO_TOL))
+        ok = (hi <= RHO_HI + RHO_TOL) & lo_ok & (agg["lr_max"].fillna(0.0) <= 1.0 + 1e-6)
+        bad = int((~ok).sum())
+        detail = {
+            "rho_net_max": float(agg["rho_net_max"].max()) if agg["rho_net_max"].notna().any() else float("nan"),
+            "load_ratio_max": float(agg["lr_max"].max()) if agg["lr_max"].notna().any() else float("nan"),
+        }
+        total_n += len(agg)
         total_bad += bad
-        per_mode[mode] = {"runs": int(len(rho)), "rho_min": float(rho.min()),
-                          "rho_max": float(rho.max()), "out_of_range": bad,
+        per_mode[mode] = {"rows": int(len(df)), "groups": int(len(agg)),
+                          "rho_min": float(agg["rho_min"].min()),
+                          "rho_max": float(agg["rho_max"].max()), "out_of_range": bad,
                           "run_id": rid, **detail}
         extra = ""
-        if "rho_net_max" in detail:
+        if np.isfinite(detail["rho_net_max"]) or np.isfinite(detail["load_ratio_max"]):
             extra = (f"  rho_net_max={detail['rho_net_max']:.3f}"
-                     f"  load_ratio_max={detail.get('load_ratio_max', float('nan')):.3f}")
-        print(f"    {mode:<12} run={rid}  行={len(rho):<4} "
-              f"rho_compute∈[{rho.min():.4f}, {rho.max():.4f}]  越界 {bad}{extra}")
-    check(rows, "门1 rho 全部落在 [0.3, 0.9]（v2 含两资源与可行域）",
+                     f"  load_ratio_max={detail['load_ratio_max']:.3f}")
+        print(f"    {mode:<12} run={rid}  行={len(df):<4} 组合={len(agg):<3} "
+              f"rho_compute∈[{agg['rho_min'].min():.4f}, {agg['rho_max'].max():.4f}]  越界 {bad}{extra}")
+    check(rows, "门1 max(rho_compute,rho_network) ≤ 0.9 且绑定资源 ≥ 0.3 且 load_ratio ≤ 1",
           total_bad == 0 and total_n > 0,
-          f"共 {total_n} 行，越界/不可持续 {total_bad} 项（公差 {RHO_TOL:g}）",
-          n_rows=total_n, n_out_of_range=total_bad, per_mode=per_mode)
+          f"共 {total_rows} 行 / {total_n} 个组合，越界或不可持续 {total_bad} 个（公差 {RHO_TOL:g}）",
+          n_rows=total_rows, n_groups=total_n, n_out_of_range=total_bad, per_mode=per_mode)
 
     # ---------------- 门 2：产物层（消融矩阵的 13 个指标）----------------
     print("\n门 2  消融严格子集（产物层：ablation 模式逐指标逐位比较）")

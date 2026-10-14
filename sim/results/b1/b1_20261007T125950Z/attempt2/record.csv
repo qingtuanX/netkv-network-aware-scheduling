@@ -1,0 +1,2 @@
+run_id,attempt,host,step,utc_start,utc_end,exit_code,status,note
+b1_20261007T125950Z,2,-,init,2026-10-07T12:59:50Z,2026-10-07T12:59:50Z,0,OK,"建立 run/attempt 目录；run_id=b1_20261007T125950Z attempt=2"

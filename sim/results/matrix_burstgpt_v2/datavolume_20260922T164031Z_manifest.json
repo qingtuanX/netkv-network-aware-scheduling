@@ -1,0 +1,143 @@
+{
+  "run_id": "datavolume_20260922T164031Z",
+  "created_utc": "2026-09-22T16:46:06.110642+00:00",
+  "mode": "datavolume",
+  "n_cells": 48,
+  "n_runs": 240,
+  "n_requests_per_run": 20000,
+  "strategies": [
+    "Random",
+    "LeastQueue",
+    "LeastLoad",
+    "NetworkAware",
+    "NetworkAware2"
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "network_conditions": {
+    "normal": {
+      "kind": "static",
+      "links": [
+        [
+          1e-06,
+          50000000000.0
+        ],
+        [
+          1e-06,
+          50000000000.0
+        ],
+        [
+          1e-06,
+          50000000000.0
+        ]
+      ]
+    },
+    "degraded": {
+      "kind": "static",
+      "links": [
+        [
+          2e-06,
+          3125000000.0
+        ],
+        [
+          1.5e-06,
+          12500000000.0
+        ],
+        [
+          1e-06,
+          50000000000.0
+        ]
+      ]
+    },
+    "unstable": {
+      "kind": "unstable",
+      "links": [
+        [
+          1.5e-06,
+          12500000000.0
+        ],
+        [
+          1.5e-06,
+          12500000000.0
+        ],
+        [
+          1e-06,
+          50000000000.0
+        ]
+      ],
+      "params": {
+        "theta": 0.5,
+        "sigma_b": 0.8,
+        "sigma_l": 0.4,
+        "dt": 0.2
+      }
+    }
+  },
+  "staleness_levels": {
+    "fresh": {
+      "queue": 0.0,
+      "network": 0.0
+    },
+    "stale": {
+      "queue": 2.0,
+      "network": 30.0
+    },
+    "mild": {
+      "queue": 1.0,
+      "network": 3.0
+    }
+  },
+  "staleness_sweep_s": [
+    0.0,
+    0.25,
+    1.0,
+    2.0,
+    5.0,
+    15.0,
+    30.0,
+    60.0
+  ],
+  "data_volume_bytes_per_ctx_token": {
+    "prompt_only": 4.0,
+    "kv_cache": 330000.0
+  },
+  "data_source": "trace",
+  "link_queue_model": true,
+  "net_set": "v2",
+  "trace_file": "E:\\代码项目文件\\论文\\sim\\data\\raw\\burstgpt_1.csv",
+  "target_rho": 0.6,
+  "rho_grid": null,
+  "fallback_thresholds_s": null,
+  "n_trace_segments": 3,
+  "trace_stats": {
+    "source": "BurstGPT burstgpt_1.csv",
+    "n_requests": 1404294,
+    "duration_h": 1463.88,
+    "qps_mean": 0.2665,
+    "qps_p95": 1.3548,
+    "context_p50": 262.0,
+    "context_p95": 2466.0,
+    "context_max": 29665,
+    "generated_p50": 36.0,
+    "generated_p95": 466.0,
+    "generated_max": 7315,
+    "n_dropped": 25443,
+    "n_truncated_tail": 0,
+    "timestamp_monotonic": true
+  },
+  "n_nodes_by_mode": [
+    3
+  ],
+  "wall_clock_total_s": 328.16,
+  "wall_clock_per_run_s": 1.3674,
+  "code_version": "uncommitted",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "slo_note": "SLO 为实验假设（slo_base=1.0s + 0.35s/千token），trace 不提供 deadline",
+  "workload_note": "真实 Azure LLM Inference Trace（AzurePublicDataset, CC-BY），按 ContextTokens/GeneratedTokens 分位切成四类负载；到达率按目标 rho 标定，种子对应不同的 trace 时间片"
+}

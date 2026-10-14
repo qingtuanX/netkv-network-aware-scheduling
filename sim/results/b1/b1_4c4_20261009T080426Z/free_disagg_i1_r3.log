@@ -1,0 +1,7 @@
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  q01_rep6: http=200 prompt_tokens=651 completion_tokens=64 finish=length tok_ids=yes 1.6841s
+  q02_rep10: http=200 prompt_tokens=1071 completion_tokens=64 finish=length tok_ids=yes 1.7374s
+  q03_rep14: http=200 prompt_tokens=1491 completion_tokens=64 finish=length tok_ids=yes 1.8108s
+  q04_rep18: http=200 prompt_tokens=1911 completion_tokens=64 finish=length tok_ids=yes 1.8674s
+  q05_rep22: http=200 prompt_tokens=2331 completion_tokens=64 finish=length tok_ids=yes 1.9697s
+wrote /root/b1/prereg4_out/free_disagg_i1_r3.json  (5 requests)

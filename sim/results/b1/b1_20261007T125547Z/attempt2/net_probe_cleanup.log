@@ -1,0 +1,4 @@
+# ---- net_probe_cleanup @ B (8.130.179.201)  start=2026-10-07T13:00:30Z  cmd: ss -ltnp | grep -E ':(5600|8200|8300|9101)' | grep -o 'pid=[0-9]*' | cut -d= -f2 | sort -u | while read x; do kill $x 2>/dev/null && echo killed $x; done; sleep 1; ss -ltn | grep -E ':(5600|8200|8300|9101)' || echo '探测端口已全部释放' ----
+killed 4990
+探测端口已全部释放
+# ---- exit=0 end=2026-10-07T13:00:32Z ----

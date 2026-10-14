@@ -1,0 +1,6 @@
+# ---- netcap_request @ A (8.155.133.216)  start=2026-10-07T17:22:23Z ----
+--only-ids=['p04_rep20'] → 保留 1 条
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  p04_rep20: http=200 prompt_tokens=1560 completion_tokens=28 finish=stop tok_ids=yes 0.5644s
+wrote /root/b1/out/netcap_probe.json  (1 requests)
+# ---- exit=0 end=2026-10-07T17:22:25Z ----

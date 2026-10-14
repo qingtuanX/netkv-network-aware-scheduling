@@ -1,0 +1,12 @@
+== 生成实例（kv_consumer） port=8200 side=127.0.0.1:5602
+--- launching decode
+  env: UCX_NET_DEVICES=all
+  env: VLLM_USE_FLASHINFER_SAMPLER=0
+  env: HF_HUB_OFFLINE=1
+  env: CUDA_HOME=/usr/local/cuda-13.0
+  env: PATH=/usr/local/cuda-13.0/bin:/usr/local/bin:/usr/bin:/bin
+  env: VLLM_NIXL_SIDE_CHANNEL_HOST=127.0.0.1
+  env: VLLM_NIXL_SIDE_CHANNEL_PORT=5602
+  cmd: /root/vllm-env/bin/vllm serve Qwen/Qwen2.5-1.5B-Instruct --port 8200 --served-model-name Qwen/Qwen2.5-1.5B-Instruct --kv-transfer-config {"kv_connector":"NixlConnector","kv_role":"kv_consumer","kv_load_failure_policy":"fail"} --host 127.0.0.1 --max-model-len 8192 --gpu-memory-utilization 0.42 --enforce-eager --no-enable-prefix-caching --logprobs-mode processed_logprobs
+  pid=2790
+  state=running

@@ -1,0 +1,40 @@
+无法比对：缺少对照臂或拆分臂的产物
+  对照臂候选 arm_baseline_r*.json : 0 个
+  拆分臂候选 arm_disagg_r*.json   : 0 个
+total 8448
+drwxr-xr-x 1 qiafe 197609    0 Oct  8 00:36 .
+drwxr-xr-x 1 qiafe 197609    0 Oct  8 00:36 ..
+-rw-r--r-- 1 qiafe 197609  444 Oct  8 00:36 baseline_stability.txt
+-rw-r--r-- 1 qiafe 197609 1379 Oct  8  2026 budget.txt
+-rw-r--r-- 1 qiafe 197609   68 Oct  8 00:36 clock_A.log
+-rw-r--r-- 1 qiafe 197609   68 Oct  8 00:36 clock_B.log
+-rw-r--r-- 1 qiafe 197609 1474 Oct  8 00:36 cloud_identity.txt
+-rw-r--r-- 1 qiafe 197609   73 Oct  8 00:36 cloud_meta_A.log
+-rw-r--r-- 1 qiafe 197609   73 Oct  8 00:36 cloud_meta_B.log
+-rw-r--r-- 1 qiafe 197609  146 Oct  8 00:36 consistency_diff.txt
+-rw-r--r-- 1 qiafe 197609   74 Oct  8 00:36 dep_digests_A.log
+-rw-r--r-- 1 qiafe 197609   74 Oct  8 00:36 dep_digests_B.log
+-rw-r--r-- 1 qiafe 197609 1438 Oct  8 00:36 dependency_digests.txt
+-rw-r--r-- 1 qiafe 197609   75 Oct  8 00:36 fetch_official.log
+-rw-r--r-- 1 qiafe 197609   72 Oct  8 00:36 gen_prompts.log
+-rw-r--r-- 1 qiafe 197609   72 Oct  8 00:36 inventory_A.log
+-rw-r--r-- 1 qiafe 197609   72 Oct  8 00:36 inventory_B.log
+-rw-r--r-- 1 qiafe 197609 1324 Oct  8  2026 kv_transfer_evidence.txt
+-rw-r--r-- 1 qiafe 197609   73 Oct  8 00:36 model_hash_A.log
+-rw-r--r-- 1 qiafe 197609   73 Oct  8 00:36 model_hash_B.log
+-rw-r--r-- 1 qiafe 197609 1191 Oct  8 00:36 model_identity.txt
+-rw-r--r-- 1 qiafe 197609   75 Oct  8 00:36 model_revision.log
+-rw-r--r-- 1 qiafe 197609  335 Oct  8 00:36 model_wait.log
+-rw-r--r-- 1 qiafe 197609   75 Oct  8 00:36 net_internal_A.log
+-rw-r--r-- 1 qiafe 197609   78 Oct  8 00:36 net_probe_cleanup.log
+-rw-r--r-- 1 qiafe 197609   77 Oct  8 00:36 net_probe_from_A.log
+-rw-r--r-- 1 qiafe 197609   77 Oct  8 00:36 net_probe_listen.log
+-rw-r--r-- 1 qiafe 197609  192 Oct  8 00:36 record.csv
+-rw-r--r-- 1 qiafe 197609  156 Oct  8 00:36 setup_install_A.log
+-rw-r--r-- 1 qiafe 197609  156 Oct  8 00:36 setup_install_B.log
+drwxr-xr-x 1 qiafe 197609    0 Oct  8 00:36 smoke
+-rw-r--r-- 1 qiafe 197609   75 Oct  8 00:36 start_baseline.log
+-rw-r--r-- 1 qiafe 197609   73 Oct  8 00:36 start_decode.log
+-rw-r--r-- 1 qiafe 197609   74 Oct  8 00:36 start_prefill.log
+-rw-r--r-- 1 qiafe 197609   72 Oct  8 00:36 start_proxy.log
+-rw-r--r-- 1 qiafe 197609   74 Oct  8 00:36 stop_baseline.log

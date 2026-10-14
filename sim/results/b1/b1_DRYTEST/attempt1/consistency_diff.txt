@@ -1,0 +1,17 @@
+无法比对：缺少对照臂或拆分臂的产物
+  对照臂候选 arm_baseline_r*.json : 0 个
+  拆分臂候选 arm_disagg_r*.json   : 0 个
+total 2560
+drwxr-xr-x 1 qiafe 197609    0 Oct  7 21:24 .
+drwxr-xr-x 1 qiafe 197609    0 Oct  7 21:24 ..
+-rw-r--r-- 1 qiafe 197609  444 Oct  7 21:24 baseline_stability.txt
+-rw-r--r-- 1 qiafe 197609 1232 Oct  7 21:24 budget.txt
+-rw-r--r-- 1 qiafe 197609  146 Oct  7 21:24 consistency_diff.txt
+-rw-r--r-- 1 qiafe 197609   71 Oct  7 21:24 gen_prompts.log
+-rw-r--r-- 1 qiafe 197609 1294 Oct  7 21:24 kv_transfer_evidence.txt
+drwxr-xr-x 1 qiafe 197609    0 Oct  7 21:24 smoke
+-rw-r--r-- 1 qiafe 197609   75 Oct  7 21:24 start_baseline.log
+-rw-r--r-- 1 qiafe 197609   73 Oct  7 21:24 start_decode.log
+-rw-r--r-- 1 qiafe 197609   73 Oct  7 21:24 start_prefill.log
+-rw-r--r-- 1 qiafe 197609   71 Oct  7 21:24 start_proxy.log
+-rw-r--r-- 1 qiafe 197609   74 Oct  7 21:24 stop_baseline.log

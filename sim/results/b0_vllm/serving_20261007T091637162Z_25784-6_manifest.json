@@ -1,0 +1,48 @@
+{
+  "run_id": "serving_20261007T091637162Z_25784-6",
+  "utc": "2026-10-07T09:16:38.108161+00:00",
+  "kind": "measure_serving/client",
+  "host": {
+    "hostname": "青山",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "cpu_count": 16,
+    "time_time_resolution_s": 0.0009996891021728516
+  },
+  "code_version": "uncommitted",
+  "note": "本仓库无 git 提交时恒为 uncommitted（预期）",
+  "url": "http://127.0.0.1:9503",
+  "label": "failinject_disconnect_mid_stream",
+  "params": {
+    "requests": 6,
+    "qps": 6,
+    "arrival": "uniform",
+    "concurrency": 4,
+    "prompt_tokens": 8,
+    "prompt_text": "",
+    "max_tokens": 8,
+    "request_timeout_s": 2.0,
+    "cov_tol_s": 0.005,
+    "save_tokens": false,
+    "seed": 1,
+    "loo_eps_s": 1e-06,
+    "include_usage": true,
+    "return_token_ids": true
+  },
+  "n_ok": 0,
+  "n_err": 6,
+  "error_counts": {
+    "stream_incomplete": 6
+  },
+  "coverage_verdicts": {
+    "PASS": 6
+  },
+  "wall_clock_s": 0.939,
+  "what_this_does_not_prove": [
+    "本工具量的是**某一次运行**的逐请求时延，不评模型质量，也不含任何性能收益结论。",
+    "若后端是假后端，则各阶段时刻与 KV 字节数都是伪造的，只证明测量链路可用。",
+    "覆盖判据证明的是'时间被完整归属'，**不是**'各阶段时长量得准'。",
+    "`chunk_interval_*` 是**输出块**间隔；`tpot_*` 是历史命名（按内容块算），**两者都不是逐 token 间隔**（一个块可能装多个 token）。逐 token 的量只有`token_interval_mean_s`（代理量，且要求服务端自报 token 数）。",
+    "`n_content_chunks` 是**内容块数**（文本非空），不是 token 数；`srv_completion_tokens` 才是服务端自报的 token 数，拿不到时该列为空。"
+  ]
+}

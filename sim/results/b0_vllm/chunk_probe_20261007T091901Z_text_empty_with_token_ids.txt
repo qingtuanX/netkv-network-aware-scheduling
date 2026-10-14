@@ -1,0 +1,12 @@
+# 单请求取证：'有 token 但文本为空'的输出块到底长什么样（真 vLLM, 127.0.0.1:8090）
+# 时间(UTC): 20261007T091901Z   模型: Qwen/Qwen2.5-1.5B-Instruct   提示词: 中国的首都是   max_tokens=32 temperature=0
+# 请求体额外字段: return_token_ids=true, logprobs=1, stream_options.include_usage=true
+# 复现：见 B0_VLLM_REPORT.md §口径修正 的复现命令（同一段 python 内联脚本）
+HTTP 200
+  空文本块 #11: token_ids=[10236] finish=None
+  空文本块 #12: token_ids=[118] finish=None
+  空文本块 #18: token_ids=[66521] finish=None
+  空文本块 #31: token_ids=[8908] finish=None
+  空文本块 #32: token_ids=[232] finish='length'
+usage: {'prompt_tokens': 3, 'total_tokens': 35, 'completion_tokens': 32}
+输出块 32，其中文本为空 5，token_ids 合计 32

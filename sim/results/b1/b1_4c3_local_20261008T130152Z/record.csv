@@ -1,0 +1,9 @@
+2026-10-08T13:01:54Z,start-baseline,0,
+2026-10-08T13:02:24Z,baseline-smoke,0,see smoke_baseline.verdict
+2026-10-08T13:02:30Z,baseline-warmup-r1,0,
+2026-10-08T13:02:36Z,baseline-warmup-r2,0,
+2026-10-08T13:02:41Z,baseline-warmup-r3,0,
+2026-10-08T13:02:46Z,baseline-formal-r1,0,
+2026-10-08T13:02:52Z,baseline-formal-r2,0,
+2026-10-08T13:02:58Z,baseline-formal-r3,0,
+2026-10-08T13:03:06Z,stop-baseline,0,

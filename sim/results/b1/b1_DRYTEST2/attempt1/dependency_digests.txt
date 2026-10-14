@@ -1,0 +1,23 @@
+== B1 依赖锁定：vLLM / NIXL 的精确版本与 wheel sha256 ==
+取法：pip download --no-deps 从内网镜像取原始 wheel，再算 sha256（下完即删，不留大文件）。
+为什么需要它：本任务**不用容器镜像**，所以'镜像 digest'的等价物是
+  （a）精确版本号 +（b）wheel 的 sha256 +（c）requirements_locked.txt 的 sha256。
+  官方 requirements/kv_connectors.txt 把 NIXL 版本钉死在 nixl == 1.4.1。
+
+---- 主机 A（8.155.133.216） ----
+    # ---- dep_digests_A @ A (8.155.133.216)  start=2026-10-07T16:36:05Z ----
+
+---- 主机 B（8.155.131.183） ----
+    # ---- dep_digests_B @ B (8.155.131.183)  start=2026-10-07T16:36:05Z ----
+
+== 判据（两端**必须**一致，否则握手直接失败或静默算错） ==
+  vllm wheel sha256：A=<缺>  B=<缺>
+  → **不一致或读取失败** ✗ —— 不要继续测量
+  nixl wheel sha256：A=<缺>  B=<缺>
+  requirements_locked.txt sha256：A=<缺>  B=<缺>
+
+== 模型修订号（锁定字段，R7 要求） ==
+来源：Hub API  https://hf-mirror.com/api/models/Qwen/Qwen2.5-1.5B-Instruct
+期望值（本脚本写死）：MODEL_REV_EXPECT = 989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+接口返回原文（含 sha / lastModified）见 /e/代码项目文件/论文/sim/results/b1/b1_DRYTEST2/attempt1/model_revision.log
+说明：这是**官方仓库的 revision**；两端实际下载到的目录哈希另见 model_identity.txt。

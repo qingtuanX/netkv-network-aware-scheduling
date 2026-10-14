@@ -1,0 +1,79 @@
+\section{Threats to Validity}
+\label{sec:threats}
+
+\paragraph{Serving model.} Each worker's slots advance at full speed independently, so total
+throughput is the linear sum of per-slot rates. Real GPU concurrency does not work that way: when
+we measured a real \num{4}-way parallel serving process, per-request service time rose from
+\SI{83}{\milli\second} idle to \SI{162}{\milli\second} at sustained saturation ($1.95\times$).
+In the saturated region our simulator therefore \emph{overestimates} throughput by roughly a
+factor of two, which inflates the achievable throughput against a fixed SLO; the p95 comparisons
+between policies are less affected because all policies share the error, but this is an
+assumption, not a measurement.
+
+\paragraph{Network model.} Transfers are serialized on a per-worker pipe and the transfer
+\emph{rate} does not degrade as more requests share it; multiple concurrent transfers are FIFO
+rather than processor-shared, and inter-worker links are independent (no shared uplink, no
+incast, no fabric-level queueing, no congestion control). This \emph{underestimates} network cost
+at high load, i.e.~makes our reported benefits conservative. The real-cluster testbed shapes
+bandwidth in the application layer rather than with \texttt{tc}; the kernel path (socket buffers,
+loopback of a container network) is real, the shaping is not.
+
+\paragraph{Cluster evidence.} Our real deployment is a \emph{single} node: containers with CPU
+quotas, no GPUs, no RDMA, no multi-host fabric. It can establish direction and can measure the
+cost of reading state; it cannot establish production magnitudes. We quantify this rather than
+assert it: repeat-to-repeat dispersion on an idle machine is \SIrange{10}{30}{\percent}
+(\S\ref{sec:real}), so every real-cluster delta in this paper should be read with that error bar.
+
+\paragraph{Workloads.} Each of the two traces represents one service class (Azure: the
+\texttt{code} subset with very short outputs; BurstGPT: ChatGPT/GPT-4 conversational traffic with
+strong bursts), and our ``workload classes'' are token-quantile slices rather than labels the
+traces provide. Traces were downloaded truncated (the first 50\,MB of the Azure week, a 50\,MB
+BurstGPT sample), which shortens coverage but not arrival-rate calibration, since rates are
+re-fitted per simulated prefix.
+
+\paragraph{Engineering estimates.} Four coefficients are declared estimates, not measurements:
+prefill/decode work coefficients ($\alpha=1,\beta=4$), the payload model
+$\kappa_c\in\{4\,\text{B},330\,\text{KB}\}$ per token, the injected staleness magnitudes, and the
+SLO multiplier ($m=3$). We mitigate the first two by sweeping the payload model (which is the
+dominant one) and by reporting network share, a quantity that does not depend on $\alpha,\beta$
+in magnitude; the SLO enters only through miss-rate secondary metrics, and changes in $m$ cannot
+affect the p95 analysis that carries our claims. Absolute values of \texttt{compute\_rate} are
+not physically calibrated, so \emph{relative} comparisons between policies are meaningful while
+absolute second-level latencies are not.
+
+\paragraph{Coverage gaps we are aware of.} (i) The discounting rule of \S\ref{sec:discount} was
+evaluated only at load intensity $\rho=0.6$; the intensity sweep we do have used the weaker $v_1$
+score, whose sign is unstable across intensities ($-15.6\%$ to $+30.8\%$). Extending the
+\emph{corrected} rule along the intensity axis is the largest gap in this paper.
+(ii) At $N>4$ we cannot construct strongly aligned configurations, so the alignment effect is
+measured over a narrowing range of $\rho$ (down to $0.24$ at $N=16$); the anti-aligned benefit
+itself is stable, but the contrast narrows for reasons of experimental control rather than
+mechanism. (iii) Observation error is modeled only as a constant lag plus an optional averaging
+window; the real testbed shows that actual age is a random variable and that fetch cost depends
+on load, neither of which is in the simulator.
+
+\paragraph{Scope.} Nothing here should be read as a claim about a specific production
+deployment. The contribution is a boundary: which configurations, payload regimes and freshness
+levels make a network term worth including, and which make it worse than ignoring the network.
+
+\paragraph{Real-cloud coverage.} The real LLM measurements use one 1.5B model family and A10
+instances, with a fixed approximately \SI{43}{\mega\byte} KV payload in B2/C. They cover two
+cloud providers and one deployment path, not a representative sample of models, GPU generations,
+regions, or production networks.
+
+\paragraph{Unmeasured input-length sweep.} The planned D-mini experiment, which would have added
+two input lengths to test whether the cross-cloud first-token cost scales with KV volume, was not
+executed. The paper therefore uses simulation to study data-volume variation and treats the real
+cloud results as mechanism and deployment anchors only; no real-cloud scaling law is claimed.
+
+\paragraph{Descriptive cloud comparison.} B2 has four paired service rounds and C has two
+directions, so their results are descriptive rather than population-level statistical estimates.
+The $800$ B2 requests and $200$ C requests are not $1000$ independent experiments: requests are
+nested inside service rounds or cloud directions. C also places the client at different clouds in
+the two directions, and the measured bandwidth is asymmetric, so cross-cloud differences cannot
+be attributed entirely to KV transfer.
+
+\paragraph{Cloud heterogeneity.} Although both sides use A10 accelerators, the cloud hosts,
+drivers, egress paths, tunnel behavior, and background conditions are not identical. The real
+measurements therefore support feasibility and observed overhead under the stated configuration,
+not a universal ranking of cloud providers or a production cost model.

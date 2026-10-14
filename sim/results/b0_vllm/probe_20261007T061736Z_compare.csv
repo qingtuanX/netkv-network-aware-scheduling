@@ -1,0 +1,15 @@
+run_id,case,prompt,max_tokens,temperature,error_class,error_detail,http_status,n_chunks,n_chunks_with_text,n_chunks_text_empty,n_tokens_ids,n_usage_tokens,n_tokenize_tokens,n_logprob_tokens,n_chunks_without_logprobs,per_chunk_token_hist,saw_done,saw_finish_reason,finish_reasons,text,text_len,ttft_s,e2e_s
+probe_20261007T061736Z,ascii_greedy_32,The capital of France is,32,0.0,,,200,32,32,0,32,32,32,32,0,"{""1"": 32}",1,1,length," Paris. The capital of Italy is Rome. What is the capital of Spain?
+A) Madrid
+B) Barcelona
+C) Seville
+D) Valencia",113,0.027938,0.519317
+probe_20261007T061736Z,ascii_greedy_128,Write a short paragraph about rain:,128,0.0,,,200,126,125,1,126,126,125,126,0,"{""1"": 126}",1,1,stop," Rain is a natural phenomenon that occurs when water from the atmosphere falls to the Earth's surface in liquid form. It can be caused by various factors such as evaporation, condensation, and precipitation. Rain plays an essential role in maintaining the balance of nature by replenishing groundwater supplies, regulating temperature, and providing necessary nutrients for plants. Additionally, it helps to prevent soil erosion and reduces the risk of wildfires. However, excessive rainfall can lead to flooding, which can cause damage to property and disrupt daily life. Overall, rain is a vital part of our planet's ecosystem and has significant impacts on both humans and the environment.",692,0.023837,1.986001
+probe_20261007T061736Z,cjk_greedy_32,请用中文简单介绍一下长江。,32,0.0,,,200,32,30,2,32,32,32,32,0,"{""1"": 32}",1,1,length, 长江是中国第一大河，全长6300公里，流域面积180万平方公里，是世界上含沙量最大的河流之一,47,0.065501,0.525053
+probe_20261007T061736Z,emoji_greedy_32,Repeat this exactly: 🚀🌏🔥✨ ,32,0.0,,,200,32,31,1,32,32,32,32,0,"{""1"": 32}",1,1,length,"100% Pure Energy 🔥✨🌍🌏🚀
+
+This is a message that seems to be about energy and its purity. It's written in an",106,0.025837,0.522818
+probe_20261007T061736Z,ascii_sampled_32,The capital of France is,32,1.0,,,200,32,32,0,32,32,32,32,0,"{""1"": 32}",1,1,length," Paris. In the north, it borders the English Channel. The largest city in Europe is Moscow. China's largest sea port is Shanghai.
+
+This article uses data",153,0.027699,0.529688
+probe_20261007T061736Z,cjk_sampled_32,请用中文简单介绍一下长江。,32,1.0,,,200,32,30,2,32,32,31,32,0,"{""1"": 32}",1,1,length, 长江是中国的第一大河，全长6300公里，它穿越中国多个省份，流经九个城市和直辖市，并注入东海,47,0.056237,0.514105

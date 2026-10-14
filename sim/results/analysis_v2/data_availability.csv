@@ -1,0 +1,19 @@
+﻿mode,run_id,runs,paired,manifest,code_version,code_dirty,n_rows,n_cells,strategies,n_seeds,p_holm 来源,多余 run_id
+main,20260922T194958Z,有,有,有,uncommitted,干净,600,120,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,5,运行产物,"20260922T172512Z,20260922T173755Z"
+staleness,20260922T193216Z,有,有,有,uncommitted,干净,480,96,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,20260922T170825Z
+datavolume,20260922T190445Z,有,有,有,uncommitted,干净,240,48,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,"20260922T161514Z,20260922T163840Z"
+convergence,20260922T185339Z,有,有,有,uncommitted,干净,100,20,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,20,运行产物,"20260922T160347Z,20260922T162817Z"
+ablation,20260922T190039Z,有,有,有,uncommitted,干净,180,60,LeastLoad/NetworkAware/NetworkAware2,3,运行产物,"20260922T161114Z,20260922T163505Z"
+scale,20260922T185824Z,有,有,有,uncommitted,干净,90,18,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,"20260922T160846Z,20260922T163250Z"
+rho,20260922T192234Z,有,有,有,uncommitted,干净,450,90,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,20260922T165541Z
+fallback,20260922T190946Z,有,有,有,uncommitted,干净,216,36,LeastLoad/NetworkAware/NetworkAware_fb0.5/NetworkAware_fb1.5/NetworkAware_fb45/NetworkAware_fb5,3,运行产物,"20260922T162019Z,20260922T164312Z"
+bandwidth,20260922T191729Z,有,有,有,uncommitted,干净,240,48,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,20260922T165013Z
+avewindow,20260929T111056Z,有,有,有,a9acad1,干净,450,90,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,3,运行产物,"20260929T104453Z,20260929T104500Z,20260929T110016Z"
+staleness2d,20261001T134248Z,有,有,有,a9acad1,干净,1200,240,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,10,运行产物,"20260929T144031Z,20260929T144153Z,20260929T144252Z,20260929T145829Z"
+align,20260929T160519Z,有,有,有,a9acad1,干净,600,120,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,10,运行产物,20260929T145908Z
+alignscale,20261001T124413Z,有,有,有,a9acad1,干净,450,90,LeastLoad/LeastQueue/NetworkAware/NetworkAware2/Random,10,运行产物,20260930T040521Z
+method,20261001T135602Z,有,有,有,a9acad1,干净,1200,240,AdaptHard/AdaptLinear/AdaptSplit/LeastLoad/NetworkAware2,10,运行产物,"20261001T135226Z,20261001T135338Z"
+method_ablate,20261001T135615Z,有,有,有,a9acad1,干净,1320,120,LeastLoad/NetworkAware2/Tn30/Tn5/Tq1/Tq2/Tq8/drift_gate/floor0.05/floor0.20/primary,10,运行产物,-
+method_ch,20261001T142336Z,有,有,有,a9acad1,干净,720,240,AdaptChannel/LeastLoad/NetworkAware2,10,运行产物,-
+method_ch_ablate,20261001T153200Z,有,有,有,a9acad1,干净,1080,120,LeastLoad/NetworkAware2/Tn120/Tn20/Tq2/Tq8/floor0.5/floor0.9/primary,10,运行产物,20261001T150916Z
+baselines,20261005T112924Z,有,有,有,a9acad1,干净,640,80,Bottleneck/CongestionOnly/LeastLoad/LeastQueue/NetworkAware2/P2C/P2CNet/Random,10,运行产物,-

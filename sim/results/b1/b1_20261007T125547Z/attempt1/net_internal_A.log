@@ -1,0 +1,17 @@
+# ---- net_internal_A @ A (8.130.72.109)  start=2026-10-07T12:56:02Z  cmd: echo '--- ping B ---'; ping -c 5 -W 2 172.16.206.252;     echo '--- TCP 到 B:5600/8200 ---';     for p in 5600 8200 8300; do timeout 5 bash -c "echo > /dev/tcp/172.16.206.252/$p" 2>/dev/null && echo "$p OPEN" || echo "$p BLOCKED"; done ----
+--- ping B ---
+PING 172.16.206.252 (172.16.206.252) 56(84) bytes of data.
+64 bytes from 172.16.206.252: icmp_seq=1 ttl=64 time=0.198 ms
+64 bytes from 172.16.206.252: icmp_seq=2 ttl=64 time=0.145 ms
+64 bytes from 172.16.206.252: icmp_seq=3 ttl=64 time=0.135 ms
+64 bytes from 172.16.206.252: icmp_seq=4 ttl=64 time=0.130 ms
+64 bytes from 172.16.206.252: icmp_seq=5 ttl=64 time=0.145 ms
+
+--- 172.16.206.252 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4118ms
+rtt min/avg/max/mdev = 0.130/0.150/0.198/0.024 ms
+--- TCP 到 B:5600/8200 ---
+5600 BLOCKED
+8200 BLOCKED
+8300 BLOCKED
+# ---- exit=0 end=2026-10-07T12:56:06Z ----

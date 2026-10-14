@@ -1,0 +1,7 @@
+target=http://127.0.0.1:8192  /version={'unavailable': 'HTTPError: HTTP Error 404: Not Found'}
+  q01_rep6: http=200 prompt_tokens=651 completion_tokens=64 finish=length tok_ids=yes 1.0325s
+  q02_rep10: http=200 prompt_tokens=1071 completion_tokens=46 finish=stop tok_ids=yes 0.8121s
+  q03_rep14: http=200 prompt_tokens=1491 completion_tokens=46 finish=stop tok_ids=yes 0.8694s
+  q04_rep18: http=200 prompt_tokens=1911 completion_tokens=28 finish=stop tok_ids=yes 0.6433s
+  q05_rep22: http=200 prompt_tokens=2331 completion_tokens=27 finish=stop tok_ids=yes 0.6855s
+wrote /root/b1/prereg3_out/warmup_disagg_r2.json  (5 requests)

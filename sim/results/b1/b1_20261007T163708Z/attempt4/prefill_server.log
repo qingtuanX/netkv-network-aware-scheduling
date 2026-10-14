@@ -1,0 +1,117 @@
+(APIServer pid=12858) INFO 10-08 01:14:55 [api_utils.py:347] 
+(APIServer pid=12858) INFO 10-08 01:14:55 [api_utils.py:347]        █     █     █▄   ▄█
+(APIServer pid=12858) INFO 10-08 01:14:55 [api_utils.py:347]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.31.0
+(APIServer pid=12858) INFO 10-08 01:14:55 [api_utils.py:347]   █▄█▀ █     █     █     █  model   /root/b1/models/Qwen2.5-1.5B-Instruct
+(APIServer pid=12858) INFO 10-08 01:14:55 [api_utils.py:347]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=12858) INFO 10-08 01:14:55 [api_utils.py:347] 
+(APIServer pid=12858) INFO 10-08 01:14:55 [api_utils.py:286] non-default args: {'model_tag': '/root/b1/models/Qwen2.5-1.5B-Instruct', 'host': '172.29.31.52', 'port': 8100, 'model': '/root/b1/models/Qwen2.5-1.5B-Instruct', 'max_model_len': 8192, 'enforce_eager': True, 'served_model_name': ['Qwen/Qwen2.5-1.5B-Instruct'], 'gpu_memory_utilization': 0.85, 'kv_transfer_config': KVTransferConfig(kv_connector='NixlConnector', engine_id='b849fcde-8c94-4688-a2c5-b3719114329c', kv_buffer_device='cuda', kv_buffer_size=1000000000.0, kv_role='kv_producer', kv_rank=None, kv_parallel_size=1, kv_ip='127.0.0.1', kv_port=14579, kv_connector_extra_config={}, kv_connector_module_path=None, enable_permute_local_kv=False, kv_load_failure_policy='fail')}
+(APIServer pid=12858) INFO 10-08 01:15:02 [model.py:699] Resolved architecture: Qwen2ForCausalLM
+(APIServer pid=12858) INFO 10-08 01:15:02 [model.py:2109] Using max model len 8192
+(APIServer pid=12858) WARNING 10-08 01:15:02 [vllm.py:1706] Enforce eager set, disabling torch.compile, CUDAGraphs, and JIT kernel warmup. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none and --kernel_config.enable_jit_warmup=False
+(APIServer pid=12858) WARNING 10-08 01:15:02 [vllm.py:1750] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(APIServer pid=12858) INFO 10-08 01:15:02 [kernel.py:408] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+(APIServer pid=12858) INFO 10-08 01:15:02 [vllm.py:1968] Cudagraph is disabled under eager mode
+(APIServer pid=12858) INFO 10-08 01:15:02 [nixl_utils.py:32] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+(APIServer pid=12858) INFO 10-08 01:15:02 [nixl_utils.py:72] NIXL is available
+(APIServer pid=12858) INFO 10-08 01:15:02 [compilation.py:331] Enabled custom fusions: norm_quant, act_quant
+(EngineCore pid=13041) INFO 10-08 01:15:10 [core.py:129] Initializing a V1 LLM engine (v0.31.0) with config: model='/root/b1/models/Qwen2.5-1.5B-Instruct', speculative_config=None, tokenizer='/root/b1/models/Qwen2.5-1.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=True, aux_output_config=AuxOutputConfig(enable_return_routed_experts=False, max_bytes=None), kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=Qwen/Qwen2.5-1.5B-Instruct, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=False, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(EngineCore pid=13041) INFO 10-08 01:15:11 [parallel_state.py:1825] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_26d7d15ad82e4a9c8c0e6c92c04ceb9b backend=nccl
+(EngineCore pid=13041) INFO 10-08 01:15:11 [parallel_state.py:2269] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, ETP rank 0, EP rank N/A, EPLB rank N/A
+(EngineCore pid=13041) INFO 10-08 01:15:11 [gpu_worker.py:479] Using V2 Model Runner
+(EngineCore pid=13041) INFO 10-08 01:15:12 [model_runner.py:375] Loading model from scratch...
+(EngineCore pid=13041) INFO 10-08 01:15:13 [cuda.py:526] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(EngineCore pid=13041) INFO 10-08 01:15:13 [flash_attn.py:1167] Using FlashAttention version 2
+(EngineCore pid=13041) INFO 10-08 01:15:13 [weight_utils.py:1063] Filesystem type for checkpoints: EXT4. Checkpoint size: 2.88 GiB. Available RAM: 25.37 GiB.
+(EngineCore pid=13041) INFO 10-08 01:15:13 [weight_utils.py:1086] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.22it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.22it/s]
+
+(EngineCore pid=13041) INFO 10-08 01:15:13 [default_loader.py:484] Loading weights took 0.49 seconds
+(EngineCore pid=13041) INFO 10-08 01:15:14 [model_runner.py:407] Model loading took 2.98 GiB memory and 2.131177 seconds
+(EngineCore pid=13041) INFO 10-08 01:15:14 [topk_topp_sampler.py:96] FlashInfer top-p/top-k sampling disabled via VLLM_USE_FLASHINFER_SAMPLER=0.
+(EngineCore pid=13041) INFO 10-08 01:15:14 [torch_utils.py:286] Reducing Torch threads from 4 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(EngineCore pid=13041) INFO 10-08 01:15:14 [nixl_utils.py:72] NIXL is available
+(EngineCore pid=13041) INFO 10-08 01:15:14 [connector.py:154] NixlConnector setting KV cache layout to LBHNC for better xfer performance.
+(EngineCore pid=13041) INFO 10-08 01:15:14 [utils.py:343] Using LBHNC KV cache layout.
+(EngineCore pid=13041) INFO 10-08 01:15:16 [gpu_worker.py:692] Available KV cache memory: 15.35 GiB
+(EngineCore pid=13041) INFO 10-08 01:15:16 [kv_cache_utils.py:2464] GPU KV cache size: 574,944 tokens, Maximum concurrency for 8,192 tokens per request: 70.18x
+(EngineCore pid=13041) INFO 10-08 01:15:16 [factory.py:62] Creating v1 connector with name: NixlPullConnector and engine_id: b849fcde-8c94-4688-a2c5-b3719114329c
+(EngineCore pid=13041) WARNING 10-08 01:15:16 [base.py:209] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+(EngineCore pid=13041) INFO 10-08 01:15:16 [base_worker.py:550] Initializing NIXL wrapper
+(EngineCore pid=13041) INFO 10-08 01:15:16 [base_worker.py:551] Initializing NIXL worker b849fcde-8c94-4688-a2c5-b3719114329c
+2026-10-08 01:15:17 NIXL INFO    _api.py:407 Backend UCX was instantiated
+2026-10-08 01:15:17 NIXL INFO    _api.py:285 Initialized NIXL agent: ffc52c76-7dde-4990-ad2a-99ed7a06e88d
+(EngineCore pid=13041) INFO 10-08 01:15:17 [base_worker.py:887] Detected attention backend(s) ['FLASH_ATTN']
+(EngineCore pid=13041) INFO 10-08 01:15:17 [base_worker.py:891] Detected kv cache layout LBHNC
+(EngineCore pid=13041) INFO 10-08 01:15:17 [base_worker.py:1437] Registering KV_Caches. use_mla: False, kv_buffer_device: cuda, use_host_buffer: False
+(EngineCore pid=13041) INFO 10-08 01:15:17 [gpu_worker.py:955] Free memory on device (21.83/22.06 GiB) on startup. Desired GPU memory utilization is (0.85, 18.75 GiB). Actual usage is 3.27 GiB for consumed memory (weights + non-torch), 0.13 GiB for peak activation, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=16327876916` (15.21 GiB) to fit into requested memory, or `--kv-cache-memory=19632877056` (18.28 GiB) to fully utilize gpu memory. Current kv cache memory in use is 15.35 GiB.
+(EngineCore pid=13041) INFO 10-08 01:15:18 [core.py:380] init engine (profile, create kv cache, warmup model) took 3.55 s
+(EngineCore pid=13041) INFO 10-08 01:15:18 [factory.py:62] Creating v1 connector with name: NixlPullConnector and engine_id: b849fcde-8c94-4688-a2c5-b3719114329c
+(EngineCore pid=13041) WARNING 10-08 01:15:18 [base.py:209] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+(EngineCore pid=13041) INFO 10-08 01:15:18 [base_scheduler.py:104] Initializing NIXL Scheduler b849fcde-8c94-4688-a2c5-b3719114329c
+(EngineCore pid=13041) WARNING 10-08 01:15:18 [vllm.py:1706] Enforce eager set, disabling torch.compile, CUDAGraphs, and JIT kernel warmup. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none and --kernel_config.enable_jit_warmup=False
+(EngineCore pid=13041) WARNING 10-08 01:15:18 [vllm.py:1750] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(EngineCore pid=13041) INFO 10-08 01:15:18 [kernel.py:408] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+(EngineCore pid=13041) INFO 10-08 01:15:18 [vllm.py:1968] Cudagraph is disabled under eager mode
+(EngineCore pid=13041) INFO 10-08 01:15:18 [compilation.py:331] Enabled custom fusions: norm_quant, act_quant
+(APIServer pid=12858) INFO 10-08 01:15:18 [entry.py:132] Supported tasks: ['generate']
+(APIServer pid=12858) INFO 10-08 01:15:18 [factories.py:76] Scale-out endpoints are disabled. Set --enable-scale-out to enable them.
+(APIServer pid=12858) INFO 10-08 01:15:18 [hf.py:646] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+(APIServer pid=12858) WARNING 10-08 01:15:18 [model.py:1850] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'repetition_penalty': 1.1, 'temperature': 0.7, 'top_k': 20, 'top_p': 0.8}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+(APIServer pid=12858) INFO 10-08 01:15:18 [entry.py:136] Starting vLLM server on http://172.29.31.52:8100
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:60] Available routes are:
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /openapi.json, Methods: HEAD, GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /docs, Methods: HEAD, GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /docs/oauth2-redirect, Methods: HEAD, GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /redoc, Methods: HEAD, GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /load, Methods: GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /version, Methods: GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /kv_event_sources, Methods: GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /health, Methods: GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /metrics, Methods: GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /tokenize, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /detokenize, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/models, Methods: GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /ping, Methods: GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /ping, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /invocations, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/chat/completions, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/chat/completions/batch, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/responses, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/responses/{response_id}, Methods: GET
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/responses/{response_id}/cancel, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/completions, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/messages, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /v1/messages/count_tokens, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /generative_scoring, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /scale_elastic_ep, Methods: POST
+(APIServer pid=12858) INFO 10-08 01:15:18 [launcher.py:69] Route: /is_scaling_elastic_ep, Methods: POST
+INFO:     Started server process [12858]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     172.29.31.52:33974 - "GET /v1/models HTTP/1.1" 200 OK
+INFO:     172.29.31.52:33976 - "GET /metrics HTTP/1.1" 200 OK
+INFO:     172.29.31.52:47088 - "GET /metrics HTTP/1.1" 200 OK
+INFO:     172.29.31.52:47102 - "GET /metrics HTTP/1.1" 200 OK
+INFO:     172.29.31.52:47108 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:52910 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=12858) INFO 10-08 01:15:39 [loggers.py:320] Engine 000: Avg prompt throughput: 63.6 tokens/s, Avg generation throughput: 0.1 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%, External prefix cache hit rate: 0.0%
+(APIServer pid=12858) INFO 10-08 01:15:49 [loggers.py:320] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 0.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%, External prefix cache hit rate: 0.0%
+INFO:     172.29.31.52:49154 - "GET /metrics HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49164 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49180 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=12858) INFO 10-08 01:17:49 [loggers.py:320] Engine 000: Avg prompt throughput: 1.2 tokens/s, Avg generation throughput: 0.1 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 49.1%, External prefix cache hit rate: 0.0%
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+INFO:     172.29.31.52:49184 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=12858) INFO 10-08 01:17:59 [loggers.py:320] Engine 000: Avg prompt throughput: 133.6 tokens/s, Avg generation throughput: 1.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 85.6%, External prefix cache hit rate: 0.0%
+INFO:     172.29.31.52:36272 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=12858) INFO 10-08 01:18:09 [loggers.py:320] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 0.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 85.6%, External prefix cache hit rate: 0.0%

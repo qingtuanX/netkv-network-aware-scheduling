@@ -1,0 +1,19 @@
+# ---- cloud_meta_B @ B (8.155.131.183)  start=2026-10-07T17:08:09Z ----
+--- 云元数据服务可达性（阿里云专用地址 100.100.100.200）
+instance-id                  = i-f8z4ggqwhyqz0r6lp1mi
+region-id                    = cn-heyuan
+zone-id                      = cn-heyuan-b
+instance/instance-type       = ecs.gn7i-c8g1.2xlarge
+private-ipv4                 = 172.29.31.51
+eipv4                        = 8.155.131.183
+vpc-id                       = vpc-f8zxd5ciman5fejiit9gx
+vswitch-id                   = vsw-f8zmfknugi51fr1hn7b5h
+vswitch-cidr-block           = 172.29.16.0/20
+vpc-cidr-block               = 172.16.0.0/12
+image-id                     = ubuntu_24_04_x64_100G_with_gpu_driver_and_cuda_alibase_20260519.vhd
+owner-account-id             = 1135257242649102
+instance/max-netbw-egress    = 16384000
+--- 厂商线索（元数据地址本身 + 进程 + 镜像名）
+/usr/local/aegis
+/usr/local/share/aliyun-assist
+# ---- exit=0 end=2026-10-07T17:08:10Z ----

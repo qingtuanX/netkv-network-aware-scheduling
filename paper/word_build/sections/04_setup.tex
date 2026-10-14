@@ -1,0 +1,131 @@
+\section{Experimental Setup}
+\label{sec:setup}
+
+\subsection{Simulator}
+We use a discrete-event simulator built on SimPy. Each worker has $s_i=4$ independent slots that
+advance at $r_i$ work units/s without contending with each other (\S\ref{sec:threats}), and one
+link pipe that serializes transfers. A simulated request goes through: (i) input transfer
+occupying the link pipe, (ii) compute occupying a slot, (iii) output transfer occupying the link
+pipe. Transfer times use the \emph{true} link state at the instant the transfer starts; routing
+decisions use the \emph{observed} state. The simulator records, per request, the full time
+decomposition (dispatch, transfer-in end, compute end, finish), which we use for the white-box
+checks in \S\ref{sec:gates} and for the real-cluster comparison in \S\ref{sec:real}.
+
+Unless stated otherwise we use $N=3$ workers with compute rates $16000$, $8000$, $4000$ work
+units/s (four slots each; total capacity 112000 work units/s) and the link set
+$\{$400\,Gbps/1\,\textmu s, 100\,Gbps/1.5\,\textmu s, 25\,Gbps/2\,\textmu s$\}$. The deployed
+configuration attaches the slowest link to the fastest worker ($\rho=-1$, ``anti''), which is the
+interesting case; \S\ref{sec:rq1} varies the pairing deliberately. Two network conditions are used
+throughout: \emph{degraded} (static, heterogeneous links) and \emph{unstable} (bandwidth follows a
+mean-reverting process in log space, $\theta=0.5$, $\sigma_b=0.8$, $\sigma_\ell=0.4$, sampled at
+0.2 s). Static conditions are included because they make link staleness exactly
+ineffective---a degenerate cell that we report rather than hide.
+
+\subsection{Workload sources}
+We deliberately use three sources, because a boundary claim that holds on one generator is not a
+boundary claim:
+
+\paragraph{Synthetic.} A non-homogeneous Poisson process whose rate is sinusoidally modulated
+with $\text{burstiness}=1.5$, so the rate ranges over roughly $0.37\times$--$2.72\times$ its base
+over a period of $n/8$ requests; context and generated lengths are log-normal. This is a
+\emph{stationarity-free} generator: it has smooth, persistent rate modulation but no heavy tails
+and no diurnal structure.
+
+\paragraph{Azure LLM inference trace.} The public Azure LLM inference trace \cite{azuretrace} (\texttt{code}
+subset, one week, 16.8M requests). Requests are binned into workload classes by their context and
+generated token quantiles, so a ``class'' is a slice of real traffic rather than a label the trace
+provides. Each seed uses a different time segment of the week, i.e.\ a different real traffic
+regime.
+
+\paragraph{BurstGPT.} A ChatGPT/GPT-4 conversational trace \cite{burstgpt} with much stronger burstiness than
+Azure (see Table~\ref{tab:loads}). Also split into segments, one per seed.
+
+\begin{table}[t]
+\centering
+\caption{Load characterization per source (mean over segments). ``CV(1s)'' is the coefficient of
+variation of per-second arrival counts; ``AC(1s)'' the lag-1 autocorrelation of that series;
+``rate chg.'' the mean relative change of the 5-second windowed arrival rate across a 5-second
+shift; ``Fano'' the variance-to-mean ratio of per-second counts. A stationary Poisson process
+would show CV $\approx 0$, AC $\approx 0$ and Fano $\approx 1$.}
+\label{tab:loads}
+\small
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+Source & Workload & CV(1s) & AC(1s) & Rate chg. & Fano \\
+\midrule
+\multirow{2}{*}{Synthetic} & mixed      & 0.60 & 0.85 & 0.30 & 7.0 \\
+                           & data-heavy & 0.65 & 0.73 & 0.27 & 3.7 \\
+\multirow{2}{*}{Azure}     & mixed      & 0.23 & 0.17 & 0.14 & 1.4 \\
+                           & data-heavy & 0.30 & 0.28 & 0.17 & 1.6 \\
+\multirow{2}{*}{BurstGPT}  & mixed      & 1.30 & 0.73 & 0.43 & 302 \\
+                           & data-heavy & 2.11 & 0.55 & 0.99 & 939 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Load calibration}
+Comparing policies across workload classes is only meaningful at the same load intensity, since
+the classes differ by an order of magnitude in per-request work. We therefore calibrate the
+offered rate per cell to a target intensity $\rho = 0.6$ using the \emph{multi-resource feasible
+region}: for each worker we take the smaller of its compute-limited and bandwidth-limited
+capacity, sum over workers, and set the arrival rate to $\rho$ times that sum. Calibrating on
+aggregate capacity instead is not safe: with heterogeneous workers the aggregate figure can
+exceed the sustainable rate by more than $2\times$, producing a run whose p95 only measures queue
+drainage. Gate~1 (\S\ref{sec:gates}) rejects any cell whose realized load ratio exceeds $0.9$;
+all cells in all three batches pass.
+
+\subsection{Statistics}
+The unit of observation is the \emph{seed}---one independent realization of the workload (for
+traces, one time segment). Within a seed, all policies see a bit-identical request stream, so
+per-request comparisons are paired by request id and tested with the Wilcoxon signed-rank test;
+effect sizes are reported as Cliff's $\delta$, and multiplicity is controlled with
+Holm--Bonferroni within each family. Across seeds we report means with $95\%$ confidence
+intervals computed from the $t$-distribution on $k-1$ degrees of freedom, \emph{not} from the
+number of requests: with $\sim$11000 requests per seed, request-level tests declare
+$0.04\%$ differences significant, which is why we do not use them. Because per-seed percentile
+estimates in the trace batches can differ by a factor of $5$--$8$, every effect table in this
+paper reports the \emph{median} alongside the mean, and we flag cells where the two disagree in
+sign.
+
+\subsection{Verification gates}
+\label{sec:gates}
+We do not start a large matrix before four gates pass, and each gate is materialized as an
+artifact rather than asserted in prose:
+\begin{enumerate}
+  \item \textbf{Load intensity} in $[0.3, 0.9]$ and load ratio $\le 0.9$, per cell.
+  \item \textbf{Ablation is a strict subset}: with the network weight set to zero, the policy's
+        per-request \texttt{(node\_id, finish)} sequence is \emph{bit-identical} to LeastLoad
+        (compared with array equality, never with a $p$-value).
+  \item \textbf{Seed reproducibility}: rerunning a configuration with the same seed reproduces
+        the per-request sequence exactly.
+  \item \textbf{Assumption provenance}: every parameter is tagged as public-trace fact, published
+        measurement, engineering estimate, or synthetic placeholder, and the engineering
+        estimates are enumerated in \S\ref{sec:threats}.
+\end{enumerate}
+All three batches pass $11/11$ recorded checks (the gates expand into eleven concrete assertions,
+including white-box checks that a single request's finish time equals
+arrival $+$ transfer $+$ service $+$ transfer to within $10^{-9}$\,s, and a black-box check that
+p95 is monotonically non-decreasing in offered load). Artifacts are append-only: a superseded run
+is annotated, never deleted, and the analysis always reads the latest run id.
+
+\subsection{Real-cluster testbed}
+\label{sec:setup:real}
+For direction validation and for quantities the simulator omits, we run a real container
+deployment: a single-node \texttt{k3s} cluster inside WSL2, with three worker pods subject to CPU
+limits (compute capacity ratio $4{:}2{:}1$) and application-level link shaping
+(100, 500, 1000 Mbps) that reproduces the
+``fast compute/slow link'' tension of the simulator. A client outside the cluster issues
+requests against pod IPs (the cluster's DNS add-on is disabled because images cannot be pulled in
+this environment), so requests traverse the real kernel network stack. The client records, per
+request, end-to-end latency, the worker chosen, the age of the state snapshot used, the injected
+state lag, and the transfer/service decomposition. Because the pods are containers with CPU
+quotas rather than GPUs and because link shaping is in the application layer, this testbed can
+establish \emph{direction} and can measure \emph{costs}, but it cannot establish production-grade
+magnitudes; \S\ref{sec:real} quantifies that limitation rather than asserting it.
+
+\subsection{Reproducibility}
+Each run writes a manifest with the UTC timestamp, code version, full configuration and its hash,
+seeds, platform versions, workload statistics, and wall-clock cost. A single script
+(\texttt{export\_paper\_numbers.py}) re-derives every number quoted in this paper directly from
+the raw per-run outputs, so the claim$\rightarrow$data link is mechanical rather than
+manual.

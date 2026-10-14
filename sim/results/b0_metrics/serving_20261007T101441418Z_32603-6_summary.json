@@ -1,0 +1,209 @@
+{
+  "n_requests": 6,
+  "n_ok": 6,
+  "n_err": 0,
+  "error_counts": {},
+  "wall_clock_s": 0.542,
+  "throughput_qps": 11.074,
+  "inflight_peak": 1,
+  "latency": {
+    "ttft_s": {
+      "p50": 0.02473,
+      "p95": 0.025067,
+      "p99": 0.025139,
+      "max": 0.025157
+    },
+    "e2e_s": {
+      "p50": 0.040204,
+      "p95": 0.040552,
+      "p99": 0.040627,
+      "max": 0.040645
+    },
+    "chunk_interval_mean_s": {
+      "p50": 0.005029,
+      "p95": 0.005034
+    },
+    "chunk_interval_p95_s": {
+      "p50": 0.005106,
+      "p95": 0.005171
+    },
+    "tpot_p50_s": {
+      "p50": 0.005028,
+      "p95": 0.005075
+    },
+    "tpot_p95_s": {
+      "p50": 0.005106,
+      "p95": 0.005171
+    },
+    "tpot_mean_s": {
+      "p50": 0.005029,
+      "p95": 0.005034
+    }
+  },
+  "chunks": {
+    "n_output_chunks_median": 4.0,
+    "n_content_chunks_median": 4.0,
+    "n_empty_text_chunks_median": 0.0,
+    "n_empty_text_chunks_total": 0,
+    "n_requests_with_empty_text_chunks": 0
+  },
+  "server_tokens": {
+    "n_requests_with_usage": 6,
+    "n_requests_with_token_ids": 6,
+    "n_requests_without_token_count": 0,
+    "srv_completion_tokens_median": 4.0,
+    "srv_token_ids_total_median": 4.0,
+    "srv_token_count_source_counts": {
+      "usage": 6
+    },
+    "token_interval_mean_s_median": 0.005029
+  },
+  "coverage_verdicts": {
+    "PASS": 6
+  },
+  "srv_verdicts": {
+    "PASS": 6
+  },
+  "coverage": {
+    "n_with_server_report": 6,
+    "cov_max_gap_s_max": 0.0,
+    "cov_gap_total_s_max": 0.0,
+    "cov_loo_min_gap_s_min": 6.699562072753906e-05,
+    "srv_gap_max_s_max": 0.0,
+    "srv_overlap_s_median": 0.0,
+    "sum_minus_e2e_s_median": -0.001815,
+    "sum_minus_e2e_s_max": -0.00166,
+    "sum_minus_srv_span_s_median": 0.0,
+    "srv_outside_s_median": 0.0,
+    "cov_tol_s": 0.005,
+    "loo_eps_s": 1e-06
+  },
+  "kv_bytes_per_request": 1048576.0,
+  "run_id": "serving_20261007T101441418Z_32603-6",
+  "requests_csv": "results/b0_metrics/serving_20261007T101441418Z_32603-6_requests.csv",
+  "tokens_csv": null,
+  "metrics_snapshot": {
+    "state": "nixl_present",
+    "state_zh": "抓到 NIXL 项",
+    "nixl_presence_zh": "出现",
+    "nixl_matched_series_count": 7,
+    "nixl_series_values": {
+      "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"write\"}": 1250000000.0,
+      "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"read\"}": 250000000.0,
+      "vllm:nixl_xfer_time_seconds_total{model_name=\"fake-model\",transfer_type=\"write\"}": 12.5,
+      "vllm:nixl_post_time_seconds_total{model_name=\"fake-model\"}": 3.5,
+      "vllm:nixl_num_descriptors{model_name=\"fake-model\"}": 4096.0,
+      "vllm:nixl_num_failed_transfers{model_name=\"fake-model\"}": 0.0,
+      "vllm:nixl_num_failed_notifications{model_name=\"fake-model\"}": 0.0
+    },
+    "nixl_note": "出现：本次 /metrics 里有 7 条 NIXL 相关序列（数值是按传输汇总的量，原文见快照 raw_body）",
+    "n_attempts": 4,
+    "n_ok": 4,
+    "n_failed": 0,
+    "url": "http://127.0.0.1:9531/metrics",
+    "version_url": "http://127.0.0.1:9531/version",
+    "interval_s": 0.25,
+    "timeout_s": 1.0,
+    "target_version": "fake-vllm-0.0.1-test",
+    "version_source": "GET /version（JSON 字段 version）",
+    "version_error": "",
+    "first_snapshot": {
+      "seq": 0,
+      "phase": "start",
+      "t_rel_s": 0.000506,
+      "body_bytes": 2505,
+      "n_series": 18
+    },
+    "last_snapshot": {
+      "seq": 3,
+      "phase": "end",
+      "t_rel_s": 0.541872,
+      "body_bytes": 2505,
+      "n_series": 18
+    },
+    "scrapes_csv": "results/b0_metrics/serving_20261007T101441418Z_32603-6_metrics_scrapes.csv",
+    "snapshot_files": [
+      "results/b0_metrics/serving_20261007T101441418Z_32603-6_scrape_000_start.json",
+      "results/b0_metrics/serving_20261007T101441418Z_32603-6_scrape_001_periodic.json",
+      "results/b0_metrics/serving_20261007T101441418Z_32603-6_scrape_002_periodic.json",
+      "results/b0_metrics/serving_20261007T101441418Z_32603-6_scrape_003_end.json"
+    ],
+    "diff_start_end": {
+      "n_series_start": 18,
+      "n_series_end": 18,
+      "n_common": 18,
+      "n_only_start": 0,
+      "n_only_end": 0,
+      "n_deltas": 18,
+      "n_skipped_non_numeric": 0,
+      "top_deltas": [
+        {
+          "series": "process_cpu_seconds_total",
+          "start": 43.59,
+          "end": 43.59,
+          "delta": 0.0
+        },
+        {
+          "series": "process_resident_memory_bytes",
+          "start": 948142080.0,
+          "end": 948142080.0,
+          "delta": 0.0
+        },
+        {
+          "series": "process_start_time_seconds",
+          "start": 1791353600.62,
+          "end": 1791353600.62,
+          "delta": 0.0
+        },
+        {
+          "series": "python_gc_objects_collected_total{generation=\"0\"}",
+          "start": 4766.0,
+          "end": 4766.0,
+          "delta": 0.0
+        },
+        {
+          "series": "python_gc_objects_collected_total{generation=\"1\"}",
+          "start": 42875.0,
+          "end": 42875.0,
+          "delta": 0.0
+        },
+        {
+          "series": "python_info{implementation=\"CPython\",major=\"3\",minor=\"12\",patchlevel=\"10\",version=\"3.12.10\"}",
+          "start": 1.0,
+          "end": 1.0,
+          "delta": 0.0
+        },
+        {
+          "series": "vllm:cache_config_info{block_size=\"16\",enable_prefix_caching=\"True\",num_gpu_blocks=\"4312\",kv_cache_size_tokens=\"68992\"}",
+          "start": 1.0,
+          "end": 1.0,
+          "delta": 0.0
+        },
+        {
+          "series": "vllm:kv_cache_usage_perc{model_name=\"fake-model\"}",
+          "start": 0.13,
+          "end": 0.13,
+          "delta": 0.0
+        },
+        {
+          "series": "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"read\"}",
+          "start": 250000000.0,
+          "end": 250000000.0,
+          "delta": 0.0
+        },
+        {
+          "series": "vllm:nixl_bytes_transferred_total{model_name=\"fake-model\",transfer_type=\"write\"}",
+          "start": 1250000000.0,
+          "end": 1250000000.0,
+          "delta": 0.0
+        }
+      ],
+      "only_start_examples": [],
+      "only_end_examples": [],
+      "only_in_one_snapshot_note": "只出现在一侧的序列**不计差、也不当 0**：两次抓取之间服务可能重启或新增/注销指标。",
+      "note": "这些差是**两个时间点之间的进程级累计量变化**，覆盖整段运行；**不能**拆给单个请求（见 scope_note）。"
+    },
+    "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。",
+    "error_examples": []
+  }
+}

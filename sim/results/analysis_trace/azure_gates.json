@@ -1,0 +1,200 @@
+{
+  "label": "azure",
+  "created_utc": "20260922T095445Z",
+  "matrix_dir": "E:\\代码项目文件\\论文\\sim\\results\\matrix_trace",
+  "source": "trace",
+  "trace": "data/raw/azure_code_1week.csv",
+  "checks": [
+    {
+      "check": "门1 rho 全部落在 [0.3, 0.9]",
+      "passed": true,
+      "detail": "共 2264 行，越界 0 行（公差 0.0005）",
+      "n_rows": 2264,
+      "n_out_of_range": 0,
+      "per_mode": {
+        "main": {
+          "runs": 480,
+          "rho_min": 0.6000300015000747,
+          "rho_max": 0.6000300015000752,
+          "out_of_range": 0,
+          "run_id": "20260922T051125Z"
+        },
+        "staleness": {
+          "runs": 384,
+          "rho_min": 0.6000300015000748,
+          "rho_max": 0.6000300015000751,
+          "out_of_range": 0,
+          "run_id": "20260922T061308Z"
+        },
+        "datavolume": {
+          "runs": 192,
+          "rho_min": 0.6000300015000748,
+          "rho_max": 0.6000300015000751,
+          "out_of_range": 0,
+          "run_id": "20260922T063040Z"
+        },
+        "ablation": {
+          "runs": 240,
+          "rho_min": 0.6000300015000748,
+          "rho_max": 0.6000300015000751,
+          "out_of_range": 0,
+          "run_id": "20260922T060452Z"
+        },
+        "scale": {
+          "runs": 72,
+          "rho_min": 0.6000300015000749,
+          "rho_max": 0.6000300015000751,
+          "out_of_range": 0,
+          "run_id": "20260922T063633Z"
+        },
+        "convergence": {
+          "runs": 80,
+          "rho_min": 0.6000300015000747,
+          "rho_max": 0.6000300015000751,
+          "out_of_range": 0,
+          "run_id": "20260922T064026Z"
+        },
+        "rho": {
+          "runs": 360,
+          "rho_min": 0.3000150007500374,
+          "rho_max": 0.9000450022501127,
+          "out_of_range": 0,
+          "run_id": "20260922T065021Z"
+        },
+        "fallback": {
+          "runs": 216,
+          "rho_min": 0.6000300015000748,
+          "rho_max": 0.6000300015000751,
+          "out_of_range": 0,
+          "run_id": "20260922T070751Z"
+        },
+        "bandwidth": {
+          "runs": 240,
+          "rho_min": 0.6000300015000748,
+          "rho_max": 0.6000300015000751,
+          "out_of_range": 0,
+          "run_id": "20260922T092608Z"
+        }
+      }
+    },
+    {
+      "check": "门2 产物层（ablation 逐指标）",
+      "passed": true,
+      "detail": "12 个 cell × 13 个指标：13/13 逐位相同",
+      "run_id": "20260922T060452Z",
+      "n_cells": 12,
+      "n_metrics": 13
+    },
+    {
+      "check": "门2 请求层 mixed(w=0 == LeastLoad)",
+      "passed": true,
+      "detail": "(node_id, finish) 逐位相同=True；对照：w_net=1 时 86.6% 请求不同",
+      "workload": "mixed",
+      "frac_diff_w1": 0.8656
+    },
+    {
+      "check": "门2 请求层 data_heavy(w=0 == LeastLoad)",
+      "passed": true,
+      "detail": "(node_id, finish) 逐位相同=True；对照：w_net=1 时 90.5% 请求不同",
+      "workload": "data_heavy",
+      "frac_diff_w1": 0.9053
+    },
+    {
+      "check": "门3 同种子可复现",
+      "passed": true,
+      "detail": "同一配置同一负载跑两次，(node_id, finish) 逐位相同=True",
+      "n_requests": 20000
+    },
+    {
+      "check": "白盒 时间分解精确性",
+      "passed": true,
+      "detail": "静态网络下单请求：|finish − (arrival+net_in+service+net_out)| = 0.000e+00",
+      "finish": 57.2231766,
+      "expected": 57.2231766
+    },
+    {
+      "check": "黑盒 p95 随 rho 单调不减",
+      "passed": true,
+      "detail": "p95 = 26.62 → 30.50 → 34.81 → 37.90 → 42.61",
+      "p95_by_rho": [
+        26.621711827195295,
+        30.502602210169297,
+        34.80549890308425,
+        37.900651443217605,
+        42.606662240006514
+      ]
+    },
+    {
+      "check": "产物完整性 runs+paired+manifest",
+      "passed": true,
+      "detail": "全部完整",
+      "incomplete": []
+    }
+  ],
+  "fidelity_anchors": [
+    {
+      "model_quantity": "bytes_per_context_token（kv_cache 档）",
+      "code_value": "3.3e5 B/token",
+      "anchor": "vLLM(SOSP'23)§2.1 的公式：2(K,V)×kv_dim×n_layers×2 B(fp16)。同公式下 OPT-13B(MHA)=800 KB/token、OPT-66B≈2.2 MB/token（DistServe 实测：OPT-66B 的 512-token 请求 KV ≈ 1.13 GB）",
+      "anchor_kind": "文献·已核对",
+      "deviation": "本模型取 70B-GQA（Llama-3 级）配置：2×8头×128维×80层×2B = 327,680 B/token，与本值差 +0.7%。若换成 MHA 的大模型会低 3–7 倍——**必须在正文写明模型配置**",
+      "note": "KV 传输量是本课题的一等实验因子，不能当既定事实"
+    },
+    {
+      "model_quantity": "compute_rate",
+      "code_value": "16000 units/s（节点 0，按 2 的幂递减）",
+      "anchor": "DistServe 的在线 SLO：OPT-13B TTFT 0.25 s / TPOT 0.1 s；OPT-66B 2.5 s / 0.15 s；OPT-175B 4.0 s / 0.2 s",
+      "anchor_kind": "文献·已核对",
+      "deviation": "本模型的单输出 token 服务时间 = 4/16000 = 0.25 ms，比真实 TPOT 低约 **400×**。算力是抽象单元，**绝对时间不可与真实 GPU 相比**，只有节点间相对异构性有语义",
+      "note": "禁止把 units/s 写成 tokens/s；SLO 只做相对比较"
+    },
+    {
+      "model_quantity": "prefill_coef / decode_coef",
+      "code_value": "1.0 / 4.0",
+      "anchor": "Splitwise 指出 token 相位比 prompt 相位更受显存带宽限制；DistServe 的 OPT-13B 数据（TTFT 0.25 s vs TPOT 0.1 s）含批处理与排队，只能给出每 token 代价比的数量级",
+      "anchor_kind": "文献·已核对（数量级）",
+      "deviation": "真实 decode 与 prefill 的每 token 墙钟代价比常在 1:10–1:50，本模型取 1:4 → **对 decode 的加权偏低约 3–12×**，属于对计算密集负载的偏保守处理",
+      "note": "进 Threats；若论文结论对 decode 占比敏感，必须做系数敏感性"
+    },
+    {
+      "model_quantity": "链路带宽",
+      "code_value": "normal 10 Gbps / mid 1 Gbps / degraded 100 Mbps",
+      "anchor": "DistServe：OPT-66B 在 10 rps 下需要 **90 Gbps** 才能让 KV 传输开销\"不可见\"，并指出现代 GPU 集群用 InfiniBand（**800 Gbps**）；MegaScale 的生产网络是**400 Gbps 端口**的三层 CLOS",
+      "anchor_kind": "文献·已核对",
+      "deviation": "本模型比机内网络低 **80×–8000×**。**已用 `--mode bandwidth` 直接检验过后果**（保持异构形状，只换绝对尺度）：机内档 net_share ≈0.001–0.08 时 Δp95 变成 **+3.3%（合成）/ +4.8%（Azure）/ +0.0%（BurstGPT）**，即收益消失、甚至小幅劣化；净占比升到 0.15–0.30 才回到 −13%~−34%。机内 KV 传输占比据 DistServe 是 1–5% 量级 → **本课题的结论适用区间是带宽受限/跨域（算力网络），不是机内推理服务**；正文必须写这句，否则 100 s 量级的 p95 会被当作模型错误",
+      "note": "这是本课题最大的外部效度威胁，也是唯一一个已经用独立实验量化过的威胁（§13 + `rq13_bandwidth_summary.csv`）"
+    },
+    {
+      "model_quantity": "单程时延",
+      "code_value": "0.5 ms / 2 ms / 5 ms",
+      "anchor": "DCQCN(SIGCOMM'15) 实测：RDMA 单程 1.7 µs(Read/Write) / 2.8 µs(Send)，TCP 25.4 µs",
+      "anchor_kind": "文献·已核对",
+      "deviation": "本模型高 **20×–3000×**；同样是跨域而非机内通信的建模选择",
+      "note": "与带宽那一行同源，声明一次即可"
+    },
+    {
+      "model_quantity": "staleness 量级",
+      "code_value": "队列 0/2 s、链路 0/30 s，回退档另加 3 s",
+      "anchor": "Sparrow(SOSP'13)：集中式状态需要在 sub-second 内复制/恢复才具备可用性，其调度采样是毫秒级",
+      "anchor_kind": "文献·已核对（数量级）",
+      "deviation": "本模型的\"陈旧\"档（链路 30 s）远大于调度器状态的刷新尺度 → 刻画的是**慢监控**场景；快刷新场景下的结论不能外推",
+      "note": "已由 --mode staleness 扫成曲线，临界点实测 1.9–44.2 s 跨批次差一个数量级"
+    },
+    {
+      "model_quantity": "SLO 定义",
+      "code_value": "relative，slo_multiplier=3.0",
+      "anchor": "DistServe 的绝对 SLO 量级：TTFT 0.25–4.0 s、TPOT 0.1–0.2 s",
+      "anchor_kind": "文献·已核对（量级）+ 实验假设",
+      "deviation": "本模型的绝对 p95 是 27–148 s，**比真实在线推理 SLO 高 2–3 个数量级** → 不能声称\"改善在线推理体验\"，只能做策略间的相对比较；且高网络占比格子上 miss rate 会饱和（四策略全 >0.98），那里只有 p95 有信息量",
+      "note": "这点必须进 Threats，否则结论会被读成生产可用性主张"
+    },
+    {
+      "model_quantity": "仿真器保真度的可比基准（新增）",
+      "code_value": "无端到端实测对照",
+      "anchor": "Vidur(arXiv'24) 用真实 vLLM 对照：85% 容量下 <5% 误差、请求级 <9%、95% 容量下最高 12.65%",
+      "anchor_kind": "文献·已核对（方法论基准）",
+      "deviation": "我们只有**组件级**验证（时间分解误差 0、逐位可复现、容量口径一致），**没有** Vidur 那种端到端吞吐对照 → 这是当前与同类仿真论文最大的方法论差距",
+      "note": "补法：与公开实测吞吐做量级对照，或做一次小规模实测趋势验证"
+    }
+  ]
+}

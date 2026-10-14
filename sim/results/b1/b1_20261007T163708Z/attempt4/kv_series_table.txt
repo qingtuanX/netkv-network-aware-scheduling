@@ -1,0 +1,86 @@
+====================================================================================================
+B1 4b 辅助表：KV 序列在四个检查点上的**原文数值**（只搬运，不判断）
+====================================================================================================
+列说明：pre_t0=拆分服务刚起来/无请求；pre_t1=冒烟后；t0=正式测量前；
+        mid=**运行中**（第一条正式请求之后、重复请求之前）；t1=正式测量结束。
+
+####################################################################################################
+### P 前处理端 A:8100
+####################################################################################################
+  vllm:nixl_bytes_transferred_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_bytes_transferred_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_descriptors_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_descriptors_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_xfer_time_seconds_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_xfer_time_seconds_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_post_time_seconds_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_post_time_seconds_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_failed_transfers_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_failed_notifications_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_kv_expired_reqs_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+
+####################################################################################################
+### D 生成端 B:8200
+####################################################################################################
+  vllm:nixl_bytes_transferred_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=1  t0=1  mid=2  t1=12
+  vllm:nixl_bytes_transferred_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=18350080  t0=18350080  mid=18808832  t1=58720256
+  vllm:nixl_num_descriptors_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=1  t0=1  mid=2  t1=12
+  vllm:nixl_num_descriptors_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=28  t0=28  mid=56  t1=336
+  vllm:nixl_xfer_time_seconds_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=1  t0=1  mid=2  t1=12
+  vllm:nixl_xfer_time_seconds_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0.04591  t0=0.04591  mid=0.047464  t1=0.129755
+  vllm:nixl_post_time_seconds_count{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=1  t0=1  mid=2  t1=12
+  vllm:nixl_post_time_seconds_sum{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0.00031  t0=0.00031  mid=0.000382  t1=0.001165
+  vllm:nixl_num_failed_transfers_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_failed_notifications_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+  vllm:nixl_num_kv_expired_reqs_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct"}
+      pre_t0=0  pre_t1=0  t0=0  mid=0  t1=0
+
+####################################################################################################
+### D 生成端：prompt token 的来源（`vllm:prompt_tokens_by_source_total`）
+####################################################################################################
+  [metrics_precheck_decode_t0_raw.txt]
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"} = 0
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"} = 0
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"} = 0
+  [metrics_precheck_decode_t1_raw.txt]
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"} = 636
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"} = 0
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"} = 0
+  [metrics_measure_decode_t0_raw.txt]
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"} = 636
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"} = 0
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"} = 0
+  [metrics_measure_decode_mid_raw.txt]
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"} = 648
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"} = 624
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"} = 0
+  [metrics_measure_decode_t1_raw.txt]
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="external_kv_transfer"} = 1984
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_cache_hit"} = 11808
+      vllm:prompt_tokens_by_source_total{engine="0",model_name="Qwen/Qwen2.5-1.5B-Instruct",source="local_compute"} = 0
+
+怎么读：`external_kv_transfer` 变大、而 `local_compute` 保持 0 ⇒
+        生成端**没有自己重算这段 prompt**，它的 KV 是从外面收进来的。
+
+本文件只做搬运：不计算差值、不判定通过与否、不含任何性能结论。

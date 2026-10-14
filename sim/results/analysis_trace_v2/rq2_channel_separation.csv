@@ -1,0 +1,9 @@
+﻿check,strategy,n_lags,bitwise_identical,max_rel_dev
+queue 扫描(lag_q 变)，期望 Random 逐位不变,Random,8,True,0.0
+queue 扫描(lag_q 变)，期望 Random 逐位不变,LeastQueue,8,False,31.14633818396005
+queue 扫描(lag_q 变)，期望 Random 逐位不变,LeastLoad,8,False,28.617360823487434
+queue 扫描(lag_q 变)，期望 Random 逐位不变,NetworkAware,8,False,27.861130652287276
+net 扫描(lag_q 已饱和在 1s)，期望 leastqueue/leastload 逐位不变,LeastQueue,6,True,0.0
+net 扫描(lag_q 已饱和在 1s)，期望 leastqueue/leastload 逐位不变,LeastLoad,6,True,0.0
+net 扫描(lag_q 已饱和在 1s)，期望 leastqueue/leastload 逐位不变,NetworkAware,6,False,0.12141484438937127
+net 扫描(lag_q 已饱和在 1s)，Random 对照,Random,6,True,0.0

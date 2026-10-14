@@ -1,0 +1,80 @@
+{
+  "run_id": "serving_20261007T101247608Z_32275-1",
+  "utc": "2026-10-07T10:12:50.597022+00:00",
+  "kind": "measure_serving/client",
+  "host": {
+    "hostname": "localhost",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.14.4",
+    "cpu_count": 16,
+    "time_time_resolution_s": 1.6689300537109375e-06
+  },
+  "code_version": "uncommitted",
+  "note": "本仓库无 git 提交时恒为 uncommitted（预期）",
+  "url": "http://127.0.0.1:8090",
+  "label": "vllm_metrics_real",
+  "params": {
+    "requests": 20,
+    "qps": 8.0,
+    "arrival": "uniform",
+    "concurrency": 8,
+    "prompt_tokens": 64,
+    "prompt_text": "",
+    "max_tokens": 32,
+    "request_timeout_s": 30.0,
+    "cov_tol_s": 0.005,
+    "save_tokens": false,
+    "seed": 1,
+    "loo_eps_s": 1e-06,
+    "include_usage": true,
+    "return_token_ids": true
+  },
+  "n_ok": 20,
+  "n_err": 0,
+  "error_counts": {},
+  "coverage_verdicts": {
+    "PASS": 20
+  },
+  "wall_clock_s": 2.897,
+  "metrics": {
+    "enabled": true,
+    "state": "nixl_absent",
+    "state_zh": "成功抓到指标但没有 NIXL 项（记作：未出现）",
+    "url": "http://127.0.0.1:8090/metrics",
+    "version_url": "http://127.0.0.1:8090/version",
+    "interval_s": 1.0,
+    "timeout_s": 3.0,
+    "n_attempts": 4,
+    "n_ok": 4,
+    "n_failed": 0,
+    "nixl_presence_zh": "未出现",
+    "nixl_note": "未出现：本次 /metrics 里没有任何 NIXL 相关序列。**这一项记作「未出现」，不是「0」**——没有序列时我们并不知道任何数值。",
+    "target_version": "0.31.0",
+    "version_source": "GET /version（JSON 字段 version）",
+    "version_error": "",
+    "scrapes_csv": "results/b0_metrics/serving_20261007T101247608Z_32275-1_metrics_scrapes.csv",
+    "first_snapshot": {
+      "seq": 0,
+      "phase": "start",
+      "t_rel_s": 0.000463,
+      "body_bytes": 92748,
+      "n_series": 517
+    },
+    "last_snapshot": {
+      "seq": 3,
+      "phase": "end",
+      "t_rel_s": 2.897527,
+      "body_bytes": 92748,
+      "n_series": 517
+    },
+    "scope_note": "这些快照只用于比较**整次运行前后**的汇总变化；**不能分摊给单个请求**：(1) vLLM 的 NIXL 日志本身按一段时间汇总，官方指标按传输统计，都不带请求标识，无法自动匹配到本工具里的 req_id；(2) /metrics 是**进程级累计量**，从两个采样点之差里解不出'每个请求占多少'；(3) 抓取时刻与请求边界不对齐（一次抓取本身还占用一次 HTTP 往返）。要逐请求的传输量，得由服务端提供带请求标识的日志或事件——那是另一项工作（逐请求归因），不在本工具范围内。"
+  },
+  "what_this_does_not_prove": [
+    "本工具量的是**某一次运行**的逐请求时延，不评模型质量，也不含任何性能收益结论。",
+    "若后端是假后端，则各阶段时刻与 KV 字节数都是伪造的，只证明测量链路可用。",
+    "覆盖判据证明的是'时间被完整归属'，**不是**'各阶段时长量得准'。",
+    "`chunk_interval_*` 是**输出块**间隔；`tpot_*` 是历史命名（按内容块算），**两者都不是逐 token 间隔**（一个块可能装多个 token）。逐 token 的量只有`token_interval_mean_s`（代理量，且要求服务端自报 token 数）。",
+    "`n_content_chunks` 是**内容块数**（文本非空），不是 token 数；`srv_completion_tokens` 才是服务端自报的 token 数，拿不到时该列为空。",
+    "`metrics` 里记的是**服务端自报的汇总快照**（如果配了 --metrics-url）。它只用于比较整次运行前后的汇总变化，**不能分摊给单个请求**——理由见 metrics.scope_note。另外：'成功抓到指标但没有 NIXL 项'记作**未出现**，不是 0；抓取失败也**不等于**没有 NIXL 项（那是两回事，状态字段分得清）。"
+  ]
+}

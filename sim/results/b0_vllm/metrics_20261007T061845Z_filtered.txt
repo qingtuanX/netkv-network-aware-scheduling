@@ -1,0 +1,33 @@
+# /metrics 关键词过滤（真 vLLM 0.31.0，未开拆分模式）
+# 原始文件: metrics_20261007T061845Z_raw.txt   抓取时间(UTC): 20261007T061845Z
+# 本机服务端：Qwen/Qwen2.5-1.5B-Instruct, 127.0.0.1:8090, 单卡 RTX 4060 Laptop
+
+## 关键词 'nixl' → 命中 0 行
+
+## 关键词 'kv_transfer' → 命中 2 行
+vllm:prompt_tokens_by_source_total{engine="0",model_name="/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",source="external_kv_transfer"} 0.0
+vllm:prompt_tokens_by_source_created{engine="0",model_name="/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",source="external_kv_transfer"} 1.7913537442375102e+09
+
+## 关键词 'transfer' → 命中 3 行
+# HELP vllm:num_requests_waiting_by_reason Number of waiting requests by reason. Reason labels: 'capacity' = waiting for scheduling capacity; 'deferred' = deferred by transient constraints (LoRA budget, KV transfer, blocked status). Sum of all reasons equals vllm:num_requests_waiting.
+vllm:prompt_tokens_by_source_total{engine="0",model_name="/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",source="external_kv_transfer"} 0.0
+vllm:prompt_tokens_by_source_created{engine="0",model_name="/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",source="external_kv_transfer"} 1.7913537442375102e+09
+
+## 关键词 'kv_cache' → 命中 4 行
+# HELP vllm:kv_cache_usage_perc KV-cache usage. 1 means 100 percent usage.
+# TYPE vllm:kv_cache_usage_perc gauge
+vllm:kv_cache_usage_perc{engine="0",model_name="/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306"} 0.0
+vllm:cache_config_info{_block_size_resolved="True",block_size="16",cache_dtype="auto",effective_attention_block_size="16",enable_mamba_shared_prefix_checkpoint="False",enable_prefix_caching="True",engine="0",gpu_memory_utilization="0.7",is_attention_free="False",kv_cache_dtype_skip_layers="[]",kv_cache_layout="None",kv_cache_max_concurrency="16.84375",kv_cache_memory_bytes="None",kv_cache_size_tokens="68992",kv_offloading_backend="native",kv_offloading_size="None",kv_sharing_fast_prefill="False",mamba_block_size="None",mamba_cache_dtype="auto",mamba_cache_mode="none",mamba_page_size_padded="None",mamba_ssm_cache_dtype="auto",num_cpu_blocks="None",num_gpu_blocks="4312",num_gpu_blocks_override="None",prefix_cache_retention_interval="0",prefix_caching_hash_algo="sha256",prefix_match_unit="None",replayssm_buffer_len="16",skip_page_size_padded="None",sliding_window="None",swa_bounded_replay="True",use_kda_recoverssm="False",use_replayssm="False",user_specified_block_size="False",user_specified_mamba_block_size="False"} 1.0
+
+## 关键词 'prefix_cache' → 命中 25 行
+# HELP vllm:prefix_cache_queries_total Prefix cache queries, in terms of number of queried tokens.
+# TYPE vllm:prefix_cache_queries_total counter
+vllm:prefix_cache_queries_total{engine="0",model_name="/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306"} 9313.0
+# HELP vllm:prefix_cache_queries_created Prefix cache queries, in terms of number of queried tokens.
+# TYPE vllm:prefix_cache_queries_created gauge
+vllm:prefix_cache_queries_created{engine="0",model_name="/root/hf-cache/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306"} 1.7913537442200239e+09
+
+## 关键词 'kv_connector' → 命中 0 行
+
+## 关键词 'motor' → 命中 0 行
+

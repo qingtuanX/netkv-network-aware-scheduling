@@ -1,0 +1,20 @@
+--- prereg3_out 顶层 ---
+total 12
+drwxr-xr-x 3 root root 4096 Oct  8 22:45 .
+drwxr-xr-x 8 root root 4096 Oct  8 22:30 ..
+drwxr-xr-x 2 root root 4096 Oct  8 22:45 _debug
+--- _debug/ ---
+smoke_baseline.json
+smoke_baseline_raw.jsonl
+smoke_replay2.json
+smoke_replay2_raw.jsonl
+t_a.json
+t_a_raw.jsonl
+t_b.json
+t_b_raw.jsonl
+t_c.json
+t_c_raw.jsonl
+t_e.json
+t_e_raw.jsonl
+t_f.json
+t_f_raw.jsonl

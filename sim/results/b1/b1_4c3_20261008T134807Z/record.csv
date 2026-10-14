@@ -1,0 +1,43 @@
+2026-10-08T13:48:19Z,check-A,1,8.155.133.216
+2026-10-08T13:51:06Z,check-A,0,8.155.133.216
+2026-10-08T13:51:18Z,check-B,1,8.155.131.183
+2026-10-08T13:56:15Z,check-A,0,8.155.133.216
+2026-10-08T13:56:20Z,check-B,0,8.155.131.183
+2026-10-08T13:56:22Z,check-proxy,0,
+2026-10-08T13:56:26Z,sync-A,0,
+2026-10-08T13:56:30Z,sync-B,0,
+2026-10-08T13:56:33Z,sync-A2,0,
+2026-10-08T13:56:36Z,sha-B,1,
+2026-10-08T13:58:07Z,sync-A,0,
+2026-10-08T13:58:12Z,sync-B,0,
+2026-10-08T13:58:17Z,sync-A2,0,
+2026-10-08T13:58:23Z,genprompts,0,
+2026-10-08T13:58:25Z,start-baseline,0,
+2026-10-08T14:23:40Z,start-baseline,0,
+2026-10-08T14:24:33Z,baseline-smoke,1,
+2026-10-08T14:46:03Z,start-baseline,0,
+2026-10-08T14:46:40Z,baseline-smoke,0,[C1 冒烟] 步数=156 不合=0 → PASS
+2026-10-08T14:46:51Z,baseline-warmup-r1,0,
+2026-10-08T14:47:09Z,baseline-warmup-r2,0,
+2026-10-08T14:47:18Z,baseline-warmup-r3,0,
+2026-10-08T14:47:34Z,baseline-formal-r1,0,
+2026-10-08T14:47:44Z,baseline-formal-r2,0,
+2026-10-08T14:47:52Z,baseline-formal-r3,0,
+2026-10-08T14:48:06Z,metrics-baseline,0,
+2026-10-08T14:48:13Z,stop-baseline,0,
+2026-10-08T14:48:40Z,start-PD,0,
+2026-10-08T15:11:08Z,start-PD,0,
+2026-10-08T15:34:34Z,manual-note,1,拆分臂第1轮 decode 末位参数笔误 A_IN 应为 B_IN 导致 ZMQ 绑定失败装死；wait_ready 空转过久 人工终止并手动 stop-all 后重跑
+2026-10-08T15:36:48Z,start-PD,0,
+2026-10-08T15:38:20Z,start-proxy,0,
+2026-10-08T15:41:44Z,disagg-smoke,0,[C1 冒烟] 步数=156 不合=0 → PASS
+2026-10-08T15:41:49Z,disagg-warmup-r1,0,
+2026-10-08T15:41:55Z,disagg-warmup-r2,0,
+2026-10-08T15:42:01Z,disagg-warmup-r3,0,
+2026-10-08T15:42:07Z,disagg-formal-r1,0,
+2026-10-08T15:42:12Z,disagg-formal-r2,0,
+2026-10-08T15:42:18Z,disagg-formal-r3,0,
+2026-10-08T15:42:26Z,metrics-disagg,0,
+2026-10-08T15:42:32Z,stop-disagg,0,
+2026-10-08T15:43:17Z,pull,0,
+2026-10-08T15:43:20Z,analyze,0,

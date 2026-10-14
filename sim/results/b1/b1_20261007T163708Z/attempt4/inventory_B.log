@@ -1,0 +1,41 @@
+# ---- inventory_B @ B (8.155.131.183)  start=2026-10-07T17:11:30Z ----
+iZf8z4ggqwhyqz0r6lp1miZ
++ hostname
+Wed Oct  7 05:11:31 PM UTC 2026
++ date -u
+ 01:11:31 up 41 min,  1 user,  load average: 0.28, 0.24, 0.17
++ uptime
++ nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv,noheader
+NVIDIA A10, 23028 MiB, 580.126.09, 8.6
++ nproc
+8
++ free -g
+               total        used        free      shared  buff/cache   available
+Mem:              28           1          10           0          17          27
++ head -2
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda3       197G   43G  146G  23% /
+Python 3.12.3
++ df -h /
++ python3 --version
++ pip3 --version
+pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.12)
++ docker --version
+Docker version 29.5.1, build 2518b52
++ ip -4 addr show
+    inet 127.0.0.1/8 scope host lo
+    inet 172.29.31.51/20 metric 100 brd 172.29.31.255 scope global dynamic eth0
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
++ grep -E 'inet '
+/usr/local/cuda
+/usr/local/cuda-12.8
+/usr/local/cuda-13.0
+/usr/bin/gcc
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
++ ls -d /usr/local/cuda /usr/local/cuda-12.8 /usr/local/cuda-13.0
++ which nvcc gcc ninja iperf3
++ cat /etc/os-release
++ head -3
+# ---- exit=0 end=2026-10-07T17:11:31Z ----

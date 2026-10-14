@@ -1,0 +1,6 @@
+--only-ids=['q01_rep6', 'q02_rep10', 'q03_rep14'] → 保留 3 条
+target=http://172.29.31.51:8300  /version={'unavailable': 'URLError: <urlopen error [Errno 111] Connection refused>'}
+  q01_rep6: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q02_rep10: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q03_rep14: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+wrote /root/b1/prereg3_out/t_e.json  (3 requests)

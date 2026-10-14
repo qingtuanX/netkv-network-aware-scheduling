@@ -1,0 +1,25 @@
+{
+  "tool": "b1_prefix_4c.py analyze",
+  "utc_written": "2026-10-09T08:32:12.498216Z",
+  "n_steps_total": 320,
+  "n_unusable_steps": 0,
+  "n_agreement_steps_with_pairs": 320,
+  "n_agreement_pairs_pooled": 58848,
+  "delta_gap": {
+    "median": 5.620515807379607e-07,
+    "p95_reference_upper": 0.0006092933162600324,
+    "max": 0.05108075883760216,
+    "definition": "同词步 top-20 交集全部候选对的 |(pb(x)-pb(y))-(ps(x)-ps(y))|；p95=最近秩（ceil(0.95n)-1）"
+  },
+  "estimable": true,
+  "min_agreement_steps_required": 30,
+  "verdict_counts": {
+    "A": 320,
+    "B": 0,
+    "C": 0,
+    "D": 0,
+    "X_unusable": 0
+  },
+  "sensitivity_flips_p95_vs_max": 0,
+  "sensitivity_rule": "p95 与 max 判定不一致 ⇒ 证据不稳健 ⇒ 不放行 B2（不是'真错误'）"
+}

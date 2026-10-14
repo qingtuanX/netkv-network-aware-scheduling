@@ -1,0 +1,140 @@
+=== 0) 驱动文件的字节体检（CRLF？不可见字符？） ===
+/mnt/e/代码项目文件/论文/sim/k8s_test/run_prereg3_cloud.sh: Bourne-Again shell script, Unicode text, UTF-8 text executable
+CR 字符计数: 0
+0000260   '       -   -   m   o   d   e   l       '   $   M   O   D   E
+0000300   L   '       \  \n                   -   -   p   r   o   m   p
+0000320   t   s   -   f   i   l   e       $   P   R   O   M   P   T   S
+0000340       -   -   l   o   g   p   r   o   b   s       2   0       -
+0000360   -   o   n   l   y   -   i   d   s       q   0   1   _   r   e
+0000400   p   6       q   0   2   _   r   e   p   1   0       q   0   3
+0000420   _   r   e   p   1   4       \  \n                   -   -   o
+0000440   u   t       $   R   B   /   s   m   o   k   e   _   $   a   r
+0000460   m   .   j   s   o   n   "       >   "   $   R   /   s   m   o
+0000500   k   e   _   $   a   r   m   .   l   o   g   "       2   >   &
+0000520   1  \n
+0000522
+
+=== 1) A 的 auth.log 22:36–22:39（diag3 重放窗口） ===
+2026-10-08T22:38:07.431377+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: New session 44 of user root.
+2026-10-08T22:38:09.668077+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4134]: Received disconnect from 172.104.83.30 port 65492:11: disconnected by user
+2026-10-08T22:38:09.668169+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4134]: Disconnected from user root 172.104.83.30 port 65492
+2026-10-08T22:38:09.668192+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4134]: pam_unix(sshd:session): session closed for user root
+2026-10-08T22:38:09.669820+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Session 44 logged out. Waiting for processes to exit.
+2026-10-08T22:38:09.670106+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Removed session 44.
+2026-10-08T22:38:19.945492+08:00 iZf8z4ggqwhyqz0r6lp1mjZ (sd-pam): pam_unix(systemd-user:session): session closed for user root
+2026-10-08T22:39:36.255209+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4204]: Accepted publickey for root from 172.104.83.30 port 42726 ssh2: RSA SHA256:KJWZTMd6JRvBYP2xCvWdXityukYHElwbrmdY43SPJ+E
+2026-10-08T22:39:36.270704+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: New session 45 of user root.
+2026-10-08T22:39:38.164291+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4204]: Received disconnect from 172.104.83.30 port 42726:11: disconnected by user
+2026-10-08T22:39:38.164378+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4204]: Disconnected from user root 172.104.83.30 port 42726
+2026-10-08T22:39:38.164414+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4204]: pam_unix(sshd:session): session closed for user root
+2026-10-08T22:39:38.166191+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Session 45 logged out. Waiting for processes to exit.
+2026-10-08T22:39:38.166501+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Removed session 45.
+2026-10-08T22:39:42.328519+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4291]: Accepted publickey for root from 172.104.83.30 port 21092 ssh2: RSA SHA256:KJWZTMd6JRvBYP2xCvWdXityukYHElwbrmdY43SPJ+E
+2026-10-08T22:39:42.331352+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: New session 47 of user root.
+2026-10-08T22:39:44.955311+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4291]: Received disconnect from 172.104.83.30 port 21092:11: disconnected by user
+2026-10-08T22:39:44.955415+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4291]: Disconnected from user root 172.104.83.30 port 21092
+2026-10-08T22:39:44.955444+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4291]: pam_unix(sshd:session): session closed for user root
+2026-10-08T22:39:44.957098+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Session 47 logged out. Waiting for processes to exit.
+2026-10-08T22:39:44.957386+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Removed session 47.
+2026-10-08T22:39:48.745682+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4355]: Accepted publickey for root from 172.104.83.30 port 21094 ssh2: RSA SHA256:KJWZTMd6JRvBYP2xCvWdXityukYHElwbrmdY43SPJ+E
+2026-10-08T22:39:48.748429+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: New session 48 of user root.
+2026-10-08T22:39:50.674462+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4355]: Received disconnect from 172.104.83.30 port 21094:11: disconnected by user
+2026-10-08T22:39:50.674543+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4355]: Disconnected from user root 172.104.83.30 port 21094
+2026-10-08T22:39:50.674566+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4355]: pam_unix(sshd:session): session closed for user root
+2026-10-08T22:39:50.676099+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Session 48 logged out. Waiting for processes to exit.
+2026-10-08T22:39:50.676434+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: Removed session 48.
+2026-10-08T22:39:56.503905+08:00 iZf8z4ggqwhyqz0r6lp1mjZ sshd[4418]: Accepted publickey for root from 172.104.66.161 port 9182 ssh2: RSA SHA256:KJWZTMd6JRvBYP2xCvWdXityukYHElwbrmdY43SPJ+E
+2026-10-08T22:39:56.506748+08:00 iZf8z4ggqwhyqz0r6lp1mjZ systemd-logind[1249]: New session 49 of user root.
+
+=== 2) diag3 留下的 569 字节日志 raw 检查 ===
+total 768
+drwxrwxrwx 1 HWG HWG 512 Oct  8 22:37 .
+drwxrwxrwx 1 HWG HWG 512 Oct  8 21:48 ..
+-rwxrwxrwx 1 HWG HWG  46 Oct  8 22:38 record.csv
+-rwxrwxrwx 1 HWG HWG  87 Oct  8 22:38 run.log
+-rwxrwxrwx 1 HWG HWG 569 Oct  8 22:37 smoke_baseline_replay.log
+-rwxrwxrwx 1 HWG HWG   0 Oct  8 22:37 smoke_baseline_replay.verdict
+0000760   p   1   0       q   0   3   _   r   e   p   1   4            
+0001000           -   -   o   u   t       /   r   o   o   t   /   b   1
+0001020   /   p   r   e   r   e   g   3   _   o   u   t   /   s   m   o
+0001040   k   e   _   b   a   s   e   l   i   n   e   _   r   e   p   l
+0001060   a   y   .   j   s   o   n   '  \n
+0001071
+
+=== 3) 完整复刻 diag3 场景重放（sourced strip + set -x，产物到 _debug2） ===
+--- 重放开始 14:42:37 ---
++ smoke_and_gate http://172.29.31.51:8300 replay2
++ local url=http://172.29.31.51:8300 arm=replay2
++ rsh 8.155.133.216 'mkdir -p /root/b1/prereg3_out && cd /root/b1 && ./venv/bin/python b1_client.py --url '\''http://172.29.31.51:8300'\'' --model '\''Qwen/Qwen2.5-1.5B-Instruct'\''     --prompts-file /root/b1/prereg3_prompts.json --logprobs 20 --only-ids q01_rep6 q02_rep10 q03_rep14     --out /root/b1/prereg3_out/smoke_replay2.json'
++ rsh 8.155.133.216 'cd /root/b1 && ./venv/bin/python b1_4c3_analyze.py smoke --file /root/b1/prereg3_out/smoke_replay2.json'
++ tee /mnt/e/代码项目文件/论文/sim/results/b1/b1_4c3_20261008T134807Z/_debug2/smoke_replay2.verdict
++ local h=8.155.133.216
++ shift
++ ssh -i '/mnt/d/Documents/API/_网络感应 (1).pem' -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_net -o BatchMode=yes -o ConnectTimeout=20 -o LogLevel=ERROR root@8.155.133.216 'cd /root/b1 && ./venv/bin/python b1_4c3_analyze.py smoke --file /root/b1/prereg3_out/smoke_replay2.json'
+!! q01_rep6: logprobs 结构缺失
++ local rc=1
+++ tail -1 /mnt/e/代码项目文件/论文/sim/results/b1/b1_4c3_20261008T134807Z/_debug2/smoke_replay2.verdict
++ rec replay2-smoke 1 '!! q01_rep6: logprobs 结构缺失'
+++ ts
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ echo '2026-10-08T14:42:52Z,replay2-smoke,1,!! q01_rep6: logprobs 结构缺失'
++ '[' 1 -eq 0 ']'
++ log '[replay2] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数'
+++ ts
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ printf '[%s] %s\n' 2026-10-08T14:42:52Z '[replay2] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数'
+[2026-10-08T14:42:52Z] [replay2] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数
+++ ts
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ printf '[%s] %s\n' 2026-10-08T14:42:52Z '[replay2] C1 冒烟 FAIL ⇒ 按预注册 §8 不采数'
++ return 1
++ RC=1
++ set +x
+--- 重放结束 14:42:52 rc=1 ---
+--- 本地 log: 1093 字节 ---
++ local h=8.155.133.216
++ shift
++ ssh -i '/mnt/d/Documents/API/_网络感应 (1).pem' -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/kh_net -o BatchMode=yes -o ConnectTimeout=20 -o LogLevel=ERROR root@8.155.133.216 'mkdir -p /root/b1/prereg3_out && cd /root/b1 && ./venv/bin/python b1_client.py --url '\''http://172.29.31.51:8300'\'' --model '\''Qwen/Qwen2.5-1.5B-Instruct'\''     --prompts-file /root/b1/prereg3_prompts.json --logprobs 20 --only-ids q01_rep6 q02_rep10 q03_rep14     --out /root/b1/prereg3_out/smoke_replay2.json'
+--only-ids=['q01_rep6', 'q02_rep10', 'q03_rep14'] → 保留 3 条
+target=http://172.29.31.51:8300  /version={'unavailable': 'URLError: <urlopen error [Errno 111] Connection refused>'}
+  q01_rep6: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q02_rep10: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q03_rep14: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+wrote /root/b1/prereg3_out/smoke_replay2.json  (3 requests)
+
+=== 4) 对照：同命令、直接 ssh（无 set -x 残影） ===
+T-E rc=0  522 字节
+--only-ids=['q01_rep6', 'q02_rep10', 'q03_rep14'] → 保留 3 条
+target=http://172.29.31.51:8300  /version={'unavailable': 'URLError: <urlopen error [Errno 111] Connection refused>'}
+  q01_rep6: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q02_rep10: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q03_rep14: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+wrote /root/b1/prereg3_out/t_e.json  (3 requests)
+
+=== 5) 用 rsh 函数再发一次（抓 rc；--out t_f.json） ===
+T-F rc=0  522 字节
+--only-ids=['q01_rep6', 'q02_rep10', 'q03_rep14'] → 保留 3 条
+target=http://172.29.31.51:8300  /version={'unavailable': 'URLError: <urlopen error [Errno 111] Connection refused>'}
+  q01_rep6: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0003s
+  q02_rep10: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+  q03_rep14: http=None prompt_tokens=None completion_tokens=None finish=None tok_ids=no 0.0002s
+wrote /root/b1/prereg3_out/t_f.json  (3 requests)
+
+=== 6) 远端产物 ===
+total 64
+drwxr-xr-x 2 root root 4096 Oct  8 22:43 .
+drwxr-xr-x 8 root root 4096 Oct  8 22:30 ..
+-rw-r--r-- 1 root root 1436 Oct  8 22:30 smoke_baseline.json
+-rw-r--r-- 1 root root  683 Oct  8 22:30 smoke_baseline_raw.jsonl
+-rw-r--r-- 1 root root 1436 Oct  8 22:42 smoke_replay2.json
+-rw-r--r-- 1 root root  683 Oct  8 22:42 smoke_replay2_raw.jsonl
+-rw-r--r-- 1 root root 1436 Oct  8 22:39 t_a.json
+-rw-r--r-- 1 root root  683 Oct  8 22:39 t_a_raw.jsonl
+-rw-r--r-- 1 root root 1436 Oct  8 22:40 t_b.json
+-rw-r--r-- 1 root root  682 Oct  8 22:40 t_b_raw.jsonl
+-rw-r--r-- 1 root root 1436 Oct  8 22:40 t_c.json
+-rw-r--r-- 1 root root  682 Oct  8 22:40 t_c_raw.jsonl
+-rw-r--r-- 1 root root 1436 Oct  8 22:42 t_e.json
+-rw-r--r-- 1 root root  683 Oct  8 22:42 t_e_raw.jsonl
+-rw-r--r-- 1 root root 1436 Oct  8 22:43 t_f.json
+-rw-r--r-- 1 root root  682 Oct  8 22:43 t_f_raw.jsonl

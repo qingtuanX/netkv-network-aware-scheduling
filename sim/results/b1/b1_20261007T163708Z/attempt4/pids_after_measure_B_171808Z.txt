@@ -1,0 +1,8 @@
+# 机器 B（内网 8.155.131.183）的 B1 相关进程台账   快照时刻 2026-10-07T17:18:08Z
+# 判据：本文件里出现的每个 PID 都必须是**本会话起的**；收尾时按 PID 精停。
+--- 我起的后台任务 PID 文件（/root/b1/logs/*.pid）
+baseline       pid=13207 alive=no
+decode         pid=13966 alive=yes
+model_download pid=4911,4913 alive=no
+--- 当前匹配到的进程（vllm serve / toy_proxy_server / b1_client / hf download）
+  13966       1     199 /root/b1/venv/bin/python /root/b1/venv/bin/vllm serve /root/b1/models/Qwen2.5-1.5B-Instruct --port 8200 --served-model-name Qwen/Qwen2.5-1.5B-Instruct --kv-transfer-config {"kv_connector":"NixlConnector","kv_role":"kv_consumer","kv_load_failure_policy":"fail"} --host 172.29.31.51 --max-model-len 8192 --gpu-memory-utilization 0.85 --enforce-eager

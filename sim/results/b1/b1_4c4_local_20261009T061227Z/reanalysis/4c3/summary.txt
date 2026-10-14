@@ -1,0 +1,81 @@
+{
+  "n_pairs_files": 3,
+  "n_requests": 15,
+  "n_identical": 12,
+  "n_divergent": 3,
+  "E1_m": {
+    "min": 0.92354,
+    "med": 0.92354,
+    "p90": 0.92354,
+    "max": 0.92354,
+    "n": 3
+  },
+  "E1_buckets": {
+    "A": 3
+  },
+  "E2": {
+    "noise_floor_delta": {
+      "min": 0.0,
+      "med": 1e-05,
+      "p90": 0.00079,
+      "max": 0.03667,
+      "n": 11049
+    },
+    "decision_margin_M": {
+      "min": 0.01117,
+      "med": 0.01855,
+      "p90": 0.02594,
+      "max": 0.02594,
+      "n": 6
+    },
+    "M_over_delta_med": [
+      1525.15,
+      3540.8,
+      1525.15,
+      3540.8,
+      1525.15,
+      3540.8
+    ],
+    "delta_med": 7.325368670711921e-06,
+    "delta_p90": 0.0007915212551845574
+  },
+  "E3": {
+    "baseline": {
+      "r2_vs_r3_identical": true,
+      "per_req": {
+        "q01_rep6": true,
+        "q02_rep10": true,
+        "q03_rep14": true,
+        "q04_rep18": true,
+        "q05_rep22": true
+      }
+    },
+    "disagg": {
+      "r2_vs_r3_identical": true,
+      "per_req": {
+        "q01_rep6": true,
+        "q02_rep10": true,
+        "q03_rep14": true,
+        "q04_rep18": true,
+        "q05_rep22": true
+      }
+    }
+  }
+}
+
+== E4 逐条 ==
+{"pair": 1, "id": "q01_rep6", "identical": true}
+{"pair": 1, "id": "q02_rep10", "identical": true}
+{"pair": 1, "id": "q03_rep14", "identical": true}
+{"pair": 1, "id": "q04_rep18", "identical": false, "div_step": 4, "a": " a", "b": " an", "pa": 0.3333467976436142, "pb": 0.32217450518480845, "qa": 0.3132742603616582, "qb": 0.33921190913939386, "r_base": 0.9664844764138092, "r_disagg": 0.923535559693227, "m": 0.923535559693227, "bucket": "A"}
+{"pair": 1, "id": "q05_rep22", "identical": true}
+{"pair": 2, "id": "q01_rep6", "identical": true}
+{"pair": 2, "id": "q02_rep10", "identical": true}
+{"pair": 2, "id": "q03_rep14", "identical": true}
+{"pair": 2, "id": "q04_rep18", "identical": false, "div_step": 4, "a": " a", "b": " an", "pa": 0.3333467976436142, "pb": 0.32217450518480845, "qa": 0.3132742603616582, "qb": 0.33921190913939386, "r_base": 0.9664844764138092, "r_disagg": 0.923535559693227, "m": 0.923535559693227, "bucket": "A"}
+{"pair": 2, "id": "q05_rep22", "identical": true}
+{"pair": 3, "id": "q01_rep6", "identical": true}
+{"pair": 3, "id": "q02_rep10", "identical": true}
+{"pair": 3, "id": "q03_rep14", "identical": true}
+{"pair": 3, "id": "q04_rep18", "identical": false, "div_step": 4, "a": " a", "b": " an", "pa": 0.3333467976436142, "pb": 0.32217450518480845, "qa": 0.3132742603616582, "qb": 0.33921190913939386, "r_base": 0.9664844764138092, "r_disagg": 0.923535559693227, "m": 0.923535559693227, "bucket": "A"}
+{"pair": 3, "id": "q05_rep22", "identical": true}

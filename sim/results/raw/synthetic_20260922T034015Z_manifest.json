@@ -1,0 +1,80 @@
+{
+  "run_id": "synthetic_20260922T034015Z",
+  "created_utc": "2026-09-22T03:40:21.780212+00:00",
+  "source": "synthetic",
+  "trace_file": null,
+  "code_version": "uncommitted",
+  "code_dirty_files": null,
+  "config_path": "E:\\代码项目文件\\论文\\sim\\configs\\baseline.yaml",
+  "config_hash": "66efd75e42696076",
+  "config": {
+    "nodes": [
+      {
+        "node_id": 0,
+        "compute_rate": 16000,
+        "slots": 4
+      },
+      {
+        "node_id": 1,
+        "compute_rate": 8000,
+        "slots": 4
+      },
+      {
+        "node_id": 2,
+        "compute_rate": 4000,
+        "slots": 4
+      }
+    ],
+    "simulator": {
+      "prefill_coef": 1.0,
+      "decode_coef": 4.0,
+      "warmup_fraction": 0.1,
+      "max_requests": null
+    },
+    "workload": {
+      "duration_s": 3600,
+      "rate_scale": 1.0,
+      "max_requests": 20000,
+      "synthetic": {
+        "n_requests": 20000,
+        "base_qps": 5.0,
+        "burstiness": 2.0,
+        "seed": 12345
+      }
+    },
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "workload_stats": {
+    "source": "SYNTHETIC (非真实数据，仅用于打通管线)",
+    "n_requests": 20000,
+    "duration_s": 5074.116546525546,
+    "qps_mean": 3.9408866995073892,
+    "qps_p95": 12.0,
+    "context_p50": 1096.0,
+    "context_p95": 11021.299999999996,
+    "context_max": 32768,
+    "generated_p50": 90.0,
+    "generated_p95": 755.0999999999985,
+    "generated_max": 2048,
+    "n_dropped": 0,
+    "n_truncated_tail": 0,
+    "timestamp_monotonic": true
+  },
+  "load_time_s": 0.026,
+  "wall_clock_total_s": 2.42
+}

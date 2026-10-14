@@ -25,9 +25,10 @@ from .model import (
     compute_work,
     network_time,
     request_bytes,
+    service_slowdown_factor,
     service_time,
 )
-from .network import NetworkTrajectory
+from .network import LinkState, NetworkTrajectory, StaticNetwork
 from .state_history import NodeStateHistory, make_histories
 from .strategies import Observation, Strategy
 
@@ -41,6 +42,12 @@ class SimConfig:
     bytes_per_context_token: float = 4.0    # 见 model.request_bytes 的说明
     bytes_per_generated_token: float = 4.0
 
+    # --- 保守模型：并发越高、单请求越慢（CONS_MODEL_PREREG 冻结，2026-10-12）---
+    # "none"（默认）= 理想服务时间模型，与注入前逐位一致（regtest_slowdown.py 钉住）；
+    # "linear" / "pressure" = 冻结的 L/P 两版（model.service_slowdown_factor）。
+    # 只改服务时间倍率：不加策略、不改网络/负载/统计规则；SLO 定义保持不变。
+    service_slowdown: str = "none"
+
     # --- RQ2 因子 ---
     # 两条陈旧通道的时间尺度【完全不同】，必须分开：
     #   队列状态：服务时间是亚秒到秒级，队列在 1 秒内就可能完全变样；
@@ -51,6 +58,20 @@ class SimConfig:
     staleness_network: float = 0.0  # 链路状态观测落后真实状态的秒数
     stale_queue: bool = True        # 是否启用队列陈旧（用于拆分来源）
     stale_network: bool = True      # 是否启用链路陈旧
+
+    # --- 【细变量②】观测的**聚合窗口**：真实监控报的是"过去 W 秒的平均"，不是瞬时值 ---
+    # 与 lag 的区别（这是本变量存在的意义）：
+    #   lag  = 看到的是**旧**值，但那个值是当时真实的（确定性失真）；
+    #   window = 看到的是**被平均过**的值——尖峰被抹平，于是"某节点刚涌进一批活"
+    #            这件事在观测里变得看不见（信息失真，方向与 lag 不同的是：
+    #            lag 让人反应慢，window 让人**看错**）。
+    # 真实系统里两者同时存在：Prometheus 每 15 s 采一次、每次报 avg_over_time(metric[30s])。
+    # 两条通道各有各的窗口，默认 0 = 退化成当前的瞬时值（不影响既有结论）。
+    window_queue_s: float = 0.0     # 队列/链路积压的聚合窗口秒数
+    window_network_s: float = 0.0   # 链路带宽/时延的聚合窗口秒数
+    # 网络通道窗口的采样点数：轨迹是连续函数，这里按等距采样做算术平均。
+    # 【一阶简化】真实遥测可能报 min/p95/rate 等不同算子，这里只做算术平均。
+    window_samples: int = 8
 
     # --- SLO（实验假设，不是 trace 原生事实）---
     # 绝对不能用一个固定秒数当 deadline：网络代价由节点选择决定，
@@ -100,7 +121,11 @@ def run(
     lag_n = config.staleness_network
 
     if trajectory is None:
-        from .network import LinkState, StaticNetwork
+        # 【坑】这里原来有一句 `from .network import LinkState, StaticNetwork`（局部 import）。
+        # 一旦函数里出现对 LinkState 的**局部**赋值/导入，Python 就把整个函数里的 LinkState
+        # 都当成局部名 → 走别的分支（trajectory 非空）时那句引用会抛
+        # `NameError: cannot access free variable 'LinkState'`。
+        # 已改为在模块顶部统一导入，函数里不再 import。
         trajectory = StaticNetwork(
             {n.node_id: LinkState(n.latency, n.bandwidth) for n in nodes},
             label="nominal",
@@ -136,17 +161,37 @@ def run(
         t_q = max(0.0, now - lag_q)
         t_n = max(0.0, now - lag_n)
         t_obs = min(t_q, t_n)
+        w_q = config.window_queue_s
+        w_n = config.window_network_s
 
         views: list[NodeView] = []
         for spec in nodes:
-            if config.stale_queue and lag_q > 0:
+            if w_q > 0:
+                # 聚合窗口：报的是窗口内的平均（时间加权），不是瞬时值。
+                # 注意即使 lag=0 也要走历史，因为"平均"必须有历史才能算。
+                pending, work, link_bytes = histories[spec.node_id].avg_over(t_q - w_q, t_q)
+                pending = int(round(pending))
+            elif config.stale_queue and lag_q > 0:
                 pending, work, link_bytes = histories[spec.node_id].at(t_q)
             else:
                 pending, work = spec.pending, spec.pending_work
                 link_bytes = link_pending[spec.node_id]
 
-            link = trajectory.state(spec.node_id,
-                                    t_n if (config.stale_network and lag_n > 0) else now)
+            if w_n > 0:
+                # 链路通道的窗口：对轨迹做等距采样的算术平均（带宽与时延分别平均）。
+                # 静态网络下平均 = 原值（精确无影响），只有时变网络才起作用。
+                ns = max(2, int(config.window_samples))
+                t_from = max(0.0, t_n - w_n)
+                lat_sum = bw_sum = 0.0
+                for k in range(ns):
+                    tk = t_from + (t_n - t_from) * k / (ns - 1)
+                    st = trajectory.state(spec.node_id, tk)
+                    lat_sum += st.latency
+                    bw_sum += st.bandwidth
+                link = LinkState(lat_sum / ns, bw_sum / ns)
+            else:
+                link = trajectory.state(spec.node_id,
+                                        t_n if (config.stale_network and lag_n > 0) else now)
             views.append(NodeView(
                 node_id=spec.node_id,
                 pending=pending,
@@ -162,6 +207,10 @@ def run(
             nodes=views,
             observed_at=t_obs,
             true_time=now,
+            # 【细变量①】两条通道各自的快照时刻：队列用 t_q、链路用 t_n。
+            # 策略据此可以用**不同的年龄阈值**门控两条通道（实测两者耐旧度差约一个数量级）。
+            observed_at_queue=t_q,
+            observed_at_network=t_n,
             bytes_per_context_token=config.bytes_per_context_token,
             bytes_per_generated_token=config.bytes_per_generated_token,
         )
@@ -185,7 +234,12 @@ def run(
         with resources[node.node_id].request() as slot:
             yield slot
             req.service_start = env.now
-            yield env.timeout(service_time(req.work, node))
+            st = service_time(req.work, node)
+            if config.service_slowdown != "none":
+                # 并发计数 = 此刻占用该节点槽位的请求数（含自己）；冻结定义见 model.py
+                st *= service_slowdown_factor(resources[node.node_id].count,
+                                              config.service_slowdown)
+            yield env.timeout(st)
             req.compute_end = env.now
             node.pending -= 1
             node.pending_work -= req.work

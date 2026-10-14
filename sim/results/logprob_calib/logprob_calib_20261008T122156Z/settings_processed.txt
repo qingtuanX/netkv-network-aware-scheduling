@@ -1,0 +1,24 @@
+== generation_config.json（模型继承的选词规则）==
+{
+  "bos_token_id": 151643,
+  "pad_token_id": 151643,
+  "do_sample": true,
+  "eos_token_id": [
+    151645,
+    151643
+  ],
+  "repetition_penalty": 1.1,
+  "temperature": 0.7,
+  "top_p": 0.8,
+  "top_k": 20,
+  "transformers_version": "4.37.0"
+}
+
+== 服务启动日志里的覆盖警告 ==
+47:(APIServer pid=2320) WARNING 10-08 20:27:53 [model.py:1850] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'repetition_penalty': 1.1, 'temperature': 0.7, 'top_k': 20, 'top_p': 0.8}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+
+== 请求显式参数（其余全部继承）==
+temperature=0.0, seed=0, max_tokens=64, return_token_ids=true, logprobs=20, stream=false
+
+== 启动参数 ==
+--enforce-eager --no-enable-prefix-caching --max-model-len 8192 --gpu-memory-utilization 0.85 --logprobs-mode processed_logprobs

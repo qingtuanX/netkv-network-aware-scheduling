@@ -1,0 +1,334 @@
+{
+  "run_id": "transfer_20261006T030128Z",
+  "utc": "2026-10-06T03:01:28.600752+00:00",
+  "host": {
+    "python": "3.14.4",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "uname": "Linux localhost 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 ",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2"
+  },
+  "source": "外部 worker（http://172.24.192.1:9300），电池跑在客户端这一侧",
+  "target": "http://172.24.192.1:9300",
+  "iface": "eth0",
+  "tc_cmd": "tc -s qdisc show dev eth0",
+  "tc_rate_mbps": 25.0,
+  "shaped_direction": "upload",
+  "sizes_mb": [
+    0.5,
+    8.0,
+    200.0
+  ],
+  "rate_test_mb": 8.0,
+  "concurrency": 3,
+  "transfers": [
+    {
+      "sub": "A1",
+      "size_mb": 0.5,
+      "ok": false,
+      "t0": 1097.601169069,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 0.1869263400001273,
+      "error": "RemoteDisconnected: Remote end closed connection without response",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 597567,
+        "tx_bytes": 57470
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 598895,
+        "tx_bytes": 559230
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 0,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 43,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 524728 bytes 371 pkt (dropped 0, overlimits 43 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A1",
+      "size_mb": 8.0,
+      "ok": false,
+      "t0": 1097.796647936,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 2.6671941269999024,
+      "error": "RemoteDisconnected: Remote end closed connection without response",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 598895,
+        "tx_bytes": 559230
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 615403,
+        "tx_bytes": 8576174
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 43,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 524728 bytes 371 pkt (dropped 0, overlimits 43 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 776,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 8913450 bytes 6257 pkt (dropped 0, overlimits 776 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A1",
+      "size_mb": 200.0,
+      "ok": false,
+      "t0": 1100.470834533,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 67.12822174999997,
+      "error": "RemoteDisconnected: Remote end closed connection without response",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 615403,
+        "tx_bytes": 8576174
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 1021273,
+        "tx_bytes": 208982618
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 776,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 8913450 bytes 6257 pkt (dropped 0, overlimits 776 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 19167,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 218620944 bytes 153324 pkt (dropped 0, overlimits 19167 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A2_upload",
+      "ok": false,
+      "t0": 1167.607455993,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 2.675794963000044,
+      "error": "RemoteDisconnected: Remote end closed connection without response",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 1021273,
+        "tx_bytes": 208982618
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 1037781,
+        "tx_bytes": 216999693
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 19167,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 218620944 bytes 153324 pkt (dropped 0, overlimits 19167 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 19900,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 227009665 bytes 159210 pkt (dropped 0, overlimits 19900 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A2_download",
+      "ok": false,
+      "t0": 1170.291020104,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 0.16021235100015474,
+      "error": "RemoteDisconnected: Remote end closed connection without response",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 1037781,
+        "tx_bytes": 216999693
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 1039307,
+        "tx_bytes": 217501586
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 19900,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 227009665 bytes 159210 pkt (dropped 0, overlimits 19900 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 19952,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 227534460 bytes 159582 pkt (dropped 0, overlimits 19952 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A4_single",
+      "ok": false,
+      "t0": 1170.458399363,
+      "upload_bytes": 0,
+      "download_bytes": 0,
+      "latency_s": 2.677397549000034,
+      "error": "RemoteDisconnected: Remote end closed connection without response",
+      "nic_before": {
+        "iface": "eth0",
+        "rx_bytes": 1039307,
+        "tx_bytes": 217501586
+      },
+      "nic_after": {
+        "iface": "eth0",
+        "rx_bytes": 1063537,
+        "tx_bytes": 225526251
+      },
+      "tc_before": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 19952,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 227534460 bytes 159582 pkt (dropped 0, overlimits 19952 requeues 0) \n backlog 0b 0p requeues 0"
+      },
+      "tc_after": {
+        "cmd": "tc -s qdisc show dev eth0",
+        "overlimits": 21039,
+        "dropped": 0,
+        "rc": 0,
+        "raw": "qdisc tbf 10: root refcnt 65 rate 25Mbit burst 64Kb lat 50ms \n Sent 235923775 bytes 165477 pkt (dropped 0, overlimits 21039 requeues 0) \n backlog 0b 0p requeues 0"
+      }
+    },
+    {
+      "sub": "A4_multi",
+      "flows": [
+        {
+          "ok": false,
+          "t0": 1173.140844186,
+          "upload_bytes": 0,
+          "download_bytes": 0,
+          "latency_s": 7.993069530999946,
+          "error": "RemoteDisconnected: Remote end closed connection without response"
+        },
+        {
+          "ok": false,
+          "t0": 1173.141013532,
+          "upload_bytes": 0,
+          "download_bytes": 0,
+          "latency_s": 8.048387071999969,
+          "error": "RemoteDisconnected: Remote end closed connection without response"
+        },
+        {
+          "ok": false,
+          "t0": 1173.140757866,
+          "upload_bytes": 0,
+          "download_bytes": 0,
+          "latency_s": 8.042793867,
+          "error": "RemoteDisconnected: Remote end closed connection without response"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "check": "A1",
+      "item": "0.5 MB",
+      "measured": "请求失败：RemoteDisconnected: Remote end closed connection without response",
+      "verdict": "FAIL",
+      "note": ""
+    },
+    {
+      "check": "A1",
+      "item": "8.0 MB",
+      "measured": "请求失败：RemoteDisconnected: Remote end closed connection without response",
+      "verdict": "FAIL",
+      "note": ""
+    },
+    {
+      "check": "A1",
+      "item": "200.0 MB",
+      "measured": "请求失败：RemoteDisconnected: Remote end closed connection without response",
+      "verdict": "FAIL",
+      "note": ""
+    },
+    {
+      "check": "A2",
+      "item": "上传吞吐",
+      "measured": "n/a（老协议无载荷字节）",
+      "verdict": "INFO",
+      "note": "--fake-transfer 下吞吐没有定义；这正是对照臂要说明的事"
+    },
+    {
+      "check": "A2",
+      "item": "下传吞吐",
+      "measured": "n/a（老协议无载荷字节）",
+      "verdict": "INFO",
+      "note": "--fake-transfer 下吞吐没有定义；这正是对照臂要说明的事"
+    },
+    {
+      "check": "A3",
+      "item": "overlimits 增量",
+      "measured": "overlimits +785，dropped +0",
+      "verdict": "PASS",
+      "note": "只看 `tc qdisc show` 有输出不算生效，必须这个增量 > 0"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 单路吞吐",
+      "measured": "1 路 n/a → 3 路时每路 n/a（比值 n/a；3 路合计 0.000 Mbit/s）",
+      "verdict": "FAIL",
+      "note": "共享瓶颈下理想比值≈3；判据 ≥1.5"
+    },
+    {
+      "check": "A4",
+      "item": "1 路 vs 3 路 每请求端到端",
+      "measured": "1 路 2.677 s → 3 路时每路 8.028 s（比值 3.00×）",
+      "verdict": "INFO",
+      "note": "老协议下这个比值会≈1：它把'带宽'建模成一个与并发无关的睡眠时间，没有共享的物理瓶颈可瓜分"
+    },
+    {
+      "check": "A5",
+      "item": "网卡 tx 增量 / 上传字节",
+      "measured": "1.0021×",
+      "verdict": "INFO",
+      "note": "网卡 tx +8017075 字节，应用层发 8000000 字节；超出部分是 TCP/IP 头（20+20+12 字节/段）"
+    },
+    {
+      "check": "A5",
+      "item": "网卡 rx 增量 / 下传字节",
+      "measured": "0.0002×",
+      "verdict": "INFO",
+      "note": "网卡 rx +1526 字节，应用层收 8000000 字节"
+    },
+    {
+      "check": "A1-summary",
+      "item": "全部档位字节一致",
+      "measured": "见上",
+      "verdict": "FAIL",
+      "note": ""
+    }
+  ]
+}

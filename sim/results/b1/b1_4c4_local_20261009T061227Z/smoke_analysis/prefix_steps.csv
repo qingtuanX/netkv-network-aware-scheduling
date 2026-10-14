@@ -1,0 +1,9 @@
+id,k,top1_base,top1_split,agree,n_inter,prompt_tokens_ok,G,step_gap_max,verdict,verdict_max,sensitive,reason
+c01_rep4,1, fleet, fleet,True,20,True,,0.0,A,,,
+c01_rep4,2, of, of,True,20,True,,0.0,A,,,
+c01_rep4,3, inference, inference,True,20,True,,0.0,A,,,
+c01_rep4,4, servers, servers,True,20,True,,0.0,A,,,
+c01_rep4,5, receives, receives,True,20,True,,0.0,A,,,
+c01_rep4,6, requests, requests,True,20,True,,0.0,A,,,
+c01_rep4,7, of, of,True,20,True,,0.0,A,,,
+c01_rep4,8, varying, varying,True,20,True,,0.0,A,,,

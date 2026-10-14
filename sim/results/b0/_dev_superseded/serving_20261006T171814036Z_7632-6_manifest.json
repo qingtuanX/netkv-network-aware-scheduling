@@ -1,0 +1,43 @@
+{
+  "run_id": "serving_20261006T171814036Z_7632-6",
+  "utc": "2026-10-06T17:18:16.892953+00:00",
+  "kind": "measure_serving/client",
+  "host": {
+    "hostname": "青山",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "cpu_count": 16,
+    "time_time_resolution_s": 0.0010001659393310547
+  },
+  "code_version": "uncommitted",
+  "note": "本仓库无 git 提交时恒为 uncommitted（预期）",
+  "url": "http://127.0.0.1:9504",
+  "label": "failinject_hang",
+  "params": {
+    "requests": 6,
+    "qps": 6,
+    "arrival": "uniform",
+    "concurrency": 4,
+    "prompt_tokens": 8,
+    "max_tokens": 8,
+    "request_timeout_s": 2.0,
+    "cov_tol_s": 0.005,
+    "save_tokens": false,
+    "seed": 1,
+    "loo_eps_s": 1e-06
+  },
+  "n_ok": 0,
+  "n_err": 6,
+  "error_counts": {
+    "timeout": 6
+  },
+  "coverage_verdicts": {
+    "N-A": 6
+  },
+  "wall_clock_s": 2.849,
+  "what_this_does_not_prove": [
+    "本工具量的是**某一次运行**的逐请求时延，不评模型质量，也不含任何性能收益结论。",
+    "若后端是假后端，则各阶段时刻与 KV 字节数都是伪造的，只证明测量链路可用。",
+    "覆盖判据证明的是'时间被完整归属'，**不是**'各阶段时长量得准'。"
+  ]
+}

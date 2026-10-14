@@ -1,0 +1,3 @@
+# A 的 hf download 进程 PID（收尾时按这些 PID 精确停，不用宽泛 pkill）
+5355,5357
+   5357       1 /root/b1/venv/bin/python /root/b1/venv/bin/hf download Qwen/Qwen2.5-1.5B-Instruct --local-dir /root/b1/models/Qwen2.5-1.5B-Instruct

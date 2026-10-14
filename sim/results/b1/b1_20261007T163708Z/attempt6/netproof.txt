@@ -1,0 +1,76 @@
+== 内网核实：KV 数据到底走哪条路？（**ping 0.25 ms 不能证明 NIXL 走了内网**） ==
+要回答三件事：① 服务绑在哪个地址；② NIXL 实际连的是内网还是公网地址；③ 走哪张网卡。
+
+==================== 机器 A（公网 8.155.133.216 / 内网 172.29.31.52） ====================
+--- 1) B1 服务端口绑在哪个地址（应当是内网地址或 127.0.0.1，**不应是 0.0.0.0**）
+LISTEN 0      2048    172.29.31.52:8100       0.0.0.0:*    users:(("vllm",pid=16141,fd=25))                       
+LISTEN 0      100     172.29.31.52:5600       0.0.0.0:*    users:(("VLLM::EngineCor",pid=16266,fd=157))           
+LISTEN 0      2048       127.0.0.1:8192       0.0.0.0:*    users:(("python",pid=16571,fd=12))                     
+--- 2) 与对端（172.29.31.51）之间的**已建立**连接，看对端地址是内网还是公网
+  （此刻与对端没有 established 连接）
+--- 3) 有没有任何连接落在对端的公网地址上（出现就是走公网了）
+  无：没有任何连接使用公网地址 ✓
+--- 4) 到对端内网地址的真实路由（走哪张网卡、源地址是谁）
+172.29.31.51 dev eth0 src 172.29.31.52 uid 0 
+    cache 
+--- 5) /metrics 里 KV 传输相关族的**首行**（只证明名字存在，不算证据）
+    http://172.29.31.52:8100/metrics 命中 nixl 的行数 = 101
+    http://172.29.31.52:8200/metrics 命中 nixl 的行数 = 0
+    http://127.0.0.1:8100/metrics 命中 nixl 的行数 = 0
+    http://127.0.0.1:8200/metrics 命中 nixl 的行数 = 0
+--- 5b) 命中的前 3 行（原文）
+    [http://172.29.31.52:8100] # HELP vllm:nixl_xfer_time_seconds Histogram of transfer duration for NIXL KV Cache transfers.
+    [http://172.29.31.52:8100] # TYPE vllm:nixl_xfer_time_seconds histogram
+    [http://172.29.31.52:8100] vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.005",model_name="Qwen/Qwen2.5-1.5B-Instruct"} 0.0
+--- 6) UCX/NIXL 在启动日志里选了什么传输层
+/root/b1/logs/prefill.log:(APIServer pid=16141) INFO 10-08 01:21:32 [api_utils.py:286] non-default args: {'model_tag': '/root/b1/models/Qwen2.5-1.5B-Instruct', 'host': '172.29.31.52', 'port': 8100, 'model': '/root/b1/models/Qwen2.5-1.5B-Instruct', 'max_model_len': 8192, 'enforce_eager': True, 'served_model_name': ['Qwen/Qwen2.5-1.5B-Instruct'], 'gpu_memory_utilization': 0.85, 'kv_transfer_config': KVTransferConfig(kv_connector='NixlConnector', engine_id='0a9b6c1a-c319-4242-bd25-4b122cb6b6d1', kv_buffer_device='cuda', kv_buffer_size=1000000000.0, kv_role='kv_producer', kv_rank=None, kv_parallel_size=1, kv_ip='127.0.0.1', kv_port=14579, kv_connector_extra_config={}, kv_connector_module_path=None, enable_permute_local_kv=False, kv_load_failure_policy='fail')}
+/root/b1/logs/prefill.log:(APIServer pid=16141) INFO 10-08 01:21:32 [nixl_utils.py:32] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+/root/b1/logs/prefill.log:(APIServer pid=16141) INFO 10-08 01:21:32 [nixl_utils.py:72] NIXL is available
+/root/b1/logs/prefill.log:(EngineCore pid=16266) INFO 10-08 01:21:44 [nixl_utils.py:72] NIXL is available
+/root/b1/logs/prefill.log:(EngineCore pid=16266) INFO 10-08 01:21:44 [connector.py:154] NixlConnector setting KV cache layout to LBHNC for better xfer performance.
+/root/b1/logs/prefill.log:(EngineCore pid=16266) INFO 10-08 01:21:46 [factory.py:62] Creating v1 connector with name: NixlPullConnector and engine_id: 0a9b6c1a-c319-4242-bd25-4b122cb6b6d1
+/root/b1/logs/prefill.log:(EngineCore pid=16266) INFO 10-08 01:21:46 [base_worker.py:550] Initializing NIXL wrapper
+/root/b1/logs/prefill.log:(EngineCore pid=16266) INFO 10-08 01:21:46 [base_worker.py:551] Initializing NIXL worker 0a9b6c1a-c319-4242-bd25-4b122cb6b6d1
+/root/b1/logs/prefill.log:2026-10-08 01:21:46 NIXL INFO    _api.py:407 Backend UCX was instantiated
+/root/b1/logs/prefill.log:2026-10-08 01:21:46 NIXL INFO    _api.py:285 Initialized NIXL agent: ffb272a8-3ade-41ea-b53f-6a13e8ad9fb4
+/root/b1/logs/prefill.log:(EngineCore pid=16266) INFO 10-08 01:21:47 [factory.py:62] Creating v1 connector with name: NixlPullConnector and engine_id: 0a9b6c1a-c319-4242-bd25-4b122cb6b6d1
+/root/b1/logs/prefill.log:(EngineCore pid=16266) INFO 10-08 01:21:47 [base_scheduler.py:104] Initializing NIXL Scheduler 0a9b6c1a-c319-4242-bd25-4b122cb6b6d1
+
+==================== 机器 B（公网 8.155.131.183 / 内网 172.29.31.51） ====================
+--- 1) B1 服务端口绑在哪个地址（应当是内网地址或 127.0.0.1，**不应是 0.0.0.0**）
+LISTEN 0      100     172.29.31.51:5600       0.0.0.0:*    users:(("VLLM::EngineCor",pid=16108,fd=157))           
+LISTEN 0      2048    172.29.31.51:8200       0.0.0.0:*    users:(("vllm",pid=16076,fd=25))                       
+--- 2) 与对端（172.29.31.52）之间的**已建立**连接，看对端地址是内网还是公网
+  （此刻与对端没有 established 连接）
+--- 3) 有没有任何连接落在对端的公网地址上（出现就是走公网了）
+  无：没有任何连接使用公网地址 ✓
+--- 4) 到对端内网地址的真实路由（走哪张网卡、源地址是谁）
+172.29.31.52 dev eth0 src 172.29.31.51 uid 0 
+    cache 
+--- 5) /metrics 里 KV 传输相关族的**首行**（只证明名字存在，不算证据）
+    http://172.29.31.51:8100/metrics 命中 nixl 的行数 = 0
+    http://172.29.31.51:8200/metrics 命中 nixl 的行数 = 101
+    http://127.0.0.1:8100/metrics 命中 nixl 的行数 = 0
+    http://127.0.0.1:8200/metrics 命中 nixl 的行数 = 0
+--- 5b) 命中的前 3 行（原文）
+    [http://172.29.31.51:8200] # HELP vllm:nixl_xfer_time_seconds Histogram of transfer duration for NIXL KV Cache transfers.
+    [http://172.29.31.51:8200] # TYPE vllm:nixl_xfer_time_seconds histogram
+    [http://172.29.31.51:8200] vllm:nixl_xfer_time_seconds_bucket{engine="0",le="0.005",model_name="Qwen/Qwen2.5-1.5B-Instruct"} 0.0
+--- 6) UCX/NIXL 在启动日志里选了什么传输层
+/root/b1/logs/decode.log:(APIServer pid=16076) INFO 10-08 01:21:35 [api_utils.py:286] non-default args: {'model_tag': '/root/b1/models/Qwen2.5-1.5B-Instruct', 'host': '172.29.31.51', 'port': 8200, 'model': '/root/b1/models/Qwen2.5-1.5B-Instruct', 'max_model_len': 8192, 'enforce_eager': True, 'served_model_name': ['Qwen/Qwen2.5-1.5B-Instruct'], 'gpu_memory_utilization': 0.85, 'kv_transfer_config': KVTransferConfig(kv_connector='NixlConnector', engine_id='c3827b52-4b7b-4c3f-a1ed-4515eeea0c21', kv_buffer_device='cuda', kv_buffer_size=1000000000.0, kv_role='kv_consumer', kv_rank=None, kv_parallel_size=1, kv_ip='127.0.0.1', kv_port=14579, kv_connector_extra_config={}, kv_connector_module_path=None, enable_permute_local_kv=False, kv_load_failure_policy='fail')}
+/root/b1/logs/decode.log:(APIServer pid=16076) INFO 10-08 01:21:35 [nixl_utils.py:32] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+/root/b1/logs/decode.log:(APIServer pid=16076) INFO 10-08 01:21:35 [nixl_utils.py:72] NIXL is available
+/root/b1/logs/decode.log:(EngineCore pid=16108) INFO 10-08 01:21:48 [nixl_utils.py:72] NIXL is available
+/root/b1/logs/decode.log:(EngineCore pid=16108) INFO 10-08 01:21:48 [connector.py:154] NixlConnector setting KV cache layout to LBHNC for better xfer performance.
+/root/b1/logs/decode.log:(EngineCore pid=16108) INFO 10-08 01:21:49 [factory.py:62] Creating v1 connector with name: NixlPullConnector and engine_id: c3827b52-4b7b-4c3f-a1ed-4515eeea0c21
+/root/b1/logs/decode.log:(EngineCore pid=16108) INFO 10-08 01:21:49 [base_worker.py:550] Initializing NIXL wrapper
+/root/b1/logs/decode.log:(EngineCore pid=16108) INFO 10-08 01:21:49 [base_worker.py:551] Initializing NIXL worker c3827b52-4b7b-4c3f-a1ed-4515eeea0c21
+/root/b1/logs/decode.log:2026-10-08 01:21:50 NIXL INFO    _api.py:407 Backend UCX was instantiated
+/root/b1/logs/decode.log:2026-10-08 01:21:50 NIXL INFO    _api.py:285 Initialized NIXL agent: be3026ad-7dca-4ae9-ae8c-fd9a783fabae
+/root/b1/logs/decode.log:(EngineCore pid=16108) INFO 10-08 01:21:51 [factory.py:62] Creating v1 connector with name: NixlPullConnector and engine_id: c3827b52-4b7b-4c3f-a1ed-4515eeea0c21
+/root/b1/logs/decode.log:(EngineCore pid=16108) INFO 10-08 01:21:51 [base_scheduler.py:104] Initializing NIXL Scheduler c3827b52-4b7b-4c3f-a1ed-4515eeea0c21
+
+判读规则：
+  · 第 1 项出现 0.0.0.0 ⇒ **不合规**（服务暴露给所有网卡，包括公网 IP）。
+  · 第 3 项出现公网地址 ⇒ KV **走了公网**，本批不能当内网证据，必须查安全组/NIXL 地址配置。
+  · 第 4 项 dev 应为内网网卡（eth0），源地址应为本机内网 IP。

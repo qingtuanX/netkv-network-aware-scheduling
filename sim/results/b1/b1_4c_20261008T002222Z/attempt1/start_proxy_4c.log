@@ -1,0 +1,8 @@
+# ---- start_proxy_4c @ A (8.155.133.216)  start=2026-10-08T00:25:33Z ----
+== 代理：把请求先发给前处理、再发给生成 port=8192（只绑 127.0.0.1）  P=172.29.31.52:8100  D=172.29.31.51:8200
+--- launching proxy
+  env: PATH=/usr/local/bin:/usr/bin:/bin
+  cmd: /root/b1/venv/bin/python /root/b1/official/toy_proxy_server.py --host 127.0.0.1 --port 8192 --prefiller-hosts 172.29.31.52 --prefiller-ports 8100 --decoder-hosts 172.29.31.51 --decoder-ports 8200
+  pid=4623
+  state=running
+# ---- exit=0 end=2026-10-08T00:25:35Z ----

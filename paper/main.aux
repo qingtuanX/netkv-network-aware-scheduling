@@ -1,0 +1,266 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{distserve}
+\citation{splitwise}
+\citation{mooncake}
+\citation{llumnix}
+\citation{cassini}
+\citation{vclos}
+\citation{helix}
+\citation{netkv}
+\citation{aegis}
+\citation{gensched}
+\citation{aegis}
+\citation{netkv}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {I-}0a}Ten independent workload realizations, not one.}{1}{paragraph.1.0.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {I-}0b}One mechanism variable, measured directly.}{1}{paragraph.1.0.0.2}\protected@file@percent }
+\citation{distserve}
+\citation{splitwise}
+\citation{mooncake}
+\citation{mooncake}
+\citation{llumnix}
+\citation{splitwise}
+\citation{sarathi}
+\citation{serverlessllm}
+\citation{cachegen}
+\citation{helix}
+\citation{flowkv}
+\citation{cloudabstractions}
+\citation{controlplane}
+\citation{cassini}
+\citation{vclos}
+\citation{topoopt}
+\citation{helix}
+\citation{gensched}
+\citation{netkv}
+\citation{aegis}
+\citation{staleloadold}
+\citation{delayedopen}
+\citation{stalelinkqos}
+\citation{parsync}
+\citation{aoisurvey}
+\citation{timelyremote}
+\citation{freshint}
+\citation{staleguard}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {I-}0c}Staleness is not one thing but two, with different expiry times.}{2}{paragraph.1.0.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {I-}0d}Contributions.}{2}{paragraph.1.0.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Background and Related Work}{2}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{II}{2}{Background and Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Disaggregated LLM serving and KV movement}{2}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Network-aware scheduling}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Stale and delayed state information}{2}{subsection.2.3}\protected@file@percent }
+\citation{netkv}
+\citation{aegis}
+\citation{vllm}
+\citation{sglang}
+\citation{orca}
+\citation{alpaserve}
+\citation{dynamo}
+\citation{llmd}
+\citation{jitserve}
+\citation{psp}
+\citation{gorgo}
+\citation{churnbench}
+\citation{fattree}
+\citation{dctcp}
+\citation{dcqcn}
+\citation{hpcc}
+\citation{mlperf}
+\citation{elastickv}
+\citation{howfar}
+\citation{poa}
+\citation{cassini}
+\citation{vclos}
+\citation{helix}
+\citation{gensched}
+\citation{netkv}
+\citation{aegis}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Positioning}{3}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}System Model and Method}{3}{section.3}\protected@file@percent }
+\newlabel{sec:model}{{III}{3}{System Model and Method}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Workers, requests, and two queues}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Positioning against the closest prior work. ``Channels'' = how many observed quantities are swept for freshness; ``Boundary'' = whether the paper characterizes where the benefit disappears or reverses; ``Align.'' = whether compute--bandwidth rank agreement is an experimental variable.}}{3}{table.1}\protected@file@percent }
+\newlabel{tab:positioning}{{I}{3}{Positioning against the closest prior work. ``Channels'' = how many observed quantities are swept for freshness; ``Boundary'' = whether the paper characterizes where the benefit disappears or reverses; ``Align.'' = whether compute--bandwidth rank agreement is an experimental variable}{table.1}{}}
+\newlabel{eq:work}{{1}{3}{Workers, requests, and two queues}{equation.1}{}}
+\newlabel{eq:bytes}{{2}{3}{Workers, requests, and two queues}{equation.2}{}}
+\newlabel{eq:net}{{3}{3}{Workers, requests, and two queues}{equation.3}{}}
+\newlabel{eq:backlog}{{4}{3}{Workers, requests, and two queues}{equation.4}{}}
+\newlabel{eq:drain}{{5}{3}{Workers, requests, and two queues}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Two channels of observable state, and three distortions}{3}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Objectives}{4}{subsection.3.3}\protected@file@percent }
+\newlabel{eq:slo}{{8}{4}{Objectives}{equation.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Routing policies}{4}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:policies}{{\mbox  {III-D}}{4}{Routing policies}{subsection.3.4}{}}
+\newlabel{eq:lq}{{9}{4}{Routing policies}{equation.9}{}}
+\newlabel{eq:ll}{{10}{4}{Routing policies}{equation.10}{}}
+\newlabel{eq:na1}{{11}{4}{Routing policies}{equation.11}{}}
+\newlabel{eq:na2}{{12}{4}{Routing policies}{equation.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Alignment: the configuration variable}{4}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:alignment}{{\mbox  {III-E}}{4}{Alignment: the configuration variable}{subsection.3.5}{}}
+\newlabel{eq:alignment}{{13}{4}{Alignment: the configuration variable}{equation.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-F}}Conditional use of network state}{4}{subsection.3.6}\protected@file@percent }
+\newlabel{sec:policy:adaptive}{{\mbox  {III-F}}{4}{Conditional use of network state}{subsection.3.6}{}}
+\newlabel{eq:hard}{{14}{4}{Conditional use of network state}{equation.14}{}}
+\newlabel{eq:linear}{{15}{4}{Conditional use of network state}{equation.15}{}}
+\newlabel{eq:split}{{16}{4}{Conditional use of network state}{equation.16}{}}
+\newlabel{eq:channel}{{17}{4}{Conditional use of network state}{equation.17}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-F}0a}A second, orthogonal gate.}{4}{paragraph.3.6.0.1}\protected@file@percent }
+\citation{azuretrace}
+\citation{burstgpt}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Experimental Setup}{5}{section.4}\protected@file@percent }
+\newlabel{sec:setup}{{IV}{5}{Experimental Setup}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Simulator}{5}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Workload sources}{5}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-B}0a}Synthetic.}{5}{paragraph.4.2.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-B}0b}Azure LLM inference trace.}{5}{paragraph.4.2.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-B}0c}BurstGPT.}{5}{paragraph.4.2.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Load calibration}{5}{subsection.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Load characterization per source (mean over segments). ``CV(1s)'' is the coefficient of variation of per-second arrival counts; ``AC(1s)'' the lag-1 autocorrelation of that series; ``rate chg.'' the mean relative change of the 5-second windowed arrival rate across a 5-second shift; ``Fano'' the variance-to-mean ratio of per-second counts. A stationary Poisson process would show CV $\approx 0$, AC $\approx 0$ and Fano $\approx 1$.}}{5}{table.2}\protected@file@percent }
+\newlabel{tab:loads}{{II}{5}{Load characterization per source (mean over segments). ``CV(1s)'' is the coefficient of variation of per-second arrival counts; ``AC(1s)'' the lag-1 autocorrelation of that series; ``rate chg.'' the mean relative change of the 5-second windowed arrival rate across a 5-second shift; ``Fano'' the variance-to-mean ratio of per-second counts. A stationary Poisson process would show CV $\approx 0$, AC $\approx 0$ and Fano $\approx 1$}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Statistics}{5}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Verification gates}{5}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:gates}{{\mbox  {IV-E}}{5}{Verification gates}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Real-cluster testbed}{6}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:setup:real}{{\mbox  {IV-F}}{6}{Real-cluster testbed}{subsection.4.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-G}}Reproducibility}{6}{subsection.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}RQ1: Where Does Network Awareness Pay?}{6}{section.5}\protected@file@percent }
+\newlabel{sec:rq1}{{V}{6}{RQ1: Where Does Network Awareness Pay?}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}The link term must model the link \emph  {queue}, not just its width}{6}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Benefit boundary on the synthetic source (5 seeds, \num {20000} requests/cell, $\rho =0.6$). Values are $\Delta $p95 relative to LeastLoad (\%, negative is better); ``stale'' is queue age \SI {2}{\second } / link age \SI {30}{\second }. $v_1$ = transfer-time-only score, $v_2$ = transfer time $+$ link-queue drain. ``normal'' is a uniform-link control: a network term can carry no information there, and it indeed delivers $\approx 0$.}}{6}{table.3}\protected@file@percent }
+\newlabel{tab:rq1main}{{III}{6}{Benefit boundary on the synthetic source (5 seeds, \num {20000} requests/cell, $\rho =0.6$). Values are $\Delta $p95 relative to LeastLoad (\%, negative is better); ``stale'' is queue age \SI {2}{\second } / link age \SI {30}{\second }. $v_1$ = transfer-time-only score, $v_2$ = transfer time $+$ link-queue drain. ``normal'' is a uniform-link control: a network term can carry no information there, and it indeed delivers $\approx 0$}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Network share is an on/off gate, not a dial}{6}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Alignment: the variable that explains the magnitude}{6}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:rq1:alignment}{{\mbox  {V-C}}{6}{Alignment: the variable that explains the magnitude}{subsection.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Benefit of the network-aware score against the network-blind baseline as a function of the fraction of end-to-end time spent moving bytes. Each point is one configuration (link-scale profile $\times $ workload class) at ten seeds; the two payload regimes are separated by the vertical gap. Below a network share of a few percent the effect is indistinguishable from zero.}}{7}{figure.1}\protected@file@percent }
+\newlabel{fig:netshare}{{1}{7}{Benefit of the network-aware score against the network-blind baseline as a function of the fraction of end-to-end time spent moving bytes. Each point is one configuration (link-scale profile $\times $ workload class) at ten seeds; the two payload regimes are separated by the vertical gap. Below a network share of a few percent the effect is indistinguishable from zero}{figure.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Alignment sweep (synthetic, 10 seeds, \num {12000} requests/cell; NetworkAware2 vs LeastLoad). $\rho $ is the Spearman rank correlation between per-worker compute rate and bandwidth (Eq.~\ref {eq:alignment}), measured on the configuration itself. ``aligned'' is a control: the network term should add nothing, and does not.}}{7}{table.4}\protected@file@percent }
+\newlabel{tab:alignment}{{IV}{7}{Alignment sweep (synthetic, 10 seeds, \num {12000} requests/cell; NetworkAware2 vs LeastLoad). $\rho $ is the Spearman rank correlation between per-worker compute rate and bandwidth (Eq.~\ref {eq:alignment}), measured on the configuration itself. ``aligned'' is a control: the network term should add nothing, and does not}{table.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Comparison against standard and mechanism-level baselines}{7}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:rq1:baselines}{{\mbox  {V-D}}{7}{Comparison against standard and mechanism-level baselines}{subsection.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Does the effect survive scale, and is it real?}{7}{subsection.5.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Baselines vs.\ the network-blind reference (10 seeds, $\Delta $p95 vs.\ LeastLoad, \%, negative is better). ``P2C'' = power-of-two-choices on backlog; ``P2CNet'' = two-choice on the network-aware score; ``Cong.\ only'' = congestion term alone (Aegis-style); ``Bottleneck'' = $\max (\text  {compute},\text  {network})$ (Helix-style). ``NA2'' = NetworkAware2.}}{8}{table.5}\protected@file@percent }
+\newlabel{tab:baselines}{{V}{8}{Baselines vs.\ the network-blind reference (10 seeds, $\Delta $p95 vs.\ LeastLoad, \%, negative is better). ``P2C'' = power-of-two-choices on backlog; ``P2CNet'' = two-choice on the network-aware score; ``Cong.\ only'' = congestion term alone (Aegis-style); ``Bottleneck'' = $\max (\text {compute},\text {network})$ (Helix-style). ``NA2'' = NetworkAware2}{table.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Benefit against the network-blind baseline for the three alignment configurations, four workload$\times $network combinations, ten seeds each. Error bars are $95\%$ confidence intervals over seeds. The aligned control sits at the origin; the anti-aligned configuration carries the effect.}}{8}{figure.2}\protected@file@percent }
+\newlabel{fig:alignbars}{{2}{8}{Benefit against the network-blind baseline for the three alignment configurations, four workload$\times $network combinations, ten seeds each. Error bars are $95\%$ confidence intervals over seeds. The aligned control sits at the origin; the anti-aligned configuration carries the effect}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The anti-aligned penalty as a function of cluster size, with the rank correlation $\rho $ annotated at each point. The penalty is flat; what shrinks with size is the attainable contrast (the $\rho $ values themselves).}}{8}{figure.3}\protected@file@percent }
+\newlabel{fig:alignscale}{{3}{8}{The anti-aligned penalty as a function of cluster size, with the rank correlation $\rho $ annotated at each point. The penalty is flat; what shrinks with size is the attainable contrast (the $\rho $ values themselves)}{figure.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}RQ2: How Fast Does Observed State Expire?}{8}{section.6}\protected@file@percent }
+\newlabel{sec:rq2}{{VI}{8}{RQ2: How Fast Does Observed State Expire?}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Two channels, one grid}{8}{subsection.6.1}\protected@file@percent }
+\citation{aegis}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Joint staleness grid: benefit of the network-aware score relative to the network-blind baseline as a function of link-state age (columns) and queue-state age (rows), on the volatile network. Moving right costs little; moving down is expensive.}}{9}{figure.4}\protected@file@percent }
+\newlabel{fig:staleness2d}{{4}{9}{Joint staleness grid: benefit of the network-aware score relative to the network-blind baseline as a function of link-state age (columns) and queue-state age (rows), on the volatile network. Moving right costs little; moving down is expensive}{figure.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Joint staleness grid (synthetic, 10 seeds, NetworkAware2 vs LeastLoad, $\Delta $p95 in \%). Rows: queue age; columns: link age. Reading down a column isolates link age; reading across a row isolates queue age.}}{9}{table.6}\protected@file@percent }
+\newlabel{tab:staleness2d}{{VI}{9}{Joint staleness grid (synthetic, 10 seeds, NetworkAware2 vs LeastLoad, $\Delta $p95 in \%). Rows: queue age; columns: link age. Reading down a column isolates link age; reading across a row isolates queue age}{table.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {VI-A}0a}Why.}{9}{paragraph.6.1.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Latency and averaging are different distortions}{9}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conditional Use of Network State}{9}{section.7}\protected@file@percent }
+\newlabel{sec:discount}{{VII}{9}{Conditional Use of Network State}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}What the first attempt got wrong (a falsified design)}{9}{subsection.7.1}\protected@file@percent }
+\citation{dlfp}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The four discounting rules against both extremes, on the three workload sources (mixed workload, heterogeneous static network). Per-channel discounting tracks full trust where the link snapshot is old, while uniform and threshold discounting collapse to the network-blind baseline.}}{10}{figure.5}\protected@file@percent }
+\newlabel{fig:discount}{{5}{10}{The four discounting rules against both extremes, on the three workload sources (mixed workload, heterogeneous static network). Per-channel discounting tracks full trust where the link snapshot is old, while uniform and threshold discounting collapse to the network-blind baseline}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}What the corrected rule buys, and what it does not}{10}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}When is discounting actually needed?}{10}{subsection.7.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces One-factor-at-a-time ablation of the per-channel rule on all three sources. Bars show the mean change in p95 relative to the unmodified rule with $95\%$ confidence intervals; the annotation on each bar counts conditions where the sign of the conclusion changes.}}{10}{figure.6}\protected@file@percent }
+\newlabel{fig:ablation}{{6}{10}{One-factor-at-a-time ablation of the per-channel rule on all three sources. Bars show the mean change in p95 relative to the unmodified rule with $95\%$ confidence intervals; the annotation on each bar counts conditions where the sign of the conclusion changes}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-D}}Parameter sensitivity}{10}{subsection.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-E}}What we could not explain}{10}{subsection.7.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Real-Cluster Measurements}{10}{section.8}\protected@file@percent }
+\newlabel{sec:real}{{VIII}{10}{Real-Cluster Measurements}{section.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Four discounting rules against the two extremes, under a \SI {60}{\second }-old link snapshot with a fresh queue (all values are $\Delta $p95 vs.\ LeastLoad, \%; negative is better). ``per-channel'' is Eq.~\ref {eq:channel}, ``term-split'' is the falsified design Eq.~\ref {eq:split}; ``uniform'' and ``hard'' are Eqs.~\ref {eq:linear} and~\ref {eq:hard}. Values in parentheses are medians, given only where the trace batches' per-seed spread is large.}}{11}{table.7}\protected@file@percent }
+\newlabel{tab:discount}{{VII}{11}{Four discounting rules against the two extremes, under a \SI {60}{\second }-old link snapshot with a fresh queue (all values are $\Delta $p95 vs.\ LeastLoad, \%; negative is better). ``per-channel'' is Eq.~\ref {eq:channel}, ``term-split'' is the falsified design Eq.~\ref {eq:split}; ``uniform'' and ``hard'' are Eqs.~\ref {eq:linear} and~\ref {eq:hard}. Values in parentheses are medians, given only where the trace batches' per-seed spread is large}{table.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Verdict counts over 24 conditions per source (6 staleness configurations $\times $ 2 workloads $\times $ 2 network conditions). ``Better than both'' counts conditions where the rule beats \emph  {both} full trust and no trust. No rule dominates.}}{11}{table.8}\protected@file@percent }
+\newlabel{tab:verdict}{{VIII}{11}{Verdict counts over 24 conditions per source (6 staleness configurations $\times $ 2 workloads $\times $ 2 network conditions). ``Better than both'' counts conditions where the rule beats \emph {both} full trust and no trust. No rule dominates}{table.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Seeds (of 10) in which full trust beats the network-blind baseline. The only regime where full trust is unreliable is a stale queue on a volatile network.}}{11}{table.9}\protected@file@percent }
+\newlabel{tab:seedcount}{{IX}{11}{Seeds (of 10) in which full trust beats the network-blind baseline. The only regime where full trust is unreliable is a stale queue on a volatile network}{table.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-A}}The benefit needs network share, and tolerates little staleness}{11}{subsection.8.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces One-factor-at-a-time ablation of the per-channel rule (mean $\Delta $p95 vs.\ the unmodified rule, with 95\% CI over 12 conditions; ``flips'' counts conditions where the sign of ``rule vs.\ full trust'' changes).}}{11}{table.10}\protected@file@percent }
+\newlabel{tab:ablation}{{X}{11}{One-factor-at-a-time ablation of the per-channel rule (mean $\Delta $p95 vs.\ the unmodified rule, with 95\% CI over 12 conditions; ``flips'' counts conditions where the sign of ``rule vs.\ full trust'' changes)}{table.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-B}}Reading state is not free, and gets slower exactly when it matters}{11}{subsection.8.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Real cluster, six independent repeats per cell. Bars are the network-aware policy's p95 under three runs with a concurrent job on the host and three on an idle machine; short horizontal marks are the network-blind baseline for the same run. Only the fresh, moderate-load cell has a stable direction across all six.}}{12}{figure.7}\protected@file@percent }
+\newlabel{fig:real}{{7}{12}{Real cluster, six independent repeats per cell. Bars are the network-aware policy's p95 under three runs with a concurrent job on the host and three on an idle machine; short horizontal marks are the network-blind baseline for the same run. Only the fresh, moderate-load cell has a stable direction across all six}{figure.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XI}{\ignorespaces Real cluster, six independent repeats of each cell ($\Delta $p95 of the network-aware policy vs.\ the network-blind one; negative is better). Only the fresh, moderate-load cell has a stable direction.}}{12}{table.11}\protected@file@percent }
+\newlabel{tab:realrepeats}{{XI}{12}{Real cluster, six independent repeats of each cell ($\Delta $p95 of the network-aware policy vs.\ the network-blind one; negative is better). Only the fresh, moderate-load cell has a stable direction}{table.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-C}}How much can a single-node cluster claim?}{12}{subsection.8.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {XII}{\ignorespaces Real-LLM deployment anchor. Values are medians unless a range is shown. B2 is a descriptive baseline over four paired rounds; C is a descriptive feasibility measurement over two directions. The C values are not inferential estimates.}}{12}{table.12}\protected@file@percent }
+\newlabel{tab:cloudcost}{{XII}{12}{Real-LLM deployment anchor. Values are medians unless a range is shown. B2 is a descriptive baseline over four paired rounds; C is a descriptive feasibility measurement over two directions. The C values are not inferential estimates}{table.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-D}}Cloud disaggregation: same-cloud baseline and cross-cloud feasibility}{12}{subsection.8.4}\protected@file@percent }
+\newlabel{sec:real:cloud}{{\mbox  {VIII-D}}{12}{Cloud disaggregation: same-cloud baseline and cross-cloud feasibility}{subsection.8.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Real-cloud deployment anchor. (a) Median TTFT for same-cloud and cross-cloud configurations under serial and four-way concurrency. (b) C-stage TTFT against estimated KV volume for five fixed prompt groups. Dashed lines are anchored $1/\mathrm  {bandwidth}$ engineering references; this panel is a \emph  {descriptive background}, not a linearity test. D-mini was planned but not executed.}}{13}{figure.8}\protected@file@percent }
+\newlabel{fig:cloudttft}{{8}{13}{Real-cloud deployment anchor. (a) Median TTFT for same-cloud and cross-cloud configurations under serial and four-way concurrency. (b) C-stage TTFT against estimated KV volume for five fixed prompt groups. Dashed lines are anchored $1/\mathrm {bandwidth}$ engineering references; this panel is a \emph {descriptive background}, not a linearity test. D-mini was planned but not executed}{figure.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Threats to Validity}{13}{section.9}\protected@file@percent }
+\newlabel{sec:threats}{{IX}{13}{Threats to Validity}{section.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0a}Serving model.}{13}{paragraph.9.0.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0b}Network model.}{13}{paragraph.9.0.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0c}Cluster evidence.}{13}{paragraph.9.0.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0d}Workloads.}{13}{paragraph.9.0.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0e}Engineering estimates.}{13}{paragraph.9.0.0.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0f}Coverage gaps we are aware of.}{13}{paragraph.9.0.0.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0g}Scope.}{13}{paragraph.9.0.0.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0h}Real-cloud coverage.}{13}{paragraph.9.0.0.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0i}Unmeasured input-length sweep.}{13}{paragraph.9.0.0.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0j}Descriptive cloud comparison.}{13}{paragraph.9.0.0.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IX-}0k}Cloud heterogeneity.}{13}{paragraph.9.0.0.11}\protected@file@percent }
+\citation{dlfp}
+\bibstyle{IEEEtran}
+\bibdata{refs}
+\bibcite{distserve}{1}
+\bibcite{splitwise}{2}
+\bibcite{mooncake}{3}
+\bibcite{llumnix}{4}
+\bibcite{cassini}{5}
+\bibcite{vclos}{6}
+\bibcite{helix}{7}
+\@writefile{toc}{\contentsline {section}{\numberline {X}Conclusion}{14}{section.10}\protected@file@percent }
+\newlabel{sec:conclusion}{{X}{14}{Conclusion}{section.10}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {X-}0a}What we found.}{14}{paragraph.10.0.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {X-}0b}What did not work.}{14}{paragraph.10.0.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {X-}0c}What we would do next.}{14}{paragraph.10.0.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {X-}0d}A closing observation.}{14}{paragraph.10.0.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {X-}0e}Real-cloud anchor.}{14}{paragraph.10.0.0.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{14}{section*.1}\protected@file@percent }
+\bibcite{netkv}{8}
+\bibcite{aegis}{9}
+\bibcite{gensched}{10}
+\bibcite{sarathi}{11}
+\bibcite{serverlessllm}{12}
+\bibcite{cachegen}{13}
+\bibcite{flowkv}{14}
+\bibcite{cloudabstractions}{15}
+\bibcite{controlplane}{16}
+\bibcite{topoopt}{17}
+\bibcite{staleloadold}{18}
+\bibcite{delayedopen}{19}
+\bibcite{stalelinkqos}{20}
+\bibcite{parsync}{21}
+\bibcite{aoisurvey}{22}
+\bibcite{timelyremote}{23}
+\bibcite{freshint}{24}
+\bibcite{staleguard}{25}
+\bibcite{vllm}{26}
+\bibcite{sglang}{27}
+\bibcite{orca}{28}
+\bibcite{alpaserve}{29}
+\bibcite{dynamo}{30}
+\bibcite{llmd}{31}
+\bibcite{jitserve}{32}
+\bibcite{psp}{33}
+\bibcite{gorgo}{34}
+\bibcite{churnbench}{35}
+\bibcite{fattree}{36}
+\bibcite{dctcp}{37}
+\bibcite{dcqcn}{38}
+\bibcite{hpcc}{39}
+\bibcite{mlperf}{40}
+\bibcite{elastickv}{41}
+\bibcite{howfar}{42}
+\bibcite{poa}{43}
+\bibcite{azuretrace}{44}
+\bibcite{burstgpt}{45}
+\bibcite{dlfp}{46}
+\gdef \@abspage@last{15}
