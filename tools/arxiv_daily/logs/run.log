@@ -1,0 +1,539 @@
+[2026-10-21 23:58:27] 开始：窗口 2026-10-20 09:58 → 2026-10-21 15:58（UTC）
+[2026-10-21 23:58:27] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610200958 TO 202610211558]
+[2026-10-21 23:58:29] API 命中 187 条（本次最多取 1200 条）
+[2026-10-21 23:58:29] 解析出 187 篇（去重前）
+[2026-10-21 23:58:29] 新增 187 篇，跳过看过的 0 篇
+[2026-10-21 23:58:29] 完成：新增 187 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-21.md
+[2026-10-21 23:59:16] 开始：窗口 2026-10-20 09:59 → 2026-10-21 15:59（UTC）
+[2026-10-21 23:59:16] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610200959 TO 202610211559]
+[2026-10-21 23:59:19] API 命中 187 条（本次最多取 1200 条）
+[2026-10-21 23:59:19] 解析出 187 篇（去重前）
+[2026-10-21 23:59:19] 新增 0 篇，跳过看过的 187 篇
+[2026-10-21 23:59:19] 本期无新增，当天日报已存在，保持原文件不动（加 --force 可覆盖成空日报）
+[2026-10-21 23:59:41] 开始：窗口 2026-10-20 09:59 → 2026-10-21 15:59（UTC）
+[2026-10-21 23:59:41] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610200959 TO 202610211559]
+[2026-10-21 23:59:42] API 命中 187 条（本次最多取 1200 条）
+[2026-10-21 23:59:42] 解析出 187 篇（去重前）
+[2026-10-21 23:59:42] 新增 0 篇，跳过看过的 187 篇
+[2026-10-21 23:59:42] 本期无新增，当天日报已存在，保持原文件不动（加 --force 可覆盖成空日报）
+[2026-10-22 00:03:33] 开始：窗口 2026-10-20 10:03 → 2026-10-21 16:03（UTC）
+[2026-10-22 00:03:33] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201003 TO 202610211603]
+[2026-10-22 00:03:35] API 命中 186 条（本次最多取 1200 条）
+[2026-10-22 00:03:35] 解析出 186 篇（去重前）
+[2026-10-22 00:03:35] 新增 186 篇，跳过看过的 0 篇
+[2026-10-22 00:03:35] 微信推送已入队：[wxpush] 宸叉帓闃燂細C:\Users\qiafe\.dsh\wxbridge\outbox\1792598615944-dbbbdb56.json
+[2026-10-22 00:03:35] 完成：新增 186 篇 → C:\Users\qiafe\AppData\Local\Temp\dshbuild\pushcheck\2026-10-22.md
+[2026-10-22 00:16:26] 开始：窗口 2026-10-20 10:16 → 2026-10-21 16:16（UTC）
+[2026-10-22 00:16:26] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201016 TO 202610211616]
+[2026-10-22 00:16:28] API 命中 184 条（本次最多取 1200 条）
+[2026-10-22 00:16:28] 解析出 184 篇（去重前）
+[2026-10-22 00:16:28] 新增 184 篇，跳过看过的 0 篇
+[2026-10-22 00:16:40] 大模型处理 20/20 篇，用时 11.2s
+[2026-10-22 00:16:40] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792599400566-1f096069.json
+[2026-10-22 00:16:42] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792599402678-c496d8a4.json
+[2026-10-22 00:16:44] 完成：新增 184 篇 → C:\Users\qiafe\AppData\Local\Temp\dshbuild\v3test\2026-10-22.md
+[2026-10-22 00:53:13] 开始：窗口 2026-10-20 10:53 → 2026-10-21 16:53（UTC）
+[2026-10-22 00:53:13] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201053 TO 202610211653]
+[2026-10-22 00:53:14] API 命中 175 条（本次最多取 1200 条）
+[2026-10-22 00:53:14] 解析出 175 篇（去重前）
+[2026-10-22 00:53:14] 新增 175 篇，跳过看过的 0 篇
+[2026-10-22 00:53:30] 大模型翻译/分类失败，退回英文摘要：Remote end closed connection without response
+[2026-10-22 00:53:30] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792601610952-8a187c0b.json
+[2026-10-22 00:53:33] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792601613043-02bbbaa9.json
+[2026-10-22 00:53:35] 完成：新增 175 篇 → C:\Users\qiafe\AppData\Local\Temp\dshbuild\v4test\2026-10-22.md
+[2026-10-22 00:53:49] 开始：窗口 2026-10-20 10:53 → 2026-10-21 16:53（UTC）
+[2026-10-22 00:53:49] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201053 TO 202610211653]
+[2026-10-22 00:53:50] API 命中 175 条（本次最多取 1200 条）
+[2026-10-22 00:53:50] 解析出 175 篇（去重前）
+[2026-10-22 00:53:50] 新增 175 篇，跳过看过的 0 篇
+[2026-10-22 00:54:04] 大模型处理 20/20 篇，用时 13.1s
+[2026-10-22 00:54:04] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792601644597-39f7c486.json
+[2026-10-22 00:54:06] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792601646684-e34d662d.json
+[2026-10-22 00:54:08] 完成：新增 175 篇 → C:\Users\qiafe\AppData\Local\Temp\dshbuild\v5test\2026-10-22.md
+[2026-10-22 01:01:00] 开始：窗口 2026-10-20 11:01 → 2026-10-21 17:01（UTC）
+[2026-10-22 01:01:00] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201101 TO 202610211701]
+[2026-10-22 01:01:26] HTTP 429，5.9s 后重试（第 1/4 次）
+[2026-10-22 01:01:43] HTTP 429，10.8s 后重试（第 2/4 次）
+[2026-10-22 01:02:05] HTTP 429，21.4s 后重试（第 3/4 次）
+[2026-10-22 01:02:37] HTTP 429，40.1s 后重试（第 4/4 次）
+[2026-10-22 01:03:17] 运行失败：抓取失败，已重试 4 次：HTTP Error 429: Unknown Error
+[2026-10-22 01:03:17] Traceback (most recent call last):
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 1033, in main
+    return run(args)
+           ^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 903, in run
+    papers, total = fetch_window(cfg, start, end, max_results)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 224, in fetch_window
+    root = ET.fromstring(http_get(url))
+                         ^^^^^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 143, in http_get
+    raise RuntimeError("抓取失败，已重试 %d 次：%s" % (attempts, last_error))
+RuntimeError: 抓取失败，已重试 4 次：HTTP Error 429: Unknown Error
+
+[2026-10-22 01:07:48] 会场 EuroSys（CCF A）：返回 1 条，采用 1 条
+[2026-10-22 01:07:48] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 2 条，采用 1 条
+[2026-10-22 01:07:48] 跳过 B会：CCF C 低于门槛
+[2026-10-22 01:07:48] 期刊/会议合计 2 条（只含 CCF B 及以上）
+[2026-10-22 08:10:02] 开始：窗口 2026-10-20 18:10 → 2026-10-22 00:10（UTC）
+[2026-10-22 08:10:02] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201810 TO 202610220010]
+[2026-10-22 08:10:03] HTTP 429，6.5s 后重试（第 1/4 次）
+[2026-10-22 08:10:10] HTTP 429，11.4s 后重试（第 2/4 次）
+[2026-10-22 08:11:21] 网络错误 The read operation timed out，21.2s 后重试（第 3/4 次）
+[2026-10-22 08:11:43] HTTP 429，40.8s 后重试（第 4/4 次）
+[2026-10-22 08:12:24] 运行失败：抓取失败，已重试 4 次：HTTP Error 429: Unknown Error
+[2026-10-22 08:12:24] Traceback (most recent call last):
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 1062, in main
+    return run(args)
+           ^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 932, in run
+    papers, total = fetch_window(cfg, start, end, max_results)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 224, in fetch_window
+    root = ET.fromstring(http_get(url))
+                         ^^^^^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 143, in http_get
+    raise RuntimeError("抓取失败，已重试 %d 次：%s" % (attempts, last_error))
+RuntimeError: 抓取失败，已重试 4 次：HTTP Error 429: Unknown Error
+
+[2026-10-22 08:16:12] 开始：窗口 2026-10-20 18:16 → 2026-10-22 00:16（UTC）
+[2026-10-22 08:16:12] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201816 TO 202610220016]
+[2026-10-22 08:16:59] HTTP 503，5.8s 后重试（第 1/4 次）
+[2026-10-22 08:17:51] HTTP 503，10.0s 后重试（第 2/4 次）
+[2026-10-22 08:18:16] HTTP 429，20.5s 后重试（第 3/4 次）
+[2026-10-22 08:19:37] 网络错误 The read operation timed out，40.2s 后重试（第 4/4 次）
+[2026-10-22 08:20:17] arXiv API 取不到（抓取失败，已重试 4 次：The read operation timed out），改用 RSS 当日公告兜底
+[2026-10-22 08:20:18] RSS cs.CL：173 条（只取 announce_type=new）
+[2026-10-22 08:20:21] RSS cs.LG：308 条（只取 announce_type=new）
+[2026-10-22 08:20:25] RSS cs.AI：133 条（只取 announce_type=new）
+[2026-10-22 08:20:28] arXiv 解析出 614 篇
+[2026-10-22 08:20:28] 新增 576 篇，跳过看过的 38 篇
+[2026-10-22 08:20:44] 大模型处理 20/20 篇，用时 13.7s
+[2026-10-22 08:20:44] 完成：新增 200 篇 → C:\Users\qiafe\AppData\Local\Temp\dshbuild\v7test\2026-10-22.md
+[2026-10-22 08:20:49] 开始：窗口 2026-10-20 18:20 → 2026-10-22 00:20（UTC）
+[2026-10-22 08:20:49] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201820 TO 202610220020]
+[2026-10-22 08:20:50] HTTP 429，8.0s 后重试（第 1/2 次）
+[2026-10-22 08:21:58] 网络错误 The read operation timed out，16.1s 后重试（第 2/2 次）
+[2026-10-22 08:22:14] arXiv API 取不到（抓取失败，已重试 2 次：The read operation timed out），改用 RSS 当日公告兜底
+[2026-10-22 08:23:08] RSS cs.CL：173 条（只取 announce_type=new）
+[2026-10-22 08:23:42] RSS cs.LG 失败：IncompleteRead(617472 bytes read, 1133674 more expected)
+[2026-10-22 08:23:43] RSS cs.AI：133 条（只取 announce_type=new）
+[2026-10-22 08:23:46] arXiv 解析出 306 篇
+[2026-10-22 08:23:46] 新增 0 篇，跳过看过的 306 篇
+[2026-10-22 08:23:46] 本期无新增 → 写了空日报：E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-22.md
+[2026-10-22 08:23:55] 开始：窗口 2026-10-20 18:23 → 2026-10-22 00:23（UTC）
+[2026-10-22 08:23:55] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201823 TO 202610220023]
+[2026-10-22 08:24:23] API 命中 0 条（本次最多取 1200 条）
+[2026-10-22 08:24:23] arXiv 解析出 0 篇
+[2026-10-22 08:24:23] 新增 0 篇，跳过看过的 0 篇
+[2026-10-22 08:24:23] 本期无新增 → 写了空日报：E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-22.md
+[2026-10-22 08:24:27] 开始：窗口 2026-10-20 18:24 → 2026-10-22 00:24（UTC）
+[2026-10-22 08:24:27] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201824 TO 202610220024]
+[2026-10-22 08:24:40] API 命中 0 条（本次最多取 1200 条）
+[2026-10-22 08:24:40] API 返回 0 条，改用 RSS 当日公告兜底
+[2026-10-22 08:24:41] RSS cs.CL：173 条（只取 announce_type=new）
+[2026-10-22 08:24:44] RSS cs.LG：308 条（只取 announce_type=new）
+[2026-10-22 08:24:48] RSS cs.AI：133 条（只取 announce_type=new）
+[2026-10-22 08:24:51] arXiv 解析出 614 篇
+[2026-10-22 08:24:51] 新增 614 篇，跳过看过的 0 篇
+[2026-10-22 08:25:27] 大模型处理 20/20 篇，用时 33.7s
+[2026-10-22 08:25:27] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792628727146-7eb62da5.json
+[2026-10-22 08:25:29] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792628729222-d4f2bdee.json
+[2026-10-22 08:25:31] 完成：新增 200 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-22.md
+[2026-10-22 09:10:01] 开始：窗口 2026-10-20 19:10 → 2026-10-22 01:10（UTC）
+[2026-10-22 09:10:01] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610201910 TO 202610220110]
+[2026-10-22 09:10:03] API 命中 259 条（本次最多取 1200 条）
+[2026-10-22 09:10:03] arXiv 解析出 259 篇
+[2026-10-22 09:10:10] Semantic Scholar 限流（OSDI），12s 后重试
+[2026-10-22 09:10:24] 会场 OSDI（CCF A）：返回 20 条，采用 17 条
+[2026-10-22 09:10:39] 会场 SOSP（CCF A）：返回 20 条，采用 12 条
+[2026-10-22 09:11:54] 会场 NSDI 抓取失败：The read operation timed out
+[2026-10-22 09:12:12] 会场 SIGCOMM（CCF A）：返回 20 条，采用 18 条
+[2026-10-22 09:12:25] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-22 09:12:40] 会场 USENIX ATC（CCF A）：返回 20 条，采用 18 条
+[2026-10-22 09:12:52] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-22 09:13:15] 会场 SC（CCF A）：返回 20 条，采用 16 条
+[2026-10-22 09:13:52] 会场 ICDCS（CCF B）：返回 20 条，采用 17 条
+[2026-10-22 09:14:04] 会场 HPDC（CCF B）：返回 20 条，采用 16 条
+[2026-10-22 09:14:22] 会场 IPDPS（CCF B）：返回 20 条，采用 12 条
+[2026-10-22 09:14:36] 会场 VLDB（CCF A）：返回 0 条，采用 0 条
+[2026-10-22 09:14:47] 会场 SIGMOD（CCF A）：返回 0 条，采用 0 条
+[2026-10-22 09:15:00] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-22 09:16:11] 会场 IEEE/ACM ToN 抓取失败：The read operation timed out
+[2026-10-22 09:16:14] 会场 IEEE TMC（CCF A · SCI 待核）：返回 20 条，采用 18 条
+[2026-10-22 09:17:46] 会场 IEEE JSAC 抓取失败：The read operation timed out
+[2026-10-22 09:20:17] 会场 IEEE TKDE（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-22 09:20:27] 期刊/会议合计 214 条（只含 CCF B 及以上）
+[2026-10-22 09:20:28] 新增 473 篇，跳过看过的 0 篇
+[2026-10-22 09:21:02] 大模型调用失败（第 1/3 次）：Remote end closed connection without response；5s 后重试
+[2026-10-22 09:21:18] 大模型处理 20/20 篇，用时 49.0s
+[2026-10-22 09:21:18] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792632078665-3f294af1.json
+[2026-10-22 09:21:20] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792632080752-50474794.json
+[2026-10-22 09:21:22] 完成：新增 400 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-22.md
+[2026-10-22 17:12:34] 精品文章查询失败：The read operation timed out
+[2026-10-22 17:13:09] 精品候选（LLM inference serving）：30 条
+[2026-10-22 17:13:16] 精品候选（KV cache management）：30 条
+[2026-10-22 17:13:24] 精品候选（GPU cluster scheduling）：30 条
+[2026-10-22 17:13:27] 精品文章 2 篇（今年，白名单会场，按被引排序）
+[2026-10-22 17:13:39] 精品候选（LLM inference serving）：300 条
+[2026-10-22 17:13:48] 精品候选（KV cache management）：182 条
+[2026-10-22 17:13:55] 精品候选（GPU cluster scheduling）：255 条
+[2026-10-22 17:13:58] 精品文章 2 篇（今年，白名单会场，按被引排序）
+[2026-10-22 17:14:09] 开始：窗口 2026-10-21 03:14 → 2026-10-22 09:14（UTC）
+[2026-10-22 17:14:09] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610210314 TO 202610220914]
+[2026-10-22 17:14:12] API 命中 279 条（本次最多取 1200 条）
+[2026-10-22 17:14:12] arXiv 解析出 279 篇
+[2026-10-22 17:14:21] 精品候选（LLM inference serving）：300 条
+[2026-10-22 17:15:37] 精品文章查询失败（KV cache management）：The read operation timed out
+[2026-10-22 17:17:02] 精品文章查询失败（GPU cluster scheduling）：<urlopen error _ssl.c:993: The handshake operation timed out>
+[2026-10-22 17:17:05] 精品文章 2 篇（今年，白名单会场，按被引排序）
+[2026-10-22 17:17:05] 新增 124 篇，跳过看过的 157 篇
+[2026-10-22 17:17:19] 大模型处理 21/21 篇，用时 13.4s
+[2026-10-22 17:17:19] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792660639688-7ab9863e.json
+[2026-10-22 17:17:21] 完成：新增 524 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-22.md
+[2026-10-22 17:17:47] 精品候选（LLM inference serving）：30 条
+[2026-10-22 17:17:54] 精品候选（KV cache management）：30 条
+[2026-10-22 17:18:01] 精品候选（GPU cluster scheduling）：30 条
+[2026-10-22 17:18:04] 精品文章 2 篇（今年，白名单会场，按被引排序）
+[2026-10-22 17:18:08] 开始：窗口 2026-10-21 03:18 → 2026-10-22 09:18（UTC）
+[2026-10-22 17:18:08] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610210318 TO 202610220918]
+[2026-10-22 17:18:10] API 命中 276 条（本次最多取 1200 条）
+[2026-10-22 17:18:10] arXiv 解析出 276 篇
+[2026-10-22 17:18:18] 精品候选（LLM inference serving）：300 条
+[2026-10-22 17:18:26] 精品候选（KV cache management）：182 条
+[2026-10-22 17:18:35] 精品候选（GPU cluster scheduling）：255 条
+[2026-10-22 17:18:39] 精品文章 2 篇（今年，白名单会场，按被引排序）
+[2026-10-22 17:18:39] 新增 2 篇，跳过看过的 276 篇
+[2026-10-22 17:18:41] 大模型处理 2/2 篇，用时 2.1s
+[2026-10-22 17:18:41] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792660721293-d5065566.json
+[2026-10-22 17:18:43] 完成：新增 526 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-22.md
+[2026-10-23 08:10:02] 开始：窗口 2026-10-21 18:10 → 2026-10-23 00:10（UTC）
+[2026-10-23 08:10:02] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610211810 TO 202610230010]
+[2026-10-23 08:10:09] API 命中 0 条（本次最多取 1200 条）
+[2026-10-23 08:10:09] API 返回 0 条，改用 RSS 当日公告兜底
+[2026-10-23 08:10:10] RSS cs.CL：89 条（只取 announce_type=new）
+[2026-10-23 08:10:13] RSS cs.LG：137 条（只取 announce_type=new）
+[2026-10-23 08:10:17] RSS cs.AI：63 条（只取 announce_type=new）
+[2026-10-23 08:10:20] arXiv 解析出 289 篇
+[2026-10-23 08:10:21] Semantic Scholar 限流（OSDI），12s 后重试
+[2026-10-23 08:10:34] Semantic Scholar 限流（OSDI），24s 后重试
+[2026-10-23 08:10:59] Semantic Scholar 限流（OSDI），36s 后重试
+[2026-10-23 08:11:40] 会场 SOSP（CCF A）：返回 20 条，采用 12 条
+[2026-10-23 08:11:52] Semantic Scholar 限流（NSDI），12s 后重试
+[2026-10-23 08:12:06] Semantic Scholar 限流（NSDI），24s 后重试
+[2026-10-23 08:12:35] Semantic Scholar 限流（NSDI），36s 后重试
+[2026-10-23 08:13:14] 会场 SIGCOMM（CCF A）：返回 20 条，采用 18 条
+[2026-10-23 08:13:25] Semantic Scholar 限流（EuroSys），12s 后重试
+[2026-10-23 08:13:38] Semantic Scholar 限流（EuroSys），24s 后重试
+[2026-10-23 08:14:03] Semantic Scholar 限流（EuroSys），36s 后重试
+[2026-10-23 08:14:46] Semantic Scholar 限流（USENIX ATC），12s 后重试
+[2026-10-23 08:15:00] Semantic Scholar 限流（USENIX ATC），24s 后重试
+[2026-10-23 08:15:29] 会场 USENIX ATC（CCF A）：返回 20 条，采用 18 条
+[2026-10-23 08:15:55] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-23 08:16:06] Semantic Scholar 限流（SC），12s 后重试
+[2026-10-23 08:16:19] Semantic Scholar 限流（SC），24s 后重试
+[2026-10-23 08:16:44] Semantic Scholar 限流（SC），36s 后重试
+[2026-10-23 08:17:24] Semantic Scholar 限流（ICDCS），12s 后重试
+[2026-10-23 08:17:39] Semantic Scholar 限流（ICDCS），24s 后重试
+[2026-10-23 08:18:05] 会场 ICDCS（CCF B）：返回 20 条，采用 17 条
+[2026-10-23 08:18:16] Semantic Scholar 限流（HPDC），12s 后重试
+[2026-10-23 08:18:30] 会场 HPDC（CCF B）：返回 20 条，采用 16 条
+[2026-10-23 08:18:43] 会场 IPDPS（CCF B）：返回 20 条，采用 12 条
+[2026-10-23 08:18:54] Semantic Scholar 限流（VLDB），12s 后重试
+[2026-10-23 08:19:08] 会场 VLDB（CCF A）：返回 0 条，采用 0 条
+[2026-10-23 08:19:19] Semantic Scholar 限流（SIGMOD），12s 后重试
+[2026-10-23 08:19:32] Semantic Scholar 限流（SIGMOD），24s 后重试
+[2026-10-23 08:19:57] Semantic Scholar 限流（SIGMOD），36s 后重试
+[2026-10-23 08:20:34] Semantic Scholar 限流（IEEE TPDS），12s 后重试
+[2026-10-23 08:21:02] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-23 08:21:19] 会场 IEEE/ACM ToN（CCF A · SCI 待核）：返回 0 条，采用 0 条
+[2026-10-23 08:21:31] 会场 IEEE TMC（CCF A · SCI 待核）：返回 20 条，采用 18 条
+[2026-10-23 08:21:41] Semantic Scholar 限流（IEEE JSAC），12s 后重试
+[2026-10-23 08:21:58] 会场 IEEE JSAC（CCF A · SCI 1区）：返回 20 条，采用 15 条
+[2026-10-23 08:22:09] Semantic Scholar 限流（IEEE TKDE），12s 后重试
+[2026-10-23 08:22:25] 会场 IEEE TKDE（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-23 08:22:35] 期刊/会议合计 180 条（只含 CCF B 及以上）
+[2026-10-23 08:23:11] 精品候选（LLM inference serving）：300 条
+[2026-10-23 08:24:36] 新增 50 篇，跳过看过的 419 篇
+[2026-10-23 08:24:54] 大模型调用失败（第 1/3 次）：Remote end closed connection without response；5s 后重试
+[2026-10-23 08:25:16] 大模型调用失败（第 2/3 次）：Remote end closed connection without response；10s 后重试
+[2026-10-23 08:25:42] 大模型调用失败（第 3/3 次）：Remote end closed connection without response；15s 后重试
+[2026-10-23 08:25:57] 大模型翻译/分类最终失败，本批退回英文摘要：Remote end closed connection without response
+[2026-10-23 08:25:57] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792715157850-0e679c9a.json
+[2026-10-23 08:25:57] 翻译失败：本次不更新去重台账，下一次运行会重试同一批
+[2026-10-23 08:25:57] 完成：新增 50 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-23.md
+[2026-10-23 09:10:01] 开始：窗口 2026-10-21 19:10 → 2026-10-23 01:10（UTC）
+[2026-10-23 09:10:01] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610211910 TO 202610230110]
+[2026-10-23 09:10:01] HTTP 429，8.9s 后重试（第 1/2 次）
+[2026-10-23 09:10:11] HTTP 429，17.1s 后重试（第 2/2 次）
+[2026-10-23 09:10:28] arXiv API 取不到（抓取失败，已重试 2 次：HTTP Error 429: Unknown Error），改用 RSS 当日公告兜底
+[2026-10-23 09:10:29] RSS cs.CL：89 条（只取 announce_type=new）
+[2026-10-23 09:10:32] RSS cs.LG：137 条（只取 announce_type=new）
+[2026-10-23 09:10:36] RSS cs.AI：63 条（只取 announce_type=new）
+[2026-10-23 09:10:39] arXiv 解析出 289 篇
+[2026-10-23 09:10:40] Semantic Scholar 限流（OSDI），6s 后重试
+[2026-10-23 09:10:47] Semantic Scholar 限流（OSDI），12s 后重试
+[2026-10-23 09:11:01] Semantic Scholar 限流（SOSP），6s 后重试
+[2026-10-23 09:11:09] 会场 SOSP（CCF A）：返回 20 条，采用 12 条
+[2026-10-23 09:11:18] 会场 NSDI（CCF A）：返回 20 条，采用 19 条
+[2026-10-23 09:11:25] Semantic Scholar 限流（SIGCOMM），6s 后重试
+[2026-10-23 09:11:34] 会场 SIGCOMM（CCF A）：返回 20 条，采用 18 条
+[2026-10-23 09:11:41] Semantic Scholar 限流（EuroSys），6s 后重试
+[2026-10-23 09:11:48] Semantic Scholar 限流（EuroSys），12s 后重试
+[2026-10-23 09:12:01] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-23 09:12:09] 会场 SC（CCF A）：返回 20 条，采用 16 条
+[2026-10-23 09:12:16] Semantic Scholar 限流（IEEE TPDS），6s 后重试
+[2026-10-23 09:12:23] Semantic Scholar 限流（IEEE TPDS），12s 后重试
+[2026-10-23 09:12:35] 期刊/会议合计 81 条（只含 CCF B 及以上）
+[2026-10-23 09:14:49] 新增 54 篇，跳过看过的 316 篇
+[2026-10-23 09:15:03] 大模型处理 20/20 篇，用时 14.1s
+[2026-10-23 09:15:04] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792718104039-2d6d332f.json
+[2026-10-23 09:15:06] 完成：新增 69 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-23.md
+[2026-10-24 08:10:03] 开始：窗口 2026-10-22 18:10 → 2026-10-24 00:10（UTC）
+[2026-10-24 08:10:03] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610221810 TO 202610240010]
+[2026-10-24 08:10:04] API 命中 0 条（本次最多取 1200 条）
+[2026-10-24 08:10:04] API 返回 0 条，改用 RSS 当日公告兜底
+[2026-10-24 08:10:17] RSS cs.CL：77 条（只取 announce_type=new）
+[2026-10-24 08:11:01] RSS cs.LG：117 条（只取 announce_type=new）
+[2026-10-24 08:11:04] RSS cs.AI：103 条（只取 announce_type=new）
+[2026-10-24 08:11:07] arXiv 解析出 297 篇
+[2026-10-24 08:11:08] 会场 OSDI（CCF A）：返回 20 条，采用 17 条
+[2026-10-24 08:11:15] 会场 SOSP（CCF A）：返回 20 条，采用 12 条
+[2026-10-24 08:11:23] 会场 NSDI（CCF A）：返回 20 条，采用 19 条
+[2026-10-24 08:11:30] 会场 SIGCOMM（CCF A）：返回 20 条，采用 18 条
+[2026-10-24 08:11:38] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-24 08:11:46] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-24 08:11:53] 会场 SC（CCF A）：返回 20 条，采用 16 条
+[2026-10-24 08:12:01] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-24 08:12:07] 期刊/会议合计 133 条（只含 CCF B 及以上）
+[2026-10-24 08:12:09] 精品候选（LLM inference serving）：300 条
+[2026-10-24 08:12:24] 精品候选（KV cache management）：186 条
+[2026-10-24 08:12:36] 精品候选（GPU cluster scheduling）：260 条
+[2026-10-24 08:12:39] 精品文章 2 篇（今年，白名单会场，按被引排序）
+[2026-10-24 08:12:39] 新增 299 篇，跳过看过的 133 篇
+[2026-10-24 08:12:53] 大模型处理 20/20 篇，用时 12.4s
+[2026-10-24 08:12:53] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792800773196-39254fb1.json
+[2026-10-24 08:12:55] 完成：新增 200 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-24.md
+[2026-10-24 09:10:01] 开始：窗口 2026-10-22 19:10 → 2026-10-24 01:10（UTC）
+[2026-10-24 09:10:01] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610221910 TO 202610240110]
+[2026-10-24 09:10:02] API 命中 0 条（本次最多取 1200 条）
+[2026-10-24 09:10:02] API 返回 0 条，改用 RSS 当日公告兜底
+[2026-10-24 09:10:03] RSS cs.CL：77 条（只取 announce_type=new）
+[2026-10-24 09:10:07] RSS cs.LG：117 条（只取 announce_type=new）
+[2026-10-24 09:10:11] RSS cs.AI：103 条（只取 announce_type=new）
+[2026-10-24 09:10:14] arXiv 解析出 297 篇
+[2026-10-24 09:10:15] 会场 OSDI（CCF A）：返回 20 条，采用 17 条
+[2026-10-24 09:10:23] 会场 SOSP（CCF A）：返回 20 条，采用 12 条
+[2026-10-24 09:10:32] 会场 NSDI（CCF A）：返回 20 条，采用 19 条
+[2026-10-24 09:10:41] 会场 SIGCOMM（CCF A）：返回 20 条，采用 18 条
+[2026-10-24 09:10:50] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-24 09:10:59] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-24 09:11:08] 会场 SC（CCF A）：返回 20 条，采用 16 条
+[2026-10-24 09:11:17] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-24 09:11:23] 期刊/会议合计 133 条（只含 CCF B 及以上）
+[2026-10-24 09:11:26] 精品候选（LLM inference serving）：300 条
+[2026-10-24 09:11:32] 精品候选（KV cache management）：186 条
+[2026-10-24 09:11:38] 精品候选（GPU cluster scheduling）：260 条
+[2026-10-24 09:11:41] 新增 0 篇，跳过看过的 430 篇
+[2026-10-24 09:11:41] 本期无新增，当天日报已存在，保持原文件不动（--force 可覆盖成空日报）
+[2026-10-25 14:51:04] 开始：窗口 2026-10-24 00:51 → 2026-10-25 06:51（UTC）
+[2026-10-25 14:51:04] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610240051 TO 202610250651]
+[2026-10-25 14:51:05] API 命中 0 条（本次最多取 1200 条）
+[2026-10-25 14:51:05] API 返回 0 条，改用 RSS 当日公告兜底
+[2026-10-25 14:51:05] RSS cs.CL：0 条（只取 announce_type=new）
+[2026-10-25 14:51:09] RSS cs.LG：0 条（只取 announce_type=new）
+[2026-10-25 14:51:12] RSS cs.AI：0 条（只取 announce_type=new）
+[2026-10-25 14:51:15] arXiv 解析出 0 篇
+[2026-10-25 14:51:37] 会场 OSDI 抓取失败：<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>
+[2026-10-25 14:51:56] 会场 SOSP 抓取失败：<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>
+[2026-10-25 14:52:16] 会场 NSDI 抓取失败：<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>
+[2026-10-25 14:52:17] Semantic Scholar 限流（SIGCOMM），6s 后重试
+[2026-10-25 14:52:24] Semantic Scholar 限流（SIGCOMM），12s 后重试
+[2026-10-25 14:52:37] Semantic Scholar 限流（EuroSys），6s 后重试
+[2026-10-25 14:52:47] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-25 14:52:56] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-25 14:53:03] Semantic Scholar 限流（SC），6s 后重试
+[2026-10-25 14:53:10] Semantic Scholar 限流（SC），12s 后重试
+[2026-10-25 14:54:55] 会场 IEEE TPDS 抓取失败：The read operation timed out
+[2026-10-25 14:54:55] 期刊/会议合计 32 条（只含 CCF B 及以上）
+[2026-10-25 14:55:13] 精品候选（LLM inference serving）：300 条
+[2026-10-25 14:56:58] 新增 0 篇，跳过看过的 32 篇
+[2026-10-25 14:56:58] 本期无新增 → 写了空日报：E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-25.md
+[2026-10-26 08:10:03] 开始：窗口 2026-10-24 18:10 → 2026-10-26 00:10（UTC）
+[2026-10-26 08:10:03] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610241810 TO 202610260010]
+[2026-10-26 08:10:09] API 命中 0 条（本次最多取 1200 条）
+[2026-10-26 08:10:09] API 返回 0 条，改用 RSS 当日公告兜底
+[2026-10-26 08:10:09] RSS cs.CL：0 条（只取 announce_type=new）
+[2026-10-26 08:10:13] RSS cs.LG：0 条（只取 announce_type=new）
+[2026-10-26 08:10:16] RSS cs.AI：0 条（只取 announce_type=new）
+[2026-10-26 08:10:19] arXiv 解析出 0 篇
+[2026-10-26 08:11:22] 会场 OSDI 抓取失败：The read operation timed out
+[2026-10-26 08:11:29] Semantic Scholar 限流（SOSP），6s 后重试
+[2026-10-26 08:11:36] Semantic Scholar 限流（SOSP），12s 后重试
+[2026-10-26 08:11:50] Semantic Scholar 限流（NSDI），6s 后重试
+[2026-10-26 08:12:20] Semantic Scholar 限流（NSDI），12s 后重试
+[2026-10-26 08:12:32] Semantic Scholar 限流（SIGCOMM），6s 后重试
+[2026-10-26 08:12:39] Semantic Scholar 限流（SIGCOMM），12s 后重试
+[2026-10-26 08:12:52] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-26 08:12:59] Semantic Scholar 限流（ASPLOS），6s 后重试
+[2026-10-26 08:13:05] Semantic Scholar 限流（ASPLOS），12s 后重试
+[2026-10-26 08:13:19] 会场 SC（CCF A）：返回 20 条，采用 16 条
+[2026-10-26 08:13:25] Semantic Scholar 限流（IEEE TPDS），6s 后重试
+[2026-10-26 08:14:08] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-26 08:14:14] 期刊/会议合计 51 条（只含 CCF B 及以上）
+[2026-10-26 08:14:59] 精品候选（KV cache management）：186 条
+[2026-10-26 08:15:05] 精品候选（GPU cluster scheduling）：260 条
+[2026-10-26 08:15:08] 新增 0 篇，跳过看过的 51 篇
+[2026-10-26 08:15:08] 本期无新增 → 写了空日报：E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-26.md
+[2026-10-26 09:10:02] 开始：窗口 2026-10-24 19:10 → 2026-10-26 01:10（UTC）
+[2026-10-26 09:10:02] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610241910 TO 202610260110]
+[2026-10-26 09:10:12] HTTP 429，9.0s 后重试（第 1/2 次）
+[2026-10-26 09:10:22] HTTP 429，16.5s 后重试（第 2/2 次）
+[2026-10-26 09:10:39] arXiv API 取不到（抓取失败，已重试 2 次：HTTP Error 429: Unknown Error），改用 RSS 当日公告兜底
+[2026-10-26 09:10:39] RSS cs.CL：0 条（只取 announce_type=new）
+[2026-10-26 09:10:42] RSS cs.LG：0 条（只取 announce_type=new）
+[2026-10-26 09:10:46] RSS cs.AI：0 条（只取 announce_type=new）
+[2026-10-26 09:10:49] 运行失败：抓取失败，已重试 2 次：HTTP Error 429: Unknown Error
+[2026-10-26 09:10:49] Traceback (most recent call last):
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 1293, in main
+    return run(args)
+           ^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 1140, in run
+    papers, total = fetch_window(cfg, start, end, max_results)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 228, in fetch_window
+    root = ET.fromstring(http_get(url, attempts=2, backoff=8.0))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\代码项目文件\论文\tools\arxiv_daily\arxiv_daily.py", line 146, in http_get
+    raise RuntimeError("抓取失败，已重试 %d 次：%s" % (attempts, last_error))
+RuntimeError: 抓取失败，已重试 2 次：HTTP Error 429: Unknown Error
+
+[2026-10-26 14:33:17] 开始：窗口 2026-10-25 00:33 → 2026-10-26 06:33（UTC）
+[2026-10-26 14:33:17] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610250033 TO 202610260633]
+[2026-10-26 14:33:18] API 命中 0 条（本次最多取 1200 条）
+[2026-10-26 14:33:18] API 返回 0 条，改用 RSS 当日公告兜底
+[2026-10-26 14:33:18] RSS cs.CL：72 条（只取 announce_type=new）
+[2026-10-26 14:33:22] RSS cs.LG：106 条（只取 announce_type=new）
+[2026-10-26 14:33:26] RSS cs.AI：79 条（只取 announce_type=new）
+[2026-10-26 14:33:29] arXiv 解析出 257 篇
+[2026-10-26 14:36:59] 精品文章查询失败（LLM inference serving）：The read operation timed out
+[2026-10-26 14:38:26] 新增 257 篇，跳过看过的 0 篇
+[2026-10-26 14:38:42] 大模型处理 20/20 篇，用时 15.5s
+[2026-10-26 14:38:42] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1792996722611-9581ab35.json
+[2026-10-26 14:38:44] 完成：新增 200 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-26.md
+[2026-10-27 08:10:02] 开始：窗口 2026-10-25 18:10 → 2026-10-27 00:10（UTC）
+[2026-10-27 08:10:02] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610251810 TO 202610270010]
+[2026-10-27 08:10:03] HTTP 429，8.8s 后重试（第 1/2 次）
+[2026-10-27 08:10:12] HTTP 429，17.5s 后重试（第 2/2 次）
+[2026-10-27 08:10:29] arXiv API 取不到（抓取失败，已重试 2 次：HTTP Error 429: Unknown Error），改用 RSS 当日公告兜底
+[2026-10-27 08:10:30] RSS cs.CL：72 条（只取 announce_type=new）
+[2026-10-27 08:10:34] RSS cs.LG：106 条（只取 announce_type=new）
+[2026-10-27 08:10:37] RSS cs.AI：79 条（只取 announce_type=new）
+[2026-10-27 08:10:40] arXiv 解析出 257 篇
+[2026-10-27 08:11:03] 会场 OSDI 抓取失败：<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>
+[2026-10-27 08:11:23] 会场 SOSP 抓取失败：<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>
+[2026-10-27 08:11:42] 会场 NSDI 抓取失败：<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>
+[2026-10-27 08:12:00] 会场 SIGCOMM（CCF A）：返回 20 条，采用 18 条
+[2026-10-27 08:12:14] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 08:12:22] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 08:12:29] 会场 SC（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 08:12:39] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-27 08:12:45] 期刊/会议合计 85 条（只含 CCF B 及以上）
+[2026-10-27 08:14:16] 精品文章查询失败（LLM inference serving）：The read operation timed out
+[2026-10-27 08:14:38] 精品候选（KV cache management）：189 条
+[2026-10-27 08:14:58] 精品候选（GPU cluster scheduling）：261 条
+[2026-10-27 08:15:01] 新增 0 篇，跳过看过的 342 篇
+[2026-10-27 08:15:01] 本期无新增 → 写了空日报：E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-27.md
+[2026-10-27 09:10:01] 开始：窗口 2026-10-25 19:10 → 2026-10-27 01:10（UTC）
+[2026-10-27 09:10:01] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610251910 TO 202610270110]
+[2026-10-27 09:10:03] API 命中 0 条（本次最多取 1200 条）
+[2026-10-27 09:10:03] API 返回 0 条，改用 RSS 当日公告兜底
+[2026-10-27 09:10:03] RSS cs.CL：72 条（只取 announce_type=new）
+[2026-10-27 09:10:07] RSS cs.LG：106 条（只取 announce_type=new）
+[2026-10-27 09:10:10] RSS cs.AI：79 条（只取 announce_type=new）
+[2026-10-27 09:10:13] arXiv 解析出 257 篇
+[2026-10-27 09:10:16] 会场 OSDI（CCF A）：返回 20 条，采用 17 条
+[2026-10-27 09:10:25] 会场 SOSP（CCF A）：返回 20 条，采用 12 条
+[2026-10-27 09:10:37] 会场 NSDI（CCF A）：返回 20 条，采用 19 条
+[2026-10-27 09:10:46] 会场 SIGCOMM（CCF A）：返回 20 条，采用 18 条
+[2026-10-27 09:10:58] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 09:11:11] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 09:11:18] Semantic Scholar 限流（SC），6s 后重试
+[2026-10-27 09:11:25] 会场 SC（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 09:11:33] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-27 09:11:39] 期刊/会议合计 133 条（只含 CCF B 及以上）
+[2026-10-27 09:11:57] 精品候选（LLM inference serving）：300 条
+[2026-10-27 09:12:03] 精品候选（KV cache management）：189 条
+[2026-10-27 09:12:09] 精品候选（GPU cluster scheduling）：261 条
+[2026-10-27 09:12:12] 新增 0 篇，跳过看过的 390 篇
+[2026-10-27 09:12:12] 本期无新增，当天日报已存在，保持原文件不动（--force 可覆盖成空日报）
+[2026-10-27 12:40:02] 开始：窗口 2026-10-25 22:40 → 2026-10-27 04:40（UTC）
+[2026-10-27 12:40:02] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610252240 TO 202610270440]
+[2026-10-27 12:40:33] HTTP 429，8.8s 后重试（第 1/2 次）
+[2026-10-27 12:41:29] HTTP 503，17.0s 后重试（第 2/2 次）
+[2026-10-27 12:41:46] arXiv API 取不到（抓取失败，已重试 2 次：HTTP Error 503: Service Unavailable），改用 RSS 当日公告兜底
+[2026-10-27 12:41:47] RSS cs.CL：154 条（只取 announce_type=new）
+[2026-10-27 12:41:50] RSS cs.LG：106 条（只取 announce_type=new）
+[2026-10-27 12:41:53] RSS cs.AI：79 条（只取 announce_type=new）
+[2026-10-27 12:41:56] arXiv 解析出 339 篇
+[2026-10-27 12:43:09] 会场 OSDI 抓取失败：The read operation timed out
+[2026-10-27 12:43:16] 会场 SOSP（CCF A）：返回 20 条，采用 12 条
+[2026-10-27 12:44:31] 会场 NSDI 抓取失败：The read operation timed out
+[2026-10-27 12:45:37] 会场 SIGCOMM（CCF A）：返回 20 条，采用 18 条
+[2026-10-27 12:46:03] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 12:46:34] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 12:47:40] 会场 SC 抓取失败：<urlopen error _ssl.c:993: The handshake operation timed out>
+[2026-10-27 12:48:17] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-27 12:48:23] 期刊/会议合计 81 条（只含 CCF B 及以上）
+[2026-10-27 12:50:11] 精品文章查询失败（LLM inference serving）：The read operation timed out
+[2026-10-27 12:51:35] 精品文章查询失败（KV cache management）：The read operation timed out
+[2026-10-27 12:52:44] 精品文章查询失败（GPU cluster scheduling）：<urlopen error _ssl.c:993: The handshake operation timed out>
+[2026-10-27 12:52:47] 新增 154 篇，跳过看过的 266 篇
+[2026-10-27 12:53:00] 大模型处理 20/20 篇，用时 12.8s
+[2026-10-27 12:53:00] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1793076780918-5ffdf278.json
+[2026-10-27 12:53:02] 完成：新增 154 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-27.md
+[2026-10-27 14:10:01] 开始：窗口 2026-10-26 00:10 → 2026-10-27 06:10（UTC）
+[2026-10-27 14:10:01] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610260010 TO 202610270610]
+[2026-10-27 14:10:03] API 命中 361 条（本次最多取 1200 条）
+[2026-10-27 14:10:03] arXiv 解析出 361 篇
+[2026-10-27 14:10:15] Semantic Scholar 限流（OSDI），6s 后重试
+[2026-10-27 14:11:38] 会场 OSDI 抓取失败：The read operation timed out
+[2026-10-27 14:11:50] Semantic Scholar 限流（SOSP），6s 后重试
+[2026-10-27 14:12:04] Semantic Scholar 限流（SOSP），12s 后重试
+[2026-10-27 14:12:18] Semantic Scholar 限流（NSDI），6s 后重试
+[2026-10-27 14:12:30] Semantic Scholar 限流（NSDI），12s 后重试
+[2026-10-27 14:12:43] Semantic Scholar 限流（SIGCOMM），6s 后重试
+[2026-10-27 14:12:51] Semantic Scholar 限流（SIGCOMM），12s 后重试
+[2026-10-27 14:13:07] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 14:13:17] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 14:13:26] 会场 SC（CCF A）：返回 20 条，采用 16 条
+[2026-10-27 14:13:36] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-27 14:13:42] 期刊/会议合计 67 条（只含 CCF B 及以上）
+[2026-10-27 14:13:45] 精品候选（LLM inference serving）：300 条
+[2026-10-27 14:15:17] 精品文章查询失败（KV cache management）：<urlopen error _ssl.c:993: The handshake operation timed out>
+[2026-10-27 14:16:03] 新增 297 篇，跳过看过的 131 篇
+[2026-10-27 14:16:41] 大模型处理 20/20 篇，用时 36.5s
+[2026-10-27 14:16:41] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1793081801534-e1719437.json
+[2026-10-27 14:16:43] 完成：新增 354 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-27.md
+[2026-10-28 14:17:40] 开始：窗口 2026-10-27 00:17 → 2026-10-28 06:17（UTC）
+[2026-10-28 14:17:40] 查询：(cat:cs.CL OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[202610270017 TO 202610280617]
+[2026-10-28 14:17:44] API 命中 331 条（本次最多取 1200 条）
+[2026-10-28 14:17:44] arXiv 解析出 331 篇
+[2026-10-28 14:19:10] 会场 OSDI 抓取失败：<urlopen error _ssl.c:993: The handshake operation timed out>
+[2026-10-28 14:19:23] Semantic Scholar 限流（SOSP），6s 后重试
+[2026-10-28 14:19:32] Semantic Scholar 限流（SOSP），12s 后重试
+[2026-10-28 14:19:51] 会场 NSDI（CCF A）：返回 20 条，采用 19 条
+[2026-10-28 14:19:58] Semantic Scholar 限流（SIGCOMM），6s 后重试
+[2026-10-28 14:20:06] Semantic Scholar 限流（SIGCOMM），12s 后重试
+[2026-10-28 14:20:20] Semantic Scholar 限流（EuroSys），6s 后重试
+[2026-10-28 14:20:31] 会场 EuroSys（CCF A）：返回 20 条，采用 16 条
+[2026-10-28 14:20:43] 会场 ASPLOS（CCF A）：返回 20 条，采用 16 条
+[2026-10-28 14:21:50] 会场 SC 抓取失败：<urlopen error _ssl.c:993: The handshake operation timed out>
+[2026-10-28 14:22:17] 会场 IEEE TPDS（CCF A · SCI 2区）：返回 20 条，采用 19 条
+[2026-10-28 14:22:23] 期刊/会议合计 70 条（只含 CCF B 及以上）
+[2026-10-28 14:22:44] 精品候选（LLM inference serving）：300 条
+[2026-10-28 14:23:37] 精品候选（GPU cluster scheduling）：261 条
+[2026-10-28 14:23:40] 新增 331 篇，跳过看过的 70 篇
+[2026-10-28 14:23:55] 大模型处理 20/20 篇，用时 13.5s
+[2026-10-28 14:23:56] 微信推送已入队：[wxpush] 已排队：C:\Users\qiafe\.dsh\wxbridge\outbox\1793168636018-ec82aea4.json
+[2026-10-28 14:23:58] 完成：新增 200 篇 → E:\代码项目文件\论文\tools\arxiv_daily\briefs\2026-10-28.md

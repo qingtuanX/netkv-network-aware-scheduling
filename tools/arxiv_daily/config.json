@@ -1,0 +1,346 @@
+{
+  "_说明": "arXiv 日报的全部可调参数。改这里不用改代码；_xxx 字段是注释。",
+  "categories": [
+    "cs.CL",
+    "cs.LG",
+    "cs.AI"
+  ],
+  "_categories": "抓哪些分类。cs.CL=计算语言学/大模型，cs.LG=机器学习，cs.AI=人工智能。加 cs.CV 会多几百篇。",
+  "window_hours": 30,
+  "_window_hours": "每次往前看多少小时。arXiv 每天一批公告，30 小时刚好覆盖一批。",
+  "max_results": 1200,
+  "_max_results": "单次最多抓多少条（API 硬上限 2000）。三个分类一天约 400-700 篇。",
+  "max_list": 200,
+  "_max_list": "一天最多把多少篇写进 JSON/候选项（去重状态照记全部）。",
+  "research_threshold": 8.0,
+  "_research_threshold": "没有大模型时的兜底门槛：课题相关分超过它就算「你的方向」。接了大模型以后这一项只用于预筛。",
+  "scoring": {
+    "min_recommend": 3.5
+  },
+  "_scoring": "微信推荐的最低分。低于 3.5 的不推；但如果整条轨道都不够分，会退回分数最高的几篇，避免推空消息。",
+  "venues": {
+    "_说明": "期刊/会议白名单：只推荐 CCF B 及以上；期刊额外标 SCI 分区（以最新中科院分区为准，拿不准的写「待核」）。s2 字段是 Semantic Scholar 认的会场名，认不出来就换全称。",
+    "enabled": true,
+    "min_ccf": "B",
+    "years": "2025-2026",
+    "max_per_venue": 20,
+    "request_gap_s": 6.0,
+    "list": [
+      {
+        "s2": "OSDI",
+        "label": "OSDI",
+        "kind": "会议",
+        "ccf": "A"
+      },
+      {
+        "s2": "SOSP",
+        "label": "SOSP",
+        "kind": "会议",
+        "ccf": "A"
+      },
+      {
+        "s2": "NSDI",
+        "label": "NSDI",
+        "kind": "会议",
+        "ccf": "A"
+      },
+      {
+        "s2": "SIGCOMM",
+        "label": "SIGCOMM",
+        "kind": "会议",
+        "ccf": "A"
+      },
+      {
+        "s2": "EuroSys",
+        "label": "EuroSys",
+        "kind": "会议",
+        "ccf": "A"
+      },
+      {
+        "s2": "ASPLOS",
+        "label": "ASPLOS",
+        "kind": "会议",
+        "ccf": "A"
+      },
+      {
+        "s2": "SC",
+        "label": "SC",
+        "kind": "会议",
+        "ccf": "A"
+      },
+      {
+        "s2": "IEEE Transactions on Parallel and Distributed Systems",
+        "label": "IEEE TPDS",
+        "kind": "期刊",
+        "ccf": "A",
+        "sci": "2区"
+      }
+    ]
+  },
+  "_venues": "期刊/会议数据源（Semantic Scholar）。names 写会场名，认不出来就换全称；years 可用 2025-2026。Semantic Scholar 免 key 但限流很紧，request_gap_s 是每个会场之间的强制间隔；429 会自动退避重试。有 arXiv 版本的论文会被跳过（arXiv 源已经覆盖）。",
+  "tracks": {
+    "research": {
+      "name": "你的方向 · 推理服务与调度",
+      "max": 4
+    },
+    "infra": {
+      "name": "AI Infra · 引擎 / GPU / 部署",
+      "max": 4
+    }
+  },
+  "_tracks": "微信和日报里的两条轨道各推几篇。research 优先（当前研究方向），infra 是求职方向但也要提。",
+  "translate": {
+    "enabled": true,
+    "base_url": "https://api.deepseek.com/v1",
+    "model": "deepseek-chat",
+    "api_key_env": "DEEPSEEK_API_KEY",
+    "credentials_file": "C:\\Users\\qiafe\\.dsh\\.credentials.yaml",
+    "max_papers": 20,
+    "max_abstract_chars": 900
+  },
+  "_translate": "分类 + 中文标题 + 中文摘要 + 推荐理由。先按关键词粗排，只把最像的 max_papers 篇交给模型，控制花费。key 先读环境变量，读不到再从本机 DSH 凭据文件的 refs 里取（不会打印出来）。enabled=false 就退回英文标题。",
+  "topic_groups": [
+    {
+      "name": "大模型与推理服务",
+      "keywords": [
+        "inference",
+        "serving",
+        "scheduling",
+        "kv cache",
+        "prefill",
+        "decode",
+        "batching",
+        "speculative decoding",
+        "quantization",
+        "mixture of experts",
+        "throughput",
+        "latency",
+        "context length"
+      ]
+    },
+    {
+      "name": "智能体与检索增强",
+      "keywords": [
+        "agent",
+        "tool use",
+        "function calling",
+        "retrieval-augmented",
+        "rag",
+        "multi-agent",
+        "computer use",
+        "mcp"
+      ]
+    },
+    {
+      "name": "推理与思维链",
+      "keywords": [
+        "reasoning",
+        "chain-of-thought",
+        "test-time compute",
+        "verifier",
+        "process reward",
+        "self-consistency"
+      ]
+    },
+    {
+      "name": "多模态与生成",
+      "keywords": [
+        "diffusion",
+        "multimodal",
+        "vision-language",
+        "text-to-image",
+        "video generation",
+        "speech",
+        "audio"
+      ]
+    },
+    {
+      "name": "训练与对齐",
+      "keywords": [
+        "pretraining",
+        "fine-tuning",
+        "alignment",
+        "rlhf",
+        "dpo",
+        "distillation",
+        "scaling law",
+        "data mixture",
+        "synthetic data",
+        "reinforcement learning"
+      ]
+    },
+    {
+      "name": "评测、效率与安全",
+      "keywords": [
+        "benchmark",
+        "evaluation",
+        "hallucination",
+        "jailbreak",
+        "safety",
+        "interpretability",
+        "efficiency",
+        "compression",
+        "sparsity",
+        "long context"
+      ]
+    }
+  ],
+  "_topic_groups": "只用于日报里的分类计数和标签，不影响排序（排序由大模型和关键词粗排决定）。",
+  "research_keywords": {
+    "llm serving": 5,
+    "inference serving": 5,
+    "model serving": 5,
+    "serving system": 5,
+    "scheduling": 4,
+    "scheduler": 4,
+    "kv cache": 4,
+    "prefix cache": 4,
+    "disaggregated": 4,
+    "distributed inference": 4,
+    "autoscaling": 4,
+    "gpu cluster": 4,
+    "datacenter network": 4,
+    "network-aware": 4,
+    "prefill": 3,
+    "decoding": 3,
+    "speculative decoding": 3,
+    "batching": 3,
+    "bandwidth": 3,
+    "tail latency": 3,
+    "load balancing": 3,
+    "resource allocation": 3,
+    "moe routing": 3,
+    "slo": 3,
+    "model parallelism": 3,
+    "network bandwidth": 3,
+    "collective communication": 3,
+    "communication overhead": 3,
+    "interconnect": 3,
+    "gpu": 2,
+    "throughput": 2,
+    "quantization": 2,
+    "latency": 2,
+    "heterogeneous": 2
+  },
+  "_research_keywords": "课题相关关键词（标题命中算 3 倍、摘要 1 倍）。只用于粗排预筛，最终分类交给大模型。避免单放 network/cluster/placement，会命中 neural network 这类假阳性。",
+  "infra_keywords": [
+    "inference engine",
+    "serving engine",
+    "vllm",
+    "sglang",
+    "tensorrt",
+    "triton",
+    "cuda",
+    "gpu kernel",
+    "kernel fusion",
+    "kernel optimization",
+    "compiler",
+    "code generation",
+    "auto-tuning",
+    "autotuning",
+    "quantization",
+    "pruning",
+    "distillation",
+    "sparsity",
+    "tensor parallel",
+    "pipeline parallel",
+    "data parallel",
+    "sequence parallel",
+    "distributed training",
+    "nccl",
+    "collective communication",
+    "communication overlap",
+    "memory management",
+    "paged attention",
+    "continuous batching",
+    "disaggregated",
+    "kv cache",
+    "mixture of experts",
+    "expert parallel",
+    "roofline",
+    "profiling",
+    "hardware-aware",
+    "fp8",
+    "int4",
+    "mixed precision",
+    "checkpointing",
+    "kubernetes",
+    "autoscaling",
+    "spot instance",
+    "deployment",
+    "model compression",
+    "long context",
+    "throughput",
+    "latency"
+  ],
+  "_infra_keywords": "AI Infra 关键词，只用来把「可能有基建价值」的论文纳入候选池，最终分类仍由大模型判断。",
+  "broad_keywords": [
+    "llm",
+    "large language model",
+    "language model",
+    "transformer",
+    "agent",
+    "reasoning",
+    "alignment",
+    "rlhf",
+    "diffusion",
+    "multimodal",
+    "vision-language",
+    "vlm",
+    "fine-tuning",
+    "pretraining",
+    "benchmark",
+    "dataset",
+    "distillation",
+    "chain-of-thought",
+    "tool use",
+    "code generation",
+    "hallucination",
+    "safety",
+    "interpretability",
+    "world model",
+    "video generation",
+    "mixture of experts",
+    "kv cache",
+    "reinforcement learning",
+    "retrieval-augmented",
+    "long context"
+  ],
+  "_broad_keywords": "大模型/深度学习总主题词，用来保证候选池里不会全是冷门方向。",
+  "push": {
+    "enabled": true,
+    "node": "C:\\Program Files\\nodejs\\node.exe",
+    "script": "C:\\Users\\qiafe\\.dsh\\wxbridge\\wxpush.mjs",
+    "send_empty": false
+  },
+  "_push": "微信推送：调 wxpush.mjs 写 outbox，桥轮询发送。只支持文本（插件没有出站附件通道），所以 PDF 用链接而不是文件。",
+  "curated": {
+    "_说明": "精品文章：从 venues.list 白名单里挑今年的论文，不受「最近 24 小时」限制，也不要求出自 arXiv。按被引排序，推过的记在 state/curated.json，不重复。",
+    "enabled": true,
+    "per_day": 2,
+    "year": "2026",
+    "pool": 300,
+    "query": "LLM inference serving scheduling KV cache GPU cluster network",
+    "queries": [
+      "LLM inference serving",
+      "KV cache management",
+      "GPU cluster scheduling"
+    ],
+    "min_citations": 3,
+    "keywords": [
+      "llm",
+      "large language model",
+      "inference",
+      "serving",
+      "kv cache",
+      "gpu",
+      "cluster",
+      "scheduling",
+      "moe",
+      "quantization",
+      "attention",
+      "prefill",
+      "decode"
+    ]
+  }
+}

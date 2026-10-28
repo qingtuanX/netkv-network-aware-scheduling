@@ -1,0 +1,106 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+\title{Supplementary Material for\\[2pt]
+\large “The Price of Stale State: When Does Network Awareness Pay in LLM Inference Serving?”}
+\author{}
+\date{}
+
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{document}
+\maketitle
+
+\noindent This supplement contains the three tables that the main text refers to as
+Tables~S1--S3. Table~S1 characterizes the three workload sources. Table~S2 counts, per
+source and per discounting rule, how often the rule beats both the full-trust and the
+network-blind extremes. Table~S3 reports the one-factor-at-a-time sensitivity of the
+per-channel rule. The tables are provided here, rather than in the main text, only to keep
+the main manuscript within the target length; they are not additional experiments.
+
+\section*{S1. Load characterization}
+
+\begin{table}[h]
+\centering
+\caption{Load characterization per source (mean over segments). “CV(1s)” is the coefficient of
+variation of per-second arrival counts; “AC(1s)” the lag-1 autocorrelation of that series;
+“rate chg.” the mean relative change of the 5-second windowed arrival rate across a 5-second
+shift; “Fano” the variance-to-mean ratio of per-second counts. A stationary Poisson process
+would show CV $\approx 0$, AC $\approx 0$ and Fano $\approx 1$.}
+\small
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+Source & Workload & CV(1s) & AC(1s) & Rate chg. & Fano \\
+\midrule
+\multirow{2}{*}{Synthetic} & mixed      & 0.60 & 0.85 & 0.30 & 7.0 \\
+                           & data-heavy & 0.65 & 0.73 & 0.27 & 3.7 \\
+\multirow{2}{*}{Azure}     & mixed      & 0.23 & 0.17 & 0.14 & 1.4 \\
+                           & data-heavy & 0.30 & 0.28 & 0.17 & 1.6 \\
+\multirow{2}{*}{BurstGPT}  & mixed      & 1.30 & 0.73 & 0.43 & 302 \\
+                           & data-heavy & 2.11 & 0.55 & 0.99 & 939 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{S2. Verdict counts for the discounting rules}
+
+\begin{table}[h]
+\centering
+\caption{Verdict counts over 24 conditions per source (6 staleness configurations $\times$ 2
+workloads $\times$ 2 network conditions). “Better than both” counts conditions where the rule
+beats \emph{both} full trust and no trust. No rule dominates.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Source & Rule & beats both & loses both & beats full & loses full \\
+\midrule
+\multirow{4}{*}{Synthetic} & per-channel & 5 & 1 & 5 & 18 \\
+                           & term-split  & 4 & 3 & 4 & 19 \\
+                           & uniform     & 5 & 5 & 5 & 18 \\
+                           & hard        & 5 & 1 & 5 & 17 \\
+\midrule
+\multirow{4}{*}{Azure}     & per-channel & 1 & 4 & 1 & 22 \\
+                           & term-split  & 1 & 5 & 1 & 22 \\
+                           & uniform     & 2 & 4 & 4 & 19 \\
+                           & hard        & 4 & 8 & 7 & 15 \\
+\midrule
+\multirow{4}{*}{BurstGPT}  & per-channel & 8 & 2 & 10 & 13 \\
+                           & term-split  & 6 & 2 & 8 & 15 \\
+                           & uniform     & 10 & 4 & 10 & 13 \\
+                           & hard        & 7 & 3 & 8 & 14 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{S3. One-factor-at-a-time sensitivity of the per-channel rule}
+
+\begin{table}[h]
+\centering
+\caption{One-factor-at-a-time ablation of the per-channel rule (mean $\Delta$p95 vs.\ the
+unmodified rule, with 95\% CI over 12 conditions; “flips” counts conditions where the
+sign of “rule vs.\ full trust” changes).}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Variant & Synthetic & Azure & BurstGPT & flips (max) \\
+\midrule
+$\tau_q: 4\rightarrow2$\,s & $+6.3\pm8.4$ & $+2.6\pm2.9$ & $+1.9\pm3.4$ & 1/12 \\
+$\tau_q: 4\rightarrow8$\,s & $-3.2\pm3.9$ & $-1.0\pm1.4$ & $-0.9\pm1.4$ & 1/12 \\
+$\tau_n: 60\rightarrow20$\,s & $+1.3\pm1.7$ & $+0.4\pm0.6$ & $+1.0\pm1.5$ & 0/12 \\
+$\tau_n: 60\rightarrow120$\,s & $-1.2\pm1.8$ & $-0.7\pm0.8$ & $-0.8\pm1.1$ & 2/12 \\
+floor: $0.7\rightarrow0.5$ & $0.0\pm0.0$ & $0.0\pm0.0$ & $0.0\pm0.0$ & 0/12 \\
+floor: $0.7\rightarrow0.9$ & $-1.6\pm1.9$ & $-0.8\pm0.9$ & $-0.9\pm1.2$ & 2/12 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

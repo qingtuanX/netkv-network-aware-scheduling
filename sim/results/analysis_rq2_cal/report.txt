@@ -1,0 +1,25 @@
+RQ2 staleness under ideal / nominal-calibrated / equal-U calibrated (linear).
+benefit = (p95_LeastLoad - p95_NetworkAware2) / p95_LeastLoad * 100.
+retention = benefit(lag) / benefit(0) * 100.
+
+===== synthetic
+-- ideal
+  link degraded: 0s=71.7% (ret 100%), 0s=70.2% (ret 98%), 1s=69.4% (ret 97%), 2s=69.4% (ret 97%), 5s=69.4% (ret 97%), 15s=69.4% (ret 97%), 30s=69.4% (ret 97%), 60s=69.4% (ret 97%)
+  link unstable: 0s=23.8% (ret 100%), 0s=19.2% (ret 81%), 1s=12.8% (ret 54%), 2s=14.2% (ret 60%), 5s=11.5% (ret 48%), 15s=8.6% (ret 36%), 30s=10.1% (ret 42%), 60s=11.9% (ret 50%)
+  queue unstable: 0s=23.8% (ret 100%), 0.25s=19.3% (ret 81%), 1s=17.4% (ret 73%), 2s=13.1% (ret 55%), 5s=6.0% (ret 25%), 15s=-21.2% (ret -89%), 30s=-117.8% (ret -495%), 60s=-41.2% (ret -173%)
+-- nominal
+  link degraded: 0s=65.6% (ret 100%), 0s=63.8% (ret 97%), 1s=60.0% (ret 91%), 2s=60.0% (ret 91%), 5s=60.0% (ret 91%), 15s=60.0% (ret 91%), 30s=60.0% (ret 91%), 60s=60.0% (ret 91%)
+  link unstable: 0s=1.0% (ret 100%), 0s=-1.5% (ret -144%), 1s=-3.0% (ret -289%), 2s=-2.5% (ret -246%), 5s=-3.4% (ret -333%), 15s=-1.5% (ret -148%), 30s=-3.0% (ret -295%), 60s=-2.8% (ret -268%)
+  queue unstable: 0s=1.0% (ret 100%), 0.25s=-0.9% (ret -91%), 1s=-1.7% (ret -166%), 2s=-1.3% (ret -128%), 5s=-4.6% (ret -449%), 15s=-6.1% (ret -588%), 30s=-9.0% (ret -869%), 60s=4.2% (ret 405%)
+
+===== azure
+-- ideal
+  link degraded: 0s=77.6% (ret 100%), 0s=73.5% (ret 95%), 1s=55.9% (ret 72%), 2s=55.9% (ret 72%), 5s=55.9% (ret 72%), 15s=55.9% (ret 72%), 30s=55.9% (ret 72%), 60s=55.9% (ret 72%)
+  link unstable: 0s=38.2% (ret 100%), 0s=26.0% (ret 68%), 1s=15.0% (ret 39%), 2s=11.3% (ret 30%), 5s=8.0% (ret 21%), 15s=6.5% (ret 17%), 30s=6.2% (ret 16%), 60s=7.7% (ret 20%)
+  queue unstable: 0s=38.2% (ret 100%), 0.25s=28.7% (ret 75%), 1s=16.6% (ret 44%), 2s=7.3% (ret 19%), 5s=4.3% (ret 11%), 15s=-28.0% (ret -73%), 30s=-61.3% (ret -161%), 60s=-40.8% (ret -107%)
+
+===== burstgpt
+-- ideal
+  link degraded: 0s=63.4% (ret 100%), 0s=63.7% (ret 100%), 1s=63.6% (ret 100%), 2s=63.6% (ret 100%), 5s=63.6% (ret 100%), 15s=63.6% (ret 100%), 30s=63.6% (ret 100%), 60s=63.6% (ret 100%)
+  link unstable: 0s=-1.5% (ret 100%), 0s=-2.8% (ret 189%), 1s=-2.9% (ret 195%), 2s=-5.1% (ret 339%), 5s=-14.0% (ret 935%), 15s=-6.8% (ret 453%), 30s=-2.8% (ret 189%), 60s=1.5% (ret -102%)
+  queue unstable: 0s=-1.5% (ret 100%), 0.25s=-3.7% (ret 246%), 1s=-4.7% (ret 315%), 2s=-5.3% (ret 356%), 5s=-31.2% (ret 2085%), 15s=-36.7% (ret 2456%), 30s=9.2% (ret -614%), 60s=17.0% (ret -1139%)

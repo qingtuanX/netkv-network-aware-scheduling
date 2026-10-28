@@ -33,7 +33,7 @@ things worse? --- and answered it with a boundary rather than a speedup.
         volatile network. Elsewhere full trust wins in 9--10 of 10 seeds and discounting is a net
         loss. Our rule is therefore insurance, and we say so.
   \item \textbf{Reading state is not free.} On real containers, a state read costs
-        \SIrange{56}{876}{\milli\second} against 12 µs for an in-cluster round
+        56--876 ms against 12 µs for an in-cluster round
         trip, grows with load (an observation feedback loop absent from simulation), and polling
         imposes a floor of half a period to a full period on achievable freshness. The latency
         impact of staleness is threshold-like, with a knee between 1 s and

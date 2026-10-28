@@ -1,0 +1,32 @@
+[04:17:33] ########## 变体 pressure → matrix_consP ##########
+[04:17:33] synthetic/main/pressure 启动
+
+[04:34:18] synthetic/main/pressure 完成（1005s）
+[04:34:18] synthetic/rho/pressure 启动
+
+[04:48:30] synthetic/rho/pressure 完成（852s）
+[04:48:30] synthetic/align/pressure 启动
+
+[04:59:55] synthetic/align/pressure 完成（684s）
+[04:59:55] synthetic/alignscale/pressure 启动
+
+[05:06:52] synthetic/alignscale/pressure 完成（418s）
+[05:06:52] synthetic/datavolume/pressure 启动
+
+[05:12:44] synthetic/datavolume/pressure 完成（352s）
+[05:12:44] synthetic/bandwidth/pressure 启动
+
+[05:18:28] synthetic/bandwidth/pressure 完成（344s）
+[05:18:28] azure/main/pressure 启动
+
+[05:51:35] azure/main/pressure 完成（1987s）
+[05:51:35] azure/rho/pressure 启动
+
+[06:23:40] azure/rho/pressure 完成（1925s）
+[06:23:40] azure/align/pressure 启动
+
+[06:43:43] azure/align/pressure 完成（1203s）
+[06:43:43] azure/alignscale/pressure 启动
+
+[06:59:42] azure/alignscale/pressure 完成（959s）
+[06:59:42] azure/datavolume/pressure 启动

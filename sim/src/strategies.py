@@ -327,9 +327,9 @@ class NetworkAwareAdaptiveStrategy(NetworkAwareContentionStrategy):
         if "drift_gate" in kw:
             self.DRIFT_GATE = bool(kw.pop("drift_gate"))
         super().__init__(seed=seed, w_net=w_net, **kw)
-        if decay not in ("split", "channel", "hard", "linear"):
+        if decay not in ("split", "channel", "hard", "linear", "linkonly"):
             raise ValueError(
-                f"未知 decay 模式: {decay}（可选 split / channel / hard / linear）")
+                f"未知 decay 模式: {decay}（可选 split / channel / hard / linear / linkonly）")
         self.decay = decay
         # 每个节点的 (链路排空时间, 观测时刻) 历史——只有漂移门控会用到
         self._hist: dict[int, list[tuple[float, float]]] = {}
@@ -406,8 +406,17 @@ class NetworkAwareAdaptiveStrategy(NetworkAwareContentionStrategy):
             # 【修订版】按**通道**降权，两个分量同权：
             # 队列通道掉得快（§16：5 s 内从 −27% 掉到 −12%），链路通道几乎不掉
             # （§16：60 s 仍有 −24%），所以链路一侧只做轻微降权并留一个下限。
+            # ⚠️ 已知缺陷（2026-10-23 校准模型实验发现）：exp(−age_q/τ_q) 把队列陈旧
+            # 的惩罚施加到了网络项上，但队列陈旧影响的是 backlog 项的可靠性，不是网络项。
+            # 在静态异构网络上这会把有用的链路信息丢掉（q5_n0 时网络项只剩 28%）。
             f = (_decay_exp(obs.age_queue, self.TAU_Q)
                  * max(self.LINK_FLOOR, _decay_exp(obs.age_network, self.TAU_N)))
+            return self._tally(w * f, w * f, share, gated=(f <= 0.0))
+        if self.decay == "linkonly":
+            # 【修正版】只按链路状态年龄降权，不按队列年龄：
+            # 队列陈旧影响 backlog 项（已在 obs 里变旧），链路陈旧才影响网络项可靠性。
+            # 链路新鲜时保持满权重（不管队列多旧），链路陈旧时降权到下限。
+            f = max(self.LINK_FLOOR, _decay_exp(obs.age_network, self.TAU_N))
             return self._tally(w * f, w * f, share, gated=(f <= 0.0))
         w_q = _decay_exp(obs.age_queue, self.TAU_Q)
         dyn = _decay_exp(obs.age_network, self.TAU_N_DYN)
@@ -465,6 +474,8 @@ class NetworkAwareAdaptiveStrategy(NetworkAwareContentionStrategy):
             return f"{head},tau_q={self.TAU_Q:g}s,tau_n_dyn={self.TAU_N_DYN:g}s)"
         if self.decay == "linear":
             return f"{head},tau_q={self.TAU_Q_LIN:g}s,tau_n={self.TAU_N_LIN:g}s)"
+        if self.decay == "linkonly":
+            return f"{head},tau_n={self.TAU_N:g}s,floor={self.LINK_FLOOR:g})"
         return f"{head},tau_q={self.TAU_Q_HARD:g}s,tau_n={self.TAU_N_HARD:g}s)"
 
 

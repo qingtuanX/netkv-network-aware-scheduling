@@ -1,0 +1,42 @@
+[11:51:52] ########## 变体 linear → matrix_consL ##########
+
+[11:51:52] synthetic/main/linear 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/main/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/rho/linear 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/rho/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/align/linear 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/align/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/alignscale/linear 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/alignscale/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/datavolume/linear 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/datavolume/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/bandwidth/linear 跳过（resume：已由上一轮完成）
+[11:51:52] synthetic/bandwidth/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] azure/main/linear 跳过（resume：已由上一轮完成）
+[11:51:52] azure/main/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] azure/rho/linear 跳过（resume：已由上一轮完成）
+[11:51:52] azure/rho/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] azure/align/linear 跳过（resume：已由上一轮完成）
+[11:51:52] azure/align/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] azure/alignscale/linear 跳过（resume：已由上一轮完成）
+[11:51:52] azure/alignscale/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] azure/datavolume/linear 跳过（resume：已由上一轮完成）
+[11:51:52] azure/datavolume/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] azure/bandwidth/linear 跳过（resume：已由上一轮完成）
+[11:51:52] azure/bandwidth/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/main/linear 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/main/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/rho/linear 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/rho/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/align/linear 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/align/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/alignscale/linear 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/alignscale/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/datavolume/linear 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/datavolume/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/bandwidth/linear 跳过（resume：已由上一轮完成）
+[11:51:52] burstgpt/bandwidth/pressure 跳过（resume：已由上一轮完成）
+[11:51:52] ########## 变体 linear 完成 ##########
+[11:51:52] ########## 变体 pressure 完成 ##########
+[11:51:52] BATTERY_DONE
+[11:51:52] BATTERY_DONE

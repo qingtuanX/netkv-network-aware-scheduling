@@ -288,6 +288,10 @@ METHOD_CH_STRATEGIES = [
     "LeastLoad",
     "NetworkAware2",
     {"name": "NetworkAware2Adapt", "label": "AdaptChannel", "decay": "channel"},
+    # 【修正版】只按链路状态年龄降权（2026-10-23 校准模型实验后加）：
+    # channel 版在 q5_n0 时把网络项压到 28%，丢掉了新鲜链路的有用信息。
+    # linkonly 版链路新鲜时保持满权重，只在链路陈旧时降权到下限。
+    {"name": "NetworkAware2Adapt", "label": "AdaptLinkOnly", "decay": "linkonly"},
 ]
 
 # --- 第二版规则的参数消融（同样的 OFAT 口径）--------------------------------
@@ -946,6 +950,12 @@ def run_cell(cell: dict, strategies: list, n_requests: int,
         # 【细变量②】观测的聚合窗口：真实监控报的是"过去 W 秒的平均"而不是瞬时值
         window_queue_s=float(cell.get("window_queue_s", 0.0)),
         window_network_s=float(cell.get("window_network_s", 0.0)),
+        # 【必修】保守模型的并发降速倍率必须在这里进 SimConfig。
+        # 2026-10-12 的电池只把 --service-slowdown 写进了 cell 字典/CSV 列，
+        # 没传进 SimConfig，于是 8,600 次仿真全部按理想模型跑、产物却声称
+        # 用了 linear/pressure（见 CONS_BATTERY_CLEANUP_2026-10-20.md）。
+        # regtest_slowdown.py 的 real_path_check 现在用真实 run_cell 路径钉住它。
+        service_slowdown=str(cell.get("service_slowdown", "none")),
     )
 
     spec = WORKLOAD_CLASSES[cell["workload"]]
@@ -1265,7 +1275,7 @@ def build_matrix(mode: str, extra: dict) -> list[dict]:
             c["staleness_queue_s"] = lag_q
             c["staleness_network_s"] = lag_n
             c["strategies"] = METHOD_CH_STRATEGIES
-            c["pair_candidates"] = ["AdaptChannel"]
+            c["pair_candidates"] = ["AdaptChannel", "AdaptLinkOnly"]
             c["pair_baselines"] = ["LeastLoad", "NetworkAware2"]
             cells.append(c)
     elif mode == "method_ch_ablate":

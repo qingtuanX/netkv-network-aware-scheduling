@@ -32,7 +32,7 @@ PAPER = Path(__file__).resolve().parent          # paper/
 WB = PAPER / "word_build"
 ROOT = PAPER.parent
 PANDOC = ROOT / "sim/.venv/Lib/site-packages/pypandoc/files/pandoc.exe"
-OUT = PAPER / "论文_Word版_20261012.docx"
+OUT = PAPER / "submission" / "ComputerNetworks_2026-10-22" / "word" / "ComputerNetworks_manuscript_2026-10-22.docx"
 
 UNITS = {
     "\\second": "s", "\\milli\\second": "ms", "\\micro\\second": "µs",
@@ -48,6 +48,8 @@ def patch_tex(t: str) -> str:
                lambda m: f"{m.group(1)}{{figures/{m.group(2)}.svg}}", t)
     t = re.sub(r"\\SI\{([^}]*)\}\{([^}]*)\}",
                lambda m: f"{m.group(1)} {UNITS.get(m.group(2), m.group(2))}".strip(), t)
+    t = re.sub(r"\\SIrange\{([^}]*)\}\{([^}]*)\}\{([^}]*)\}",
+               lambda m: f"{m.group(1)}--{m.group(2)} {UNITS.get(m.group(3), m.group(3))}".strip(), t)
     t = re.sub(r"\\si\{([^}]*)\}",
                lambda m: UNITS.get(m.group(1), m.group(1)), t)
     t = re.sub(r"\\num\{([^}]*)\}", r"\1", t)
@@ -67,6 +69,12 @@ def main() -> int:
 
     (WB / "sections").mkdir(parents=True, exist_ok=True)
     shutil.copy2(PAPER / "main_elsevier.tex", WB / "main_word.tex")
+    # pandoc/citeproc 不会自动加 "References" 标题；在副本里补一个，源文件不动。
+    mw = (WB / "main_word.tex").read_text(encoding="utf-8")
+    if "\\section*{References}" not in mw:
+        mw = mw.replace("\\bibliographystyle{elsarticle-num}",
+                        "\\section*{References}\n\\bibliographystyle{elsarticle-num}")
+        (WB / "main_word.tex").write_text(mw, encoding="utf-8")
 
     # staging + 残留自检（有残留就停，防静默丢内容）
     checks = {"SI": r"\\SI\{", "multicolumn@": r"\\multicolumn\{\d+\}\{@",
@@ -95,8 +103,8 @@ def main() -> int:
         "-f", "latex", "-t", "docx",
         "-o", str(OUT),
         "--resource-path=.;..;../figures",
-        "--citeproc", "--bibliography=../refs.bib", "--csl=ieee.csl",
-        "--number-sections", "--toc",
+        "--citeproc", "--bibliography=../refs.bib", "--csl=../tools/elsevier-vancouver.csl",
+        "--number-sections",
         "--metadata", "lang=en",
     ]
     r = subprocess.run(args, cwd=WB, capture_output=True, text=True, encoding="utf-8")

@@ -1,0 +1,81 @@
+[10:51:53] ########## 变体 pressure → matrix_consP ##########
+[10:51:53] synthetic/main/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/rho/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/align/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/alignscale/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/datavolume/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/bandwidth/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] azure/main/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] azure/rho/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] azure/align/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] azure/alignscale/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] azure/datavolume/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] azure/bandwidth/pressure 跳过（resume：已由上一轮完成）
+[10:51:53] burstgpt/main/pressure 启动
+min  预计剩余 4.7 min  (9.43 s/cell)
+  100/120 cells  已用 15.5 min  预计剩余 3.1 min  (9.32 s/cell)
+  110/120 cells  已用 16.9 min  预计剩余 1.5 min  (9.20 s/cell)
+  120/120 cells  已用 19.3 min  预计剩余 0.0 min  (9.66 s/cell)
+
+完成：600 次仿真，用时 19.32 min （1.932 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\main_20261020T105156Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\main_20261020T105156Z_paired.csv
+
+[11:11:22] burstgpt/main/pressure 完成（1168s）
+[11:11:22] burstgpt/rho/pressure 启动
+lls  已用 5.8 min  预计剩余 2.9 min  (5.78 s/cell)
+  70/90 cells  已用 6.8 min  预计剩余 2.0 min  (5.86 s/cell)
+  80/90 cells  已用 7.9 min  预计剩余 1.0 min  (5.96 s/cell)
+  90/90 cells  已用 9.0 min  预计剩余 0.0 min  (6.02 s/cell)
+
+完成：450 次仿真，用时 9.02 min （1.203 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\rho_20261020T111125Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\rho_20261020T111125Z_paired.csv
+
+[11:20:34] burstgpt/rho/pressure 完成（552s）
+[11:20:34] burstgpt/align/pressure 启动
+ 已用 4.8 min  预计剩余 4.8 min  (9.60 s/cell)
+  40/60 cells  已用 6.4 min  预计剩余 3.2 min  (9.66 s/cell)
+  50/60 cells  已用 8.1 min  预计剩余 1.6 min  (9.68 s/cell)
+  60/60 cells  已用 9.2 min  预计剩余 0.0 min  (9.17 s/cell)
+
+完成：300 次仿真，用时 9.17 min （1.835 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\align_20261020T112036Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\align_20261020T112036Z_paired.csv
+
+[11:29:52] burstgpt/align/pressure 完成（559s）
+[11:29:52] burstgpt/alignscale/pressure 启动
+n  预计剩余 2.0 min  (4.91 s/cell)
+  30/45 cells  已用 2.6 min  预计剩余 1.3 min  (5.12 s/cell)
+  40/45 cells  已用 3.7 min  预计剩余 0.5 min  (5.50 s/cell)
+  45/45 cells  已用 4.2 min  预计剩余 0.0 min  (5.62 s/cell)
+
+完成：225 次仿真，用时 4.22 min （1.124 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\alignscale_20261020T112954Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\alignscale_20261020T112954Z_paired.csv
+
+[11:34:13] burstgpt/alignscale/pressure 完成（260s）
+[11:34:13] burstgpt/datavolume/pressure 启动
+n  预计剩余 2.1 min  (4.57 s/cell)
+  30/48 cells  已用 2.3 min  预计剩余 1.4 min  (4.64 s/cell)
+  40/48 cells  已用 3.1 min  预计剩余 0.6 min  (4.68 s/cell)
+  48/48 cells  已用 3.8 min  预计剩余 0.0 min  (4.69 s/cell)
+
+完成：240 次仿真，用时 3.75 min （0.938 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\datavolume_20261020T113415Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\datavolume_20261020T113415Z_paired.csv
+
+[11:38:06] burstgpt/datavolume/pressure 完成（233s）
+[11:38:06] burstgpt/bandwidth/pressure 启动
+min  预计剩余 2.2 min  (4.72 s/cell)
+  30/48 cells  已用 2.4 min  预计剩余 1.4 min  (4.72 s/cell)
+  40/48 cells  已用 3.1 min  预计剩余 0.6 min  (4.72 s/cell)
+  48/48 cells  已用 3.8 min  预计剩余 0.0 min  (4.72 s/cell)
+
+完成：240 次仿真，用时 3.77 min （0.943 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consP\bandwidth_20261020T113809Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consP\bandwidth_20261020T113809Z_paired.csv
+
+[11:42:01] burstgpt/bandwidth/pressure 完成（235s）
+[11:42:01] ########## 变体 pressure 完成 ##########
+[11:42:01] BATTERY_DONE

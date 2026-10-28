@@ -1,0 +1,81 @@
+[10:51:53] ########## 变体 linear → matrix_consL ##########
+[10:51:53] synthetic/main/linear 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/rho/linear 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/align/linear 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/alignscale/linear 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/datavolume/linear 跳过（resume：已由上一轮完成）
+[10:51:53] synthetic/bandwidth/linear 跳过（resume：已由上一轮完成）
+[10:51:53] azure/main/linear 跳过（resume：已由上一轮完成）
+[10:51:53] azure/rho/linear 跳过（resume：已由上一轮完成）
+[10:51:53] azure/align/linear 跳过（resume：已由上一轮完成）
+[10:51:53] azure/alignscale/linear 跳过（resume：已由上一轮完成）
+[10:51:53] azure/datavolume/linear 跳过（resume：已由上一轮完成）
+[10:51:53] azure/bandwidth/linear 跳过（resume：已由上一轮完成）
+[10:51:53] burstgpt/main/linear 启动
+min  预计剩余 4.7 min  (9.43 s/cell)
+  100/120 cells  已用 15.5 min  预计剩余 3.1 min  (9.31 s/cell)
+  110/120 cells  已用 16.8 min  预计剩余 1.5 min  (9.18 s/cell)
+  120/120 cells  已用 19.3 min  预计剩余 0.0 min  (9.66 s/cell)
+
+完成：600 次仿真，用时 19.31 min （1.931 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\main_20261020T105155Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\main_20261020T105155Z_paired.csv
+
+[11:11:21] burstgpt/main/linear 完成（1169s）
+[11:11:21] burstgpt/rho/linear 启动
+s  已用 6.3 min  预计剩余 3.1 min  (6.29 s/cell)
+  70/90 cells  已用 7.4 min  预计剩余 2.1 min  (6.38 s/cell)
+  80/90 cells  已用 8.6 min  预计剩余 1.1 min  (6.49 s/cell)
+  90/90 cells  已用 10.0 min  预计剩余 0.0 min  (6.69 s/cell)
+
+完成：450 次仿真，用时 10.04 min （1.339 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\rho_20261020T111125Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\rho_20261020T111125Z_paired.csv
+
+[11:21:35] burstgpt/rho/linear 完成（614s）
+[11:21:35] burstgpt/align/linear 启动
+ 已用 4.9 min  预计剩余 4.9 min  (9.74 s/cell)
+  40/60 cells  已用 6.5 min  预计剩余 3.3 min  (9.77 s/cell)
+  50/60 cells  已用 7.8 min  预计剩余 1.6 min  (9.40 s/cell)
+  60/60 cells  已用 9.1 min  预计剩余 0.0 min  (9.05 s/cell)
+
+完成：300 次仿真，用时 9.05 min （1.811 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\align_20261020T112138Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\align_20261020T112138Z_paired.csv
+
+[11:30:49] burstgpt/align/linear 完成（553s）
+[11:30:49] burstgpt/alignscale/linear 启动
+n  预计剩余 2.2 min  (5.28 s/cell)
+  30/45 cells  已用 2.7 min  预计剩余 1.4 min  (5.48 s/cell)
+  40/45 cells  已用 3.9 min  预计剩余 0.5 min  (5.89 s/cell)
+  45/45 cells  已用 4.5 min  预计剩余 0.0 min  (6.04 s/cell)
+
+完成：225 次仿真，用时 4.53 min （1.207 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\alignscale_20261020T113051Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\alignscale_20261020T113051Z_paired.csv
+
+[11:35:28] burstgpt/alignscale/linear 完成（279s）
+[11:35:28] burstgpt/datavolume/linear 启动
+n  预计剩余 2.3 min  (4.90 s/cell)
+  30/48 cells  已用 2.5 min  预计剩余 1.5 min  (4.96 s/cell)
+  40/48 cells  已用 3.3 min  预计剩余 0.7 min  (5.02 s/cell)
+  48/48 cells  已用 4.0 min  预计剩余 0.0 min  (5.03 s/cell)
+
+完成：240 次仿真，用时 4.02 min （1.005 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\datavolume_20261020T113531Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\datavolume_20261020T113531Z_paired.csv
+
+[11:39:38] burstgpt/datavolume/linear 完成（250s）
+[11:39:38] burstgpt/bandwidth/linear 启动
+min  预计剩余 2.3 min  (4.99 s/cell)
+  30/48 cells  已用 2.5 min  预计剩余 1.5 min  (4.97 s/cell)
+  40/48 cells  已用 3.3 min  预计剩余 0.7 min  (4.90 s/cell)
+  48/48 cells  已用 3.9 min  预计剩余 0.0 min  (4.86 s/cell)
+
+完成：240 次仿真，用时 3.89 min （0.972 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL\bandwidth_20261020T113941Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL\bandwidth_20261020T113941Z_paired.csv
+
+[11:43:40] burstgpt/bandwidth/linear 完成（242s）
+[11:43:40] ########## 变体 linear 完成 ##########
+[11:43:40] BATTERY_DONE

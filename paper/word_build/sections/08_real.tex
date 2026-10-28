@@ -18,7 +18,7 @@ direction found in simulation.
 
 \subsection{Reading state is not free, and gets slower exactly when it matters}
 The simulator assumes an observation is instantaneous. On the cluster, fetching a worker's state
-costs \SIrange{56}{876}{\milli\second} against 12 µs for an in-cluster network
+costs 56--876 ms against 12 µs for an in-cluster network
 round trip --- a factor of \numrange{50}{900}. More importantly, the cost is not constant: it
 grows with system load, because the state endpoint competes for the same CPU quota as the work it
 describes. This is a \emph{feedback loop} that simulation omits by construction: the busier the
@@ -88,7 +88,7 @@ reverses). We therefore withdraw the claim: it was an artifact of three runs, an
 the kind of conclusion that single-run, mean-only tables produce.
 
 The most useful number here is not any of the deltas but their spread: repeat-to-repeat
-dispersion is \SIrange{10}{30}{\percent} on an \emph{idle} machine, so a single run of this
+dispersion is 10--30 % on an \emph{idle} machine, so a single run of this
 testbed supports direction and nothing more. We report this because it retroactively bounds the
 confidence of our own earlier single-run grid (\S\ref{sec:real}, first paragraph), whose larger
 deltas should be read as an optimistic estimate rather than a magnitude.

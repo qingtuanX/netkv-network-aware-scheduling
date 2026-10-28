@@ -1,6 +1,0 @@
-p_value,cliffs_delta,median_diff,n_pairs,workload,network,staleness,staleness_queue_s,staleness_network_s,seed,data_volume,n_nodes,data_source,trace_segment,target_rho,net_set,net_profile,cell_id,service_slowdown,candidate,baseline,w_net,workload_stats
-0.0,-0.3456666666666667,-0.11958199109415091,18000,mixed,degraded,fresh,0.0,0.0,1,prompt_only,3,trace,0,0.6,v1,ib_fast,bandwidth_0000,linear,NetworkAware,Random,1.0,E:\代码项目文件\论文\sim\data\raw\azure_code_1week.csv
-0.32306715478032166,0.07616666666666666,0.0,18000,mixed,degraded,fresh,0.0,0.0,1,prompt_only,3,trace,0,0.6,v1,ib_fast,bandwidth_0000,linear,NetworkAware,LeastQueue,1.0,E:\代码项目文件\论文\sim\data\raw\azure_code_1week.csv
-0.05754080514694699,0.009944444444444445,0.0,18000,mixed,degraded,fresh,0.0,0.0,1,prompt_only,3,trace,0,0.6,v1,ib_fast,bandwidth_0000,linear,NetworkAware,LeastLoad,1.0,E:\代码项目文件\论文\sim\data\raw\azure_code_1week.csv
-0.0,-0.37016666666666664,-0.11056732710457595,18000,mixed,degraded,fresh,0.0,0.0,1,prompt_only,3,trace,0,0.6,v1,ib_fast,bandwidth_0000,linear,LeastQueue,Random,1.0,E:\代码项目文件\论文\sim\data\raw\azure_code_1week.csv
-0.039058861851339735,-0.06711111111111111,0.0,18000,mixed,degraded,fresh,0.0,0.0,1,prompt_only,3,trace,0,0.6,v1,ib_fast,bandwidth_0000,linear,LeastQueue,LeastLoad,1.0,E:\代码项目文件\论文\sim\data\raw\azure_code_1week.csv

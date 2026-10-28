@@ -62,7 +62,7 @@ def strip_comments(text: str) -> str:
 
 
 def main() -> int:
-    main_tex = ROOT / "main.tex"
+    main_tex = ROOT / "main_elsevier.tex"
     refs = ROOT / "refs.bib"
     files = [main_tex] + sorted((ROOT / "sections").glob("*.tex"))
     bib = strip_comments(refs.read_text(encoding="utf-8"))
@@ -139,7 +139,7 @@ def main() -> int:
                 if lab and lab not in labels:
                     errors.append(f"{f.name}: \\ref{{{lab}}} 没有对应的 \\label")
 
-    print(f"检查文件：{len(files)} 个（main.tex + sections/*.tex）")
+    print(f"检查文件：{len(files)} 个（main_elsevier.tex + sections/*.tex）")
     print(f"引用键：正文用了 {len(cited)} 个，refs.bib 里有 {len(known)} 个")
     print(f"标签：{len(labels)} 个")
     for w in warnings:

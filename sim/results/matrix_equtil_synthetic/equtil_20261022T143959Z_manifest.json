@@ -1,0 +1,32 @@
+{
+  "run_id": "equtil_20261022T143959Z",
+  "created_utc": "2026-10-22T14:43:30.173974+00:00",
+  "mode": "equtil",
+  "data_source": "synthetic",
+  "source_tag": "synthetic",
+  "net_set": "v2",
+  "link_queue_model": true,
+  "service_slowdown": "linear",
+  "n_cells": 20,
+  "n_runs": 40,
+  "n_requests_per_run": 20000,
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "nominal_rho": 0.6,
+  "utilization_tolerance": 0.004,
+  "ideal_matrix_dir": "results\\matrix_v2",
+  "workloads": [
+    "mixed",
+    "data_heavy"
+  ],
+  "networks": [
+    "degraded",
+    "unstable"
+  ],
+  "note": "rho is per-cell matched to ideal LeastLoad utilization at nominal rho=0.6; final arms are LeastLoad and NetworkAware2."
+}

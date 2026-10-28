@@ -1,0 +1,30 @@
+[preflight] analysis/regtest_slowdown.py selftest ...
+== 倍率函数冻结取值 + 门 2 自检 ==
+  linear f(1) = 1.0（冻结值 1.0）OK
+  linear f(2) = 1.317（冻结值 1.317）OK
+  linear f(3) = 1.633（冻结值 1.633）OK
+  linear f(4) = 1.95（冻结值 1.95）OK
+  linear f(8) = 1.95（冻结值 1.95）OK
+  pressure f(1) = 1.0（冻结值 1.0）OK
+  pressure f(2) = 1.95（冻结值 1.95）OK
+  pressure f(3) = 1.95（冻结值 1.95）OK
+  门 2（w_net=0 ≡ LeastLoad，linear 开启）：OK
+  real_path: p95 none=1.864s linear=2.061s pressure=2.300s -> OK
+
+[resume] 已完成 20 场，跳过：['azure/align/linear', 'azure/align/pressure', 'azure/alignscale/linear', 'azure/alignscale/pressure', 'azure/main/linear', 'azure/main/pressure', 'azure/rho/linear', 'azure/rho/pressure', 'synthetic/align/linear', 'synthetic/align/pressure', 'synthetic/alignscale/linear', 'synthetic/alignscale/pressure', 'synthetic/bandwidth/linear', 'synthetic/bandwidth/pressure', 'synthetic/datavolume/linear', 'synthetic/datavolume/pressure', 'synthetic/main/linear', 'synthetic/main/pressure', 'synthetic/rho/linear', 'synthetic/rho/pressure']
+[10:14:28] ########## 变体 pressure → matrix_consP ##########
+[10:14:28] synthetic/main/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] synthetic/rho/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] synthetic/align/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] synthetic/alignscale/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] synthetic/datavolume/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] synthetic/bandwidth/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] azure/main/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] azure/rho/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] azure/align/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] azure/alignscale/pressure 跳过（resume：已由上一轮完成）
+[10:14:28] azure/datavolume/pressure 启动
+[10:29:31] azure/datavolume/pressure 完成（903s）
+[10:29:31] azure/bandwidth/pressure 启动
+[10:49:49] azure/bandwidth/pressure 完成（1218s）
+[10:49:49] burstgpt/main/pressure 启动

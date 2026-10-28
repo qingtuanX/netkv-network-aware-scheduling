@@ -1,0 +1,176 @@
+\section{Robustness to Concurrency-Dependent Service Time}
+\label{sec:calibrated}
+
+\subsection{Why the default model needs a stress test}
+The default simulator gives every service slot the full compute rate regardless of how many
+requests share the worker. This is a deliberate simplification, not a measured property of an
+accelerator. We measured its size on a real four-way parallel serving process: per-request service
+time was 83 ms when one request was in flight and 162 ms at
+sustained saturation, a factor of $1.95$. Ignoring this effect means that a cell calibrated to a
+nominal load of $\rho=0.6$ can run at a substantially higher \emph{effective} utilization, and a
+boundary measured under the ideal model may not survive.
+
+We therefore repeated six experiment families---main, intensity, alignment, alignment-scale,
+data-volume, and bandwidth---on all three workload sources under two service-time variants that
+were frozen before the re-run. Let $c$ be the number of requests being served on a worker at the
+instant a request starts service. The \emph{linear} variant uses
+\begin{equation}
+  f_L(c) \;=\; 1 + 0.95\,\frac{\min(c-1,3)}{3},
+  \label{eq:flinear}
+\end{equation}
+so $f_L(1)=1$, $f_L(2)=1.317$, $f_L(3)=1.633$, and $f_L(c\ge4)=1.95$. The \emph{pressure} variant is
+the step function
+\begin{equation}
+  f_P(1)=1, \qquad f_P(c\ge2)=1.95 .
+  \label{eq:fpressure}
+\end{equation}
+A request's service time is multiplied by $f(c)$ evaluated at its service start; $c$ is snapshotted
+at that instant and does not change during the request. The arrival process, seeds, routing rules,
+SLO definition, and metrics are otherwise unchanged; the default model is $f\equiv1$. The re-run
+adds $36$ mode-runs (two variants $\times$ six families $\times$ three sources) and
+12330 simulations. Both variants are reported; we do not choose between them.
+
+\subsection{What survives: the static-network boundary}
+Table~\ref{tab:calibrated-main} contrasts the main boundary under the three models. The
+heterogeneous \emph{static} network remains the regime where network awareness pays: the
+degraded/fresh effect is $-61.4\%$ on the synthetic source, $-69.6\%$ on Azure, and $-37.8\%$ on
+BurstGPT under the linear variant (the pressure variant is within one percentage point), versus
+$-70.7\%$, $-77.3\%$, and $-62.6\%$ under the ideal model. The benefit shrinks by $9$--$25$
+percentage points but does not disappear. The per-workload decomposition is more heterogeneous
+than the aggregate: on BurstGPT, compute-heavy traffic reverses sign ($-57.5\%\rightarrow+4.5\%$),
+whereas data-heavy traffic remains at $-50.3\%$. We report the reversal rather than averaging it
+away.
+
+\begin{table}[t]
+\centering
+\caption{Benefit boundary under the calibrated service model. Entries are $\Delta$p95 of
+NetworkAware2 relative to LeastLoad (\%), median over four workloads and five seeds; negative is
+better. Nominal load is $\rho=0.6$; the ideal column repeats the default model. The uniform-link
+control is within $0.1$ percentage points of zero and is omitted.}
+\label{tab:calibrated-main}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Source & Network / state & ideal & linear & pressure \\
+\midrule
+\multirow{4}{*}{Synthetic}
+ & degraded / fresh & $-70.7$ & $-61.4$ & $-61.2$ \\
+ & degraded / stale & $-55.4$ & $-50.5$ & $-50.4$ \\
+ & unstable / fresh & $-19.9$ & $-0.2$  & $-0.1$  \\
+ & unstable / stale & $-5.9$  & $+5.8$  & $+5.2$  \\
+\midrule
+\multirow{4}{*}{Azure}
+ & degraded / fresh & $-77.3$ & $-69.6$ & $-69.8$ \\
+ & degraded / stale & $-33.7$ & $-67.8$ & $-67.7$ \\
+ & unstable / fresh & $-41.2$ & $-4.9$  & $-4.8$  \\
+ & unstable / stale & $+1.6$  & $+2.4$  & $+2.3$  \\
+\midrule
+\multirow{4}{*}{BurstGPT}
+ & degraded / fresh & $-62.6$ & $-37.8$ & $-37.9$ \\
+ & degraded / stale & $-34.8$ & $-4.8$  & $-16.8$ \\
+ & unstable / fresh & $+5.3$  & $+18.4$ & $+18.9$ \\
+ & unstable / stale & $+5.0$  & $+3.9$  & $+2.4$  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The alignment mechanism also survives, and becomes cleaner. On the degraded network the
+anti-aligned effect is $-63.8\%$ (synthetic), $-70.1\%$ (Azure), and $-46.8\%$ (BurstGPT) under the
+linear model, while the aligned control is $-1.4\%$, $-0.2\%$, and $+3.2\%$ (Table~\ref{tab:calibrated-util}).
+The contrast between the two configurations therefore remains; what shrinks is the magnitude, not
+the direction. This is the strongest evidence that the alignment result is not manufactured by the
+ideal service model.
+
+\subsection{What survives and what does not: the volatile-network boundary}
+The benefit on \emph{time-varying} links shrinks substantially under the calibrated model, but the
+nominal-rho comparison conflates service time with effective load. Under the linear model at
+$\rho=0.6$, the unstable/fresh effect is $-0.2\%$ on the synthetic source, $-4.9\%$ on Azure, and
+$+18.4\%$ on BurstGPT, versus $-19.9\%$, $-41.2\%$, and $+5.3\%$ under the ideal model. However,
+at \emph{matched utilization} (see the equal-utilization control below) the volatile-network
+benefit shrinks by $15$--$25$ percentage points but does not always vanish: synthetic $-6$ to
+$-8\%$, Azure $-14$ to $-20\%$, BurstGPT approximately zero. The nominal-rho comparison therefore
+overstates the collapse; the service-time effect is real but smaller than it appears.
+
+The intensity sweep locates this boundary on the load axis. Under the linear model, the synthetic
+unstable-network effect is $-14.3\%$ at $\rho=0.30$, $-4.8\%$ at $\rho=0.45$, and $-0.8\%$ at
+$\rho=0.60$; the Azure values are $-11.9\%$, $-16.5\%$, $-6.8\%$, and $-0.3\%$ at $\rho=0.75$.
+The degraded-network effect, by contrast, stays between $-64\%$ and $-70\%$ (synthetic) and
+between $-62\%$ and $-67\%$ (Azure) across $\rho=0.30$--$0.90$. Thus the volatile-network benefit
+is not uniformly zero; it returns partially at low load, where the effective utilization is lower.
+
+\subsection{Effective utilization, and why the two variants agree}
+Table~\ref{tab:calibrated-util} reports the mean and maximum utilization of the main matrix. At the
+same nominal $\rho=0.6$, the calibrated model raises mean utilization from $0.475$ to
+$0.726$/$0.735$ (synthetic), from $0.458$ to $0.716$/$0.725$ (Azure), and from $0.368$ to
+$0.510$/$0.516$ (BurstGPT). Part of the shrinkage is therefore a change in effective load, not a
+pure service-time effect.
+
+To separate the two, we ran an \emph{equal-utilization control}: for each (source, workload,
+network, seed), we searched for the calibrated-model target $\rho$ that matches the ideal-model
+LeastLoad utilization, then compared $\Delta$p95 at matched utilization (20k requests, 5 seeds,
+linear variant). The results are: static (degraded) benefit is largely preserved on synthetic
+($-65\%$ vs.\ $-66\%$ ideal) but shrinks on Azure ($-62$ to $-63\%$ vs.\ $-77\%$) and BurstGPT
+($-38$ to $-60\%$ vs.\ $-58$ to $-64\%$); volatile (unstable) benefit shrinks by $15$--$25$
+percentage points but does not always vanish (synthetic $-6$ to $-8\%$, Azure $-14$ to $-20\%$,
+BurstGPT approximately zero). Per-seed variability is large on BurstGPT. The nominal-rho
+comparison therefore overstates the collapse; the service-time effect is real but smaller than it
+appears, and the effective-load confound accounts for a substantial fraction of the shrinkage.
+
+The linear and pressure variants are nearly indistinguishable in the main matrix (typically within
+one percentage point). One explanation is that service frequently starts with $c\ge4$, where the
+linear multiplier already reaches its $1.95$ cap; we did not instrument the distribution of $c$ and
+leave this as an observation rather than a claim. The practical consequence is that reporting both
+variants brackets the effect without providing a second independent axis.
+
+\begin{table}[t]
+\centering
+\caption{Effective utilization and the alignment contrast under the calibrated model. Utilization is
+the mean over main-matrix runs. Alignment entries are $\Delta$p95 of NetworkAware2 vs.\ LeastLoad
+on the degraded network, median over four workloads and five seeds. Anti = compute and bandwidth
+rankings maximally disagree; aligned = they agree.}
+\label{tab:calibrated-util}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+& \multicolumn{3}{c}{utilization} & \multicolumn{2}{c}{anti} & \multicolumn{2}{c}{aligned} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+Source & ideal & linear & pressure & ideal & linear & ideal & linear \\
+\midrule
+Synthetic & $0.475$ & $0.726$ & $0.735$ & $-69.2$ & $-63.8$ & $-12.9$ & $-1.4$ \\
+Azure     & $0.458$ & $0.716$ & $0.725$ & $-76.8$ & $-70.1$ & $-28.0$ & $-0.2$ \\
+BurstGPT  & $0.368$ & $0.510$ & $0.516$ & $-63.5$ & $-46.8$ & $-22.5$ & $+3.2$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Calibrated staleness and discounting}
+We re-ran the staleness grid (\S\ref{sec:rq2}) and the discounting rules (\S\ref{sec:discount})
+under the calibrated model at matched utilization (targeted re-run: unstable network, link ages
+$0/1/5/15/60$~s, queue ages $0/1/5$~s, 10k requests, 3 seeds; discounting at four freshness levels,
+5 seeds). Two findings emerge.
+
+\textbf{Link state expires much faster.} Under calibrated service at matched utilization, the
+network-aware benefit on the volatile network drops from $8.9\%$ (fresh) to $0.1\%$ at $1$~s on
+synthetic, and from $19.3\%$ to $4.5\%$ at $1$~s on Azure; by $5$~s the benefit is gone on both.
+This \emph{reverses} the ideal-model finding that link state retains $65$--$89\%$ at $60$~s.
+Queue state expires on a similar $1$--$5$~s timescale, consistent with the ideal-model ordering but
+at different magnitudes. On BurstGPT the baseline benefit is already negative (the network-aware
+policy is worse), so staleness retention is not meaningful.
+
+\textbf{Per-channel discounting does not survive.} On degraded (static) links where the benefit
+exists, the per-channel rule is \emph{worse} than always trusting the network by $+10$ to
+$+75\%$ when queue state is stale; on volatile links it is roughly neutral ($-5$ to $+3\%$). The
+rule's value in the ideal model does not carry over to realistic service time.
+
+\subsection{Implication}
+The practical boundary is narrower than the ideal model suggests, and the useful rule is simpler.
+Network awareness pays for \emph{structural} bandwidth heterogeneity---where compute and bandwidth
+rankings disagree---and that conclusion survives a calibrated concurrency penalty. It does not
+reliably pay for chasing \emph{transient} link congestion: at matched utilization the volatile
+benefit shrinks by $15$--$25$ percentage points, and link state expires within $1$--$5$~s under
+realistic service. Per-channel discounting, designed for stale link state, is worse than always
+trusting the network on static links. A deployment should therefore treat the network term as a
+remedy for bad static pairings---and only when the state is fresh---not as a universal
+tail-latency fix.

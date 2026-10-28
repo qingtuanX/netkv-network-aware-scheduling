@@ -12,6 +12,7 @@ SVG↔原图的对应关系：pandoc 会把媒体文件改名成 ``rIdN.svg``，
 用法（在 paper/ 下）：  python docx_png_fallback.py
 """
 import hashlib
+import html
 import re
 import xml.etree.ElementTree as ET
 import zipfile
@@ -19,7 +20,7 @@ from pathlib import Path
 
 PAPER = Path(__file__).resolve().parent
 FIGDIR = PAPER / "figures"
-DOCX = PAPER / "论文_Word版_20261012.docx"
+DOCX = PAPER / "submission" / "ComputerNetworks_2026-10-22" / "word" / "ComputerNetworks_manuscript_2026-10-22.docx"
 
 
 def main() -> int:
@@ -75,6 +76,25 @@ def main() -> int:
             'ContentType="application/vnd.openxmlformats-package.relationships+xml" />'
             '<Default Extension="png" ContentType="image/png" />')
 
+    # pandoc 会丢掉 elsarticle 的 \address 块；把单位/通讯作者补回 Word 标题页。
+    if "Corresponding author" not in doc:
+        tex = (PAPER / "main_elsevier.tex").read_text(encoding="utf-8")
+        m = re.search(r"\\address\[inst1\]\{(.*?)\}", tex, re.S)
+        if m:
+            raw = m.group(1)
+            parts = [p.strip().replace("\\\\", " ") for p in re.split(r"\\\\", raw)]
+            parts = [p for p in parts if p]
+            extra = "".join(
+                '<w:p><w:pPr><w:jc w:val="center"/></w:pPr>'
+                f'<w:r><w:t xml:space="preserve">{html.escape(p)}</w:t></w:r></w:p>'
+                for p in parts)
+            pm = re.search(
+                r'<w:p\b[^>]*>(?:(?!</w:p>).)*?\[Author Name\](?:(?!</w:p>).)*?</w:p>',
+                doc, re.S)
+            if pm:
+                doc = doc[:pm.end()] + extra + doc[pm.end():]
+                print("  + 标题页：补回单位/通讯作者")
+
     rels = rels.replace("</Relationships>", "".join(add_rels) + "</Relationships>")
     entries["word/document.xml"] = doc.encode("utf-8")
     entries["word/_rels/document.xml.rels"] = rels.encode("utf-8")
@@ -92,7 +112,7 @@ def main() -> int:
     ET.fromstring(z.read("[Content_Types].xml"))
     media = sorted(n for n in z.namelist() if n.startswith("word/media/"))
     z.close()
-    print(f"XML 良构 ✓；媒体 {len(media)} 个")
+    print(f"XML OK; media files: {len(media)}")
     return 0
 
 

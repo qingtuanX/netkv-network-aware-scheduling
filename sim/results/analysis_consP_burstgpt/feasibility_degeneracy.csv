@@ -1,0 +1,108 @@
+﻿mode,workload,network,staleness,n_cells,n_seeds,n_strategies,p95_min,p95_max,rel_spread_pct,identical_all_metrics,n_cells_bitwise_identical,rho_mean,verdict,data_volume,target_rho,net_profile,align,n_nodes,identical_pairs,NA_eq_LeastLoad,NA_eq_all_naive
+main,compute_heavy,degraded,fresh,5,5,5,70.52207137122205,426.2256288706261,334.6325104169182,False,0,0.4928405997047884,有信号,,,,,,,False,False
+main,compute_heavy,degraded,stale,5,5,5,86.18087192419361,1014.8942889279664,328.75684130500275,False,0,0.4928405997047884,有信号,,,,,,,False,False
+main,compute_heavy,normal,fresh,5,5,5,66.00209889146275,465.9898610922092,270.50015733876364,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,,,,,LeastLoad vs NetworkAware,True,False
+main,compute_heavy,normal,stale,5,5,5,66.97302159988989,465.9898610922092,269.54324171989987,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,,,,,LeastLoad vs NetworkAware,True,False
+main,compute_heavy,unstable,fresh,5,5,5,66.0089814260438,465.9896847013085,270.43579234819373,False,0,0.600030001500075,有信号,,,,,,,False,False
+main,compute_heavy,unstable,stale,5,5,5,68.16014826383422,691.5066767959697,268.7526401625145,False,0,0.600030001500075,有信号,,,,,,,False,False
+main,data_heavy,degraded,fresh,5,5,5,188.5378845336521,938.7084370219554,151.41767487773473,False,0,0.31383405419991356,有信号,,,,,,,False,False
+main,data_heavy,degraded,stale,5,5,5,184.03744566759423,872.8842325281157,99.65914697104877,False,0,0.31383405419991356,有信号,,,,,,,False,False
+main,data_heavy,normal,fresh,5,5,5,88.29138445640451,786.3258374041269,249.96246087308575,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,,,,,LeastLoad vs NetworkAware,True,False
+main,data_heavy,normal,stale,5,5,5,95.3209649865849,786.3258374041269,219.9276479544445,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,,,,,LeastLoad vs NetworkAware,True,False
+main,data_heavy,unstable,fresh,5,5,5,83.95451171897197,690.0500625570699,246.95123696960115,False,0,0.4838690720138433,有信号,,,,,,,False,False
+main,data_heavy,unstable,stale,5,5,5,103.0041324836795,690.0500625570699,208.58325605165652,False,0,0.4838690720138433,有信号,,,,,,,False,False
+main,low_latency,degraded,fresh,5,5,5,52.44710183178872,155.376050216016,123.2581678806232,False,0,0.3221200683920247,有信号,,,,,,,False,False
+main,low_latency,degraded,stale,5,5,5,52.684935631013296,178.12738353632793,238.09927145753633,False,0,0.3221200683920247,有信号,,,,,,,False,False
+main,low_latency,normal,fresh,5,5,5,25.003372460987645,109.04773424687104,154.5318451715926,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,,,,,LeastLoad vs NetworkAware,True,False
+main,low_latency,normal,stale,5,5,5,43.883298821552096,192.0735996177285,113.62525851357968,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,,,,,LeastLoad vs NetworkAware,True,False
+main,low_latency,unstable,fresh,5,5,5,24.85916383034077,105.911461405789,147.27794047416506,False,0,0.517013128782288,有信号,,,,,,,False,False
+main,low_latency,unstable,stale,5,5,5,43.82040506891311,175.35085105853838,300.1579875466168,False,0,0.517013128782288,有信号,,,,,,,False,False
+main,mixed,degraded,fresh,5,5,5,32.75646923155159,537.9428881803852,1317.7061547549545,False,0,0.3546701862036096,有信号,,,,,,,False,False
+main,mixed,degraded,stale,5,5,5,47.851228421772895,537.9428881803852,839.1301296856591,False,0,0.3546701862036096,有信号,,,,,,,False,False
+main,mixed,normal,fresh,5,5,5,30.31908782781252,777.2921817128808,714.7455460794131,False,0,0.6000300015000751,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,,,,,LeastLoad vs NetworkAware,True,False
+main,mixed,normal,stale,5,5,5,43.13757334634966,777.2921817128808,702.3235562874935,False,0,0.6000300015000751,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,,,,,LeastLoad vs NetworkAware,True,False
+main,mixed,unstable,fresh,5,5,5,30.3544497073844,777.2907171335494,790.7470330248228,False,0,0.5895542096738643,有信号,,,,,,,False,False
+main,mixed,unstable,stale,5,5,5,44.28768717080021,777.2907171335494,708.2421119013107,False,0,0.5895542096738643,有信号,,,,,,,False,False
+datavolume,compute_heavy,degraded,,3,3,5,58.0618062945973,611.5110444368494,124.9021242597507,False,0,0.520989325399508,有信号,kv_cache,,,,,,False,False
+datavolume,compute_heavy,degraded,,3,3,5,44.70390834773021,616.9884769166017,196.84955549631843,False,0,0.600030001500075,有信号,prompt_only,,,,,,False,False
+datavolume,compute_heavy,normal,,3,3,5,44.7206048414129,616.9896508789215,196.7402268022577,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),kv_cache,,,,,LeastLoad vs NetworkAware,True,False
+datavolume,compute_heavy,normal,,3,3,5,44.7339767331308,616.9884769166017,196.65002512829628,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),prompt_only,,,,,LeastLoad vs NetworkAware,True,False
+datavolume,data_heavy,degraded,,3,3,5,130.29129738586357,1193.7765477413818,134.78018042595033,False,0,0.31388718203024163,有信号,kv_cache,,,,,,False,False
+datavolume,data_heavy,degraded,,3,3,5,74.44788453676838,855.2314557831882,201.66166145161927,False,0,0.600030001500075,有信号,prompt_only,,,,,,False,False
+datavolume,data_heavy,normal,,3,3,5,74.44790527828063,855.2362339319558,201.55378979849323,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),kv_cache,,,,,LeastLoad vs NetworkAware,True,False
+datavolume,data_heavy,normal,,3,3,5,74.45426768425654,855.2314557831882,201.67678890981756,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),prompt_only,,,,,LeastLoad vs NetworkAware,True,False
+datavolume,low_latency,degraded,,3,3,5,54.97518241534628,170.5760103525861,135.75931797575393,False,0,0.31493658339089164,有信号,kv_cache,,,,,,False,False
+datavolume,low_latency,degraded,,3,3,5,27.011750828856915,128.57026228532,215.5502131109498,False,0,0.6000300015000751,有信号,prompt_only,,,,,,False,False
+datavolume,low_latency,normal,,3,3,5,27.01453472060232,128.57229402095314,215.5396882363112,False,0,0.6000300015000751,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),kv_cache,,,,,LeastLoad vs NetworkAware,True,False
+datavolume,low_latency,normal,,3,3,5,27.011749808744923,128.57026228532,215.5502219180881,False,0,0.6000300015000751,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),prompt_only,,,,,LeastLoad vs NetworkAware,True,False
+datavolume,mixed,degraded,,3,3,5,38.06717696220722,746.1349397152214,1306.8605029182438,False,0,0.35307634685971667,有信号,kv_cache,,,,,,False,False
+datavolume,mixed,degraded,,3,3,5,95.47147289430752,1049.0293276862635,709.3169396993222,False,0,0.600030001500075,有信号,prompt_only,,,,,,False,False
+datavolume,mixed,normal,,3,3,5,95.54788278108124,1049.0459996369036,708.6735156597882,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),kv_cache,,,,,LeastLoad vs NetworkAware,True,False
+datavolume,mixed,normal,,3,3,5,95.4714686767076,1049.0293276862635,709.3169754521509,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),prompt_only,,,,,LeastLoad vs NetworkAware,True,False
+rho,data_heavy,degraded,,3,3,5,48.34300083482147,789.3835274526222,197.5619238663698,False,0,0.15694359101512081,有信号,,0.3,,,,,False,False
+rho,data_heavy,degraded,,3,3,5,103.23997797399058,957.423893428942,147.81943401298446,False,0,0.23541538652268118,有信号,,0.45,,,,,False,False
+rho,data_heavy,degraded,,3,3,5,130.29129738586357,1193.7765477413818,134.78018042595033,False,0,0.31388718203024163,有信号,,0.6,,,,,False,False
+rho,data_heavy,degraded,,3,3,5,150.8478235833756,1279.930880746056,118.24217011562953,False,0,0.3923589775378019,有信号,,0.75,,,,,False,False
+rho,data_heavy,degraded,,3,3,5,170.26582238427298,1339.824919238619,106.86296637510675,False,0,0.47083077304536236,有信号,,0.9,,,,,False,False
+rho,data_heavy,normal,,3,3,5,36.61660212410209,651.7548522828034,334.08815799823964,False,0,0.3000150007500375,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.3,,,,LeastLoad vs NetworkAware,True,False
+rho,data_heavy,normal,,3,3,5,61.66592026354773,749.03752589506,210.02643539971197,False,0,0.4500225011250561,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.45,,,,LeastLoad vs NetworkAware,True,False
+rho,data_heavy,normal,,3,3,5,74.44790527828063,855.2362339319558,201.55378979849323,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.6,,,,LeastLoad vs NetworkAware,True,False
+rho,data_heavy,normal,,3,3,5,82.14566679426729,942.9784871542028,194.55570498752584,False,0,0.7500375018750938,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.75,,,,LeastLoad vs NetworkAware,True,False
+rho,data_heavy,normal,,3,3,5,87.53614852417154,1000.9533038785486,188.81628593654426,False,0,0.9000450022501121,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.9,,,,LeastLoad vs NetworkAware,True,False
+rho,data_heavy,unstable,,3,3,5,19.609730628781307,591.2096201722208,608.2149168490178,False,0,0.24204079166757786,有信号,,0.3,,,,,False,False
+rho,data_heavy,unstable,,3,3,5,47.14290457674527,699.4432411161081,258.16877780793794,False,0,0.3630611875013668,有信号,,0.45,,,,,False,False
+rho,data_heavy,unstable,,3,3,5,64.32975065598289,769.6816144201659,205.3938074911612,False,0,0.4840815833351557,有信号,,0.6,,,,,False,False
+rho,data_heavy,unstable,,3,3,5,73.49720114335707,857.5100603533966,199.32790859684116,False,0,0.6051019791689446,有信号,,0.75,,,,,False,False
+rho,data_heavy,unstable,,3,3,5,80.77937854750228,930.3816283009274,195.4788946884972,False,0,0.7261223750027336,有信号,,0.9,,,,,False,False
+rho,mixed,degraded,,3,3,5,4.101260086379795,313.4373559226602,1454.7525499332214,False,0,0.17653817342985834,有信号,,0.3,,,,,False,False
+rho,mixed,degraded,,3,3,5,17.624624301390913,556.5891566567842,1620.8049887271884,False,0,0.26480726014478756,有信号,,0.45,,,,,False,False
+rho,mixed,degraded,,3,3,5,38.06717696220722,746.1349397152214,1306.8605029182438,False,0,0.35307634685971667,有信号,,0.6,,,,,False,False
+rho,mixed,degraded,,3,3,5,75.08855292528378,888.9012305543806,791.4572782554994,False,0,0.44134543357464573,有信号,,0.75,,,,,False,False
+rho,mixed,degraded,,3,3,5,170.26330515764124,974.5412475711933,345.52154222528634,False,0,0.5296145202895751,有信号,,0.9,,,,,False,False
+rho,mixed,normal,,3,3,5,11.431445124481163,662.4435391789002,2812.43348689766,False,0,0.3000150007500375,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.3,,,,LeastLoad vs NetworkAware,True,False
+rho,mixed,normal,,3,3,5,31.097814756832395,910.2439482282674,1921.5280612418899,False,0,0.4500225011250564,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.45,,,,LeastLoad vs NetworkAware,True,False
+rho,mixed,normal,,3,3,5,95.54788278108124,1049.0459996369036,708.6735156597882,False,0,0.600030001500075,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.6,,,,LeastLoad vs NetworkAware,True,False
+rho,mixed,normal,,3,3,5,188.06934439246533,1156.4411670167196,356.78576917807237,False,0,0.7500375018750935,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.75,,,,LeastLoad vs NetworkAware,True,False
+rho,mixed,normal,,3,3,5,215.61983127876164,1233.8005635173693,262.635341794002,False,0,0.9000450022501126,部分退化：NA 与 LeastLoad 逐位相同(网络项无信号),,0.9,,,,LeastLoad vs NetworkAware,True,False
+rho,mixed,unstable,,3,3,5,11.481307971964618,662.4449930759259,2799.775564322267,False,0,0.2893409491934347,有信号,,0.3,,,,,False,False
+rho,mixed,unstable,,3,3,5,31.177907274364728,910.2455651003988,1916.3329198376666,False,0,0.4340114237901519,有信号,,0.45,,,,,False,False
+rho,mixed,unstable,,3,3,5,95.06995779284708,1049.0475685034571,712.7372934871744,False,0,0.5786818983868695,有信号,,0.6,,,,,False,False
+rho,mixed,unstable,,3,3,5,176.367431255892,1156.443151995286,356.0239367210579,False,0,0.7233523729835863,有信号,,0.75,,,,,False,False
+rho,mixed,unstable,,3,3,5,201.33363752321105,1233.8021120486646,262.7622396477254,False,0,0.8680228475803037,有信号,,0.9,,,,,False,False
+bandwidth,data_heavy,,,3,3,5,76.60147378542773,769.6843302334105,141.79565417028823,False,0,0.4840815833351557,有信号,kv_cache,,slow_100g,,,,False,False
+bandwidth,data_heavy,,,3,3,5,74.43921399488093,855.2314577831881,201.6625828515831,False,0,0.600030001500075,有信号,prompt_only,,slow_100g,,,,False,False
+bandwidth,data_heavy,,,3,3,5,74.43727774449945,855.2335625901078,200.90707176591357,False,0,0.600030001500075,有信号,kv_cache,,slow_200g,,,,False,False
+bandwidth,data_heavy,,,3,3,5,74.43921395794494,855.2314577590762,201.66258310718425,False,0,0.600030001500075,有信号,prompt_only,,slow_200g,,,,False,False
+bandwidth,data_heavy,,,3,3,5,130.29129738586357,1193.7765477413818,134.78018042595033,False,0,0.31388718203024163,有信号,kv_cache,,slow_25g,,,,False,False
+bandwidth,data_heavy,,,3,3,5,74.44788453676838,855.2314557831882,201.66166145161927,False,0,0.600030001500075,有信号,prompt_only,,slow_25g,,,,False,False
+bandwidth,data_heavy,,,3,3,5,106.60559859843484,704.0704443380918,74.62198150166547,False,0,0.3706186491318795,有信号,kv_cache,,slow_50g,,,,False,False
+bandwidth,data_heavy,,,3,3,5,74.44222104970248,855.231457831412,201.6625722319714,False,0,0.600030001500075,有信号,prompt_only,,slow_50g,,,,False,False
+bandwidth,mixed,,,3,3,5,95.57278563475248,1049.0460016369038,708.4628063235002,False,0,0.5786818983868695,有信号,kv_cache,,slow_100g,,,,False,False
+bandwidth,mixed,,,3,3,5,95.47148712022754,1049.0293296862633,709.3168212002979,False,0,0.600030001500075,有信号,prompt_only,,slow_100g,,,,False,False
+bandwidth,mixed,,,3,3,5,95.50785548539436,1049.0371780368237,709.0107629357262,False,0,0.600030001500075,有信号,kv_cache,,slow_200g,,,,False,False
+bandwidth,mixed,,,3,3,5,95.47148682454753,1049.0293295615031,709.316823686871,False,0,0.600030001500075,有信号,prompt_only,,slow_200g,,,,False,False
+bandwidth,mixed,,,3,3,5,38.06717696220722,746.1349397152214,1306.8605029182438,False,0,0.35307634685971667,有信号,kv_cache,,slow_25g,,,,False,False
+bandwidth,mixed,,,3,3,5,95.47147289430752,1049.0293276862635,709.3169396993222,False,0,0.600030001500075,有信号,prompt_only,,slow_25g,,,,False,False
+bandwidth,mixed,,,3,3,5,48.090909862025846,890.781484416458,1363.6620747248269,False,0,0.4489969787908297,有信号,kv_cache,,slow_50g,,,,False,False
+bandwidth,mixed,,,3,3,5,95.47149771158752,1049.0293299357832,709.3167314566364,False,0,0.600030001500075,有信号,prompt_only,,slow_50g,,,,False,False
+align,data_heavy,degraded,,5,5,5,87.41534077116685,860.7155435566009,272.83622783035526,False,0,0.5709897691285171,有信号,,,,aligned,,,False,False
+align,data_heavy,degraded,,5,5,5,188.5378686936521,938.7084370219554,151.296968059133,False,0,0.31383405419991356,有信号,,,,anti,,,False,False
+align,data_heavy,degraded,,5,5,5,82.4645610966618,828.9960400627662,292.835153568264,False,0,0.4548288396422853,有信号,,,,rot1,,,False,False
+align,mixed,degraded,,5,5,5,30.262485701284884,777.388951946268,714.4846525241582,False,0,0.5974110535435223,有信号,,,,aligned,,,False,False
+align,mixed,degraded,,5,5,5,32.756469222972946,537.9428881803852,1317.706155075474,False,0,0.3546701862036096,有信号,,,,anti,,,False,False
+align,mixed,degraded,,5,5,5,30.2865742246512,777.388951946268,870.6699780285779,False,0,0.5869352617173117,有信号,,,,rot1,,,False,False
+align,data_heavy,unstable,,5,5,5,88.28777391038133,786.4126297224001,249.49610622570017,False,0,0.600030001500075,有信号,,,,aligned,,,False,False
+align,data_heavy,unstable,,5,5,5,83.94824392205109,690.0500625570699,246.96424792427047,False,0,0.4838690720138433,有信号,,,,anti,,,False,False
+align,data_heavy,unstable,,5,5,5,88.2976061211322,786.4126297224001,249.47654148980317,False,0,0.600030001500075,有信号,,,,rot1,,,False,False
+align,mixed,unstable,,5,5,5,30.269670065291585,777.2967785432102,714.3093697931798,False,0,0.6000300015000751,有信号,,,,aligned,,,False,False
+align,mixed,unstable,,5,5,5,30.464987735435184,777.2907171335494,790.7233096079171,False,0,0.5895542096738643,有信号,,,,anti,,,False,False
+align,mixed,unstable,,5,5,5,30.304375547059124,777.2967785432102,714.2345424008636,False,0,0.6000300015000751,有信号,,,,rot1,,,False,False
+alignscale,mixed,degraded,,5,5,5,28.37977214735848,1335.7871082664903,1400.0294648691217,False,0,0.600030001500075,有信号,,,,aligned,4.0,,False,False
+alignscale,mixed,degraded,,5,5,5,35.33454688510235,1143.1404897096843,2926.408323908896,False,0,0.37102750722337396,有信号,,,,anti,4.0,,False,False
+alignscale,mixed,degraded,,5,5,5,17.41191957901957,1326.601790554599,3536.3931901089218,False,0,0.5093536660870333,有信号,,,,rot1,4.0,,False,False
+alignscale,mixed,degraded,,5,5,5,14.331426637218092,679.9766887325007,1766.2861562797475,False,0,0.5807373911641931,有信号,,,,aligned,8.0,,False,False
+alignscale,mixed,degraded,,5,5,5,17.126723650125033,641.9448802094306,2637.9720896523727,False,0,0.47109176898586475,有信号,,,,anti,8.0,,False,False
+alignscale,mixed,degraded,,5,5,5,14.599604573745678,671.1439839571669,1931.9244051108828,False,0,0.5392868835420986,有信号,,,,rot1,8.0,,False,False
+alignscale,mixed,degraded,,5,5,5,8.591642025631668,320.29171001707823,1901.835693388486,False,0,0.5465322669427038,有信号,,,,aligned,16.0,,False,False
+alignscale,mixed,degraded,,5,5,5,8.509306126161299,312.2208892949837,2356.276304488901,False,0,0.4974710564232131,有信号,,,,anti,16.0,,False,False
+alignscale,mixed,degraded,,5,5,5,8.360685503878399,316.7454060989917,2084.7512049107195,False,0,0.5168654580467255,有信号,,,,rot1,16.0,,False,False

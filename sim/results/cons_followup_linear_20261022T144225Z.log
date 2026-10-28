@@ -1,0 +1,26 @@
+[14:42:29] synthetic/staleness/linear 启动
+模式=staleness  来源=synthetic  run_id=staleness_20261022T144232Z
+cells=96  共 480 次仿真  每 cell 20000 请求
+  10/96 cells  已用 1.2 min  预计剩余 10.6 min  (7.42 s/cell)
+  20/96 cells  已用 2.6 min  预计剩余 9.8 min  (7.76 s/cell)
+  30/96 cells  已用 3.8 min  预计剩余 8.4 min  (7.64 s/cell)
+  40/96 cells  已用 5.0 min  预计剩余 7.1 min  (7.57 s/cell)
+  50/96 cells  已用 6.2 min  预计剩余 5.7 min  (7.48 s/cell)
+  60/96 cells  已用 7.7 min  预计剩余 4.6 min  (7.67 s/cell)
+  70/96 cells  已用 9.1 min  预计剩余 3.4 min  (7.80 s/cell)
+  80/96 cells  已用 11.6 min  预计剩余 2.3 min  (8.70 s/cell)
+  90/96 cells  已用 14.6 min  预计剩余 1.0 min  (9.72 s/cell)
+  96/96 cells  已用 16.4 min  预计剩余 0.0 min  (10.28 s/cell)
+
+完成：480 次仿真，用时 16.45 min （2.056 s/次）
+runs:   E:\代码项目文件\论文\sim\results\matrix_consL_synthetic\staleness_20261022T144232Z_runs.csv
+paired: E:\代码项目文件\论文\sim\results\matrix_consL_synthetic\staleness_20261022T144232Z_paired.csv
+
+[14:58:59] synthetic/staleness/linear 完成（991s）
+[14:58:59] synthetic/method_ch/linear 启动
+模式=method_ch  来源=synthetic  run_id=method_ch_20261022T145902Z
+cells=120  共 360 次仿真  每 cell 20000 请求
+  10/120 cells  已用 1.2 min  预计剩余 13.2 min  (7.21 s/cell)
+
+[15:00:32] !! synthetic/method_ch/linear 失败 rc=1
+[15:00:32] 

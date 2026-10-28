@@ -1,0 +1,32 @@
+[04:17:29] ########## 变体 linear → matrix_consL ##########
+[04:17:29] synthetic/main/linear 启动
+
+[04:34:23] synthetic/main/linear 完成（1014s）
+[04:34:23] synthetic/rho/linear 启动
+
+[04:48:41] synthetic/rho/linear 完成（859s）
+[04:48:41] synthetic/align/linear 启动
+
+[05:00:08] synthetic/align/linear 完成（687s）
+[05:00:08] synthetic/alignscale/linear 启动
+
+[05:07:09] synthetic/alignscale/linear 完成（421s）
+[05:07:09] synthetic/datavolume/linear 启动
+
+[05:13:05] synthetic/datavolume/linear 完成（355s）
+[05:13:05] synthetic/bandwidth/linear 启动
+
+[05:18:48] synthetic/bandwidth/linear 完成（344s）
+[05:18:48] azure/main/linear 启动
+
+[05:52:08] azure/main/linear 完成（2000s）
+[05:52:08] azure/rho/linear 启动
+
+[06:24:23] azure/rho/linear 完成（1935s）
+[06:24:23] azure/align/linear 启动
+
+[06:44:26] azure/align/linear 完成（1203s）
+[06:44:26] azure/alignscale/linear 启动
+
+[07:00:02] azure/alignscale/linear 完成（936s）
+[07:00:02] azure/datavolume/linear 启动

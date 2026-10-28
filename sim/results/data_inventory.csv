@@ -1,0 +1,66 @@
+﻿dir,what,files,csv,rows,MB,newest
+sim\results\_smoke_method,冒烟测试（不引用）,3,2,5,0.0,2026-10-22
+sim\results\_smoke_stale,冒烟测试（不引用）,3,2,15,0.0,2026-10-22
+sim\results\analysis,v1 合成：表 + report.txt,35,32,2007,0.5,2026-09-29
+sim\results\analysis_burstgpt,v1 BurstGPT：表 + report.txt,34,31,1983,0.5,2026-09-23
+sim\results\analysis_burstgpt_v2,v2 BurstGPT,39,37,2606,0.7,2026-10-05
+sim\results\analysis_consL,补充：一致性批分析,19,17,1273,0.4,2026-10-20
+sim\results\analysis_consL_azure,补充：一致性批分析,18,17,1273,0.4,2026-10-20
+sim\results\analysis_consL_burstgpt,补充：一致性批分析,18,17,1273,0.4,2026-10-20
+sim\results\analysis_consL_synthetic,补充：一致性批分析,18,17,1273,0.4,2026-10-20
+sim\results\analysis_consP,补充：一致性批分析,19,17,1273,0.4,2026-10-20
+sim\results\analysis_consP_azure,补充：一致性批分析,18,17,1273,0.4,2026-10-20
+sim\results\analysis_consP_burstgpt,补充：一致性批分析,18,17,1273,0.4,2026-10-20
+sim\results\analysis_consP_synthetic,补充：一致性批分析,18,17,1273,0.4,2026-10-20
+sim\results\analysis_equtil,补充：等利用率 / RQ2 校准分析,3,2,192,0.0,2026-10-22
+sim\results\analysis_rq2_cal,补充：等利用率 / RQ2 校准分析,2,1,128,0.0,2026-10-22
+sim\results\analysis_trace,v1 Azure：表 + report.txt,34,31,1983,0.5,2026-09-23
+sim\results\analysis_trace_v2,v2 Azure,39,37,2606,0.7,2026-10-05
+sim\results\analysis_v2,v2 合成：论文引用的全部 CSV,43,41,3008,0.7,2026-10-05
+sim\results\b0,真实系统 B0：组件级实测,170,61,5789,1.7,2026-10-07
+sim\results\b0_linux,其他,153,43,4313,2.0,2026-10-07
+sim\results\b0_metrics,其他,548,162,30413,7.8,2026-10-07
+sim\results\b0_vllm,其他,134,51,16561,2.6,2026-10-07
+sim\results\b0_vllm_linux,其他,54,20,8522,1.1,2026-10-07
+sim\results\b1,真实系统 B1：跨云链路,838,26,2311,22.6,2026-10-09
+sim\results\b1_pricing,其他,8,0,0,0.0,2026-10-07
+sim\results\b2,真实系统 B2：同云 prefill/decode 分离,67,0,0,5.5,2026-10-11
+sim\results\c,真实跨云 C 阶段：两方向 KV,15,0,0,0.9,2026-10-12
+sim\results\k8s_test,真实 k3s 单节点：逐请求明细,218,110,17502,2.3,2026-10-02
+sim\results\logprob_calib,其他,24,1,40,1.4,2026-10-09
+sim\results\matrix,主矩阵 v1（合成负载）：120 cells × 4 策略,47,32,10179,3.1,2026-09-22
+sim\results\matrix_burstgpt,主矩阵 v1（BurstGPT）,33,22,7200,2.2,2026-09-22
+sim\results\matrix_burstgpt_v2,主矩阵 v2（BurstGPT）,94,66,32431,9.4,2026-10-05
+sim\results\matrix_consL,补充：一致性/概率校准批,56,38,18585,5.6,2026-10-20
+sim\results\matrix_consL_azure,补充：一致性/概率校准批,18,12,6165,1.9,2026-10-20
+sim\results\matrix_consL_burstgpt,补充：一致性/概率校准批,18,12,6165,1.8,2026-10-20
+sim\results\matrix_consL_synthetic,补充：一致性/概率校准批,27,20,8585,2.6,2026-10-22
+sim\results\matrix_consP,补充：一致性/概率校准批,56,38,18585,5.7,2026-10-20
+sim\results\matrix_consP_azure,补充：一致性/概率校准批,18,12,6165,1.9,2026-10-20
+sim\results\matrix_consP_burstgpt,补充：一致性/概率校准批,18,12,6165,1.8,2026-10-20
+sim\results\matrix_consP_synthetic,补充：一致性/概率校准批,18,12,6165,1.9,2026-10-20
+sim\results\matrix_eqU_method_ch_synthetic,补充：等利用率/方法对照批,2,2,220,0.1,2026-10-22
+sim\results\matrix_eqU_method_synthetic,补充：等利用率/方法对照批,2,2,324,0.1,2026-10-22
+sim\results\matrix_eqU_stale_azure,补充：等利用率/方法对照批,2,2,150,0.0,2026-10-22
+sim\results\matrix_eqU_stale_burstgpt,补充：等利用率/方法对照批,2,2,150,0.0,2026-10-22
+sim\results\matrix_eqU_stale_synthetic,补充：等利用率/方法对照批,2,2,585,0.2,2026-10-22
+sim\results\matrix_equtil_azure,补充：等利用率/方法对照批,3,2,60,0.0,2026-10-22
+sim\results\matrix_equtil_burstgpt,补充：等利用率/方法对照批,3,2,60,0.0,2026-10-22
+sim\results\matrix_equtil_synthetic,补充：等利用率/方法对照批,5,4,99,0.0,2026-10-22
+sim\results\matrix_linkonly_azure,补充：link-only 降权检验,3,2,960,0.3,2026-10-23
+sim\results\matrix_linkonly_burstgpt,补充：link-only 降权检验,3,2,960,0.3,2026-10-23
+sim\results\matrix_linkonly_synthetic,补充：link-only 降权检验,3,2,960,0.3,2026-10-23
+sim\results\matrix_trace,主矩阵 v1（Azure trace）,32,22,6498,2.0,2026-09-22
+sim\results\matrix_trace_v2,主矩阵 v2（Azure）,82,56,27589,8.1,2026-10-05
+sim\results\matrix_v2,主矩阵 v2（链路 FIFO 争用 + NetworkAware2，合成）,128,90,46225,14.3,2026-10-05
+sim\results\raw,run_min / probe_rq1 的每请求明细（早期）,28,22,324258,41.0,2026-09-22
+sim\results\stage_a,传输层阶段 A 验证电池,22,11,172,0.2,2026-10-06
+sim\results\stage_a_cloud,阶段 A 传输验证,23,9,101,0.2,2026-10-06
+sim\results\stage_a_cloud_clean,阶段 A 传输验证,365,42,580,1.5,2026-10-06
+sim\results\stage_a_cloud_repeat,阶段 A 传输验证,163,21,290,1.0,2026-10-06
+sim\results\stage_a_period2,阶段 A 传输验证,175,22,290,0.8,2026-10-06
+sim\results\stage_a_period3,阶段 A 传输验证,175,22,290,0.8,2026-10-07
+sim\results\stage_a_period4,阶段 A 传输验证,175,22,290,0.8,2026-10-07
+sim\results\stage_a_regress,阶段 A 传输验证,2,1,17,0.0,2026-10-06
+sim\results\stage_a_smoke,阶段 A 传输验证,259,39,278,0.7,2026-10-06
+sim\results\verification,四道门 + 白盒/黑盒验证记录,22,14,94,0.1,2026-10-12

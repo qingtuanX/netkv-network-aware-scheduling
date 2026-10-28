@@ -62,6 +62,43 @@ def fingerprint() -> dict:
     }
 
 
+def real_path_check() -> bool:
+    """走**真实 run_matrix.run_cell 路径**，确认 cell 里的 service_slowdown 真的生效。
+
+    【为什么必须单独有这一条】2026-10-12 的保守模型电池把 --service-slowdown
+    写进了 cell 字典、也写进了 runs.csv 的列，但 run_cell 构造 SimConfig 时漏传，
+    于是约 8,600 次仿真全部按理想模型跑，产物却声称用了 linear/pressure。
+    上面 fingerprint() 直接构造 SimConfig，抓不到这种"接线断了"的 bug；
+    这里故意不构造 SimConfig，只给 cell 塞 service_slowdown，看落盘指标变不变。
+
+    用小规模（400 请求）+ compute_heavy + kv_cache，只做接线检查，
+    不产生论文数字。返回 True 表示三种模式的 p95 符合预期。
+    """
+    sys.path.insert(0, str(ROOT / "experiments"))
+    import run_matrix as rmx                       # noqa: E402
+
+    rmx.NET_SET = "v2"                             # 与电池一致
+    base_cell = {
+        "workload": "compute_heavy", "network": "degraded", "staleness": "fresh",
+        "staleness_queue_s": 0.0, "staleness_network_s": 0.0,
+        "seed": 1, "data_volume": "kv_cache", "n_nodes": 3,
+        "data_source": "synthetic", "trace_segment": None, "target_rho": 0.6,
+        "net_set": "v2",
+    }
+
+    def p95(mode: str) -> float:
+        c = dict(base_cell)
+        c["service_slowdown"] = mode
+        rows, _ = rmx.run_cell(c, ["LeastLoad"], 400, 1.0)
+        return float(rows[0]["sojourn_p95"])
+
+    p_none, p_lin, p_pre = p95("none"), p95("linear"), p95("pressure")
+    ok = (p_lin > p_none) and (p_pre >= p_lin)
+    print(f"  real_path: p95 none={p_none:.3f}s linear={p_lin:.3f}s "
+          f"pressure={p_pre:.3f}s -> {'OK' if ok else 'FAIL（倍率没进 SimConfig）'}")
+    return ok
+
+
 def selftest() -> int:
     from src.model import service_slowdown_factor as f
     ok = True
@@ -83,6 +120,8 @@ def selftest() -> int:
                for ra, rb in zip(a.requests, b.requests))
     print(f"  门 2（w_net=0 ≡ LeastLoad，linear 开启）：{'OK' if same else 'FAIL'}")
     ok &= same
+    # 真实入口的接线检查：2026-10-12 的整批白跑就是因为漏了这一条
+    ok &= real_path_check()
     return 0 if ok else 1
 
 

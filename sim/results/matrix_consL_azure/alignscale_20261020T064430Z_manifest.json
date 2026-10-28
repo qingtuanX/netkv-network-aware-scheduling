@@ -1,0 +1,147 @@
+{
+  "run_id": "alignscale_20261020T064430Z",
+  "created_utc": "2026-10-20T07:00:00.222188+00:00",
+  "mode": "alignscale",
+  "n_cells": 45,
+  "n_runs": 225,
+  "n_requests_per_run": 20000,
+  "strategies": [
+    "Random",
+    "LeastQueue",
+    "LeastLoad",
+    "NetworkAware",
+    "NetworkAware2"
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "network_conditions": {
+    "normal": {
+      "kind": "static",
+      "links": [
+        [
+          1e-06,
+          50000000000.0
+        ],
+        [
+          1e-06,
+          50000000000.0
+        ],
+        [
+          1e-06,
+          50000000000.0
+        ]
+      ]
+    },
+    "degraded": {
+      "kind": "static",
+      "links": [
+        [
+          2e-06,
+          3125000000.0
+        ],
+        [
+          1.5e-06,
+          12500000000.0
+        ],
+        [
+          1e-06,
+          50000000000.0
+        ]
+      ],
+      "_n_nodes": 16
+    },
+    "unstable": {
+      "kind": "unstable",
+      "links": [
+        [
+          1.5e-06,
+          12500000000.0
+        ],
+        [
+          1.5e-06,
+          12500000000.0
+        ],
+        [
+          1e-06,
+          50000000000.0
+        ]
+      ],
+      "params": {
+        "theta": 0.5,
+        "sigma_b": 0.8,
+        "sigma_l": 0.4,
+        "dt": 0.2
+      }
+    }
+  },
+  "staleness_levels": {
+    "fresh": {
+      "queue": 0.0,
+      "network": 0.0
+    },
+    "stale": {
+      "queue": 2.0,
+      "network": 30.0
+    },
+    "mild": {
+      "queue": 1.0,
+      "network": 3.0
+    }
+  },
+  "staleness_sweep_s": [
+    0.0,
+    0.25,
+    1.0,
+    2.0,
+    5.0,
+    15.0,
+    30.0,
+    60.0
+  ],
+  "data_volume_bytes_per_ctx_token": {
+    "prompt_only": 4.0,
+    "kv_cache": 330000.0
+  },
+  "data_source": "trace",
+  "link_queue_model": true,
+  "net_set": "v2",
+  "service_slowdown": "linear",
+  "trace_file": "E:\\代码项目文件\\论文\\sim\\data\\raw\\azure_code_1week.csv",
+  "target_rho": 0.6,
+  "rho_grid": null,
+  "fallback_thresholds_s": null,
+  "n_trace_segments": 5,
+  "trace_stats": {
+    "source": "E:\\代码项目文件\\论文\\sim\\data\\raw\\azure_code_1week.csv",
+    "n_requests": 16803695,
+    "duration_h": 168.0,
+    "qps_mean": 27.7839,
+    "qps_p95": 77.0519,
+    "context_p50": 1930.0,
+    "context_p95": 7674.0,
+    "context_max": 7743,
+    "generated_p50": 8.0,
+    "generated_p95": 79.0,
+    "generated_max": 5000,
+    "n_dropped": 0,
+    "n_truncated_tail": 0,
+    "timestamp_monotonic": true
+  },
+  "n_nodes_by_mode": [
+    4,
+    8,
+    16
+  ],
+  "wall_clock_total_s": 782.24,
+  "wall_clock_per_run_s": 3.4766,
+  "code_version": "1ae3b22",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "slo_note": "SLO 为实验假设（slo_base=1.0s + 0.35s/千token），trace 不提供 deadline",
+  "workload_note": "真实 Azure LLM Inference Trace（AzurePublicDataset, CC-BY），按 ContextTokens/GeneratedTokens 分位切成四类负载；到达率按目标 rho 标定，种子对应不同的 trace 时间片"
+}

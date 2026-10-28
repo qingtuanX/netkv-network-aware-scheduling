@@ -21,7 +21,7 @@ loopback of a container network) is real, the shaping is not.
 \paragraph{Cluster evidence.} Our real deployment is a \emph{single} node: containers with CPU
 quotas, no GPUs, no RDMA, no multi-host fabric. It can establish direction and can measure the
 cost of reading state; it cannot establish production magnitudes. We quantify this rather than
-assert it: repeat-to-repeat dispersion on an idle machine is \SIrange{10}{30}{\percent}
+assert it: repeat-to-repeat dispersion on an idle machine is 10--30 %
 (\S\ref{sec:real}), so every real-cluster delta in this paper should be read with that error bar.
 
 \paragraph{Workloads.} Each of the two traces represents one service class (Azure: the
