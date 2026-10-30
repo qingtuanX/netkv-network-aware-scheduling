@@ -1,5 +1,5 @@
 ﻿arm,n_conditions,n_better_than_both,n_worse_than_both,n_better_than_na2,n_worse_than_na2,n_better_than_leastload,n_sig_vs_na2,n_sig_vs_leastload,mean_dp95_vs_na2_pct,mean_dp95_vs_leastload_pct
-AdaptChannel,24,1,4,1,22,20,16,22,5.021986488973138,-34.017643014697335
+AdaptChannel,24,1,4,1,22,20,16,22,5.0219864889731385,-34.017643014697335
 AdaptSplit,24,1,5,1,22,19,16,19,25.399356407085946,-26.829968189998297
 AdaptLinear,24,2,4,4,19,18,17,12,37.41698530268917,-24.26570696576613
 AdaptHard,24,4,8,7,15,11,15,8,67.49913034517004,-15.785645778486971

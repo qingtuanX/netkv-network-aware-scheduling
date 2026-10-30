@@ -352,6 +352,25 @@ DATA_VOLUME = {
 }
 DEFAULT_DATA_VOLUME = "kv_cache"
 
+# 【§5.2 重做 2026-10-30】份额曲线用的**中间档**数据量（原盘事故后重建）。
+# 旧产物只有两个极端（4 B 与 330 KB），中间 0.02–0.72 没有点，而份额闸门的
+# 阈值 0.10 正好落在空洞里；这一组把横轴铺满。
+# 只给 netshare 模式用；DATA_VOLUME 保持原样，否则 datavolume 模式会被静默扩表。
+NETSHARE_VOLUMES = {
+    "ns_4B":    4.0,
+    "ns_4KB":   4.0e3,
+    "ns_32KB":  3.2e4,
+    "ns_100KB": 1.0e5,
+    "ns_120KB": 1.2e5,
+    "ns_140KB": 1.4e5,
+    "ns_160KB": 1.6e5,
+    "ns_180KB": 1.8e5,
+    "ns_200KB": 2.0e5,
+    "ns_330KB": 3.3e5,
+}
+# data_volume 标签 → 每 context token 字节数的**唯一**解析入口
+VOLUME_BYTES = {**DATA_VOLUME, **NETSHARE_VOLUMES}
+
 # --- 真实 trace（--source trace）-------------------------------------------
 # 完整 1 周文件约 110 MB / 144 万请求；只下了前 50 MB 也能跑，只是覆盖时长变短。
 TRACE_PATH = ROOT / "data/raw/azure_code_1week.csv"
@@ -386,6 +405,17 @@ def base_strategies() -> list[str]:
 
 
 SEEDS = [1, 2, 3, 4, 5]
+
+# --- §5.2 份额曲线（2026-10-30 重做）----------------------------------------
+#   netshare       —— 数据量十档 × 四个负载 × 四个链路档，回答"份额低到多少，收益消失"；
+#   netshare_gate  —— 闸门开/关对照（floor = 0/0.05/0.10/0.20），回答
+#                     "低份额区的零收益是数据说的，还是闸门造出来的"。
+# 种子一律 10 个：本节是边界结论，3 个种子的误差棒比效应本身还宽。
+NETSHARE_WORKLOADS = ["compute_heavy", "data_heavy", "low_latency", "mixed"]
+NETSHARE_SEEDS = 10
+GATE_FLOORS = [0.0, 0.05, 0.10, 0.20]
+GATE_VOLUMES = ["ns_140KB", "ns_160KB", "ns_200KB", "ns_330KB"]
+GATE_PROFILES = ["slow_25g", "slow_100g"]
 N_REQUESTS = 20000
 
 
@@ -937,7 +967,7 @@ def run_cell(cell: dict, strategies: list, n_requests: int,
     cond = cell_network_condition(cell)
     cond["_n_nodes"] = cell["n_nodes"]
     cond = apply_alignment(cond, cell.get("align"))
-    bpc = DATA_VOLUME[cell["data_volume"]]
+    bpc = VOLUME_BYTES[cell["data_volume"]]
     cfg = SimConfig(
         prefill_coef=1.0, decode_coef=4.0, warmup_fraction=0.1,
         max_requests=n_requests,
@@ -1169,6 +1199,33 @@ def build_matrix(mode: str, extra: dict) -> list[dict]:
             c = cell(wl, "degraded", "fresh", seed, dv=dv)
             c["net_profile"] = prof
             cells.append(c)
+    elif mode == "netshare":
+        # 【§5.2 重做】网络份额 → 收益的**连续**曲线。旧版只用两个极端，
+        # 中间 0.02–0.72 没有点，"开关"形状是外推；这一组把中间补齐。
+        for dv, prof, wl, seed in itertools.product(
+                NETSHARE_VOLUMES.keys(), active_bandwidth_profiles().keys(),
+                NETSHARE_WORKLOADS, SEEDS[:NETSHARE_SEEDS]):
+            c = cell(wl, "degraded", "fresh", seed, dv=dv)
+            c["net_profile"] = prof
+            cells.append(c)
+    elif mode == "netshare_gate":
+        # 【§5.2 重做】闸门开/关对照：同一个 cell 内跑四条 floor 变体，
+        # 于是"关掉闸门"与"开着闸门"是逐请求配对，不是跨 cell 的聚合对比。
+        specs = ["LeastLoad", "NetworkAware2"] + [
+            {"name": "NetworkAware2Adapt", "label": f"gate{f:g}",
+             "decay": "channel", "net_share_floor": f}
+            for f in GATE_FLOORS
+        ]
+        for dv, prof, wl, seed in itertools.product(
+                GATE_VOLUMES, [x for x in GATE_PROFILES
+                               if x in active_bandwidth_profiles()],
+                ["data_heavy", "mixed"], SEEDS[:NETSHARE_SEEDS]):
+            c = cell(wl, "degraded", "fresh", seed, dv=dv)
+            c["net_profile"] = prof
+            c["strategies"] = specs
+            c["pair_candidates"] = [s["label"] for s in specs if isinstance(s, dict)]
+            c["pair_baselines"] = ["LeastLoad", "NetworkAware2"]
+            cells.append(c)
     elif mode == "align":
         # 【细变量③】"谁算得快"与"谁网线粗"的对齐度：网络信息有没有价值的机制解释。
         # 预测（跑之前定好）：aligned（两者一致）时收益≈0 甚至有害——因为按"谁闲"挑
@@ -1338,7 +1395,8 @@ def main() -> int:
                              "ablation", "scale", "rho", "fallback", "bandwidth",
                              "avewindow", "staleness2d", "align", "alignscale",
                              "method", "method_ablate", "method_ch",
-                             "method_ch_ablate", "baselines"])
+                             "method_ch_ablate", "baselines", "netshare",
+                             "netshare_gate"])
     ap.add_argument("--out", default=str(ROOT / "results/matrix"))
     ap.add_argument("--requests", type=int, default=N_REQUESTS)
     # 保守模型：并发降速倍率（CONS_MODEL_PREREG 冻结，2026-10-12）。
@@ -1359,6 +1417,9 @@ def main() -> int:
     ap.add_argument("--save-requests", action="store_true",
                     help="额外保存每请求明细（体积大，只在代表性 cell 上用）")
     ap.add_argument("--limit", type=int, default=None, help="只跑前 N 个 cell（测速用）")
+    ap.add_argument("--shard", default=None,
+                    help="分片并行：形如 1/4，只跑第 1 片（1-based），cell_id 保持不变")
+    ap.add_argument("--run-id", default=None, help="覆盖 run_id（分片时指定同一前缀）")
     args = ap.parse_args()
 
     if args.seeds:
@@ -1369,7 +1430,7 @@ def main() -> int:
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    run_id = f"{args.mode}_{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}"
+    run_id = args.run_id or f"{args.mode}_{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}"
 
     cells = build_matrix(args.mode, {})
     # 服务时间倍率是 run 级旋钮：写进每个 cell（runs.csv 自动带列，作为产物溯源）
@@ -1377,6 +1438,19 @@ def main() -> int:
         _c["service_slowdown"] = args.service_slowdown
     if args.limit:
         cells = cells[: args.limit]
+    if args.shard:
+        # 网格切成 N 片并行跑；cell_id 已按全网格编号，分片不改变它，
+        # 分析侧按 cell_id 去重合并即可。
+        try:
+            k, n = (int(x) for x in str(args.shard).split("/"))
+        except ValueError:
+            print(f"--shard 应形如 1/4，收到 {args.shard!r}")
+            return 2
+        if not (1 <= k <= n) or n < 1:
+            print(f"--shard 越界：{args.shard!r}")
+            return 2
+        cells = cells[k - 1::n]
+        run_id = f"{run_id}_s{k}of{n}"
 
     n_segments = 0
     if SOURCE == "trace":

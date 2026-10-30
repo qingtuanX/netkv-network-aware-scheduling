@@ -200,102 +200,102 @@ burstgpt.rho_sweep_dp95_min_max = -40.8% .. 38.2%
 # ==========================================================================
 # §5 RQ1 主矩阵（逐策略，5 种子，按种子配对）
 # ==========================================================================
-rq1main.synthetic.compute_heavy.degraded.fresh.NetworkAware = mean=-55.1% median=-55.1% n=5 p95_LL=17.36 p95_cand=7.80 better=5/5
-rq1main.synthetic.compute_heavy.degraded.fresh.NetworkAware2 = mean=-74.2% median=-74.6% n=5 p95_LL=17.36 p95_cand=4.48 better=5/5
-rq1main.synthetic.compute_heavy.degraded.stale.NetworkAware = mean=-4.6% median=-3.7% n=5 p95_LL=20.94 p95_cand=19.96 better=5/5
-rq1main.synthetic.compute_heavy.degraded.stale.NetworkAware2 = mean=-41.9% median=-41.0% n=5 p95_LL=20.94 p95_cand=12.17 better=5/5
-rq1main.synthetic.compute_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=4.20 p95_cand=4.20 better=0/5
-rq1main.synthetic.compute_heavy.normal.fresh.NetworkAware2 = mean=0.1% median=-0.1% n=5 p95_LL=4.20 p95_cand=4.21 better=3/5
-rq1main.synthetic.compute_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=8.79 p95_cand=8.79 better=0/5
-rq1main.synthetic.compute_heavy.normal.stale.NetworkAware2 = mean=-0.5% median=-0.6% n=5 p95_LL=8.79 p95_cand=8.74 better=4/5
-rq1main.synthetic.compute_heavy.unstable.fresh.NetworkAware = mean=-9.8% median=-9.0% n=5 p95_LL=5.47 p95_cand=4.92 better=5/5
-rq1main.synthetic.compute_heavy.unstable.fresh.NetworkAware2 = mean=-11.1% median=-10.4% n=5 p95_LL=5.47 p95_cand=4.85 better=5/5
-rq1main.synthetic.compute_heavy.unstable.stale.NetworkAware = mean=3.1% median=2.4% n=5 p95_LL=10.13 p95_cand=10.43 better=2/5
-rq1main.synthetic.compute_heavy.unstable.stale.NetworkAware2 = mean=5.1% median=6.1% n=5 p95_LL=10.13 p95_cand=10.62 better=2/5
-rq1main.synthetic.data_heavy.degraded.fresh.NetworkAware = mean=12.4% median=12.8% n=5 p95_LL=140.44 p95_cand=157.99 better=0/5
-rq1main.synthetic.data_heavy.degraded.fresh.NetworkAware2 = mean=-66.7% median=-66.4% n=5 p95_LL=140.44 p95_cand=46.78 better=5/5
-rq1main.synthetic.data_heavy.degraded.stale.NetworkAware = mean=0.2% median=-0.4% n=5 p95_LL=152.41 p95_cand=152.78 better=3/5
-rq1main.synthetic.data_heavy.degraded.stale.NetworkAware2 = mean=-70.9% median=-71.3% n=5 p95_LL=152.41 p95_cand=44.39 better=5/5
-rq1main.synthetic.data_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=15.25 p95_cand=15.25 better=0/5
-rq1main.synthetic.data_heavy.normal.fresh.NetworkAware2 = mean=-0.3% median=-0.0% n=5 p95_LL=15.25 p95_cand=15.22 better=3/5
-rq1main.synthetic.data_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=17.83 p95_cand=17.83 better=0/5
-rq1main.synthetic.data_heavy.normal.stale.NetworkAware2 = mean=-0.8% median=-1.1% n=5 p95_LL=17.83 p95_cand=17.69 better=4/5
-rq1main.synthetic.data_heavy.unstable.fresh.NetworkAware = mean=2.9% median=3.0% n=5 p95_LL=27.90 p95_cand=28.51 better=1/5
-rq1main.synthetic.data_heavy.unstable.fresh.NetworkAware2 = mean=-25.5% median=-24.8% n=5 p95_LL=27.90 p95_cand=20.74 better=5/5
-rq1main.synthetic.data_heavy.unstable.stale.NetworkAware = mean=0.4% median=3.3% n=5 p95_LL=30.13 p95_cand=30.23 better=2/5
-rq1main.synthetic.data_heavy.unstable.stale.NetworkAware2 = mean=-17.3% median=-18.6% n=5 p95_LL=30.13 p95_cand=24.68 better=5/5
-rq1main.synthetic.low_latency.degraded.fresh.NetworkAware = mean=-6.3% median=-6.4% n=5 p95_LL=3.31 p95_cand=3.10 better=5/5
-rq1main.synthetic.low_latency.degraded.fresh.NetworkAware2 = mean=-70.1% median=-70.0% n=5 p95_LL=3.31 p95_cand=0.99 better=5/5
-rq1main.synthetic.low_latency.degraded.stale.NetworkAware = mean=-1.3% median=1.3% n=5 p95_LL=9.90 p95_cand=9.34 better=2/5
-rq1main.synthetic.low_latency.degraded.stale.NetworkAware2 = mean=-14.4% median=-12.3% n=5 p95_LL=9.90 p95_cand=8.02 better=4/5
-rq1main.synthetic.low_latency.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=0.42 p95_cand=0.42 better=0/5
-rq1main.synthetic.low_latency.normal.fresh.NetworkAware2 = mean=0.4% median=0.4% n=5 p95_LL=0.42 p95_cand=0.42 better=2/5
-rq1main.synthetic.low_latency.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=4.13 p95_cand=4.13 better=0/5
-rq1main.synthetic.low_latency.normal.stale.NetworkAware2 = mean=-0.3% median=-0.1% n=5 p95_LL=4.13 p95_cand=4.12 better=3/5
-rq1main.synthetic.low_latency.unstable.fresh.NetworkAware = mean=16.5% median=13.2% n=5 p95_LL=1.34 p95_cand=1.60 better=0/5
-rq1main.synthetic.low_latency.unstable.fresh.NetworkAware2 = mean=-11.5% median=-15.0% n=5 p95_LL=1.34 p95_cand=1.16 better=4/5
-rq1main.synthetic.low_latency.unstable.stale.NetworkAware = mean=30.1% median=34.3% n=5 p95_LL=6.65 p95_cand=7.36 better=2/5
-rq1main.synthetic.low_latency.unstable.stale.NetworkAware2 = mean=23.5% median=15.9% n=5 p95_LL=6.65 p95_cand=7.02 better=2/5
-rq1main.synthetic.mixed.degraded.fresh.NetworkAware = mean=-11.4% median=-10.5% n=5 p95_LL=56.48 p95_cand=50.07 better=5/5
-rq1main.synthetic.mixed.degraded.fresh.NetworkAware2 = mean=-71.5% median=-71.4% n=5 p95_LL=56.48 p95_cand=16.10 better=5/5
-rq1main.synthetic.mixed.degraded.stale.NetworkAware = mean=-9.5% median=-11.7% n=5 p95_LL=63.93 p95_cand=57.81 better=5/5
-rq1main.synthetic.mixed.degraded.stale.NetworkAware2 = mean=-66.8% median=-65.9% n=5 p95_LL=63.93 p95_cand=21.18 better=5/5
-rq1main.synthetic.mixed.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=7.32 p95_cand=7.32 better=0/5
-rq1main.synthetic.mixed.normal.fresh.NetworkAware2 = mean=-0.5% median=0.0% n=5 p95_LL=7.32 p95_cand=7.29 better=2/5
-rq1main.synthetic.mixed.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=10.20 p95_cand=10.20 better=0/5
-rq1main.synthetic.mixed.normal.stale.NetworkAware2 = mean=0.7% median=0.9% n=5 p95_LL=10.20 p95_cand=10.28 better=2/5
-rq1main.synthetic.mixed.unstable.fresh.NetworkAware = mean=-3.1% median=-2.2% n=5 p95_LL=15.21 p95_cand=14.83 better=4/5
-rq1main.synthetic.mixed.unstable.fresh.NetworkAware2 = mean=-26.2% median=-27.7% n=5 p95_LL=15.21 p95_cand=11.04 better=5/5
-rq1main.synthetic.mixed.unstable.stale.NetworkAware = mean=-4.3% median=-3.9% n=5 p95_LL=18.39 p95_cand=17.55 better=4/5
-rq1main.synthetic.mixed.unstable.stale.NetworkAware2 = mean=-8.9% median=-11.5% n=5 p95_LL=18.39 p95_cand=16.63 better=5/5
-rq1main.azure.compute_heavy.degraded.fresh.NetworkAware = mean=-35.9% median=-36.5% n=5 p95_LL=2.22 p95_cand=1.43 better=5/5
-rq1main.azure.compute_heavy.degraded.fresh.NetworkAware2 = mean=-76.0% median=-76.0% n=5 p95_LL=2.22 p95_cand=0.53 better=5/5
-rq1main.azure.compute_heavy.degraded.stale.NetworkAware = mean=-5.5% median=-2.7% n=5 p95_LL=7.73 p95_cand=7.29 better=3/5
-rq1main.azure.compute_heavy.degraded.stale.NetworkAware2 = mean=-21.7% median=-25.9% n=5 p95_LL=7.73 p95_cand=6.04 better=5/5
-rq1main.azure.compute_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=0.33 p95_cand=0.33 better=0/5
-rq1main.azure.compute_heavy.normal.fresh.NetworkAware2 = mean=-0.4% median=0.4% n=5 p95_LL=0.33 p95_cand=0.33 better=2/5
-rq1main.azure.compute_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=3.78 p95_cand=3.78 better=0/5
-rq1main.azure.compute_heavy.normal.stale.NetworkAware2 = mean=-0.6% median=-3.6% n=5 p95_LL=3.78 p95_cand=3.74 better=4/5
-rq1main.azure.compute_heavy.unstable.fresh.NetworkAware = mean=-9.6% median=-10.5% n=5 p95_LL=1.58 p95_cand=1.44 better=5/5
-rq1main.azure.compute_heavy.unstable.fresh.NetworkAware2 = mean=-44.0% median=-47.8% n=5 p95_LL=1.58 p95_cand=0.91 better=5/5
-rq1main.azure.compute_heavy.unstable.stale.NetworkAware = mean=3.4% median=3.2% n=5 p95_LL=5.10 p95_cand=5.28 better=0/5
-rq1main.azure.compute_heavy.unstable.stale.NetworkAware2 = mean=5.2% median=2.1% n=5 p95_LL=5.10 p95_cand=5.35 better=1/5
-rq1main.azure.data_heavy.degraded.fresh.NetworkAware = mean=-32.8% median=-33.0% n=5 p95_LL=8.51 p95_cand=5.72 better=5/5
-rq1main.azure.data_heavy.degraded.fresh.NetworkAware2 = mean=-77.1% median=-77.1% n=5 p95_LL=8.51 p95_cand=1.95 better=5/5
-rq1main.azure.data_heavy.degraded.stale.NetworkAware = mean=-17.7% median=-19.4% n=5 p95_LL=13.60 p95_cand=11.19 better=5/5
-rq1main.azure.data_heavy.degraded.stale.NetworkAware2 = mean=-41.7% median=-42.2% n=5 p95_LL=13.60 p95_cand=7.93 better=5/5
-rq1main.azure.data_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=1.01 p95_cand=1.01 better=0/5
-rq1main.azure.data_heavy.normal.fresh.NetworkAware2 = mean=-0.0% median=-0.0% n=5 p95_LL=1.01 p95_cand=1.01 better=3/5
-rq1main.azure.data_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=4.69 p95_cand=4.69 better=0/5
-rq1main.azure.data_heavy.normal.stale.NetworkAware2 = mean=-3.4% median=-0.4% n=5 p95_LL=4.69 p95_cand=4.53 better=4/5
-rq1main.azure.data_heavy.unstable.fresh.NetworkAware = mean=-7.1% median=-7.5% n=5 p95_LL=3.52 p95_cand=3.27 better=5/5
-rq1main.azure.data_heavy.unstable.fresh.NetworkAware2 = mean=-39.7% median=-39.3% n=5 p95_LL=3.52 p95_cand=2.11 better=5/5
-rq1main.azure.data_heavy.unstable.stale.NetworkAware = mean=-1.2% median=-0.9% n=5 p95_LL=6.67 p95_cand=6.61 better=3/5
-rq1main.azure.data_heavy.unstable.stale.NetworkAware2 = mean=-3.1% median=-3.0% n=5 p95_LL=6.67 p95_cand=6.46 better=3/5
-rq1main.azure.low_latency.degraded.fresh.NetworkAware = mean=-30.9% median=-30.3% n=5 p95_LL=1.66 p95_cand=1.15 better=5/5
-rq1main.azure.low_latency.degraded.fresh.NetworkAware2 = mean=-79.8% median=-79.7% n=5 p95_LL=1.66 p95_cand=0.34 better=5/5
-rq1main.azure.low_latency.degraded.stale.NetworkAware = mean=-3.1% median=-2.8% n=5 p95_LL=7.59 p95_cand=7.35 better=4/5
-rq1main.azure.low_latency.degraded.stale.NetworkAware2 = mean=-18.9% median=-21.6% n=5 p95_LL=7.59 p95_cand=6.12 better=5/5
-rq1main.azure.low_latency.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=0.20 p95_cand=0.20 better=0/5
-rq1main.azure.low_latency.normal.fresh.NetworkAware2 = mean=0.2% median=0.3% n=5 p95_LL=0.20 p95_cand=0.20 better=2/5
-rq1main.azure.low_latency.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=3.59 p95_cand=3.59 better=0/5
-rq1main.azure.low_latency.normal.stale.NetworkAware2 = mean=-0.3% median=-1.2% n=5 p95_LL=3.59 p95_cand=3.58 better=3/5
-rq1main.azure.low_latency.unstable.fresh.NetworkAware = mean=-2.4% median=-2.9% n=5 p95_LL=1.17 p95_cand=1.15 better=4/5
-rq1main.azure.low_latency.unstable.fresh.NetworkAware2 = mean=-44.1% median=-43.9% n=5 p95_LL=1.17 p95_cand=0.66 better=5/5
-rq1main.azure.low_latency.unstable.stale.NetworkAware = mean=5.7% median=3.1% n=5 p95_LL=4.82 p95_cand=5.09 better=1/5
-rq1main.azure.low_latency.unstable.stale.NetworkAware2 = mean=2.9% median=7.1% n=5 p95_LL=4.82 p95_cand=4.97 better=2/5
-rq1main.azure.mixed.degraded.fresh.NetworkAware = mean=-22.4% median=-23.0% n=5 p95_LL=7.21 p95_cand=5.59 better=5/5
-rq1main.azure.mixed.degraded.fresh.NetworkAware2 = mean=-77.0% median=-77.1% n=5 p95_LL=7.21 p95_cand=1.66 better=5/5
-rq1main.azure.mixed.degraded.stale.NetworkAware = mean=-18.5% median=-20.2% n=5 p95_LL=11.84 p95_cand=9.67 better=5/5
-rq1main.azure.mixed.degraded.stale.NetworkAware2 = mean=-41.6% median=-41.6% n=5 p95_LL=11.84 p95_cand=6.91 better=5/5
-rq1main.azure.mixed.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=0.85 p95_cand=0.85 better=0/5
-rq1main.azure.mixed.normal.fresh.NetworkAware2 = mean=1.4% median=1.3% n=5 p95_LL=0.85 p95_cand=0.86 better=1/5
-rq1main.azure.mixed.normal.stale.NetworkAware = mean=0.0% median=0.0% n=5 p95_LL=4.21 p95_cand=4.21 better=0/5
-rq1main.azure.mixed.normal.stale.NetworkAware2 = mean=-3.5% median=-2.5% n=5 p95_LL=4.21 p95_cand=4.06 better=4/5
-rq1main.azure.mixed.unstable.fresh.NetworkAware = mean=1.2% median=2.1% n=5 p95_LL=3.11 p95_cand=3.14 better=2/5
-rq1main.azure.mixed.unstable.fresh.NetworkAware2 = mean=-37.3% median=-40.0% n=5 p95_LL=3.11 p95_cand=1.94 better=5/5
-rq1main.azure.mixed.unstable.stale.NetworkAware = mean=-0.7% median=0.7% n=5 p95_LL=6.14 p95_cand=6.09 better=2/5
-rq1main.azure.mixed.unstable.stale.NetworkAware2 = mean=1.3% median=1.8% n=5 p95_LL=6.14 p95_cand=6.21 better=2/5
+rq1main.synthetic.compute_heavy.degraded.fresh.NetworkAware = mean=-56.4% median=-55.4% n=10 p95_LL=17.34 p95_cand=7.56 better=10/10
+rq1main.synthetic.compute_heavy.degraded.fresh.NetworkAware2 = mean=-74.0% median=-74.2% n=10 p95_LL=17.34 p95_cand=4.51 better=10/10
+rq1main.synthetic.compute_heavy.degraded.stale.NetworkAware = mean=-5.5% median=-5.0% n=10 p95_LL=21.20 p95_cand=20.02 better=10/10
+rq1main.synthetic.compute_heavy.degraded.stale.NetworkAware2 = mean=-42.6% median=-42.2% n=10 p95_LL=21.20 p95_cand=12.17 better=10/10
+rq1main.synthetic.compute_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=4.20 p95_cand=4.20 better=0/10
+rq1main.synthetic.compute_heavy.normal.fresh.NetworkAware2 = mean=-0.0% median=-0.1% n=10 p95_LL=4.20 p95_cand=4.20 better=6/10
+rq1main.synthetic.compute_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=8.68 p95_cand=8.68 better=0/10
+rq1main.synthetic.compute_heavy.normal.stale.NetworkAware2 = mean=-0.5% median=-0.4% n=10 p95_LL=8.68 p95_cand=8.63 better=8/10
+rq1main.synthetic.compute_heavy.unstable.fresh.NetworkAware = mean=-9.7% median=-9.7% n=10 p95_LL=5.30 p95_cand=4.78 better=10/10
+rq1main.synthetic.compute_heavy.unstable.fresh.NetworkAware2 = mean=-11.4% median=-11.5% n=10 p95_LL=5.30 p95_cand=4.68 better=10/10
+rq1main.synthetic.compute_heavy.unstable.stale.NetworkAware = mean=3.0% median=3.0% n=10 p95_LL=9.62 p95_cand=9.90 better=4/10
+rq1main.synthetic.compute_heavy.unstable.stale.NetworkAware2 = mean=6.6% median=7.3% n=10 p95_LL=9.62 p95_cand=10.24 better=2/10
+rq1main.synthetic.data_heavy.degraded.fresh.NetworkAware = mean=13.1% median=12.8% n=10 p95_LL=139.97 p95_cand=158.37 better=0/10
+rq1main.synthetic.data_heavy.degraded.fresh.NetworkAware2 = mean=-66.1% median=-66.4% n=10 p95_LL=139.97 p95_cand=47.40 better=10/10
+rq1main.synthetic.data_heavy.degraded.stale.NetworkAware = mean=0.5% median=0.8% n=10 p95_LL=152.95 p95_cand=153.74 better=4/10
+rq1main.synthetic.data_heavy.degraded.stale.NetworkAware2 = mean=-70.5% median=-71.0% n=10 p95_LL=152.95 p95_cand=45.07 better=10/10
+rq1main.synthetic.data_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=15.24 p95_cand=15.24 better=0/10
+rq1main.synthetic.data_heavy.normal.fresh.NetworkAware2 = mean=-0.2% median=0.1% n=10 p95_LL=15.24 p95_cand=15.21 better=5/10
+rq1main.synthetic.data_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=17.86 p95_cand=17.86 better=0/10
+rq1main.synthetic.data_heavy.normal.stale.NetworkAware2 = mean=-0.7% median=-0.8% n=10 p95_LL=17.86 p95_cand=17.74 better=8/10
+rq1main.synthetic.data_heavy.unstable.fresh.NetworkAware = mean=1.7% median=1.9% n=10 p95_LL=31.91 p95_cand=32.26 better=2/10
+rq1main.synthetic.data_heavy.unstable.fresh.NetworkAware2 = mean=-27.1% median=-26.9% n=10 p95_LL=31.91 p95_cand=23.15 better=10/10
+rq1main.synthetic.data_heavy.unstable.stale.NetworkAware = mean=0.4% median=2.2% n=10 p95_LL=33.39 p95_cand=33.50 better=4/10
+rq1main.synthetic.data_heavy.unstable.stale.NetworkAware2 = mean=-17.6% median=-18.5% n=10 p95_LL=33.39 p95_cand=27.34 better=10/10
+rq1main.synthetic.low_latency.degraded.fresh.NetworkAware = mean=-5.9% median=-6.1% n=10 p95_LL=3.33 p95_cand=3.13 better=10/10
+rq1main.synthetic.low_latency.degraded.fresh.NetworkAware2 = mean=-70.0% median=-70.0% n=10 p95_LL=3.33 p95_cand=1.00 better=10/10
+rq1main.synthetic.low_latency.degraded.stale.NetworkAware = mean=-3.6% median=-3.1% n=10 p95_LL=10.18 p95_cand=9.52 better=5/10
+rq1main.synthetic.low_latency.degraded.stale.NetworkAware2 = mean=-16.5% median=-25.4% n=10 p95_LL=10.18 p95_cand=8.14 better=8/10
+rq1main.synthetic.low_latency.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=0.42 p95_cand=0.42 better=0/10
+rq1main.synthetic.low_latency.normal.fresh.NetworkAware2 = mean=0.2% median=0.1% n=10 p95_LL=0.42 p95_cand=0.42 better=5/10
+rq1main.synthetic.low_latency.normal.stale.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=4.22 p95_cand=4.22 better=0/10
+rq1main.synthetic.low_latency.normal.stale.NetworkAware2 = mean=1.5% median=0.0% n=10 p95_LL=4.22 p95_cand=4.27 better=3/10
+rq1main.synthetic.low_latency.unstable.fresh.NetworkAware = mean=9.7% median=3.5% n=10 p95_LL=1.73 p95_cand=1.90 better=1/10
+rq1main.synthetic.low_latency.unstable.fresh.NetworkAware2 = mean=-17.5% median=-21.5% n=10 p95_LL=1.73 p95_cand=1.33 better=9/10
+rq1main.synthetic.low_latency.unstable.stale.NetworkAware = mean=29.6% median=35.4% n=10 p95_LL=6.45 p95_cand=7.19 better=4/10
+rq1main.synthetic.low_latency.unstable.stale.NetworkAware2 = mean=21.3% median=20.9% n=10 p95_LL=6.45 p95_cand=6.92 better=4/10
+rq1main.synthetic.mixed.degraded.fresh.NetworkAware = mean=-11.9% median=-12.1% n=10 p95_LL=56.52 p95_cand=49.76 better=10/10
+rq1main.synthetic.mixed.degraded.fresh.NetworkAware2 = mean=-70.9% median=-70.8% n=10 p95_LL=56.52 p95_cand=16.46 better=10/10
+rq1main.synthetic.mixed.degraded.stale.NetworkAware = mean=-10.3% median=-11.7% n=10 p95_LL=64.81 p95_cand=58.12 better=10/10
+rq1main.synthetic.mixed.degraded.stale.NetworkAware2 = mean=-66.7% median=-66.3% n=10 p95_LL=64.81 p95_cand=21.54 better=10/10
+rq1main.synthetic.mixed.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=7.34 p95_cand=7.34 better=0/10
+rq1main.synthetic.mixed.normal.fresh.NetworkAware2 = mean=-0.7% median=-0.7% n=10 p95_LL=7.34 p95_cand=7.29 better=6/10
+rq1main.synthetic.mixed.normal.stale.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=10.16 p95_cand=10.16 better=0/10
+rq1main.synthetic.mixed.normal.stale.NetworkAware2 = mean=1.5% median=1.1% n=10 p95_LL=10.16 p95_cand=10.31 better=2/10
+rq1main.synthetic.mixed.unstable.fresh.NetworkAware = mean=-2.7% median=-2.4% n=10 p95_LL=14.67 p95_cand=14.29 better=7/10
+rq1main.synthetic.mixed.unstable.fresh.NetworkAware2 = mean=-27.0% median=-28.1% n=10 p95_LL=14.67 p95_cand=10.61 better=10/10
+rq1main.synthetic.mixed.unstable.stale.NetworkAware = mean=-2.9% median=-3.2% n=10 p95_LL=17.84 p95_cand=17.28 better=8/10
+rq1main.synthetic.mixed.unstable.stale.NetworkAware2 = mean=-9.5% median=-10.9% n=10 p95_LL=17.84 p95_cand=16.06 better=10/10
+rq1main.azure.compute_heavy.degraded.fresh.NetworkAware = mean=-38.1% median=-39.1% n=10 p95_LL=2.19 p95_cand=1.36 better=10/10
+rq1main.azure.compute_heavy.degraded.fresh.NetworkAware2 = mean=-76.6% median=-76.9% n=10 p95_LL=2.19 p95_cand=0.51 better=10/10
+rq1main.azure.compute_heavy.degraded.stale.NetworkAware = mean=-3.8% median=-3.9% n=10 p95_LL=7.46 p95_cand=7.17 better=7/10
+rq1main.azure.compute_heavy.degraded.stale.NetworkAware2 = mean=-22.0% median=-22.5% n=10 p95_LL=7.46 p95_cand=5.80 better=10/10
+rq1main.azure.compute_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=0.32 p95_cand=0.32 better=0/10
+rq1main.azure.compute_heavy.normal.fresh.NetworkAware2 = mean=0.1% median=-0.3% n=10 p95_LL=0.32 p95_cand=0.32 better=7/10
+rq1main.azure.compute_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=3.64 p95_cand=3.64 better=0/10
+rq1main.azure.compute_heavy.normal.stale.NetworkAware2 = mean=1.9% median=1.6% n=10 p95_LL=3.64 p95_cand=3.71 better=5/10
+rq1main.azure.compute_heavy.unstable.fresh.NetworkAware = mean=-4.9% median=-5.7% n=10 p95_LL=1.42 p95_cand=1.36 better=8/10
+rq1main.azure.compute_heavy.unstable.fresh.NetworkAware2 = mean=-41.4% median=-43.1% n=10 p95_LL=1.42 p95_cand=0.84 better=10/10
+rq1main.azure.compute_heavy.unstable.stale.NetworkAware = mean=1.4% median=-0.9% n=10 p95_LL=5.14 p95_cand=5.19 better=5/10
+rq1main.azure.compute_heavy.unstable.stale.NetworkAware2 = mean=1.4% median=-0.4% n=10 p95_LL=5.14 p95_cand=5.19 better=6/10
+rq1main.azure.data_heavy.degraded.fresh.NetworkAware = mean=-33.4% median=-33.5% n=10 p95_LL=8.48 p95_cand=5.65 better=10/10
+rq1main.azure.data_heavy.degraded.fresh.NetworkAware2 = mean=-77.0% median=-77.4% n=10 p95_LL=8.48 p95_cand=1.95 better=10/10
+rq1main.azure.data_heavy.degraded.stale.NetworkAware = mean=-20.2% median=-19.8% n=10 p95_LL=13.84 p95_cand=11.04 better=10/10
+rq1main.azure.data_heavy.degraded.stale.NetworkAware2 = mean=-46.1% median=-46.2% n=10 p95_LL=13.84 p95_cand=7.45 better=10/10
+rq1main.azure.data_heavy.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=1.01 p95_cand=1.01 better=0/10
+rq1main.azure.data_heavy.normal.fresh.NetworkAware2 = mean=-0.0% median=0.0% n=10 p95_LL=1.01 p95_cand=1.01 better=2/10
+rq1main.azure.data_heavy.normal.stale.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=4.56 p95_cand=4.56 better=0/10
+rq1main.azure.data_heavy.normal.stale.NetworkAware2 = mean=-1.4% median=-2.1% n=10 p95_LL=4.56 p95_cand=4.49 better=6/10
+rq1main.azure.data_heavy.unstable.fresh.NetworkAware = mean=-8.4% median=-9.6% n=10 p95_LL=3.44 p95_cand=3.15 better=10/10
+rq1main.azure.data_heavy.unstable.fresh.NetworkAware2 = mean=-40.0% median=-39.8% n=10 p95_LL=3.44 p95_cand=2.06 better=10/10
+rq1main.azure.data_heavy.unstable.stale.NetworkAware = mean=0.5% median=-0.6% n=10 p95_LL=6.51 p95_cand=6.54 better=5/10
+rq1main.azure.data_heavy.unstable.stale.NetworkAware2 = mean=-2.7% median=-2.8% n=10 p95_LL=6.51 p95_cand=6.33 better=7/10
+rq1main.azure.low_latency.degraded.fresh.NetworkAware = mean=-30.9% median=-31.9% n=10 p95_LL=1.65 p95_cand=1.14 better=10/10
+rq1main.azure.low_latency.degraded.fresh.NetworkAware2 = mean=-79.6% median=-79.6% n=10 p95_LL=1.65 p95_cand=0.34 better=10/10
+rq1main.azure.low_latency.degraded.stale.NetworkAware = mean=-5.0% median=-7.5% n=10 p95_LL=8.18 p95_cand=7.73 better=7/10
+rq1main.azure.low_latency.degraded.stale.NetworkAware2 = mean=-22.5% median=-20.4% n=10 p95_LL=8.18 p95_cand=6.27 better=10/10
+rq1main.azure.low_latency.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=0.20 p95_cand=0.20 better=0/10
+rq1main.azure.low_latency.normal.fresh.NetworkAware2 = mean=-0.0% median=0.2% n=10 p95_LL=0.20 p95_cand=0.20 better=4/10
+rq1main.azure.low_latency.normal.stale.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=3.51 p95_cand=3.51 better=0/10
+rq1main.azure.low_latency.normal.stale.NetworkAware2 = mean=2.3% median=2.1% n=10 p95_LL=3.51 p95_cand=3.59 better=5/10
+rq1main.azure.low_latency.unstable.fresh.NetworkAware = mean=1.0% median=0.4% n=10 p95_LL=1.13 p95_cand=1.14 better=3/10
+rq1main.azure.low_latency.unstable.fresh.NetworkAware2 = mean=-39.9% median=-42.0% n=10 p95_LL=1.13 p95_cand=0.70 better=10/10
+rq1main.azure.low_latency.unstable.stale.NetworkAware = mean=7.6% median=7.0% n=10 p95_LL=5.01 p95_cand=5.38 better=2/10
+rq1main.azure.low_latency.unstable.stale.NetworkAware2 = mean=0.7% median=-1.2% n=10 p95_LL=5.01 p95_cand=4.99 better=6/10
+rq1main.azure.mixed.degraded.fresh.NetworkAware = mean=-25.0% median=-26.0% n=10 p95_LL=7.24 p95_cand=5.42 better=10/10
+rq1main.azure.mixed.degraded.fresh.NetworkAware2 = mean=-77.4% median=-77.6% n=10 p95_LL=7.24 p95_cand=1.63 better=10/10
+rq1main.azure.mixed.degraded.stale.NetworkAware = mean=-18.5% median=-19.3% n=10 p95_LL=11.66 p95_cand=9.50 better=10/10
+rq1main.azure.mixed.degraded.stale.NetworkAware2 = mean=-40.7% median=-40.1% n=10 p95_LL=11.66 p95_cand=6.89 better=10/10
+rq1main.azure.mixed.normal.fresh.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=0.84 p95_cand=0.84 better=0/10
+rq1main.azure.mixed.normal.fresh.NetworkAware2 = mean=2.0% median=2.8% n=10 p95_LL=0.84 p95_cand=0.86 better=1/10
+rq1main.azure.mixed.normal.stale.NetworkAware = mean=0.0% median=0.0% n=10 p95_LL=4.14 p95_cand=4.14 better=0/10
+rq1main.azure.mixed.normal.stale.NetworkAware2 = mean=-2.8% median=-1.4% n=10 p95_LL=4.14 p95_cand=4.02 better=6/10
+rq1main.azure.mixed.unstable.fresh.NetworkAware = mean=-0.8% median=-1.3% n=10 p95_LL=2.98 p95_cand=2.95 better=6/10
+rq1main.azure.mixed.unstable.fresh.NetworkAware2 = mean=-37.6% median=-37.5% n=10 p95_LL=2.98 p95_cand=1.85 better=10/10
+rq1main.azure.mixed.unstable.stale.NetworkAware = mean=0.2% median=0.7% n=10 p95_LL=5.92 p95_cand=5.91 better=4/10
+rq1main.azure.mixed.unstable.stale.NetworkAware2 = mean=-2.6% median=-3.2% n=10 p95_LL=5.92 p95_cand=5.75 better=7/10
 rq1main.burstgpt.compute_heavy.degraded.fresh.NetworkAware = mean=-14.2% median=-1.9% n=5 p95_LL=103.40 p95_cand=99.99 better=5/5
 rq1main.burstgpt.compute_heavy.degraded.fresh.NetworkAware2 = mean=-36.8% median=-57.5% n=5 p95_LL=103.40 p95_cand=71.62 better=4/5
 rq1main.burstgpt.compute_heavy.degraded.stale.NetworkAware = mean=28.8% median=11.2% n=5 p95_LL=98.79 p95_cand=128.71 better=1/5
@@ -889,3 +889,35 @@ C.bg.D2.q03_rep14 = ttft_p50=3.84 chars=7319 est_KV_MB=43.0
 C.bg.D2.q04_rep18 = ttft_p50=4.83 chars=9383 est_KV_MB=55.1
 C.bg.D2.q05_rep22 = ttft_p50=6.06 chars=11447 est_KV_MB=67.3
 D.status = "planned not executed (D-mini); see k8s_test/D_MINI_PREREG.md"
+
+# ==========================================================================
+# §5.2 网络份额两段边界（netshare：10 档数据量 × 4 链路 × 4 负载 × 10 种子）
+# ==========================================================================
+S52.n_points = 160
+S52.share_min_max = 2.18e-06 .. 0.670
+S52.crossing.compute_heavy.zero = 0.0256
+S52.crossing.compute_heavy.minus1 = 0.0392
+S52.crossing.compute_heavy.minus5 = 0.0575
+S52.bins.compute_heavy = 1.7e-05:+0.1(n=5)  3.2e-04:+0.2(n=4)  3.5e-03:+1.1(n=15)  1.7e-02:+1.0(n=6)  5.1e-02:-1.6(n=4)  2.9e-01:-49.8(n=2)  5.0e-01:-62.0(n=4)
+S52.crossing.data_heavy.zero = 0.0566
+S52.crossing.data_heavy.minus1 = 0.0733
+S52.crossing.data_heavy.minus5 = 0.1896
+S52.bins.data_heavy = 3.5e-06:+0.1(n=4)  4.2e-04:+0.2(n=3)  3.9e-03:+0.7(n=6)  1.5e-02:+0.7(n=5)  4.7e-02:+0.7(n=3)  1.8e-01:-4.5(n=1)  2.9e-01:-9.7(n=2)  5.9e-01:-43.4(n=16)
+S52.crossing.low_latency.zero = 0.0591
+S52.crossing.low_latency.minus1 = 0.0682
+S52.crossing.low_latency.minus5 = 0.1208
+S52.bins.low_latency = 2.7e-05:+0.1(n=1)  3.2e-04:+0.1(n=6)  3.5e-03:+0.4(n=8)  1.6e-02:+0.9(n=6)  5.8e-02:+0.1(n=3)  2.0e-01:-8.7(n=2)  4.9e-01:-46.0(n=14)
+S52.crossing.mixed.zero = 0.0681
+S52.crossing.mixed.minus1 = 0.0789
+S52.crossing.mixed.minus5 = 0.1416
+S52.bins.mixed = 5.4e-06:+0.2(n=4)  3.2e-04:+0.6(n=3)  3.1e-03:+2.4(n=7)  1.5e-02:+3.3(n=6)  4.8e-02:+2.4(n=4)  1.4e-01:-5.0(n=2)  4.0e-01:-21.2(n=1)  6.3e-01:-50.9(n=13)
+S52.gate.data_heavy.floor0 = share=0.585 gated=0.0% dp95=-37.1%
+S52.gate.data_heavy.floor0.05 = share=0.585 gated=0.0% dp95=-37.1%
+S52.gate.data_heavy.floor0.1 = share=0.585 gated=0.1% dp95=-37.1%
+S52.gate.data_heavy.floor0.2 = share=0.585 gated=44.4% dp95=-30.0%
+S52.gate.mixed.floor0 = share=0.504 gated=0.0% dp95=-35.2%
+S52.gate.mixed.floor0.05 = share=0.504 gated=9.1% dp95=-37.0%
+S52.gate.mixed.floor0.1 = share=0.504 gated=22.2% dp95=-38.1%
+S52.gate.mixed.floor0.2 = share=0.504 gated=71.5% dp95=-29.4%
+S52.gate.close_minus_open = mean=-1.50 min=-6.72 max=+0.84
+S52.gate.fully_closed_cells = 6 个 cell，dp95=0.000%

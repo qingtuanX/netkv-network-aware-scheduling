@@ -367,6 +367,49 @@ def main() -> int:
                      f"ttft_p50={fmt(med, 2)} chars={ch} est_KV_MB={fmt(ch / 4.9 * 28796 / 1e6, 1)}")
     emit("D.status", '"planned not executed (D-mini); see k8s_test/D_MINI_PREREG.md"')
 
+    # ---------------- §5.2 网络份额：两段边界（2026-10-30 重做）----------------
+    # 这一节的数字全部来自 netshare / netshare_gate 两个新模式，不进 rq13
+    # （旧 rq13 是 2 档数据量、3 种子的带宽敏感性，与本节的 10 档 × 10 种子
+    # 不是一套产物，混引就会重演"图和数不同源"的错）。
+    head("§5.2 网络份额两段边界（netshare：10 档数据量 × 4 链路 × 4 负载 × 10 种子）")
+    try:
+        ns_dir = ROOT / "results/analysis_netshare"
+        pts = rd(ns_dir / "netshare_points.csv")
+        if pts is not None and not pts.empty:
+            emit("S52.n_points", len(pts))
+            emit("S52.share_min_max",
+                 f"{pts.net_share.min():.2e} .. {pts.net_share.max():.3f}")
+            import sys as _sys
+            _sys.path.insert(0, str(ROOT / "analysis"))
+            from netshare_curve import binned, crossing
+            for wl in sorted(pts.workload.unique()):
+                emit(f"S52.crossing.{wl}.zero", fmt(crossing(pts, wl, 0.0), 4))
+                emit(f"S52.crossing.{wl}.minus1", fmt(crossing(pts, wl, -1.0), 4))
+                emit(f"S52.crossing.{wl}.minus5", fmt(crossing(pts, wl, -5.0), 4))
+                g = binned(pts, wl)
+                emit(f"S52.bins.{wl}",
+                     "  ".join(f"{r.center:.1e}:{r.median:+.1f}(n={r.n})"
+                               for r in g.itertuples()))
+        gate = rd(ns_dir / "netshare_gate.csv")
+        if gate is not None and not gate.empty:
+            for wl in sorted(gate.workload.unique()):
+                for floor, g in gate[gate.workload == wl].groupby("floor"):
+                    emit(f"S52.gate.{wl}.floor{floor:g}",
+                         f"share={g.net_share.mean():.3f} "
+                         f"gated={g.gated_frac.mean() * 100:.1f}% "
+                         f"dp95={g.dp95_pct.mean():+.1f}%")
+            clos = gate.pivot_table(index=["workload", "data_volume", "net_profile"],
+                                    columns="floor", values="dp95_pct")
+            if 0.0 in clos.columns and 0.1 in clos.columns:
+                dd = (clos[0.1] - clos[0.0]).dropna()
+                emit("S52.gate.close_minus_open",
+                     f"mean={dd.mean():+.2f} min={dd.min():+.2f} max={dd.max():+.2f}")
+            full = gate[gate.gated_frac > 0.99]
+            emit("S52.gate.fully_closed_cells",
+                 f"{len(full)} 个 cell，dp95={full.dp95_pct.mean():.3f}%")
+    except Exception as exc:                                  # noqa: BLE001
+        emit("S52.status", f"skip: {exc}")
+
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"[导出] {OUT}（{len(lines)} 行）")
     return 0

@@ -1,7 +1,7 @@
 ==============================================================================
 矩阵实验结果汇总分析  (analysis/analyze.py)
 矩阵目录: E:\代码项目文件\论文\sim\results\matrix_v2
-字体: Microsoft YaHei   dpi=170   输出: E:\代码项目文件\论文\sim\results\analysis_v2 , E:\代码项目文件\论文\sim\figures
+字体: Microsoft YaHei   dpi=170   输出: E:\代码项目文件\论文\sim\results\analysis_v2 , E:\代码项目文件\论文\sim\figures_v2
 ==============================================================================
 
 ==============================================================================
@@ -274,9 +274,9 @@
      mixed/degraded/stale vs LeastQueue: Δp95=+68.84% (cliffs=-0.041, p_holm=6.28e-05)
      mixed/unstable/fresh vs LeastQueue: Δp95=+11.93% (cliffs=+0.196, p_holm=8.19e-158)
   ⚠ 无区分度格子数：8（其中逐位相同 8）
-  [图] figures\fig_rq1_dp95_heatmap.png
-  [图] figures\fig_rq1_dp95_heatmap_zoom.png
-  [图] figures\fig_rq1_dp95_bars.png
+  [图] figures_v2\fig_rq1_dp95_heatmap.png
+  [图] figures_v2\fig_rq1_dp95_heatmap_zoom.png
+  [图] figures_v2\fig_rq1_dp95_bars.png
 
 ==============================================================================
 §2 RQ2 陈旧度曲线（链路陈旧 vs 队列陈旧，两条通道可分离）
@@ -302,9 +302,9 @@
     degraded   lag=0 时 Δp95=+100.16%  lag 上限时=+75.37%  过零点: 在扫描区间内未过零
     normal     lag=0 时 Δp95=+0.00%  lag 上限时=+0.00%  过零点: 0.250 s
     unstable   lag=0 时 Δp95=+5.63%  lag 上限时=+0.94%  过零点: 0.564 s
-  [图] figures\fig_rq2_p95_vs_network_staleness.png
-  [图] figures\fig_rq2_p95_vs_queue_staleness.png
-  [图] figures\fig_rq2_slo_vs_staleness.png
+  [图] figures_v2\fig_rq2_p95_vs_network_staleness.png
+  [图] figures_v2\fig_rq2_p95_vs_queue_staleness.png
+  [图] figures_v2\fig_rq2_slo_vs_staleness.png
 
 ==============================================================================
 §3 数据量边界（datavolume 模式：prompt_only vs kv_cache）
@@ -372,7 +372,7 @@
     normal     vs LeastQueue  过零 net_share=区间内未过零
     normal     vs LeastLoad   过零 net_share=0.00000
   [表] results\analysis_v2\rq3_zero_crossings.csv  (6 行)
-  [图] figures\fig_rq3_net_share_vs_dp95.png
+  [图] figures_v2\fig_rq3_net_share_vs_dp95.png
 
 ==============================================================================
 §4 权重消融 w_net ∈ {0, 0.5, 1, 1.5, 2}（门 2：w_net=0 必须与 LeastLoad 逐位相同）
@@ -418,7 +418,7 @@
      2.0 data_heavy    normal    LeastLoad       15.294    +0.00   0.000   1.0000  逐位相同(该组合无信号)
      2.0 mixed         degraded  LeastLoad       44.382   -21.59  -0.120   0.0000  NA更优(p95,全部 cell 显著)
      2.0 mixed         normal    LeastLoad        7.351    +0.00   0.000   1.0000  逐位相同(该组合无信号)
-  [图] figures\fig_ablation_w_net.png
+  [图] figures_v2\fig_ablation_w_net.png
 
 ==============================================================================
 §5 节点规模敏感性（4/8/16 节点）
@@ -447,7 +447,7 @@
        16 normal    LeastLoad     0.600    +0.00   0.000   1.0000  逐位相同(该组合无信号)
        16 normal    LeastQueue    0.600   -18.47   0.310   0.0000  NA更优(p95,全部 cell 显著)
        16 normal    Random        0.600   -98.92  -0.308   0.0000  NA更优(p95,全部 cell 显著)
-  [图] figures\fig_rq5_scale_nodes.png
+  [图] figures_v2\fig_rq5_scale_nodes.png
 
 ==============================================================================
 §6 种子收敛性（convergence 模式，20 个种子）
@@ -487,7 +487,7 @@
 
   判据小结：k=3 时 3/3 个基线在 2se 内；k=5 时 3/3 个基线在 2se 内。
   （若符号与 k=20 一致且在 2se 内，则 5 个种子足以给出方向性结论；但效应量的小数位不可用 5 个种子报。）
-  [图] figures\fig_rq6_convergence_seeds.png
+  [图] figures_v2\fig_rq6_convergence_seeds.png
 
 ==============================================================================
 §7 可行性汇总：哪些 (场景) 组合是退化的（四策略无区分度）
@@ -551,7 +551,7 @@
      data_heavy/normal/stale  [LeastLoad vs NetworkAware]
      low_latency/normal/stale  [LeastLoad vs NetworkAware]
      mixed/normal/stale  [LeastLoad vs NetworkAware]
-  [图] figures\fig_rq7_degeneracy_heatmap.png
+  [图] figures_v2\fig_rq7_degeneracy_heatmap.png
 
 ==============================================================================
 §8 到达压力扫描（rho 模式：同一负载/网络，只改到达率的缩放）
@@ -670,7 +670,7 @@
     mixed         unstable  vs LeastLoad   交点=0.307    最低档 Δp95=-0.24%  最高档 Δp95=-2.48%
     mixed         unstable  vs LeastQueue  交点=无交点      最低档 Δp95=+39.08%  最高档 Δp95=+21.93%
     mixed         unstable  vs Random      交点=无交点      最低档 Δp95=-73.10%  最高档 Δp95=-92.88%
-  [图] figures\fig_rq8_rho_sweep.png
+  [图] figures_v2\fig_rq8_rho_sweep.png
 
 ==============================================================================
 §9 回退机制（观测过期时把网络项权重降到 fallback_w_net）
@@ -803,7 +803,7 @@
     stale unstable  阈值=45.0s  Δp95=  +0.00%  cliffs=+0.000  p_holm=1  → 无显著影响（回退无效）
 
   三类结果计数：有效 3 / 过度保守 3 / 无效 18（三类都必须进正文）
-  [图] figures\fig_rq9_fallback.png
+  [图] figures_v2\fig_rq9_fallback.png
 
 ==============================================================================
 §10 墙钟耗时与每 cell 仿真耗时
@@ -1048,7 +1048,7 @@
     data_heavy    prompt_only 交点=无交点      net_share∈[0.0000,0.0000]  Δp95 +0.6% → +0.7%
     mixed         kv_cache    交点=无交点      net_share∈[0.0623,0.8836]  Δp95 +3.6% → -10.5%
     mixed         prompt_only 交点=无交点      net_share∈[0.0000,0.0000]  Δp95 -0.6% → -0.9%
-  [图] figures\fig_rq13_bandwidth.png
+  [图] figures_v2\fig_rq13_bandwidth.png
 
 ==============================================================================
 §14 机制对比：算力队列 + 链路队列 vs 只看链路快慢
@@ -1119,7 +1119,7 @@
   NetworkAware2 vs 基线               LeastLoad     unstable      -9.00  -0.116         39
   NetworkAware2 vs 基线               LeastQueue    unstable      -6.58   0.030         36
   NetworkAware2 vs 基线               Random        unstable     -86.79  -0.152         39
-  [图] figures\fig_rq14_mechanism.png
+  [图] figures_v2\fig_rq14_mechanism.png
 
 ==============================================================================
 §15 观测聚合窗口（avg_over_time）：平滑掉的不只是噪声，还有尖峰
@@ -1458,8 +1458,8 @@
   各负载的到达突发性（窗口 10 s）：
     data_heavy     CV(10s) = 0.57（n=10 个时间片）
     mixed          CV(10s) = 0.54（n=10 个时间片）
-  [图] figures\fig_rq19_decay_rules_degraded.png
-  [图] figures\fig_rq19_decay_rules_unstable.png
+  [图] figures_v2\fig_rq19_decay_rules_degraded.png
+  [图] figures_v2\fig_rq19_decay_rules_unstable.png
 
 ==============================================================================
 §20 阈值消融：结论对参数的敏感性（一次只动一个参数）
@@ -1594,6 +1594,6 @@
   ⚠ 判读规则：`偏差与可外推性` 一列就是 Threats to Validity 的骨架——凡写"不可比/不能外推/低 N 倍"的地方，正文都必须逐条声明。
 
 ==============================================================================
-完成。表格在 E:\代码项目文件\论文\sim\results\analysis_v2，图表在 E:\代码项目文件\论文\sim\figures。
+完成。表格在 E:\代码项目文件\论文\sim\results\analysis_v2，图表在 E:\代码项目文件\论文\sim\figures_v2。
 完整报告: E:\代码项目文件\论文\sim\results\analysis_v2\report.txt
 ==============================================================================

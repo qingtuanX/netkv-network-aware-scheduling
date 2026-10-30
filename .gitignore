@@ -21,3 +21,8 @@ __pycache__/
 # 仍需排除：trace 原始数据（GB 级，见上）、虚拟环境、文献 PDF。
 # GitHub 单文件硬上限 100 MB：下述大压缩包只在本地保留、不进库。
 数据与实验结果_20261012.zip
+
+sim/._logs/
+sim/results/_interrupted*/
+*.failed_*
+tools/arxiv_daily/briefs/
